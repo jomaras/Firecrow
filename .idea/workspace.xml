@@ -8,20 +8,12 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="- ConstraintSolver from nodeJs does not rely on phantomJs nor on php">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/memoryOutput.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/memoryOutput.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/play.js" afterPath="$PROJECT_DIR$/nodejs/play.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" afterPath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/test.js" afterPath="$PROJECT_DIR$/phantomJs/test.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -83,16 +75,7 @@
       <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="565" column="55" selection-start="22035" selection-end="22035" vertical-scroll-proportion="0.5316159" vertical-offset="9378" max-vertical-offset="14331">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Scenario.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Scenario.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="18" selection-start="839" selection-end="839" vertical-scroll-proportion="0.0" vertical-offset="296" max-vertical-offset="5083">
+            <state line="566" column="0" selection-start="22075" selection-end="22075" vertical-scroll-proportion="0.6725" vertical-offset="9353" max-vertical-offset="14331">
               <folding />
             </state>
           </provider>
@@ -3123,7 +3106,11 @@
       <created>1386749577513</created>
       <updated>1386749577513</updated>
     </task>
-    <option name="localTasksCounter" value="659" />
+    <task id="LOCAL-00659" summary="-With minor memory machinations (only writing the executionInfo for each event to a file in phantomJs/dataFiles/eventExecutions/">
+      <created>1386842301411</created>
+      <updated>1386842301411</updated>
+    </task>
+    <option name="localTasksCounter" value="660" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3164,15 +3151,16 @@
     <frame x="1358" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32800853" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19312009" sideWeight="0.5344037" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19312009" sideWeight="0.53333336" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39701173" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46559632" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46666667" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -3180,7 +3168,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41034484" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3225,7 +3212,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="In Array reverse natively implemented; ArrayCallbackExecutor can be called on arraylike objects; iteration callbacks iterate only over set properties; changed the HtmlElement inharitance - previosly HtmlElement -&gt; Element; now HtmlElement-&gt;HTMLElement-&gt;Element; added the function HTMLElement to global object; Dependencies created from callbacks to the callExpression causing the callback" />
     <MESSAGE value="ThrowCommand processing added" />
     <MESSAGE value="Minor commit test" />
     <MESSAGE value="- HtmlElement executor, handling the bug where querySelectorAll on documentFragment throws an exception&#10;- TextNode has methods&#10;- in VariableObject variable shaddowing improved" />
@@ -3250,7 +3236,8 @@
     <MESSAGE value="- when generating scenarios the scenario generator process checks if the  phantomJs process hangs (kills it, if it does)" />
     <MESSAGE value="- removing apsolute paths from nodeJs scripts" />
     <MESSAGE value="- ConstraintSolver from nodeJs does not rely on phantomJs nor on php" />
-    <option name="LAST_COMMIT_MESSAGE" value="- ConstraintSolver from nodeJs does not rely on phantomJs nor on php" />
+    <MESSAGE value="-With minor memory machinations (only writing the executionInfo for each event to a file in phantomJs/dataFiles/eventExecutions/" />
+    <option name="LAST_COMMIT_MESSAGE" value="-With minor memory machinations (only writing the executionInfo for each event to a file in phantomJs/dataFiles/eventExecutions/" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3266,13 +3253,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/nodejs/play.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.16113745" vertical-offset="0" max-vertical-offset="844">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/scenarioData.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425" />
@@ -3323,23 +3303,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="333" column="28" selection-start="13168" selection-end="13168" vertical-scroll-proportion="0.0" vertical-offset="5434" max-vertical-offset="11288">
+        <state line="456" column="4" selection-start="13266" selection-end="13266" vertical-scroll-proportion="-0.3652968" vertical-offset="7912" max-vertical-offset="9571">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js">
+    <entry file="file://$PROJECT_DIR$/phantomJs/dataFiles/memoryOutput.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="304" column="4" selection-start="9179" selection-end="9179" vertical-scroll-proportion="0.3318182" vertical-offset="5022" max-vertical-offset="9571">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="438">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Scenario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="18" selection-start="839" selection-end="839" vertical-scroll-proportion="0.0" vertical-offset="296" max-vertical-offset="5083">
+        <state line="87" column="4" selection-start="2363" selection-end="2363" vertical-scroll-proportion="0.21689498" vertical-offset="1384" max-vertical-offset="5083">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="64" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1377">
           <folding />
         </state>
       </provider>
@@ -3351,9 +3338,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="64" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1377">
+        <state line="333" column="28" selection-start="13168" selection-end="13168" vertical-scroll-proportion="0.0" vertical-offset="5434" max-vertical-offset="11288">
           <folding />
         </state>
       </provider>
@@ -3367,7 +3354,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="565" column="55" selection-start="22035" selection-end="22035" vertical-scroll-proportion="0.5316159" vertical-offset="9378" max-vertical-offset="14331">
+        <state line="566" column="0" selection-start="22075" selection-end="22075" vertical-scroll-proportion="0.6725" vertical-offset="9353" max-vertical-offset="14331">
           <folding />
         </state>
       </provider>

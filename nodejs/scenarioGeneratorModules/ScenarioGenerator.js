@@ -353,7 +353,7 @@ var ScenarioGenerator =
                         var scenarioExecutorStringData = data;
 
                         //fs.writeFile(scenarioDataFile + ScenarioGenerator.numberOfProcessedScenarios + ".txt", data);
-                        console.log("Scenario info size:", scenarioExecutorStringData.length/1000, "will it break?");
+                        console.log("Scenario info size:", scenarioExecutorStringData.length/1000);
 
                         if(scenarioExecutorStringData == "" && scenarioExecutorStringData.indexOf("ERROR") == 0)
                         {
@@ -400,7 +400,7 @@ var ScenarioGenerator =
                             ScenarioGenerator._createInvertedPathScenarios(scenario);
 
                             //MEMORY
-                            //executionInfo.eventExecutions = null;
+                            scenario.executionInfo.eventExecutions = null;
 
                             ScenarioGenerator._createRegisteredEventsScenarios(scenario);
                         }
@@ -544,7 +544,6 @@ var ScenarioGenerator =
                 var scenarioWithParametrizedEvent = log.scenarios[i];
 
                 ScenarioGenerator._updateEventExecutionsFromFiles(scenarioWithParametrizedEvent);
-
                 var executionsInfo = scenarioWithParametrizedEvent.getEventExecutionsInfo(eventRegistration.thisObjectDescriptor, eventRegistration.eventType);
 
                 for(var j = 0; j < executionsInfo.length; j++)
@@ -558,17 +557,18 @@ var ScenarioGenerator =
                 }
 
                 //MEMORY
-                //scenarioWithParametrizedEvent.executionInfo.eventExecutions = null;
+                if(scenarioWithParametrizedEvent.executionInfo != null)
+                {
+                    scenarioWithParametrizedEvent.executionInfo.eventExecutions = [];
+                }
             }
         }
     },
 
     _updateEventExecutionsFromFiles: function(scenario)
     {
-        fs.writeFileSync(outputFile, "Pre update" + scenario.executionInfo);
         if(scenario == null || scenario.executionInfo == null) { return; }
 
-        fs.writeFileSync(outputFile, "Post update");
         scenario.executionInfo.eventExecutions = [];
 
         for(var i = 0; i < scenario.eventExecutionFiles.length; i++)
