@@ -1,7 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
-var url = "http://www.google.com";
+var url = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html?url=http://localhost/CodeModels/evaluation/scenarioGenerator/28-floatwar/index.json";
 
 console.log("Started loading page");
 
@@ -33,19 +33,11 @@ page.open(encodeURI(url), function(status)
         t = Date.now() - t;
         console.log('Loading time ' + t + ' msec');
 
-        /*var result = page.evaluate(function()
+        var result = page.evaluate(function()
         {
             return document.documentElement.innerHTML;
-        });*/
+        });
 
-        //console.log(result);
-
-        setTimeout(function()
-        {
-            console.log("After some time:");
-            page.render('page.png');
-
-            phantom.exit();
-        }, 2000);
+        console.log(result);
     }
 });

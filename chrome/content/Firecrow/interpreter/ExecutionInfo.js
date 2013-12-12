@@ -218,6 +218,7 @@ fcBrowser.ExecutionInfo.prototype =
     logImportantModificationReached: function(codeConstruct)
     {
         if(codeConstruct == null) { return; }
+
         if(this.currentEventExecutionInfo != null)
         {
             this.currentEventExecutionInfo.importantModifications[codeConstruct.nodeId] = codeConstruct;
@@ -326,11 +327,11 @@ fcBrowser.ExecutionInfo.prototype =
     {
         if(fromConstruct == null || toConstruct == null || fromConstruct.nodeId == null || toConstruct.nodeId == null) { return; }
 
-        if(this.dataDependencies[fromConstruct.nodeId] == null) { this.dataDependencies[fromConstruct.nodeId] = {}; }
-        if(Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] == null) { Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] = {}; }
+        //MEMORY//if(this.dataDependencies[fromConstruct.nodeId] == null) { this.dataDependencies[fromConstruct.nodeId] = {}; }
+        //MEMORY//if(Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] == null) { Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] = {}; }
 
-        this.dataDependencies[fromConstruct.nodeId][toConstruct.nodeId] = true;
-        Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId][toConstruct.nodeId] = true;
+        //MEMORY//this.dataDependencies[fromConstruct.nodeId][toConstruct.nodeId] = true;
+        //MEMORY//Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId][toConstruct.nodeId] = true;
 
         if(this.currentEventExecutionInfo != null)
         {
@@ -499,7 +500,7 @@ fcBrowser.ExecutionInfo.prototype =
         //START TEST
         if(this.currentEventExecutionInfo != null)
         {
-            this.currentEventExecutionInfo.globalModifiedIdentifiers[identifier.declarationPosition.codeConstruct.nodeId] = identifier.declarationPosition.codeConstruct;
+            //MEMORY//this.currentEventExecutionInfo.globalModifiedIdentifiers[identifier.declarationPosition.codeConstruct.nodeId] = identifier.declarationPosition.codeConstruct;
             this.afterLoadingModifiedIdentifiers[identifier.declarationPosition.codeConstruct.nodeId] = identifier.declarationPosition.codeConstruct;
         }
 
@@ -585,7 +586,7 @@ fcBrowser.ExecutionInfo.prototype =
         //START TEST
         if(this.currentEventExecutionInfo != null)
         {
-            this.currentEventExecutionInfo.globalModifiedObjects[objectCreationConstructId] = propertyName;
+            //MEMORY//this.currentEventExecutionInfo.globalModifiedObjects[objectCreationConstructId] = propertyName;
             this.afterLoadingModifiedObjects[objectCreationConstructId] = propertyName;
         }
 

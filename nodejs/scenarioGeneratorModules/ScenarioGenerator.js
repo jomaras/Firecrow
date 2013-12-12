@@ -8,8 +8,7 @@ var path = require('path');
 var os = require('os');
 var isWin = os.platform().indexOf("win") != -1 ? true : false;
 
-var scenarioExecutorPageUrl = isWin ? "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html"
-                                    : "http://pzi.fesb.hr/josip.maras/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
+var scenarioExecutorLocation = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
 
 var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe'
                           : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
@@ -29,6 +28,10 @@ var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Fi
 var scenarioExecutorPhantomScriptPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/scenarioExecutor.js");
 var scenarioExecutorDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/scenarioExecutor.txt");
 var memoryOutputDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/memoryOutput.txt");
+var scenarioDataFile = path.resolve(__dirname, "../../phantomJs/helperPages/scenarioData.js");
+
+var eventExecutionsFolder = path.resolve(__dirname, "../../phantomJs/dataFiles/eventExecutions") + path.sep;
+var outputFile = path.resolve(__dirname, "../../phantomJs/dataFiles/output.txt");
 /*******************************************************/
 
 var ScenarioGenerator =
@@ -61,9 +64,10 @@ var ScenarioGenerator =
         this.empiricalData = empiricalData;
     },
 
-    generateScenarios: function(pageModelUrl, completedCallback)
+    generateScenarios: function(pageModelUrl, pageName, completedCallback)
     {
         this.pageModelUrl = pageModelUrl;
+        this.pageName = pageName;
         this.scenarios = new ScenarioCollectionModule.ScenarioCollection(ScenarioGenerator.prioritization);
         this.scenarios.setEmpiricalData(this.empiricalData);
         this.completedCallback = completedCallback;
@@ -76,7 +80,6 @@ var ScenarioGenerator =
         this._dependencyCache = {};
         this._traversedDependencies = {};
 
-        console.log("Writing SG", memoryOutputDataFile);
         fs.writeFileSync(memoryOutputDataFile, "");
         this._getPageModelContent();
     },
@@ -103,11 +106,7 @@ var ScenarioGenerator =
 
     _getPageModelContent: function()
     {
-        var modelLocation = this.pageModelUrl.indexOf("pzi.fesb.hr") != -1 ? this.pageModelUrl
-                                                                           : this.pageModelUrl.replace("http://pzi.fesb.hr/josip.maras/", "/home/jomaras/");
-
-        console.log("Reading SG", modelLocation);
-        ScenarioGenerator.pageModel = JSON.parse(fs.readFileSync(modelLocation, {encoding:"utf8"}));
+        ScenarioGenerator.pageModel = JSON.parse(fs.readFileSync(this.pageModelUrl, {encoding:"utf8"}));
 
         ScenarioGenerator._setUpPageModel();
         ScenarioGenerator._generateScenarios();
@@ -118,6 +117,11 @@ var ScenarioGenerator =
         if(pageModelUrl.indexOf("GitWebStorm") != -1)
         {
             pageModelUrl = pageModelUrl.replace("C:\\GitWebStorm\\", "http://localhost/").replace(/\\/gi, "/");
+        }
+
+        if(pageModelUrl.indexOf("/home/jomaras") != -1)
+        {
+            pageModelUrl = pageModelUrl.replace("/home/jomaras/", "http://localhost/");
         }
 
         return encodeURI(scenarioExecutorPageUrl + "?url=" + pageModelUrl);
@@ -191,17 +195,11 @@ var ScenarioGenerator =
         return;
     },
 
-    _killPhantomJs: function()
-    {
-        console.log("!!!!!! KILLING phantomJs!");
-        sh.run("taskkill /IM phantomjs.exe -f");
-    },
-
     _hasUsedTooMuchMemory: function()
     {
+        return false;
         sh.run('tasklist /fi "memusage gt 1200000" > ' + memoryOutputDataFile);
 
-        console.log("Reading SG", memoryOutputDataFile);
         var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
 
         var containsInfo = fileContent.indexOf("INFO:") != -1;
@@ -214,25 +212,6 @@ var ScenarioGenerator =
         return !containsInfo;
     },
 
-    _getPhantomJsMemoryConsumption: function()
-    {
-        sh.run('tasklist /fi "imagename eq phantomjs.exe" > ' + memoryOutputDataFile);
-
-        console.log("Reading SG", memoryOutputDataFile);
-        var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
-
-        if(fileContent == "" || fileContent == null) { return 0; }
-
-        var decimalNumberRegEx = /[0-9]+\.[0-9]+/;
-
-        var result = fileContent.match(decimalNumberRegEx);
-
-        if(result == null || result[0] == null) { return 0; }
-
-        var memory = parseFloat(result[0]);
-
-        return !Number.isNaN(memory) ? memory : 0;
-    },
 
     _generateScenarios: function()
     {
@@ -241,7 +220,7 @@ var ScenarioGenerator =
 
     _generateInitialScenarios: function()
     {
-        var scenarioExecutorUrl = this._getScenarioExecutorUrl(scenarioExecutorPageUrl, this.pageModelUrl);
+        var scenarioExecutorUrl = this._getScenarioExecutorUrl(scenarioExecutorLocation, this.pageModelUrl);
 
         console.log("Executing empty scenario: ", scenarioExecutorUrl);
 
@@ -257,7 +236,6 @@ var ScenarioGenerator =
             },
             function()
             {
-                console.log("Reading SG", scenarioExecutorDataFile);
                 var scenarioExecutorStringData = fs.readFileSync(scenarioExecutorDataFile, {encoding:"utf8"});
 
                 if(scenarioExecutorStringData == "" && scenarioExecutorStringData.indexOf("ERROR") == 0)
@@ -341,7 +319,7 @@ var ScenarioGenerator =
         }
 
         var startTime = Date.now();
-        var pageUrl = ScenarioGenerator._getScenarioExecutorUrl(scenarioExecutorPageUrl, ScenarioGenerator.pageModelUrl);
+        var pageUrl = ScenarioGenerator._getScenarioExecutorUrl(scenarioExecutorLocation, ScenarioGenerator.pageModelUrl);
 
         ScenarioGenerator._saveScenarioInfoToFile(scenario);
 
@@ -354,69 +332,83 @@ var ScenarioGenerator =
             //console.log(scenario.getEventsInfo());
         }
 
-        ScenarioGenerator._startMonitoringPhantomJs();
-
         spawnPhantomJsProcess
         (
             scenarioExecutorPhantomScriptPath,
-            [encodeURI(pageUrl)],
+            [pageUrl],
             function(data)
             {
                 console.log("PhantomJs: " + data.toString());
             },
             function()
             {
-                ScenarioGenerator._stopMonitoringPhantomJs();
-
-                console.log("Reading SG", scenarioExecutorDataFile);
-                var scenarioExecutorStringData = fs.readFileSync(scenarioExecutorDataFile, {encoding:"utf8"});
-                console.log("Scenario info size:", scenarioExecutorStringData.length/1000);
-
-                if(scenarioExecutorStringData == "" && scenarioExecutorStringData.indexOf("ERROR") == 0)
+                fs.readFile(scenarioExecutorDataFile, {encoding:"utf8"}, function(err, data)
                 {
-                    console.log("Error when executing scenario: ", scenarioExecutorStringData);
-                    return;
-                }
-
-                if(ScenarioGenerator.shouldPrintDetailedMessages)
-                {
-                    console.log("Processing time:", Date.now() - startTime,"msec");
-                }
-
-                try
-                {
-                    var executionInfo = ObjectConverter.convertToFullObjects(JSON.parse(scenarioExecutorStringData), ScenarioGenerator._pageModelMapping);
-                }
-                catch(e)
-                {
-                    console.log("!!!!!!!!!!!!!ScenarioGenerator could not parse scenarioExecutor data: " + e + scenarioExecutorStringData);
-                }
-
-                if(executionInfo != null)
-                {
-                    scenario.setExecutionInfo(executionInfo);
-
-                    var achievedCoverage = executionInfo.achievedCoverage;
-                    ScenarioGenerator._updateTotalCoverage(executionInfo.executedConstructsIdMap);
-
-                    var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel, ScenarioGenerator.scriptPathsToIgnore);
-                    ScenarioGenerator.coverages.push(totalCoverage);
-
-                    if(ScenarioGenerator._hasAchievedFullCoverage(totalCoverage)) { return; }
-
-                    if(ScenarioGenerator.shouldPrintDetailedMessages)
+                    if(err)
                     {
-                        ScenarioGenerator._printCoverage(achievedCoverage, "Scenario Coverage");
-                        ScenarioGenerator._printCoverage(totalCoverage, "TotalApp Coverage");
+                        console.log("Error when reading file", scenarioExecutorDataFile, err);
+                    }
+                    else
+                    {
+                        var scenarioExecutorStringData = data;
+
+                        //fs.writeFile(scenarioDataFile + ScenarioGenerator.numberOfProcessedScenarios + ".txt", data);
+                        console.log("Scenario info size:", scenarioExecutorStringData.length/1000, "will it break?");
+
+                        if(scenarioExecutorStringData == "" && scenarioExecutorStringData.indexOf("ERROR") == 0)
+                        {
+                            console.log("Error when executing scenario: ", scenarioExecutorStringData);
+                            return;
+                        }
+
+                        if(ScenarioGenerator.shouldPrintDetailedMessages)
+                        {
+                            console.log("Processing time:", Date.now() - startTime,"msec");
+                        }
+
+                        try
+                        {
+                            var scenarioExecutorObject = JSON.parse(scenarioExecutorStringData);
+
+                            ScenarioGenerator._writeExecutionInfoToFiles(scenarioExecutorObject, scenario);
+
+                            var executionInfo = ObjectConverter.convertToFullObjects(scenarioExecutorObject, ScenarioGenerator._pageModelMapping);
+                        }
+                        catch(e)
+                        {
+                            console.log("!!!!!!!!!!!!!ScenarioGenerator could not parse scenarioExecutor data: " + e + scenarioExecutorStringData);
+                        }
+
+                        if(executionInfo != null)
+                        {
+                            scenario.setExecutionInfo(executionInfo);
+
+                            var achievedCoverage = executionInfo.achievedCoverage;
+                            ScenarioGenerator._updateTotalCoverage(executionInfo.executedConstructsIdMap);
+
+                            var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel, ScenarioGenerator.scriptPathsToIgnore);
+                            ScenarioGenerator.coverages.push(totalCoverage);
+
+                            if(ScenarioGenerator._hasAchievedFullCoverage(totalCoverage)) { return; }
+
+                            if(ScenarioGenerator.shouldPrintDetailedMessages)
+                            {
+                                ScenarioGenerator._printCoverage(achievedCoverage, "Scenario Coverage");
+                                ScenarioGenerator._printCoverage(totalCoverage, "TotalApp Coverage");
+                            }
+
+                            ScenarioGenerator._createInvertedPathScenarios(scenario);
+
+                            //MEMORY
+                            //executionInfo.eventExecutions = null;
+
+                            ScenarioGenerator._createRegisteredEventsScenarios(scenario);
+                        }
                     }
 
-                    ScenarioGenerator._createInvertedPathScenarios(scenario);
-                    ScenarioGenerator._createRegisteredEventsScenarios(scenario);
-                }
-
-                ScenarioGenerator.numberOfProcessedScenarios++;
-
-                setTimeout(ScenarioGenerator._deriveScenarios, 500);
+                    ScenarioGenerator.numberOfProcessedScenarios++;
+                    setTimeout(ScenarioGenerator._deriveScenarios, 500);
+                })
             },
             function(error)
             {
@@ -428,39 +420,24 @@ var ScenarioGenerator =
         );
     },
 
-    _lastLoggedMemoryConsumption: null,
-
-    _startMonitoringPhantomJs: function()
+    _writeExecutionInfoToFiles: function(scenarioExecutorObject, scenario)
     {
-        ScenarioGenerator._monitoringPhantomJsInterval = setInterval(function()
+        if(scenarioExecutorObject == null || scenarioExecutorObject.eventExecutions == null || scenarioExecutorObject.eventExecutions.length == 0) { return; }
+
+        scenario.eventExecutionFiles = [];
+
+        var eventExecutions = scenarioExecutorObject.eventExecutions;
+
+        for(var i = 0; i < eventExecutions.length; i++)
         {
-            var memory = ScenarioGenerator._getPhantomJsMemoryConsumption();
-
-            if(ScenarioGenerator._lastLoggedMemoryConsumption !== null)
-            {
-                if(memory === ScenarioGenerator._lastLoggedMemoryConsumption)
-                {
-                    ScenarioGenerator._killPhantomJs();
-                }
-
-                ScenarioGenerator._lastLoggedMemoryConsumption = memory;
-            }
-
-            ScenarioGenerator._lastLoggedMemoryConsumption = memory;
-
-        }, 10000);
-    },
-
-    _stopMonitoringPhantomJs: function()
-    {
-        clearInterval(ScenarioGenerator._monitoringPhantomJsInterval);
-        ScenarioGenerator._lastLoggedMemoryConsumption = null;
+            var filePath = eventExecutionsFolder + scenario.id + "-" + i + ".txt";
+            scenario.eventExecutionFiles.push(filePath);
+            fs.writeFileSync(filePath, JSON.stringify(eventExecutions[i]));
+        }
     },
 
     _saveScenarioInfoToFile: function(scenario)
     {
-        var scenarioDataFile = scenarioExecutorPageUrl.replace("http://localhost/", "c:/GitWebStorm/").replace(/\//g, "\\").replace("scenarioExecutor.html", "scenarioData.js");
-        console.log("Writing SG", scenarioDataFile);
         fs.writeFileSync
         (
             scenarioDataFile,
@@ -566,6 +543,8 @@ var ScenarioGenerator =
             {
                 var scenarioWithParametrizedEvent = log.scenarios[i];
 
+                ScenarioGenerator._updateEventExecutionsFromFiles(scenarioWithParametrizedEvent);
+
                 var executionsInfo = scenarioWithParametrizedEvent.getEventExecutionsInfo(eventRegistration.thisObjectDescriptor, eventRegistration.eventType);
 
                 for(var j = 0; j < executionsInfo.length; j++)
@@ -577,7 +556,26 @@ var ScenarioGenerator =
                         ScenarioGenerator._createNewScenarioByAppendingExistingEvent(scenario, scenarios, log.parametrizedEvents[i], scenarioWithParametrizedEvent);
                     }
                 }
+
+                //MEMORY
+                //scenarioWithParametrizedEvent.executionInfo.eventExecutions = null;
             }
+        }
+    },
+
+    _updateEventExecutionsFromFiles: function(scenario)
+    {
+        fs.writeFileSync(outputFile, "Pre update" + scenario.executionInfo);
+        if(scenario == null || scenario.executionInfo == null) { return; }
+
+        fs.writeFileSync(outputFile, "Post update");
+        scenario.executionInfo.eventExecutions = [];
+
+        for(var i = 0; i < scenario.eventExecutionFiles.length; i++)
+        {
+            var eventExecutionFile = scenario.eventExecutionFiles[i];
+
+            scenario.executionInfo.eventExecutions.push(ObjectConverter.convertEventExecution(JSON.parse(fs.readFileSync(eventExecutionFile))));
         }
     },
 

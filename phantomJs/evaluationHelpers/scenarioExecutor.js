@@ -5,8 +5,13 @@ var webPage = require('webpage');
 var page = webPage.create();
 var fs = require('fs');
 
+var currentFilePath = system.args[0];
+var currentDirectoryPath = currentFilePath.replace(/[a-zA-Z]+\.[a-zA-Z]+/,"");
+
+fs.changeWorkingDirectory(currentDirectoryPath);
+
 var scenarioExecutorUrl = system.args[1] || "";
-var scenarioExecutorDataFile = "C:\\GitWebStorm\\Firecrow\\phantomJs\\dataFiles\\scenarioExecutor.txt";
+var scenarioExecutorDataFile = fs.absolute("../dataFiles/scenarioExecutor.txt");
 
 fs.write(scenarioExecutorDataFile, "");
 
