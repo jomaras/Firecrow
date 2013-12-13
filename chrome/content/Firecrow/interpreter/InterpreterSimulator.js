@@ -268,9 +268,14 @@ FBL.ns(function() { with (FBL) {
             {
                 var command = this.commands[i];
 
-                if(!command.isEndSwitchStatementCommand()
-                    && !command.isEndLoopStatementCommand()) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
-                else{i++;}
+                if(!command.isEndSwitchStatementCommand() && !command.isEndLoopStatementCommand())
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+                }
+                else
+                {
+                    i++;
+                }
 
                 if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { break;}
             }
@@ -285,9 +290,15 @@ FBL.ns(function() { with (FBL) {
                 var command = this.commands[i];
 
                 if(!command.isForUpdateStatementCommand()
-                    && !command.isEndLoopStatementCommand()
-                    && (!command.isEvalForInWhereCommand() || command.codeConstruct != continueParent )) { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
-                else{i++;}
+                && !command.isEndLoopStatementCommand()
+                && (!command.isEvalForInWhereCommand() || command.codeConstruct != continueParent ))
+                {
+                    ValueTypeHelper.removeFromArrayByIndex(this.commands, i);
+                }
+                else
+                {
+                    i++;
+                }
 
                 if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) { break;}
             }
@@ -296,8 +307,8 @@ FBL.ns(function() { with (FBL) {
         _removeCommandsAfterException: function(exceptionGeneratingArgument)
         {
             if(exceptionGeneratingArgument == null ||
-                !(exceptionGeneratingArgument.isDomStringException || exceptionGeneratingArgument.isPushExpectedException
-                    || (ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) && exceptionGeneratingArgument.isEvalThrowExpressionCommand())))
+            !(exceptionGeneratingArgument.isDomStringException || exceptionGeneratingArgument.isPushExpectedException
+          || (ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) && exceptionGeneratingArgument.isEvalThrowExpressionCommand())))
             {
                 debugger;
                 fcSimulator.notifyError("Exception generating error at:" + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + FBL.Firecrow.CodeTextGenerator.generateJsCode(this.commands[this.currentCommandIndex].codeConstruct));
@@ -328,17 +339,17 @@ FBL.ns(function() { with (FBL) {
             if(this.tryStack.length > 0)
             {
                 ValueTypeHelper.insertElementsIntoArrayAtIndex
+                (
+                    this.commands,
+                    CommandGenerator.generateCatchStatementExecutionCommands
                     (
-                        this.commands,
-                        CommandGenerator.generateCatchStatementExecutionCommands
-                            (
-                                this.tryStack[this.tryStack.length - 1],
-                                ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) ? this.executionContextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument)
-                                    : exceptionGeneratingArgument,
-                                exceptionGeneratingArgument
-                            ),
-                        i
-                    );
+                        this.tryStack[this.tryStack.length - 1],
+                        ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) ? this.executionContextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument)
+                            : exceptionGeneratingArgument,
+                        exceptionGeneratingArgument
+                    ),
+                    i
+                );
             }
         },
 
@@ -362,11 +373,11 @@ FBL.ns(function() { with (FBL) {
         _generateCommandsAfterCallbackFunctionCommand: function(callInternalFunctionCommand)
         {
             ValueTypeHelper.insertElementsIntoArrayAtIndex
-                (
-                    this.commands,
-                    CommandGenerator.generateCallbackFunctionExecutionCommands(callInternalFunctionCommand),
-                    this.currentCommandIndex + 1
-                );
+            (
+                this.commands,
+                CommandGenerator.generateCallbackFunctionExecutionCommands(callInternalFunctionCommand),
+                this.currentCommandIndex + 1
+            );
         },
 
         _generateCommandsAfterNewExpressionCommand: function(newCommand)
@@ -374,20 +385,20 @@ FBL.ns(function() { with (FBL) {
             var callConstruct = newCommand.codeConstruct;
             var callee = this.executionContextStack.getExpressionValue(callConstruct.callee);
             var newObject = this.globalObject.internalExecutor.createObject
-                (
-                    callee,
-                    newCommand.codeConstruct,
-                    this.executionContextStack.getExpressionsValues(callConstruct.arguments)
-                );
+            (
+                callee,
+                newCommand.codeConstruct,
+                this.executionContextStack.getExpressionsValues(callConstruct.arguments)
+            );
 
             this.executionContextStack.setExpressionValue(newCommand.codeConstruct, newObject);
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
-                (
-                    this.commands,
-                    CommandGenerator.generateFunctionExecutionCommands(newCommand, callee, newObject),
-                    this.currentCommandIndex + 1
-                );
+            (
+                this.commands,
+                CommandGenerator.generateFunctionExecutionCommands(newCommand, callee, newObject),
+                this.currentCommandIndex + 1
+            );
         },
 
         _generateCommandsAfterCallFunctionCommand: function(callExpressionCommand)
@@ -415,25 +426,25 @@ FBL.ns(function() { with (FBL) {
             }
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
-                (
-                    this.commands,
-                    CommandGenerator.generateFunctionExecutionCommands(callExpressionCommand, callFunction, baseObject),
-                    this.currentCommandIndex + 1
-                );
+            (
+                this.commands,
+                CommandGenerator.generateFunctionExecutionCommands(callExpressionCommand, callFunction, baseObject),
+                this.currentCommandIndex + 1
+            );
         },
 
         _generateCommandsAfterLoopCommand: function(loopCommand)
         {
             ValueTypeHelper.insertElementsIntoArrayAtIndex
+            (
+                this.commands,
+                CommandGenerator.generateLoopExecutionCommands
                 (
-                    this.commands,
-                    CommandGenerator.generateLoopExecutionCommands
-                        (
-                            loopCommand,
-                            !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).jsValue : null
-                        ),
-                    this.currentCommandIndex + 1
-                );
+                    loopCommand,
+                    !loopCommand.isEvalForInWhereCommand() ? this.executionContextStack.getExpressionValue(loopCommand.codeConstruct.test).jsValue : null
+                ),
+                this.currentCommandIndex + 1
+            );
         },
 
         _generateCommandsAfterIfCommand: function(ifCommand)
@@ -469,13 +480,13 @@ FBL.ns(function() { with (FBL) {
         {
             var switchDiscriminantValue = this.executionContextStack.getExpressionValue(caseCommand.parent.codeConstruct.discriminant);
             var caseValue = caseCommand.codeConstruct.test != null ? this.executionContextStack.getExpressionValue(caseCommand.codeConstruct.test)
-                : null;
+                                                                   : null;
 
             var pathConstraint = fcSymbolic.SymbolicExecutor.evalSwitchCase(caseValue, switchDiscriminantValue);
 
             if(caseCommand.codeConstruct.test == null //is default
-                || caseCommand.parent.hasBeenMatched //falls through
-                || caseValue.jsValue == switchDiscriminantValue.jsValue)
+            || caseCommand.parent.hasBeenMatched //falls through
+            || caseValue.jsValue == switchDiscriminantValue.jsValue)
             {
                 if(!caseCommand.parent.hasBeenMatched) //On first matching case - add path
                 {
@@ -508,33 +519,29 @@ FBL.ns(function() { with (FBL) {
             if(valueOfFunction == null || valueOfFunction.iValue == null || valueOfFunction.isInternalFunction ) { return; }
 
             ValueTypeHelper.insertElementsIntoArrayAtIndex
-                (
-                    this.commands,
-                    CommandGenerator.generateFunctionExecutionCommands(convertToPrimitiveCommand, valueOfFunction, expressionValue),
-                    this.currentCommandIndex + 1
-                );
+            (
+                this.commands,
+                CommandGenerator.generateFunctionExecutionCommands(convertToPrimitiveCommand, valueOfFunction, expressionValue),
+                this.currentCommandIndex + 1
+            );
         },
 
         registerMessageGeneratedCallback: function(callbackFunction, thisValue)
         {
             this.messageGeneratedCallbacks.push
-            (
-                {
-                    callback: callbackFunction,
-                    thisValue: thisValue || this
-                }
-            );
+            ({
+                callback: callbackFunction,
+                thisValue: thisValue || this
+            });
         },
 
         registerControlFlowConnectionCallback: function(calleeFunction, thisValue)
         {
             this.controlFlowConnectionCallbacks.push
-            (
-                {
-                    callback: calleeFunction,
-                    thisValue: thisValue || this
-                }
-            );
+            ({
+                callback: calleeFunction,
+                thisValue: thisValue || this
+            });
         },
 
         callMessageGeneratedCallbacks: function(message)
