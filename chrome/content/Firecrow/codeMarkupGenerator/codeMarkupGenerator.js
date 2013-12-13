@@ -5,6 +5,7 @@ if(usesModule)
 
     var path = require('path');
     var CodeTextGenerator = require(path.resolve(__dirname, "codeTextGenerator.js")).CodeTextGenerator;
+    var atob = require('atob');
 }
 
 var CodeMarkupGenerator;
@@ -36,7 +37,7 @@ FBL.ns(function () { with (FBL) {
             }
             catch(e)
             {
-                alert("Error while creating a HTML representation of the site: " + e);
+                console.log("Error while creating a HTML representation of the site: " + e);
             }
         },
 
@@ -144,7 +145,11 @@ FBL.ns(function () { with (FBL) {
 
                 return html;
             }
-            catch(e) { debugger; alert("Error while generating a html element: " + e);}
+            catch(e)
+            {
+                debugger;
+                alert("Error while generating a html element: " + e);
+            }
         },
 
         generateCSSRepresentation: function(cssModel)
@@ -189,7 +194,10 @@ FBL.ns(function () { with (FBL) {
                 html += "</div>";
                 return html;
             }
-            catch(e) { alert("Error while generating HTML representation of CSS: " + e); }
+            catch(e)
+            {
+                alert("Error while generating HTML representation of CSS: " + e);
+            }
         },
 
         doesElementHaveClosingTags: function(elementType)
@@ -225,11 +233,13 @@ FBL.ns(function () { with (FBL) {
                 else if (ASTHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
                 else
                 {
-                    alert("Error while generating HTML in codeMarkupGenerator: unidentified ast element."); return "";
+                    alert("Error while generating HTML in codeMarkupGenerator: unidentified ast element.");
+                    return "";
                 }
             }
             catch(e)
-            {   debugger;
+            {
+                debugger;
                 alert("Error while generating HTML in codeMarkupGenerator: " + e);
             }
         },
@@ -248,7 +258,10 @@ FBL.ns(function () { with (FBL) {
 
                 return html + "</div>";
             }
-            catch(e) { alert("Error when generating program HTML"); }
+            catch(e)
+            {
+                alert("Error when generating program HTML");
+            }
         },
 
         generateStatement: function(statement)
@@ -271,9 +284,17 @@ FBL.ns(function () { with (FBL) {
                 else if (ASTHelper.isTryStatement(statement)) { return this.generateFromTryStatement(statement); }
                 else if (ASTHelper.isThrowStatement(statement)) { return this.generateFromThrowStatement(statement); }
                 else if (ASTHelper.isSwitchStatement(statement)) { return this.generateFromSwitchStatement(statement); }
-                else { alert("Error: AST Statement element not defined: " + statement.type);  return "";}
+                else
+                {
+                    alert("Error: AST Statement element not defined: " + statement.type);
+                    return "";
+                }
             }
-            catch(e) { debugger; alert("Error when generating HTML from a statement: " + e); }
+            catch(e)
+            {
+                debugger;
+                alert("Error when generating HTML from a statement: " + e);
+            }
         },
 
         generateExpression: function(expression)
@@ -296,9 +317,15 @@ FBL.ns(function () { with (FBL) {
                 else if (ASTHelper.isArrayExpression(expression)) { return this.generateFromArrayExpression(expression); }
                 else if (ASTHelper.isObjectExpression(expression)) { return this.generateFromObjectExpression(expression); }
                 else if (ASTHelper.isFunctionExpression(expression)) { return this.generateFromFunction(expression, true); }
-                else { alert("Error: AST Expression element not defined: " + expression.type);  return "";}
+                else
+                {
+                    alert("Error: AST Expression element not defined: " + expression.type);  return "";
+                }
             }
-            catch(e) { alert("Error when generating HTML from an expression:" + e); }
+            catch(e)
+            {
+                alert("Error when generating HTML from an expression:" + e);
+            }
         },
 
         generateFromFunction: function(functionDecExp)
@@ -322,7 +349,10 @@ FBL.ns(function () { with (FBL) {
                      + (shouldBeInParentheses ? this._RIGHT_PARENTHESIS : "")
                      + this.getEndElementHtml(nodeType);
             }
-            catch(e) { alert("Error when generating HTML from a function:" + e); }
+            catch(e)
+            {
+                alert("Error when generating HTML from a function:" + e);
+            }
         },
 
         generateFunctionParametersHtml: function(functionDecExp)
@@ -759,7 +789,11 @@ FBL.ns(function () { with (FBL) {
 
         generateFromForInStatement: function(forInStatement)
         {
-            if(!ASTHelper.isForInStatement(forInStatement)) { alert("Invalid element when generating for...in statement html code!"); return ""; }
+            if(!ASTHelper.isForInStatement(forInStatement))
+            {
+                alert("Invalid element when generating for...in statement html code!");
+                return "";
+            }
 
             var _class = ASTHelper.CONST.STATEMENT.ForInStatement + " node" + this._generateHasBeenExecutedClass(forInStatement);
             var _id = "node" + this.formatId(forInStatement.nodeId);
@@ -785,7 +819,11 @@ FBL.ns(function () { with (FBL) {
 
         generateFromBreakStatement: function(breakStatement)
         {
-            if(!ASTHelper.isBreakStatement(breakStatement)) { alert("Invalid element when generating break statement html code!"); return ""; }
+            if(!ASTHelper.isBreakStatement(breakStatement))
+            {
+                alert("Invalid element when generating break statement html code!");
+                return "";
+            }
 
             var _class = ASTHelper.CONST.STATEMENT.BreakStatement + " node" + this._generateHasBeenExecutedClass(breakStatement);
             var _id = "node" + this.formatId(breakStatement.nodeId);
@@ -906,8 +944,6 @@ FBL.ns(function () { with (FBL) {
 
         generateFromTryStatement: function(tryStatement)
         {
-            if(!ASTHelper.isTryStatement(tryStatement)) { alert("Invalid element when generating try statement html code!"); return ""; }
-
             var _class = ASTHelper.CONST.STATEMENT.TryStatement  + " node" + this._generateHasBeenExecutedClass(tryStatement);
             var _id = "node" + this.formatId(tryStatement.nodeId);
 
@@ -1094,29 +1130,21 @@ FBL.ns(function () { with (FBL) {
 
         getStartElementHtml: function(elementType, attributes)
         {
-            try
+            var html = "<" + elementType + " ";
+
+            for(var propertyName in attributes)
             {
-                var html = "<" + elementType + " ";
-
-                for(var propertyName in attributes)
-                {
-                    html += propertyName + " = '" + attributes[propertyName] + "' ";
-                }
-
-                html += ">";
-
-                return html;
+                html += propertyName + " = '" + attributes[propertyName] + "' ";
             }
-            catch(e) { alert("Error when generating start element html: " + e);}
+
+            html += ">";
+
+            return html;
         },
 
         getEndElementHtml: function(elementType)
         {
-            try
-            {
-                return "</" + elementType  + ">";
-            }
-            catch(e) { alert("Error when generating end element html: " + e); }
+            return "</" + elementType  + ">";
         },
 
         getStyle: function(currentElement)
@@ -1146,8 +1174,14 @@ FBL.ns(function () { with (FBL) {
 
         formatId: function(currentId)
         {
-            if(currentId < 0) alert("Invalid Node Identification: ID cannot be negative.)");
-            if(currentId > 999999) alert("Invalid Node Identification: ID exceeds, but is limited to,  6 characters");
+            if(currentId < 0)
+            {
+                alert("Invalid Node Identification: ID cannot be negative.)");
+            }
+            if(currentId > 999999)
+            {
+                alert("Invalid Node Identification: ID exceeds, but is limited to,  6 characters");
+            }
             return ("00000" + currentId).slice(-6);
         },
 

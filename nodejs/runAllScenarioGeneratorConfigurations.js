@@ -65,7 +65,7 @@ var processOutput = "";
     spawnNodeJsProcess
     (
         scenarioGeneratorPath,
-        [applicationName, eventType, "10"],
+        [applicationName, eventType, "4"],
         function (data)
         {
             var str = data.toString()
@@ -77,7 +77,7 @@ var processOutput = "";
         {
             console.log(applicationName + " - " + eventType + '; exit:' + code + " in time: " + (Date.now() - startTime) + " ms");
             var processOutputFile = scenarioGenerationLogRootFolder + applicationName + "-" + eventType + ".txt";
-            console.log("Writing runAll", processOutputFile);
+
             fs.writeFileSync(processOutputFile, processOutput);
             allCombinations.pop();
             setTimeout(processNextCombination, 1000);

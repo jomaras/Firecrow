@@ -107,6 +107,7 @@
 <body>
     <iframe id="firecrowFrame" height="800" width="1200"></iframe><br/>
     Execution Info: <br/><textarea id="executionInfo"></textarea><br/>
+    <div id="codeMarkup"></div>
     <script type="text/javascript">
         var fcScenarioGenerator = Firecrow.ScenarioGenerator;
         var fcSymbolic = fcScenarioGenerator.Symbolic;
@@ -324,6 +325,7 @@
             try
             {
                 document.getElementById("executionInfo").value = JSON.stringify(executionInfo);
+                //document.getElementById("codeMarkup").innerHTML = Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(pageModel);
             }
             catch(e)
             {
@@ -340,7 +342,6 @@
                     }
                 }
             }
-
         }
     </script>
 </body>

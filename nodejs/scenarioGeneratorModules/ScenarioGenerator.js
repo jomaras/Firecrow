@@ -425,8 +425,6 @@ var ScenarioGenerator =
 
     _writeExecutionInfoToFiles: function(scenarioExecutorObject, scenario)
     {
-        ScenarioGenerator._logToOutput("Writing execution info to file for scenario " +  scenario.id + " eventExecutions:" + scenarioExecutorObject.eventExecutions.length);
-        //ScenarioGenerator._logToOutput("Writing execution info to file for scenario " +  scenario.id + " length:" + scenarioExecutorObject.eventExecutions);
         if(scenarioExecutorObject == null || scenarioExecutorObject.eventExecutions == null) { return; }
 
         scenario.eventExecutionFiles = [];
@@ -576,13 +574,11 @@ var ScenarioGenerator =
 
         scenario.executionInfo.eventExecutions = [];
 
-        ScenarioGenerator._logToOutput("Updating event executions from file for scenario " +  scenario.id);
-
         for(var i = 0; i < scenario.eventExecutionFiles.length; i++)
         {
             var eventExecutionFile = scenario.eventExecutionFiles[i];
 
-            scenario.executionInfo.eventExecutions.push(ObjectConverter.convertEventExecution(JSON.parse(fs.readFileSync(eventExecutionFile))));
+            scenario.executionInfo.eventExecutions.push(ObjectConverter.convertEventExecution(JSON.parse(fs.readFileSync(eventExecutionFile, {encoding:"utf8"}))));
         }
     },
 
