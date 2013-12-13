@@ -8,17 +8,16 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="- bug fix when handling events on dynamically created HTML nodes">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" afterPath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -71,16 +70,16 @@
       <file leaf-file-name="runAllScenarioGeneratorConfigurations.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="53" selection-start="3403" selection-end="3403" vertical-scroll-proportion="0.0" vertical-offset="786" max-vertical-offset="2312">
+            <state line="79" column="0" selection-start="3242" selection-end="3242" vertical-scroll-proportion="0.0" vertical-offset="614" max-vertical-offset="2312">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="46" selection-start="1934" selection-end="1934" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1530">
+            <state line="158" column="5" selection-start="6065" selection-end="6065" vertical-scroll-proportion="0.0" vertical-offset="2601" max-vertical-offset="14671">
               <folding />
             </state>
           </provider>
@@ -89,7 +88,34 @@
       <file leaf-file-name="codeMarkupGenerator.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="24" selection-start="1356" selection-end="1356" vertical-scroll-proportion="0.37376237" vertical-offset="512" max-vertical-offset="20978">
+            <state line="19" column="5" selection-start="673" selection-end="673" vertical-scroll-proportion="0.4007444" vertical-offset="0" max-vertical-offset="21029">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="25-snake-fifo.htmla" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/results/coverageMarkup/25-snake-fifo.htmla">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="171" column="9" selection-start="2651" selection-end="2651" vertical-scroll-proportion="0.0" vertical-offset="2737" max-vertical-offset="3723">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="4" selection-start="1384" selection-end="1384" vertical-scroll-proportion="0.0" vertical-offset="926" max-vertical-offset="29937">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="99" selection-start="972" selection-end="972" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
               <folding />
             </state>
           </provider>
@@ -124,7 +150,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/phantomJs/test.js" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ObjectConverter.js" />
@@ -134,11 +159,12 @@
         <option value="$PROJECT_DIR$/playground/model.js" />
         <option value="$PROJECT_DIR$/playground/jsonTest.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioBrowserHelper.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
-        <option value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
         <option value="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" />
+        <option value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
+        <option value="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
+        <option value="$PROJECT_DIR$/evaluation/results/coverageMarkup/25-snake-fifo.htmla" />
+        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
       </list>
     </option>
@@ -3213,7 +3239,11 @@
       <created>1386921650784</created>
       <updated>1386921650784</updated>
     </task>
-    <option name="localTasksCounter" value="663" />
+    <task id="LOCAL-00663" summary="- included atob when executing CodeMarkupGenerator over node">
+      <created>1386928388609</created>
+      <updated>1386928388609</updated>
+    </task>
+    <option name="localTasksCounter" value="664" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3260,11 +3290,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40940368" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12492456" sideWeight="0.5091954" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13216656" sideWeight="0.49310344" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39655173" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.49080458" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50689656" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
@@ -3315,7 +3345,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="- new jQuery tests" />
     <MESSAGE value="Commit before working on ScenarioGenerator" />
     <MESSAGE value="Removed forEach usage in browser, new full page applications from Artemis added" />
     <MESSAGE value="Commit before modifying the dependency traversal algorithm" />
@@ -3340,17 +3369,11 @@
     <MESSAGE value="- ScenarioGenerator - Memory optimizations in place. Event Execution info is saved into files, and then read and deleted on demand.." />
     <MESSAGE value="- Minor bugfixes when enabling also linux executions" />
     <MESSAGE value="- bug fix when handling events on dynamically created HTML nodes" />
-    <option name="LAST_COMMIT_MESSAGE" value="- bug fix when handling events on dynamically created HTML nodes" />
+    <MESSAGE value="- included atob when executing CodeMarkupGenerator over node" />
+    <option name="LAST_COMMIT_MESSAGE" value="- included atob when executing CodeMarkupGenerator over node" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/nodejs/scenarioGenerator.js</url>
-          <line>39</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -3363,23 +3386,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/playground/jsonTest.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="25" selection-start="347" selection-end="347" vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="510" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playground/model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="769115" selection-start="769115" selection-end="769115" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="448" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/scenarioData.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
@@ -3443,30 +3449,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="46" selection-start="3884" selection-end="3884" vertical-scroll-proportion="3.2278178" vertical-offset="150" max-vertical-offset="14484">
+        <state line="383" column="44" selection-start="11444" selection-end="11444" vertical-scroll-proportion="0.26540285" vertical-offset="6287" max-vertical-offset="9571">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="53" selection-start="3403" selection-end="3403" vertical-scroll-proportion="0.0" vertical-offset="786" max-vertical-offset="2312">
+        <state line="79" column="0" selection-start="3242" selection-end="3242" vertical-scroll-proportion="0.0" vertical-offset="1245" max-vertical-offset="2312">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="46" selection-start="1934" selection-end="1934" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1530">
+        <state line="16" column="99" selection-start="972" selection-end="972" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="4" selection-start="1384" selection-end="1384" vertical-scroll-proportion="0.0" vertical-offset="1130" max-vertical-offset="29937">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/results/coverageMarkup/25-snake-fifo.htmla">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="9" selection-start="2651" selection-end="2651" vertical-scroll-proportion="0.0" vertical-offset="2737" max-vertical-offset="3723">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="158" column="5" selection-start="6065" selection-end="6065" vertical-scroll-proportion="0.0" vertical-offset="2601" max-vertical-offset="14671">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="24" selection-start="1356" selection-end="1356" vertical-scroll-proportion="0.37376237" vertical-offset="512" max-vertical-offset="20978">
+        <state line="19" column="5" selection-start="673" selection-end="673" vertical-scroll-proportion="0.4007444" vertical-offset="0" max-vertical-offset="21029">
           <folding />
         </state>
       </provider>

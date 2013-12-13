@@ -159,7 +159,18 @@ var ScenarioGenerator =
     {
         for(var i = 0; i < executedConstructIds.length; i++)
         {
-            this._pageModelMapping[executedConstructIds[i]].hasBeenExecuted = true;
+            var currentConstruct = this._pageModelMapping[executedConstructIds[i]];
+            if(!currentConstruct.hasBeenExecuted)
+            {
+                var statement = ASTHelper.getParentStatement(currentConstruct);
+
+                if(statement)
+                {
+                    statement.hasBeenExecuted = true
+                }
+            }
+
+            currentConstruct.hasBeenExecuted = true;
         }
     },
 

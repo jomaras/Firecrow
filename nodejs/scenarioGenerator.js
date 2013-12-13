@@ -12,9 +12,9 @@ ScenarioGenerator.shouldPrintDetailedMessages = true;
 ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
 ScenarioGenerator.generateAdditionalTimingEvents = false;
 
-var pageName = process.argv[2] || "04-dragable-boxes";
+var pageName = process.argv[2] || "25-snake";
 ScenarioGenerator.prioritization = process.argv[3] || ScenarioGenerator.PRIORITIZATION.fifo;
-ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 2;
+ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 4;
 
 console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prioritization, ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS);
 
@@ -37,12 +37,6 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
     console.log("ScenarioGenerator", message);
     console.log("The process has achieved statement coverage: " + (coverage != null ? coverage.statementCoverage : 0));
 
-    var markupCode = ScenarioGenerator.generateVisitedMarkup();
-
-    var template = fs.readFileSync(visitedCodeTemplatePath, {encoding:"utf8"});
-    var content = template.replace("{SOURCE_CODE}", markupCode);
-
-    fs.writeFileSync(visitedCodeDestinationFolder + pageName + "-" + ScenarioGenerator.prioritization + ".htmla" , content);
     var coverageFile = coverageFolder + pageName + ".txt";
     try
     {
@@ -54,15 +48,25 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
 
     var filteredScenarios = scenarios.getSubsumedProcessedScenarios();
 
-    console.log("Kept scenarios: ", filteredScenarios.length);
+    console.warn("Kept scenarios: ", filteredScenarios.length);
 
     for(var i = 0; i < filteredScenarios.length; i++)
     {
-        console.log("Scenario", i, filteredScenarios[i].getEventsQuery());
+        console.warn("Scenario", i, filteredScenarios[i].getEventsQuery());
     }
 
-    console.log("Deleting event execution files");
+    console.warn("Deleting event execution files");
     deleteEventExecutionFiles();
+
+    var markupCode = ScenarioGenerator.generateVisitedMarkup();
+
+    var template = fs.readFileSync(visitedCodeTemplatePath, {encoding:"utf8"});
+    var content = template.replace("{SOURCE_CODE}", markupCode);
+
+    var coveredCodePage = visitedCodeDestinationFolder + pageName + "-" + ScenarioGenerator.prioritization + ".htmla";
+
+    fs.writeFileSync(coveredCodePage , content);
+    console.warn("Covered code html: ", coveredCodePage);
 
     process.exit();
 });

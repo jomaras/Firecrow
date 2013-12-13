@@ -424,7 +424,7 @@ FBL.ns(function () { with (FBL) {
             return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "")
                   + this.getStartElementHtml("span",
                    {
-                       class: ASTHelper.CONST.EXPRESSION.AssignmentExpression + " node"+ this._generateHasBeenExecutedClass(assignmentExpression),
+                       class: ASTHelper.CONST.EXPRESSION.AssignmentExpression + " node",
                        id: "node" + this.formatId(assignmentExpression.nodeId)
                    })
                 + this.generateHtml(assignmentExpression.left)
@@ -442,11 +442,14 @@ FBL.ns(function () { with (FBL) {
                 id: "node" + this.formatId(unaryExpression.nodeId)
             });
 
-            if(unaryExpression.prefix) html += unaryExpression.operator;
+            if(unaryExpression.prefix) { html += unaryExpression.operator; }
 
             if(unaryExpression.operator == "typeof"
-                || unaryExpression.operator == "void"
-                || unaryExpression.operator == "delete") html += " ";
+            || unaryExpression.operator == "void"
+            || unaryExpression.operator == "delete")
+            {
+                html += " ";
+            }
 
             var isComplexArgument = !(ASTHelper.isLiteral(unaryExpression.argument) || ASTHelper.isIdentifier(unaryExpression.argument));
 
@@ -476,7 +479,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromLogicalExpression: function(logicalExpression)
         {
-            var _class = ASTHelper.CONST.EXPRESSION.LogicalExpression + " node" + this._generateHasBeenExecutedClass(logicalExpression);
+            var _class = ASTHelper.CONST.EXPRESSION.LogicalExpression + " node";
             var _id = "node" + this.formatId(logicalExpression.nodeId);
 
             var shouldBeSurrounded = ASTHelper.isBinaryExpression(logicalExpression.parent)
@@ -632,7 +635,7 @@ FBL.ns(function () { with (FBL) {
         {
             var _style = this.getStyle(objectExpression);
             var _id = "node" + this.formatId(objectExpression.nodeId);
-            var _class = ASTHelper.CONST.EXPRESSION.ObjectExpression + " node" + this._generateHasBeenExecutedClass(objectExpression);
+            var _class = ASTHelper.CONST.EXPRESSION.ObjectExpression + " node";
 
             var _containerStyle = "display: block";
             var _propertyContainerStyle = "";
@@ -1065,7 +1068,7 @@ FBL.ns(function () { with (FBL) {
 
         generateFromIdentifier: function(identifier)
         {
-            var _class = ASTHelper.CONST.Identifier + " node" + this._generateHasBeenExecutedClass(identifier);
+            var _class = ASTHelper.CONST.Identifier + " node";
             var _id = "node" + this.formatId(identifier.nodeId);
             //var _padding = this.getStyle(identifier);
 
