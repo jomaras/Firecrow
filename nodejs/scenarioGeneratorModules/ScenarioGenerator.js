@@ -106,7 +106,10 @@ var ScenarioGenerator =
 
     _getPageModelContent: function()
     {
-        ScenarioGenerator.pageModel = JSON.parse(fs.readFileSync(this.pageModelUrl, {encoding:"utf8"}));
+        var modelContent = fs.readFileSync(this.pageModelUrl, {encoding:"utf8"});
+
+        //fs.writeFileSync(outputFile, this.pageModelUrl + " : " + modelContent);
+        ScenarioGenerator.pageModel = JSON.parse(modelContent);
 
         ScenarioGenerator._setUpPageModel();
         ScenarioGenerator._generateScenarios();
@@ -422,7 +425,9 @@ var ScenarioGenerator =
 
     _writeExecutionInfoToFiles: function(scenarioExecutorObject, scenario)
     {
-        if(scenarioExecutorObject == null || scenarioExecutorObject.eventExecutions == null || scenarioExecutorObject.eventExecutions.length == 0) { return; }
+        ScenarioGenerator._logToOutput("Writing execution info to file for scenario " +  scenario.id + " eventExecutions:" + scenarioExecutorObject.eventExecutions.length);
+        //ScenarioGenerator._logToOutput("Writing execution info to file for scenario " +  scenario.id + " length:" + scenarioExecutorObject.eventExecutions);
+        if(scenarioExecutorObject == null || scenarioExecutorObject.eventExecutions == null) { return; }
 
         scenario.eventExecutionFiles = [];
 
@@ -570,6 +575,8 @@ var ScenarioGenerator =
         if(scenario == null || scenario.executionInfo == null) { return; }
 
         scenario.executionInfo.eventExecutions = [];
+
+        ScenarioGenerator._logToOutput("Updating event executions from file for scenario " +  scenario.id);
 
         for(var i = 0; i < scenario.eventExecutionFiles.length; i++)
         {
@@ -821,6 +828,12 @@ var ScenarioGenerator =
         }
 
         return false;
+    },
+
+    _logToOutput: function(message)
+    {
+        var logContent = fs.readFileSync(outputFile, {encoding:"utf8"});
+        fs.writeFileSync(outputFile, logContent + "\n" + message);
     }
 }
 

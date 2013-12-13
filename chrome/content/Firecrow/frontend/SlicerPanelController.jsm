@@ -66,6 +66,11 @@ SlicerPanelController.prototype =
         this._updateCurrentRecordings();
     },
 
+    _onSaveModelClick: function()
+    {
+
+    },
+
     _onRecordClick: function(e)
     {
         if(e.target == this._recordButton

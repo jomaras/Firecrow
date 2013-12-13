@@ -42,7 +42,15 @@ fcScenarioGenerator.ScenarioBrowserHelper =
     {
         try
         {
-            browser.globalObject.document.implementationObject.querySelector(cssSelector);
+            var htmlElement = browser.globalObject.document.implementationObject.querySelector(cssSelector);
+
+            if(htmlElement == null)
+            {
+                console.log("Can not find: " + cssSelector, "in scenarioBrowserHelper");
+                return null;
+            }
+
+            return htmlElement.modelElement;
         }
         catch(e)
         {
