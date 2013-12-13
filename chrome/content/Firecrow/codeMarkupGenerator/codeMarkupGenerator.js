@@ -5,7 +5,7 @@ if(usesModule)
 
     var path = require('path');
     var CodeTextGenerator = require(path.resolve(__dirname, "codeTextGenerator.js")).CodeTextGenerator;
-    var atob = require('atob');
+    atob = require('atob');
 }
 
 var CodeMarkupGenerator;
