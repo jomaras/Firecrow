@@ -259,7 +259,7 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 var isElseIfStatement = ASTHelper.isElseIfStatement(element);
 
-                var statementCode = this.generateStatement(element);
+                var statementCode = this.generateStandAloneCode(element);
 
                 if(element.comments != null)
                 {
@@ -904,7 +904,7 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromWithStatement: function(withStatement)
     {
-        var withBody = this.generateStatement(withStatement.body);
+        var withBody = this.generateStandAloneCode(withStatement.body);
 
         withBody = withBody.length != 0 ? withBody : this._SEMI_COLON;
 
@@ -962,7 +962,7 @@ Firecrow.CodeTextGenerator.prototype =
 
             for(var i = 0; i < switchCase.consequent.length; i++)
             {
-                var statementCode = this.generateStatement(switchCase.consequent[i]);
+                var statementCode = this.generateStandAloneCode(switchCase.consequent[i]);
 
                 if(statementCode !== "")
                 {
@@ -1032,6 +1032,7 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromVariableDeclarator: function(variableDeclarator)
     {
+        if(variableDeclarator.loc.start.line >= 748 && variableDeclarator.loc.start.line <= 753) debugger;
         var initCode = "";
 
         if(variableDeclarator.init)
@@ -1055,7 +1056,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         if(catchClause == null) { return ""; }
 
-        var body = this.generateStatement(catchClause.body);
+        var body = this.generateStandAloneCode(catchClause.body);
 
         body = body.length != 0 ? body : this._LEFT_GULL_WING + this._RIGHT_GULL_WING;
 

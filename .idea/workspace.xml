@@ -8,15 +8,12 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="- CodeTextGenerator - put sequence expression in parenthesis">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/13-daypack/index-sliced.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/regressions/slicingTests.js" afterPath="$PROJECT_DIR$/phantomJs/regressions/slicingTests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/13-daypack/index-sliced.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/13-daypack/index-sliced.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/index.html" afterPath="$PROJECT_DIR$/playground/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -66,46 +63,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="debugTestPages.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="22" selection-start="401" selection-end="401" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="3196">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mootools.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/evaluation/fullPages/13-daypack/scripts/mootools.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="24" selection-start="4434" selection-end="4450" vertical-scroll-proportion="0.33259425" vertical-offset="1873" max-vertical-offset="64668">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="codeTextGenerator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1233" column="4" selection-start="46764" selection-end="46764" vertical-scroll-proportion="0.0" vertical-offset="20803" max-vertical-offset="21641">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HtmlElementExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="312" column="26" selection-start="12916" selection-end="12916" vertical-scroll-proportion="0.0" vertical-offset="4868" max-vertical-offset="8772">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index-sliced.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index-sliced.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/evaluation/fullPages/13-daypack/index-sliced.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="312" selection-end="312" vertical-scroll-proportion="-0.65384614" vertical-offset="85" max-vertical-offset="35785">
+            <state line="16" column="0" selection-start="545" selection-end="545" vertical-scroll-proportion="0.41555557" vertical-offset="85" max-vertical-offset="40647">
               <folding />
             </state>
           </provider>
@@ -144,7 +105,6 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-        <option value="$PROJECT_DIR$/playground/index.html" />
         <option value="$PROJECT_DIR$/debug/slicingTests/135/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js" />
@@ -154,6 +114,7 @@
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/phantomJs/regressions/slicingTests.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
+        <option value="$PROJECT_DIR$/playground/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/13-daypack/index-sliced.html" />
       </list>
@@ -249,20 +210,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="playground" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -304,32 +251,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="13-daypack" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fullPages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="13-daypack" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3225,7 +3146,11 @@
       <created>1387267792689</created>
       <updated>1387267792689</updated>
     </task>
-    <option name="localTasksCounter" value="668" />
+    <task id="LOCAL-00668" summary="- CodeTextGenerator - put sequence expression in parenthesis">
+      <created>1387271372096</created>
+      <updated>1387271372096</updated>
+    </task>
+    <option name="localTasksCounter" value="669" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3327,7 +3252,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Modifications to the slicer  - now can profile, sliceAll, sliceWithoutUnions. Made a phantomJs script for aggregating slicing evaluation results" />
     <MESSAGE value="New data in summary" />
     <MESSAGE value="nodeJs - slicer all!" />
     <MESSAGE value="Minor changes" />
@@ -3352,7 +3276,9 @@
     <MESSAGE value="- minor bug fix with atob in node" />
     <MESSAGE value="Whitespace" />
     <MESSAGE value="- Break and Continue with labels" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Break and Continue with labels" />
+    <MESSAGE value="- CodeTextGenerator - put sequence expression in parenthesis" />
+    <option name="LAST_COMMIT_MESSAGE" value="- CodeTextGenerator - put sequence expression in parenthesis" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3368,20 +3294,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/135/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="374" selection-end="374" vertical-scroll-proportion="0.3109756" vertical-offset="0" max-vertical-offset="820">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1479" column="0" selection-start="48620" selection-end="48620" vertical-scroll-proportion="0.39361703" vertical-offset="24810" max-vertical-offset="30107">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="531" column="51" selection-start="19932" selection-end="19932" vertical-scroll-proportion="0.7553192" vertical-offset="8388" max-vertical-offset="10285">
@@ -3445,13 +3357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="22" selection-start="401" selection-end="401" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="3196">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="312" column="26" selection-start="12916" selection-end="12916" vertical-scroll-proportion="0.0" vertical-offset="4868" max-vertical-offset="8772">
@@ -3459,23 +3364,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1233" column="4" selection-start="46764" selection-end="46764" vertical-scroll-proportion="0.0" vertical-offset="20803" max-vertical-offset="21641">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/13-daypack/index-sliced.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="312" selection-end="312" vertical-scroll-proportion="-0.65384614" vertical-offset="85" max-vertical-offset="35785">
+        <state line="1522" column="98" selection-start="50102" selection-end="50111" vertical-scroll-proportion="-6.16" vertical-offset="25720" max-vertical-offset="30107">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/13-daypack/scripts/mootools.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="24" selection-start="4434" selection-end="4450" vertical-scroll-proportion="0.33259425" vertical-offset="1873" max-vertical-offset="64668">
+        <state line="749" column="28" selection-start="29164" selection-end="29164" vertical-scroll-proportion="0.0" vertical-offset="12558" max-vertical-offset="64668">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="218" column="54" selection-start="7552" selection-end="7552" vertical-scroll-proportion="0.26050422" vertical-offset="3582" max-vertical-offset="21658">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="12" selection-start="378" selection-end="378" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="3196">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="24" selection-start="271" selection-end="271" vertical-scroll-proportion="0.36717063" vertical-offset="0" max-vertical-offset="463">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/13-daypack/index-sliced.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="545" selection-end="545" vertical-scroll-proportion="0.41555557" vertical-offset="85" max-vertical-offset="40647">
           <folding />
         </state>
       </provider>

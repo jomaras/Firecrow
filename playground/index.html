@@ -8,23 +8,6 @@
     <div id="fc" class="c"></div>
     <div id="sc" class="c"></div>
 <script>
-    var fc = document.getElementById("fc");
-    var sc = document.getElementById("sc");
-    var fs = document.getElementById("fs");
-    var clicks = 0;
-    fc.onmousedown = function(e) {
-        if(e.which == 1)
-            fc.onmousemove = function(e) {
-                var val = e.pageX % 256;
-                this.style.background="rgb("+val+","+val+","+val+")";
-            }
-        else if(e.which == 2)
-            if(++clicks % 2 == 0)
-                this.textContent = "Even";
-            else
-                this.textContent = "Odd";
-    }
-    sc.onclick = function(e) {
-        this.textContent = e.pageX + ";" + e.pageY;
-    }
+    var i = function(){}
+    i.prototype = "";
 </script></body></html>
