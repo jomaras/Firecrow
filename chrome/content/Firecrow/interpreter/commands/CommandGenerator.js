@@ -244,8 +244,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         var commands = [];
 
-        if(sourceElement.label != null) { this.notifyError("Not handling break with labels!"); return commands; }
-
         commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalBreak, parentFunctionCommand));
 
         return commands;
@@ -254,8 +252,6 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     generateContinueStatementExecutionCommands: function (sourceElement, parentFunctionCommand)
     {
         var commands = [];
-
-        if(sourceElement.label != null) { this.notifyError("Not handling continue with labels!"); return commands; }
 
         commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.EvalContinue, parentFunctionCommand));
 
@@ -371,10 +367,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         return [];
     },
 
-    generateLabeledStatementExecutionCommands: function (sourceElement, parentFunctionCommand)
+    generateLabeledStatementExecutionCommands: function (labelElement, parentFunctionCommand)
     {
-        this.notifyError("Currently ignoring labeled statements");
-        return [];
+        return [new fcCommands.Command(labelElement, fcCommands.Command.COMMAND_TYPE.Label, parentFunctionCommand)];
     },
 
     generateFunctionExecutionCommands: function(callExpressionCommand, functionObject, thisObject)

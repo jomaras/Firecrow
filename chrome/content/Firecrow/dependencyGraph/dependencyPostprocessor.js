@@ -523,7 +523,14 @@ Firecrow.DependencyGraph.DependencyPostprocessor.prototype =
         }
     },
 
-    processLabeledStatement: function(labeledStatement) { },
+    processLabeledStatement: function(labeledStatement)
+    {
+        if(!this.inclusionFinder.isIncludedStatement(labeledStatement)) { return; }
+
+        Firecrow.includeNode(labeledStatement, true);
+
+        this.processElement(labeledStatement.body);
+    },
 
     processVariableDeclaration: function(variableDeclaration)
     {

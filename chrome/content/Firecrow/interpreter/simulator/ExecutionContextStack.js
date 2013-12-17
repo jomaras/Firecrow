@@ -31,6 +31,7 @@ FBL.ns(function() { with (FBL) {
             this.scopeChain.push(this.variableObject);
 
             this.codeConstructValuesMapping = {};
+            this.labelsMapping = {};
             this.commands = [];
 
             this.contextCreationCommand = contextCreationCommand;
@@ -88,6 +89,13 @@ FBL.ns(function() { with (FBL) {
 
             delete this.codeConstructValuesMapping;
             delete this.commands;
+        },
+
+        logLabel: function(labelConstruct)
+        {
+            if(labelConstruct == null) { return; }
+
+            this.labelsMapping[labelConstruct.nodeId] = labelConstruct;
         }
     };
 //</editor-fold>
@@ -209,7 +217,8 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
                 else if (command.isCallCallbackMethodCommand()) {}
                 else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addCallExpressionDependencies(command.codeConstruct); }
-                else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.addCallbackDependencies(command.codeConstruct, command.callCallbackCommand.codeConstruct);}
+                else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.addCallbackDependencies(command.codeConstruct, command.callCallbackCommand.codeConstruct); }
+                else if (command.isLabelCommand()) { this._logLabelCommand(command) ;}
                 else if (command.isConvertToPrimitiveCommand()) {}
                 else
                 {
@@ -655,16 +664,21 @@ FBL.ns(function() { with (FBL) {
             if(lastCommand != baseCommand.startCommand)
             {
                 this.notifyError
-                    (
-                        "When popping commands the top command has to be the same as the base command - TopCommand@"
-                            + lastCommand
-                            + " Base command@" + baseCommand
-                    );
+                (
+                    "When popping commands the top command has to be the same as the base command - TopCommand@"
+                        + lastCommand
+                        + " Base command@" + baseCommand
+                );
 
                 return false;
             }
 
             this.blockCommandStack.pop();
+        },
+
+        _logLabelCommand: function(command)
+        {
+            this.activeContext.logLabel(command.codeConstruct);
         },
 
         _addToBlockCommandStack: function(command)

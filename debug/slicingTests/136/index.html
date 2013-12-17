@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script>
+    var items = [1,2,3];
+    var a1 = 0;
+    var i, j;
+
+    top:
+        for (var i = 0; i < items.length; i++)
+        {
+            for (var j = 0; j < items.length; j++)
+            {
+                a1 += items[j];
+
+                if (items[j] == 2)
+                {
+                    break top;
+                }
+            }
+
+            a1 += items[i];
+        }
+
+    a1;
+</script>
+
+</body>
+</html>

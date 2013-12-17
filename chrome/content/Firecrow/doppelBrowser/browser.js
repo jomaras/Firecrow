@@ -740,7 +740,7 @@ FBL.ns(function() { with (FBL) {
                         {
                             functionHandler: onLoadInfo.handler,
                             thisObject: this.globalObject,
-                            argumentValues: [],
+                            argumentValues: this._getArguments(eventTrace.args, this.globalObject),
                             registrationPoint: onLoadInfo.registrationPoint
                         }
                     );

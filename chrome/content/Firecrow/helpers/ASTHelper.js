@@ -1459,6 +1459,16 @@ Firecrow.ASTHelper = ASTHelper =
         );
     },
 
+    getParentLabelStatement: function(codeConstruct, labelName)
+    {
+        var labeledStatement = this.getParentOfTypes(codeConstruct, [this.CONST.STATEMENT.LabeledStatement]);
+
+        if(labeledStatement == null || labeledStatement.label == null) { return null; }
+        if(labeledStatement.label.name == labelName) { return labeledStatement; }
+
+        return this.getParentLabelStatement(labeledStatement, labelName);
+    },
+
     getSwitchParent: function(codeConstruct)
     {
         return this.getParentOfTypes

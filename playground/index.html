@@ -1,32 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
+<html><head>
     <style>
-        #mainContainer
-        {
-            box-shadow: 0px 1px 3px rgba( 0,0,0,0.68 );
-            -moz-box-shadow: 0px 1px 3px rgba( 0,0,0,0.68 );
-            border-radius: 7px;
-            border: solid black;
-            height: 200px;
-            width:300px;
-            transition: background-position 0.3s ease;
-        }
-    </style>
-    <link rel="stylesheet" href="externalStyle.css"/>
-</head>
+        .c{ width: 100px; height: 100px;}
+        #fc{background:rgb(255,0,0);}
+        #sc{background:rgb(0,0,255);}
+    </style></head>
 <body>
-    <div id="mainContainer">
-        Test
-    </div>
-
-    <script>
-        var mainContainer = document.getElementById("mainContainer")
-        mainContainer.onclick = function()
-        {
-            mainContainer.textContent += " Js";
-        };
-    </script>
-</body>
-</html>
+    <div id="fc" class="c"></div>
+    <div id="sc" class="c"></div>
+<script>
+    var fc = document.getElementById("fc");
+    var sc = document.getElementById("sc");
+    var fs = document.getElementById("fs");
+    var clicks = 0;
+    fc.onmousedown = function(e) {
+        if(e.which == 1)
+            fc.onmousemove = function(e) {
+                var val = e.pageX % 256;
+                this.style.background="rgb("+val+","+val+","+val+")";
+            }
+        else if(e.which == 2)
+            if(++clicks % 2 == 0)
+                this.textContent = "Even";
+            else
+                this.textContent = "Odd";
+    }
+    sc.onclick = function(e) {
+        this.textContent = e.pageX + ";" + e.pageY;
+    }
+</script></body></html>

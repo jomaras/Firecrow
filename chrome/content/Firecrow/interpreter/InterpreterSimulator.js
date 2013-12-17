@@ -182,7 +182,7 @@ FBL.ns(function() { with (FBL) {
 
         _processRemovingCommandsCommand: function(command)
         {
-            if (command.isEvalReturnExpressionCommand()) { this._removeCommandsAfterReturnStatement(command); }
+                 if (command.isEvalReturnExpressionCommand()) { this._removeCommandsAfterReturnStatement(command); }
             else if (command.isEvalBreakCommand()) { this._removeCommandsAfterBreak(command); }
             else if (command.isEvalContinueCommand()) { this._removeCommandsAfterContinue(command); }
             else if (command.isEvalThrowExpressionCommand()) { this._removeCommandsAfterException(command); }
@@ -262,6 +262,35 @@ FBL.ns(function() { with (FBL) {
 
         _removeCommandsAfterBreak: function(breakCommand)
         {
+            if(breakCommand.codeConstruct.label != null) { this._removeCommandsAfterLabeledBreak(breakCommand);}
+            else { this._removeCommandsAfterNonLabeledBreak(breakCommand); }
+        },
+
+        _removeCommandsAfterLabeledBreak: function(breakCommand)
+        {
+            var continueParent = ASTHelper.getLoopOrSwitchParent(breakCommand.codeConstruct);
+
+            var labelName = breakCommand.codeConstruct.label.name;
+            var label = ASTHelper.getParentLabelStatement(breakCommand.codeConstruct, labelName);
+
+            if(label == null) { this._removeCommandsAfterNonLabeledBreak(breakCommand); return; }
+
+            var labeledStatement = label.body;
+
+            for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
+            {
+                var command = this.commands[i];
+                var isThisLabel = command.codeConstruct == labeledStatement;
+
+                if(command.isEndSwitchStatementCommand() || command.isEndLoopStatementCommand() ){ i++; }
+                else { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
+
+                if((command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) && isThisLabel) { break;}
+            }
+        },
+
+        _removeCommandsAfterNonLabeledBreak: function(breakCommand)
+        {
             var breakParent = ASTHelper.getLoopOrSwitchParent(breakCommand.codeConstruct);
 
             for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
@@ -283,6 +312,12 @@ FBL.ns(function() { with (FBL) {
 
         _removeCommandsAfterContinue: function(continueCommand)
         {
+            if(continueCommand.codeConstruct.label != null) { this._removeCommandsAfterLabeledContinue(continueCommand); }
+            else { this._removeCommandsAfterNonLabeledContinue(continueCommand); }
+        },
+
+        _removeCommandsAfterNonLabeledContinue: function(continueCommand)
+        {
             var continueParent = ASTHelper.getLoopParent(continueCommand.codeConstruct);
 
             for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
@@ -300,7 +335,36 @@ FBL.ns(function() { with (FBL) {
                     i++;
                 }
 
-                if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) { break;}
+                if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) { break; }
+            }
+        },
+
+        _removeCommandsAfterLabeledContinue: function(continueCommand)
+        {
+            var continueParent = ASTHelper.getLoopParent(continueCommand.codeConstruct);
+
+            var labelName = continueCommand.codeConstruct.label.name;
+            var label = ASTHelper.getParentLabelStatement(continueCommand.codeConstruct, labelName);
+
+            if(label == null) { this._removeCommandsAfterNonLabeledContinue(continueCommand); return; }
+
+            var labeledStatement = label.body;
+
+            for(var i = this.currentCommandIndex + 1; i < this.commands.length; )
+            {
+                var command = this.commands[i];
+                var isThisLabel = command.codeConstruct == labeledStatement;
+
+                if(command.isForUpdateStatementCommand() && isThisLabel) { i++;}
+                else if (command.isEndLoopStatementCommand()) { i++; }
+                else if(command.isEvalForInWhereCommand() && command.codeConstruct != continueParent)
+                {
+                    this.notifyError("Haven't thought about this, possible bug!");
+                    i++;
+                }
+                else { ValueTypeHelper.removeFromArrayByIndex(this.commands, i);}
+
+                if((command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) && isThisLabel) { break; }
             }
         },
 

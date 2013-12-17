@@ -367,7 +367,7 @@ Firecrow.CodeTextGenerator.prototype =
             else if (ASTHelper.isDoWhileStatement(statement)) { return this.generateFromDoWhileStatement(statement); }
             else if (ASTHelper.isForStatement(statement)) { return this.generateFromForStatement(statement); }
             else if (ASTHelper.isForInStatement(statement)) { return this.generateFromForInStatement(statement); }
-            else if (ASTHelper.isLabeledStatement(statement)) { return this.generateFromLabeledStatement(statement)  + this._SEMI_COLON ; }
+            else if (ASTHelper.isLabeledStatement(statement)) { return this.generateFromLabeledStatement(statement); }
             else if (ASTHelper.isBreakStatement(statement)) { return this.generateFromBreakStatement(statement)  + this._SEMI_COLON ; }
             else if (ASTHelper.isContinueStatement(statement)) { return this.generateFromContinueStatement(statement)  + this._SEMI_COLON ; }
             else if (ASTHelper.isReturnStatement(statement)) { return this.generateFromReturnStatement(statement)  + this._SEMI_COLON ; }
@@ -889,7 +889,7 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromBreakStatement: function(breakStatement)
     {
-        return this._BREAK_KEYWORD + (breakStatement.label != null ? this.generateFromIdentifier(breakStatement.label) : "");
+        return this._BREAK_KEYWORD + (breakStatement.label != null ? " " + this.generateFromIdentifier(breakStatement.label) : "");
     },
 
     generateFromContinueStatement: function(continueStatement)
@@ -1004,8 +1004,8 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromLabeledStatement: function(labeledStatement)
     {
-        return this.generateFromIdentifier(labeledStatement.label) + this._SEMI_COLON
-            + this.generateJsCode(labeledStatement.body);
+        return this.generateFromIdentifier(labeledStatement.label) + this._COLON
+             + this.generateJsCode(labeledStatement.body);
     },
 
     generateFromVariableDeclaration: function(variableDeclaration)
