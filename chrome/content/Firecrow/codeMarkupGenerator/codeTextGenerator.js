@@ -675,7 +675,7 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromSequenceExpression: function(sequenceExpression)
     {
-        return this.getSequenceCode(sequenceExpression.expressions);
+        return this._LEFT_PARENTHESIS + this.getSequenceCode(sequenceExpression.expressions) + this._RIGHT_PARENTHESIS;
     },
 
     generateFromArrayExpression: function(arrayExpression)

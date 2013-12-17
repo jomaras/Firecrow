@@ -7,10 +7,12 @@ var loadInProgress = false;
 
 var modelFiles = [];
 var pageIndex = 0;
-var maxPageIndex = 133;
+var maxPageIndex = 136;
 console.log("Started regression tests");
-//Problems in tests: 88 (bind function)
-// 91 - not sure why
+//91 - not sure why
+//94 - slice unions?
+//112 - delete in map
+//113 - same problem
 
 page.onConsoleMessage = function(msg) { system.stderr.writeLine('console - ' + url + ":" + msg); };
 page.onAlert = function(msg) { console.log('ALERT - ' + url + ":" + msg); };

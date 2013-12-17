@@ -66,6 +66,8 @@ fcModel.HtmlElementExecutor =
             case "getElementsByClassName":
             case "querySelectorAll":
                 return this._getElements(functionName, globalObject, args[0].jsValue, thisObjectValue, jsArguments, callExpression);
+            case "querySelector":
+                return this._getElement(functionName, globalObject, args[0].jsValue, thisObjectValue, jsArguments, callExpression);
             case "getAttribute":
                 return this._getAttribute(functionName, thisObjectValue, jsArguments, globalObject, callExpression);
             case "getAttributeNode":
@@ -288,6 +290,29 @@ fcModel.HtmlElementExecutor =
         wrappedArray.iValue.markAsNodeList();
 
         return wrappedArray;
+    },
+
+    _getElement: function(functionName, globalObject, argument, thisObjectValue, jsArguments, callExpression)
+    {
+        var element = null;
+
+        try
+        {
+            globalObject.browser.logDomQueried(functionName, argument, callExpression);
+            element = thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
+        }
+        catch(e)
+        {
+            globalObject.executionContextStack.callExceptionCallbacks
+            ({
+                exceptionGeneratingConstruct: callExpression,
+                isDomStringException: true
+            });
+        }
+
+        this.addDependencies(element, callExpression, globalObject);
+
+        return this.wrapToFcElement(element, globalObject, callExpression);
     },
 
     _getElementsFromDocumentFragment: function(documentFragment, selector, functionName)
