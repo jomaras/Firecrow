@@ -92,7 +92,7 @@ Firecrow.gen = Firecrow.CodeTextGenerator.generateJsCode;
 
 Firecrow.CodeTextGenerator.notifyError = function(message)
 {
-    alert("CodeTextGenerator - " + message);
+    console.warn("CodeTextGenerator - " + message);
 };
 
 Firecrow.CodeTextGenerator.prototype =
@@ -239,6 +239,8 @@ Firecrow.CodeTextGenerator.prototype =
 
             if(isForStatementInit) { return variableDeclarationCode; }
 
+            if(variableDeclarationCode == "") { return ""; }
+
             return this.whitespace + variableDeclarationCode + this._SEMI_COLON + this.newLine;
         }
         else if (ASTHelper.isVariableDeclarator(element)) { return this.generateFromVariableDeclarator(element); }
@@ -314,6 +316,7 @@ Firecrow.CodeTextGenerator.prototype =
                 }
 
                 if(isForStatementInit) { return variableDeclarationCode; }
+                if(variableDeclarationCode == "") { return ""; }
 
                 return this.whitespace + variableDeclarationCode + this._SEMI_COLON + this.newLine;
             }
@@ -328,7 +331,7 @@ Firecrow.CodeTextGenerator.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error while generating code: " + e);
+            this.notifyError("Error while generating code: " + e + e.stack);
         }
     },
 
@@ -361,7 +364,13 @@ Firecrow.CodeTextGenerator.prototype =
 
                  if (ASTHelper.isEmptyStatement(statement))  { return this.generateFromEmptyStatement(statement); }
             else if (ASTHelper.isBlockStatement(statement)) { return this.generateFromBlockStatement(statement); }
-            else if (ASTHelper.isExpressionStatement(statement)) { return this.generateFromExpressionStatement(statement) + this._SEMI_COLON ; }
+            else if (ASTHelper.isExpressionStatement(statement))
+            {
+                var expressionStatementCode = this.generateFromExpressionStatement(statement);
+
+                return expressionStatementCode != "" ? expressionStatementCode + this._SEMI_COLON
+                                                     : "";
+            }
             else if (ASTHelper.isIfStatement(statement)) { return this.generateFromIfStatement(statement); }
             else if (ASTHelper.isWhileStatement(statement)) { return this.generateFromWhileStatement(statement); }
             else if (ASTHelper.isDoWhileStatement(statement)) { return this.generateFromDoWhileStatement(statement); }
@@ -1014,6 +1023,9 @@ Firecrow.CodeTextGenerator.prototype =
 
         var declarators = variableDeclaration.declarations;
         var generatedDeclarators = 0;
+
+        if(declarators == null || declarators.length == 0) { debugger; return ""; }
+
         for (var i = 0, length = declarators.length; i < length; i++)
         {
             var declarator = declarators[i];
