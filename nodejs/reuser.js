@@ -6,7 +6,9 @@ console.log("reuser started");
 
 var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/0/pageA.html-codeModel.txt");
 var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/0/pageB.html-codeModel.txt");
+
 var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/0/expectedResult.html");
+var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
 
@@ -43,7 +45,7 @@ ASTHelper.setParentsChildRelationships(pageAModel);
 ASTHelper.setParentsChildRelationships(pageBModel);
 
 copyFileContent(pageAModelPath, scenarioModelForReuserPath);
-console.log("reuser:", "Slicing pageA...");
+console.log("reuser:", "Slicing", pageAModelPath);
 spawnPhantomJsProcess
 (
     phantomReuseSlicerScript, [],
@@ -55,7 +57,7 @@ spawnPhantomJsProcess
         updatePageModel(pageAExecutionSummary, pageAModelMapping);
 
         copyFileContent(pageBModelPath, scenarioModelForReuserPath);
-        console.log("reuser:", "Analyzing pageB...");
+        console.log("reuser:", "Analyzing", pageBModelPath);
 
         spawnPhantomJsProcess
         (
@@ -76,8 +78,29 @@ function performReuse(pageAExecutionSummary, pageBExecutionSummary)
     console.log("Performing reuse");
 
     var mergedModel = Reuser.getMergedModel(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
+    var result = CodeTextGenerator.generateCode(mergedModel);
 
-    console.log(CodeTextGenerator.generateCode(mergedModel));
+    console.log("Result written to:", resultPath);
+    fs.writeFileSync(resultPath, result);
+
+    if(expectedResult != null && expectedResult != "")
+    {
+        if(expectedResult.replace(/\s/g, "") != result.replace(/\s/g, ""))
+        {
+            console.log("Result and expected result differ!");
+            console.log(result);
+            console.log("/*********************/");
+            console.log(expectedResult);
+        }
+        else
+        {
+            console.log("Result and expected result match!");
+        }
+    }
+    else
+    {
+        console.log("There is no expected result!");
+    }
 }
 
 function updatePageModel(executionSummary, pageModelMapping)
