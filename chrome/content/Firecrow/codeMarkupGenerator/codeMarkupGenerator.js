@@ -1025,7 +1025,7 @@ FBL.ns(function () { with (FBL) {
             (
                 "span",
                 {
-                    class: ASTHelper.CONST.VariableDeclarator + this._generateHasBeenExecutedClass(variableDeclarator),
+                    class: ASTHelper.CONST.VariableDeclarator,
                     id: "node" + this.formatId(variableDeclarator.nodeId)
                 }
             );

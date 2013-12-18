@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usage Scenario Generator</title>
+    <meta charset="UTF-8"/>
+    <script>
+        var FBL = undefined;
+    </script>
+    <script src="../../chrome/content/Firecrow/initFBL.js"></script>
+    <script src="../../chrome/content/Firecrow/parsers/CssSelectorParser.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/RequestHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/UriHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/helpers/TimerHelper.js"></script>
+
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/Event.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/Scenario.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/ScenarioCollection.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/ScenarioBrowserHelper.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/ScenarioGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/SeleniumCodeGenerator.js"></script>
+
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/symbolic/NumberRange.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/symbolic/StringConstraint.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/scenarioGenerator/symbolic/ConstraintResolver.js"></script>
+
+    <script src="../../chrome/content/Firecrow/dependencyGraph/node.js"></script>
+    <script src="../../chrome/content/Firecrow/dependencyGraph/edge.js"></script>
+    <script src="../../chrome/content/Firecrow/dependencyGraph/dependencyGraph.js"></script>
+    <script src="../../chrome/content/Firecrow/dependencyGraph/slicingCriterion.js"></script>
+    <script src="../../chrome/content/Firecrow/dependencyGraph/inclusionFinder.js"></script>
+    <script src="../../chrome/content/Firecrow/dependencyGraph/dependencyPostprocessor.js"></script>
+    <script src="../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="../../chrome/content/Firecrow/interpreter/commands/CommandGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/commands/Command.js"></script>
+
+    <script src="../../chrome/content/Firecrow/interpreter/model/FcValue.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/object/Object.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/object/ObjectPrototype.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/object/ObjectFunction.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/object/ObjectExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/array/Array.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/array/ArrayCallbackExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/array/ArrayExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/array/ArrayFunction.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/array/ArrayPrototype.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/XMLHttpRequest.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/Math.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/RegEx.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/Function.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/Identifier.js"></script>
+
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/FunctionFunction.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/Boolean.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/Date.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/Number.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/String.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/Image.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/Element.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/HTMLElement.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/HTMLImageElement.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/Canvas.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/internal/Error.js"></script>
+
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/Document.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/TextNode.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/Attribute.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/ClassList.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/SimpleXPath.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/model/DOM/Event.js"></script>
+
+    <script src="../../chrome/content/Firecrow/interpreter/simulator/VariableObject.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/simulator/Evaluator.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/InterpreterSimulator.js"></script>
+
+    <script src="../../chrome/content/Firecrow/doppelBrowser/browser.js"></script>
+    <script src="../../chrome/content/Firecrow/interpreter/ExecutionInfo.js"></script>
+    <script src="../../chrome/content/Firecrow/dependencyGraph/DependencyGenerator.js"></script>
+    <script src="../../chrome/content/Firecrow/Slicer.js"></script>
+    <script src="helper.js"></script>
+    <style>
+        textarea { width: 800px; height: 40px; }
+    </style>
+    <script>
+        var HtmlModelMapping = [];
+    </script>
+    <script src="../dataFiles/scenarioModelForReuser.txt"></script>
+</head>
+<body>
+<iframe id="firecrowFrame" height="800" width="1200"></iframe><br/>
+Execution Info: <br/><textarea id="executionInfo"></textarea><br/>
+<div id="codeMarkup"></div>
+<script type="text/javascript">
+var fcScenarioGenerator = Firecrow.ScenarioGenerator;
+var fcSymbolic = fcScenarioGenerator.Symbolic;
+var sgBrowserHelper = fcScenarioGenerator.ScenarioBrowserHelper;
+
+var pageUrl = window.queryString["url"];
+var selector = window.queryString["selector"] || "*";
+var eventsJSON = scenarioData.events || "[]";
+var scriptsToIgnore = JSON.parse(scenarioData.scriptsToIgnore || "[]");
+var eventDescriptors = JSON.parse(eventsJSON);
+
+if(!pageUrl){ throw new Error("url has to be specified");}
+
+var pageModelSource = window.getSource(pageUrl);
+
+if(pageModelSource != null && pageModelSource != "{}")
+{
+    var pageModel = JSON.parse(pageModelSource);
+    var pageModelMapping = {};
+
+    function endsWithSuffix(name, suffixID)
+    {
+        return name.match(new RegExp("_FC_" + suffixID + "$")) != null;
+    }
+
+    function removeSuffix(name)
+    {
+        var indexOfFcStart = name.indexOf("_FC_");
+
+        if(indexOfFcStart == -1) { return name; }
+
+        return name.substr(0, indexOfFcStart);
+    }
+
+    function updateDomWithConstraintInfo(eventRegistration, parameters)
+    {
+        if(parameters == null) { return; }
+
+        for(var parameterName in parameters)
+        {
+            if(parameterName.indexOf("DOM_") == 0)
+            {
+                var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(parameterName);
+                var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(parameterName);
+                if(id != "")
+                {
+                    var htmlElement = eventRegistration.thisObject.globalObject.document.document.getElementById(id);
+
+                    if(Firecrow.ValueTypeHelper.isHtmlSelectElement(htmlElement))
+                    {
+                        var updateResult = fcSymbolic.ConstraintResolver.updateSelectElement(cleansedProperty, htmlElement, parameters[parameterName]);
+
+                        parameters.value = updateResult.newValue;
+                    }
+                }
+                else
+                {
+                    debugger;
+                    alert("When updating DOM can not find ID!");
+                }
+            }
+        }
+    }
+
+    (function setUpPageModel()
+    {
+        Firecrow.ASTHelper.setParentsChildRelationships(pageModel);
+
+        Firecrow.ASTHelper.traverseAst(pageModel, function(astNode)
+        {
+            pageModelMapping[astNode.nodeId] = astNode;
+        });
+    }());
+
+    var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
+    browser.url = pageUrl;
+    if(browser.url.indexOf("CodeModels") != -1) { browser.url = browser.url.replace("CodeModels", "Firecrow");}
+    browser.registerSlicingCriteria([{type:"DOM_MODIFICATION", cssSelector: selector}]);
+
+    (function evaluatePage()
+    {
+        browser.evaluatePage();
+    })();
+
+    (function executePageLoadingEvents()
+    {
+        browser.executeLoadingEvents();
+    })();
+
+    (function executeEvents()
+    {
+        for(var i = 0; i < eventDescriptors.length; i++)
+        {
+            var eventDescriptor = eventDescriptors[i];
+
+            var eventRegistration = sgBrowserHelper.getMatchingEventRegistration
+                    (
+                            browser,
+                            pageModelMapping[eventDescriptor.thisObjectModelNodeId] || sgBrowserHelper.getModelFromCssSelector(browser, eventDescriptor.thisObjectCssSelector),
+                            pageModelMapping[eventDescriptor.registrationConstructId]
+                    );
+
+            if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); continue;}
+
+            updateDomWithConstraintInfo(eventRegistration, eventDescriptor.parameters);
+
+            browser.executeEvent
+                    (
+                            eventRegistration,
+                            sgBrowserHelper.getEventArguments(eventRegistration, browser, eventDescriptor.parameters, i)
+                    );
+        }
+    })();
+
+    (function addDefaultConstraints()
+    {
+        var executionInfo = browser.getExecutionInfo();
+        var identifiersMap = executionInfo.pathConstraint.getSymbolicIdentifierNameMap();
+
+        for(var identifierName in identifiersMap)
+        {
+            if(sgBrowserHelper.isEventPropertyWhich(identifierName))
+            {
+                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, fcSymbolic.Logical.createIrreversibleOr
+                        (
+                                fcSymbolic.Logical.createIrreversibleOr
+                                        (
+                                                fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 1),
+                                                fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 2)
+                                        ),
+                                fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, 3)
+                        ));
+
+                executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 1);
+            }
+            else if(sgBrowserHelper.isEventPropertyWithPositiveNumberValue(identifierName))
+            {
+                var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, fcSymbolic.Binary.createIrreversibleIdentifierGreaterEqualsThanLiteral(identifierName, 0));
+
+                executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 0);
+            }
+            else if(identifierName.indexOf("DOM_") == 0)
+            {
+                var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(identifierName);
+                var cleansedProperty = fcSymbolic.ConstraintResolver.getHtmlElementPropertyFromSymbolicParameter(identifierName);
+                if(id != "")
+                {
+                    var htmlElement = browser.hostDocument.getElementById(id);
+
+                    if(Firecrow.ValueTypeHelper.isHtmlSelectElement(htmlElement))
+                    {
+                        var availableValues = sgBrowserHelper.getSelectElementAvailableValues(htmlElement);
+                        var binaryExpressions = [];
+
+                        var compoundLogical = null;
+
+                        for(var i = 0; i < availableValues.length; i++)
+                        {
+                            binaryExpressions.push(fcSymbolic.Binary.createIrreversibleIdentifierEqualsLiteral(identifierName, availableValues[i]));
+
+                            var previousBinary = binaryExpressions[i-1];
+                            var currentBinary = binaryExpressions[i];
+
+                            if(previousBinary != null && currentBinary != null)
+                            {
+                                compoundLogical = compoundLogical == null ? fcSymbolic.Logical.createIrreversibleOr(previousBinary, currentBinary)
+                                        : fcSymbolic.Logical.createIrreversibleOr(compoundLogical, currentBinary);
+                            }
+                        }
+
+                        var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, compoundLogical);
+                        executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                        executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, availableValues[0]);
+                    }
+                    else
+                    {
+                        debugger;
+                        alert("Unhandled HTMLElement in ScenarioGenerator when adding default constraints");
+                    }
+                }
+                else
+                {
+                    debugger;
+                    alert("No id in ScenarioGenerator when adding default constraints");
+                }
+            }
+        }
+
+        for(var i = 0; i < eventDescriptors.length; i++)
+        {
+            var event = eventDescriptors[i];
+
+            for(var identifierName in identifiersMap)
+            {
+                if(sgBrowserHelper.isEventPropertyWithPositiveNumberValue(identifierName))
+                {
+                    if(endsWithSuffix(identifierName, i))
+                    {
+                        var identifier = removeSuffix(identifierName);
+
+                        if(event.parameters[identifier] == null)
+                        {
+                            event.parameters[identifier] = 0;
+                        }
+                    }
+                }
+            }
+        }
+    })();
+
+    var executionInfo = browser.getExecutionInfo();
+    executionInfo.achievedCoverage = ASTHelper.calculateCoverage(pageModel, scriptsToIgnore);
+    try
+    {
+        document.getElementById("executionInfo").value = JSON.stringify(executionInfo);
+        //document.getElementById("codeMarkup").innerHTML = Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(pageModel);
+    }
+    catch(e)
+    {
+        var jsonObject = executionInfo.toJSON();
+        for(var prop in jsonObject)
+        {
+            try
+            {
+                JSON.stringify(jsonObject[prop]);
+            }
+            catch(e)
+            {
+                console.log(prop);
+            }
+        }
+    }
+}
+</script>
+</body>
+</html>

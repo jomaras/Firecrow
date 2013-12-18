@@ -103,11 +103,20 @@ fcBrowser.ExecutionInfo.prototype =
 
         for(var propertyName in this.undefinedGlobalPropertiesAccessMap)
         {
+            if(!this.undefinedGlobalPropertiesAccessMap.hasOwnProperty(propertyName)) { continue; }
             if(obj[propertyName] == null) { obj[propertyName] = [] }
 
             for(var constructId in this.undefinedGlobalPropertiesAccessMap[propertyName])
             {
-                obj[propertyName].push(constructId);
+                if(!this.undefinedGlobalPropertiesAccessMap[propertyName].hasOwnProperty(constructId)) { continue; }
+                try
+                {
+                    obj[propertyName].push(constructId);
+                }
+                catch(e)
+                {
+                    debugger;
+                }
             }
         }
 

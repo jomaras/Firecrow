@@ -1,3 +1,60 @@
+******************   0. Programming  ******************
+- Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests
+                              add scenario filtering
+    - 01-3dModeller
+        - ?
+    - 02-ajaxtabsconent (first doable, next three i can not even manually get)
+        - have to implement cookie interface
+        - expand tab function (else if relattrvalue == "#iframe") is never executed
+        - iframedisplay never executed
+        - init: function - selectedtab = i not executed
+                           selectedtab != -1
+    - 03-ball_pool (try more!)
+
+    - 04-dragable-boxes - major improvements possible!
+        - autoscroll
+        - dragObject.nextSibling
+        - dragDropCounter
+        - highlightCloseButton
+        - saveFeed
+        - showRSSData
+        - cancelSelectionEvent
+        - cancelEvent
+        - createFeed
+        - clearCookiesForDragableBoxes
+        - disableBoxDrag
+
+    - 05-dynamicArticles (minor possible)
+        - createURLString function
+    - 06-fractalViewer (leaves not drawn, so lower coverage, not sure on improvements)
+    - 07-homeostasis
+        - reduced, but still breaking in phantomJs
+    - 08-pacman (minor improvements)
+        - handleTouchStart
+            - touches
+            - handleTouchMove
+            - handleTouchEnd
+    - 20-3dMaker
+        - two clicks have to be generated (at least two points, and then a key should be pressed), why isn't it working??
+
+    - 21-angelJump
+        - try to cause game over, would significantly influence coverage
+
+    - 23-prism3D
+        - ontouchmove
+        - onmousemove (mb == 1)
+        - ontouchstart
+        - ontouchmove
+        - ontouchend
+
+    - 25-snake
+        - e.keyCode === 37
+    - 26-snowpar
+        - clientX, clientY
+        - drawGraph, drawSnow, drawOlines
+- Go Through all big slicing examples
+- Migrate reuse to nodejs..
+
 ******************    1. Writing    ******************
 Chapter 1 - DONE
 Chapter 2 - DONE

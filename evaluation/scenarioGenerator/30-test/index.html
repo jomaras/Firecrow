@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        #mainContainer { width: 300px; height: 300px; background-color: red;}
+    </style>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+
+        mainContainer.onclick = function()
+        {
+            var httpRequest = new XMLHttpRequest();
+
+            httpRequest.onreadystatechange = function()
+            {
+                switch (httpRequest.readyState){
+                    case 1:
+                        mainContainer.textContent += "Ready State 1";
+                        break;
+                    case 2:
+                        mainContainer.textContent += "Ready State 2";
+                        break;
+                    case 3:
+                        mainContainer.textContent += "Ready State 3";
+                        break;
+                    case 4:
+                        mainContainer.textContent += "Ready State 4";
+                        break;
+                }
+            };
+
+            httpRequest.open('GET', 'text.txt', true);
+            httpRequest.send(null);
+        }
+    </script>
+</body>
+</html>

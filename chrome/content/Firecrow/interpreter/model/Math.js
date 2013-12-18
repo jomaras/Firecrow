@@ -21,18 +21,16 @@ fcModel.Math = function(globalObject)
 
     fcModel.Math.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
     {
-        this.addProperty
+        var propertyValue = new fcModel.fcValue
         (
-            propertyName,
-            new fcModel.fcValue
-            (
-                Math[propertyName],
-                fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
-                null
-            ),
-            null,
-            false
+            Math[propertyName],
+            fcModel.Function.createInternalNamedFunction(globalObject, propertyName, this),
+            null
         );
+
+        propertyValue.isMathFunction = true;
+
+        this.addProperty(propertyName, propertyValue, null, false);
     }, this);
 };
 

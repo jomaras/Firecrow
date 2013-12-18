@@ -12,9 +12,9 @@ ScenarioGenerator.shouldPrintDetailedMessages = true;
 ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
 ScenarioGenerator.generateAdditionalTimingEvents = false;
 
-var pageName = process.argv[2] || "25-snake";
+var pageName = process.argv[2] || "07-homeostasis";
 ScenarioGenerator.prioritization = process.argv[3] || ScenarioGenerator.PRIORITIZATION.fifo;
-ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 4;
+ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 3;
 
 console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prioritization, ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS);
 

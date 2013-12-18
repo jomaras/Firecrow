@@ -1032,7 +1032,6 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromVariableDeclarator: function(variableDeclarator)
     {
-        if(variableDeclarator.loc.start.line >= 748 && variableDeclarator.loc.start.line <= 753) debugger;
         var initCode = "";
 
         if(variableDeclarator.init)

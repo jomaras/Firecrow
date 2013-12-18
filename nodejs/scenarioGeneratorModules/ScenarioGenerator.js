@@ -270,6 +270,8 @@ var ScenarioGenerator =
                         ScenarioGenerator._printCoverage(achievedCoverage, "Page loading Coverage");
                     }
 
+                    ScenarioGenerator._updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
+
                     if(ScenarioGenerator._hasAchievedFullCoverage(achievedCoverage))
                     {
                         return;

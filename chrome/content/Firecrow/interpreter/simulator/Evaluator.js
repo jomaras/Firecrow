@@ -189,7 +189,7 @@ fcSimulator.Evaluator.prototype =
     _evalIdentifierCommand: function(identifierCommand)
     {
         var identifierConstruct = identifierCommand.codeConstruct;
-        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8166)debugger
+        if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 2321)debugger
         //if(identifierConstruct.nodeId == 99071)debugger
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
@@ -317,6 +317,7 @@ fcSimulator.Evaluator.prototype =
     _evalReturnCommand: function(returnCommand)
     {
         this.dependencyCreator.createReturnDependencies(returnCommand);
+        if(returnCommand.codeConstruct.loc.start.line == 101) debugger;
 
         this.globalObject.browser.logConstructExecuted(returnCommand.codeConstruct);
         this.globalObject.browser.callBreakContinueReturnEventCallbacks

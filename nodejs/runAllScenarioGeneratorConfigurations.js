@@ -24,8 +24,8 @@ var applicationNames = ["01-3dModeller", "02-ajaxtabscontent", "03-ball_pool", "
 //04-dragable-boxes - NOK (no model)
 //07-homeostasis - NOK (too much data)
 
-applicationNames = ["02-ajaxtabscontent", "21-angelJump", "22-minesweeper", "23-prism3D", "25-snake", "05-dynamicArticles", "06-fractal_viewer", "24-rentingAgency", "27-tinySlider", "26-snowpar", "28-floatwar"];
-applicationNames = ["25-snake"];
+//applicationNames = ["02-ajaxtabscontent", "21-angelJump", "22-minesweeper", "23-prism3D", "25-snake", "05-dynamicArticles", "06-fractal_viewer", "24-rentingAgency", "27-tinySlider", "26-snowpar", "28-floatwar"];
+applicationNames = ["30-test"];
 
 var eventTypes = ["fifo"]; //["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential"];
 

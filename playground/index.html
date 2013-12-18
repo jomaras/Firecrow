@@ -8,6 +8,21 @@
     <div id="fc" class="c"></div>
     <div id="sc" class="c"></div>
 <script>
-    var i = function(){}
-    i.prototype = "";
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    var start = null;
+
+    var d = document.getElementById("fc");
+
+    function step(timestamp) {
+        var progress;
+        if (start === null) start = timestamp;
+        progress = timestamp - start;
+        d.style.left = Math.min(progress/10, 200) + "px";
+        if (progress < 2000) {
+            requestAnimationFrame(step);
+        }
+    }
+
+    requestAnimationFrame(step);
 </script></body></html>

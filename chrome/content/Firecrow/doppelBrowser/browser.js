@@ -174,8 +174,8 @@ FBL.ns(function() { with (FBL) {
         getEventRegistrations: function()
         {
             return this.globalObject.timeoutHandlers.concat(this.globalObject.intervalHandlers)
-                .concat(this.globalObject.htmlElementEventHandlingRegistrations)
-                .concat(this.globalObject.ajaxHandlers);
+                       .concat(this.globalObject.htmlElementEventHandlingRegistrations)
+                       .concat(this.globalObject.ajaxHandlers);
         },
 
         setLoadingEventsExecuted: function()
@@ -817,6 +817,12 @@ FBL.ns(function() { with (FBL) {
         {
             var targetElement = this._getElementByXPath(eventTrace.args.targetXPath);
             var thisElement = this._getElementByXPath(eventTrace.thisValue.xPath);
+
+            if(eventTrace.args != null && eventTrace.args.type == "readystatechange")
+            {
+                targetElement = this.globalObject.document.implementationObject;;
+                thisElement = this.globalObject.document.implementationObject;
+            }
 
             for(var j = 0, htmlEventsLength = htmlElementEvents.length; j < htmlEventsLength; j++)
             {
