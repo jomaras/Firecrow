@@ -119,7 +119,7 @@
 <textarea id="astNodesTextArea"></textarea>
 <textarea id="slicingCriteriaCountTextArea"></textarea>
 <textarea id="noEvaluatedExpressionsTextArea"></textarea>
-<textarea id="executionInfoTextArea"></textarea>
+<textarea id="executionInfo"></textarea>
 <script>
     (function()
     {
@@ -130,7 +130,7 @@
         var astNodesTextArea = document.getElementById("astNodesTextArea");
         var slicingCriteriaCountTextArea = document.getElementById("slicingCriteriaCountTextArea");
         var noEvaluatedExpressionsTextArea = document.getElementById("noEvaluatedExpressionsTextArea");
-        var executionInfoTextArea = document.getElementById("executionInfoTextArea");
+        var executionInfoTextArea = document.getElementById("executionInfo");
 
         var pageModel = HtmlModelMapping[0].model;
 
@@ -167,15 +167,15 @@
         var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
         var browser = result.browser;
         var executionInfo = browser.getExecutionInfo();
-        debugger;
+
         slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
 
         astNodesTextArea.textContent = nodeId;
         loadingTimeTextArea.textContent = dateNow() - startTime;
         slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
         noEvaluatedExpressionsTextArea.textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
-        executionInfoTextArea.textContent = JSON.stringify();
-
+        executionInfo.setSerializeToReuseJson();
+        executionInfoTextArea.textContent = JSON.stringify(executionInfo);
     })();
 </script>
 

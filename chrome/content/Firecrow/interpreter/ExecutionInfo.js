@@ -41,6 +41,18 @@ fcBrowser.ExecutionInfo = function()
 
 fcBrowser.ExecutionInfo.prototype =
 {
+    setSerializeToReuseJson: function()
+    {
+        this.toJSON = this.toReuseJson;
+    },
+
+    toReuseJson: function()
+    {
+        return {
+            test: "test"
+        };
+    },
+
     toJSON: function()
     {
         return {
