@@ -139,25 +139,6 @@
 
         var Firecrow = FBL.Firecrow;
 
-        var nodeId = 0;
-        Firecrow.ASTHelper.traverseAst(pageModel, function(astElement)
-        {
-            astElement.nodeId = nodeId++;
-            if(astElement.type == "script")
-            {
-                if(astElement.textContent == null && astElement.childNodes != null && astElement.childNodes.length != 0 && astElement.childNodes[0].textContent != null)
-                {
-                    astElement.textContent =  astElement.childNodes[0].textContent;
-                }
-
-                astElement.pathAndModel =
-                {
-                    path: Firecrow.ASTHelper.getAttributeValue(astElement, "src"),
-                    model: esprima.parse(astElement.textContent, {loc:true, raw:true})
-                }
-            }
-        });
-
         pageModel.trackedElementsSelectors = ["*"];
 
         var slicingCriteria = pageModel.trackedElementsSelectors.map(function(selector)
@@ -173,7 +154,6 @@
         slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
         wholeCodeTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateStandAloneCode(pageModel.htmlElement);
 
-        astNodesTextArea.textContent = nodeId;
         loadingTimeTextArea.textContent = dateNow() - startTime;
         slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
         noEvaluatedExpressionsTextArea.textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;

@@ -11,17 +11,11 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\phantomJs\dataFiles\scenarioModelForReuser.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -74,25 +68,25 @@
       <file leaf-file-name="reuser.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="72" selection-start="603" selection-end="603" vertical-scroll-proportion="0.35051546" vertical-offset="0" max-vertical-offset="3740">
+            <state line="12" column="76" selection-start="681" selection-end="681" vertical-scroll-proportion="0.37731957" vertical-offset="21" max-vertical-offset="3740">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reuserScenarioExecutorSlicer.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js">
+      <file leaf-file-name="reuserScenarioExecutorSlicer.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="79" selection-start="493" selection-end="493" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="595">
+            <state line="156" column="46" selection-start="9899" selection-end="9899" vertical-scroll-proportion="-7.1923075" vertical-offset="2465" max-vertical-offset="3179">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reuserScenarioExecutorAnalyzer.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js">
+      <file leaf-file-name="reuserScenarioExecutorAnalyzer.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="66" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
+            <state line="156" column="46" selection-start="9866" selection-end="9866" vertical-scroll-proportion="-6.6538463" vertical-offset="2479" max-vertical-offset="3196">
               <folding />
             </state>
           </provider>
@@ -158,9 +152,9 @@
         <option value="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js" />
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuser.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
-        <option value="$PROJECT_DIR$/nodejs/reuser.js" />
       </list>
     </option>
   </component>
@@ -3373,7 +3367,11 @@
       <created>1387387506675</created>
       <updated>1387387506675</updated>
     </task>
-    <option name="localTasksCounter" value="676" />
+    <task id="LOCAL-00676" summary="nodeJsReuser - have performed the separation of dataFiles for reuserSlicer and reuserAnalyzer">
+      <created>1387388908567</created>
+      <updated>1387388908567</updated>
+    </task>
+    <option name="localTasksCounter" value="677" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3475,7 +3473,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="An attempt to simplify graph traversal - FAIL!" />
     <MESSAGE value="Reverted to before simplifying graph traversal" />
     <MESSAGE value="Important update:&#10;- fix in the update expression (problem with &quot;0&quot;++)&#10;- fixed the way how event work, are chosen" />
     <MESSAGE value="- Moved scenario generator mostly to node.js (only the executor is on phantomjs)&#10;- Scenario generator stops if the memory consumption is too big (goes over 1200 MB)&#10;" />
@@ -3500,7 +3497,8 @@
     <MESSAGE value="First observable results on migrating reuser to nodejs" />
     <MESSAGE value="Bugfix when moving node to the reuse positions" />
     <MESSAGE value="Reuser - renames static classes and ids" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reuser - renames static classes and ids" />
+    <MESSAGE value="nodeJsReuser - have performed the separation of dataFiles for reuserSlicer and reuserAnalyzer" />
+    <option name="LAST_COMMIT_MESSAGE" value="nodeJsReuser - have performed the separation of dataFiles for reuserSlicer and reuserAnalyzer" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3508,7 +3506,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="69" />
+      <option name="time" value="70" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -3589,27 +3587,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="60" selection-start="7721" selection-end="7721" vertical-scroll-proportion="0.69282514" vertical-offset="1408" max-vertical-offset="3536">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="58" selection-start="7719" selection-end="7719" vertical-scroll-proportion="0.5381166" vertical-offset="1477" max-vertical-offset="3519">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="79" selection-start="493" selection-end="493" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="595">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="66" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
@@ -3617,9 +3594,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="79" selection-start="493" selection-end="493" vertical-scroll-proportion="0.34" vertical-offset="51" max-vertical-offset="595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="46" selection-start="9899" selection-end="9899" vertical-scroll-proportion="-7.1923075" vertical-offset="2465" max-vertical-offset="3179">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="46" selection-start="9866" selection-end="9866" vertical-scroll-proportion="-6.6538463" vertical-offset="2479" max-vertical-offset="3196">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="72" selection-start="603" selection-end="603" vertical-scroll-proportion="0.35051546" vertical-offset="0" max-vertical-offset="3740">
+        <state line="12" column="76" selection-start="681" selection-end="681" vertical-scroll-proportion="0.37731957" vertical-offset="21" max-vertical-offset="3740">
           <folding />
         </state>
       </provider>
