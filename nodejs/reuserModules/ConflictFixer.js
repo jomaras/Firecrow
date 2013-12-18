@@ -13,7 +13,7 @@ var ConflictFixer =
         this._fixHtmlConflicts(pageAModel, pageBModel, pageAExecutionSummary);
         this._fixResourceConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
         this._fixJsConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
-        this._fixCssConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
+        this._fixCssConflicts(pageAModel, pageBModel);
     },
 
     _fixHtmlConflicts: function(pageAModel, pageBModel, pageAExecutionSummary)
@@ -27,7 +27,7 @@ var ConflictFixer =
 
             for(var j = 0; j < reusedCssNodes.length; j++)
             {
-                var cssNode = reusedCssNodes[j].model;
+                var cssNode = reusedCssNodes[j];
 
                 if(cssNode.selector == null || cssNode.selector.indexOf(change.oldValue) == -1) { continue; }
 
@@ -49,9 +49,154 @@ var ConflictFixer =
 
     },
 
-    _fixCssConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
+    _fixCssConflicts: function(pageAModel, pageBModel)
     {
+        this._migrateNonMovableNodeAttributes(pageAModel.cssNodes, pageAModel.trackedElementsSelectors, pageAModel);
 
+        this._expandAllSelectors(pageAModel.cssNodes, "r");
+        this._expandAllSelectors(pageBModel.cssNodes, null);
+    },
+
+    _expandAllSelectors: function(cssNodes, origin)
+    {
+        var attributeSelector = origin == "r" ? this.generateReuseAttributeSelector()
+                                              : this.generateOriginalAttributeSelector();
+
+        for(var i = 0; i < cssNodes.length; i++)
+        {
+            var cssNode = cssNodes[i];
+
+            var simpleSelectors = this._getSimpleSelectors(cssNode);
+            var updatedSelectors = [];
+            var newSelectorValue = "";
+
+            for(var j = 0; j < simpleSelectors.length; j++)
+            {
+                var simpleSelector = simpleSelectors[j];
+                var cleansedSelector = simpleSelector.trim();
+
+                if(updatedSelectors.length != 0) { newSelectorValue += ", "; }
+
+                if(cleansedSelector == "body" || cleansedSelector == "html")
+                {
+                    updatedSelectors.push(cleansedSelector);
+                    newSelectorValue += cleansedSelector;
+                    continue;
+                }
+
+                if(CssSelectorParser.endsWithPseudoSelector(cleansedSelector))
+                {
+                    var modifiedSelector = CssSelectorParser.appendBeforeLastPseudoSelector(cleansedSelector, attributeSelector);
+                    updatedSelectors.push(modifiedSelector);
+                    newSelectorValue += modifiedSelector;
+                }
+                else
+                {
+                    updatedSelectors.push(cleansedSelector + attributeSelector);
+                    newSelectorValue += cleansedSelector + attributeSelector;
+                }
+            }
+
+            if(newSelectorValue.trim() == "") { continue; }
+
+            cssNode.selector = newSelectorValue;
+
+            if(cssNode.selector.trim() == "[o=r], body") { debugger; }
+            cssNode.cssText = cssNode.cssText.replace(this._getSelectorPartFromCssText(cssNode.cssText), cssNode.selector + "{ ");
+        }
+    },
+
+    _getSimpleSelectors: function(cssNode)
+    {
+        if(cssNode == null || cssNode.selector == null) { return []; }
+
+        return cssNode.selector.split(",");
+    },
+
+    _migrateNonMovableNodeAttributes: function(cssNodes, selectors, appModel)
+    {
+        var nonMovableCssSelectorNodes = this._getNonMovableTypesCssNodes(cssNodes);
+        var selectedNodes = this._getNodesBySelectors(appModel.htmlElement, selectors);
+
+        for(var i = 0; i < nonMovableCssSelectorNodes.length; i++)
+        {
+            var cssSelectorNode = nonMovableCssSelectorNodes[i];
+            var cssProperties = this._getCssPropertiesFromCssNode(cssSelectorNode);
+
+            for(var j = 0; j < selectedNodes.length; j++)
+            {
+                var selectedHtmlNode = selectedNodes[j];
+
+                var styleAttribute = this._getAttribute(selectedHtmlNode, "style");
+
+                if(styleAttribute == null)
+                {
+                    selectedHtmlNode.attributes.push
+                    ({
+                        name:"style",
+                        value: cssProperties
+                    });
+                }
+                else
+                {
+                    styleAttribute.value += " " + cssProperties;
+                }
+
+                var processedSelector = cssSelectorNode.selector.trim();
+
+                if(processedSelector == "html" || processedSelector == "body")
+                {
+                    this._removeFromParent(cssSelectorNode);
+                }
+                else
+                {
+                    if(processedSelector.indexOf("html") != -1)
+                    {
+                        this._replaceSelectorInCssNode(cssSelectorNode, "html", "");
+                    }
+                    else if(processedSelector.indexOf("body") != -1)
+                    {
+                        this._replaceSelectorInCssNode(cssSelectorNode, "body", "");
+                    }
+                }
+            }
+        }
+    },
+
+    _getNonMovableTypesCssNodes: function(cssNodes)
+    {
+        var nonMovableSelectorNodes = [];
+
+        for(var i = 0; i < cssNodes.length; i++)
+        {
+            var cssNode = cssNodes[i];
+
+            if(this._containsNonMovableTypeSelector(cssNode.selector))
+            {
+                nonMovableSelectorNodes.push(cssNode);
+            }
+        }
+
+        return nonMovableSelectorNodes;
+    },
+
+    _containsNonMovableTypeSelector: function(selector)
+    {
+        if(selector == null || selector == "") { return false; }
+
+        var simpleSelectors = selector.split(",");
+
+        for(var i = 0; i < simpleSelectors.length; i++)
+        {
+            var simpleSelector = simpleSelectors[i].trim();
+
+            if(simpleSelector == "body" || simpleSelector == "html")
+            {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     _getHtmlConflictChanges: function(pageAModel, pageBModel, reuseSelectors)
@@ -342,6 +487,86 @@ var ConflictFixer =
         console.log("There is no parenthesis in css rule!");
 
         return "";
+    },
+
+    _getNodesBySelectors: function(node, selectors)
+    {
+        if(node == null || node.childNodes == null || node.childNodes.length == 0) { return []; }
+
+        var resultingNodes = [];
+
+        for(var i = 0; i < node.childNodes.length; i++)
+        {
+            var child = node.childNodes[i];
+            var lowerType = child.type.toLowerCase();
+
+            if(lowerType == "textnode" || child.type == "meta" || child.type == "script") { continue; }
+
+            if(this._matchesSelectors(child, selectors))
+            {
+                resultingNodes.push(child);
+            }
+
+            ValueTypeHelper.pushAll(resultingNodes, this._getNodesBySelectors(child, selectors));
+        }
+
+        return resultingNodes;
+    },
+
+    _matchesSelectors: function(node, selectors)
+    {
+        if(node == null || selectors == null || selectors.length == 0) { return false; }
+
+        for(var i = 0; i < selectors.length; i++)
+        {
+            if(this._matchesSelector(node, selectors[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _matchesSelector: function(node, selector)
+    {
+        if(node == null || selector == null) { return false; }
+
+        //TODO - make bulletproof; should break classes into sections...
+        if(CssSelectorParser.isClassSelector(selector))
+        {
+            var classAttr = this._getAttribute(node, "class");
+
+            if(classAttr == null || classAttr.value == "") { return false; }
+
+            return classAttr.value.split(/(\s)+/).indexOf(selector.substring(1)) != -1;
+        }
+        else if (CssSelectorParser.isIdSelector(selector))
+        {
+            var idAttr = this._getAttribute(node, "id");
+
+            if(idAttr == null) { return false; }
+
+            return idAttr.value == selector.substring(1);
+        }
+        else
+        {
+            return node.type == selector;
+        }
+    },
+
+    _getAttribute: function(node, attributeName)
+    {
+        if(node == null || node.attributes == null || node.attributes.length == 0 || attributeName == null || attributeName == "") { return null; }
+
+        for(var i = 0; i < node.attributes.length; i++)
+        {
+            var attribute = node.attributes[i];
+
+            if(attribute.name == attributeName) { return attribute; }
+        }
+
+        return null;
     }
 };
 

@@ -684,7 +684,7 @@ Firecrow.ASTHelper = ASTHelper =
 
         this.traverseAst(programModel, function(propertyValue, propertyName, parentElement)
         {
-            if(copyOnlyUsedElements && (!parentElement.shouldBeIncluded || !propertyValue.shouldBeIncluded))
+            if(copyOnlyUsedElements && (!parentElement.shouldBeIncluded || !propertyValue.shouldBeIncluded) && parentElement.type != "Program")
             {
                 return;
             }
@@ -694,7 +694,7 @@ Firecrow.ASTHelper = ASTHelper =
 
             if(mappedParentElement == null) { return; }
 
-            var isPropertyArray = Firecrow.ValueTypeHelper.isArray(parentElement[propertyName]);
+            var isPropertyArray = ValueTypeHelper.isArray(parentElement[propertyName]);
 
             if(mappedParentElement[propertyName] == null)
             {
@@ -732,7 +732,7 @@ Firecrow.ASTHelper = ASTHelper =
 
         for(var prop in originalNode)
         {
-            if(!Firecrow.ValueTypeHelper.isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp || prop == "comments")
+            if(!ValueTypeHelper.isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp || prop == "comments")
             {
                 clone[prop] = originalNode[prop];
             }

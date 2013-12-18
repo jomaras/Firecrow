@@ -37,7 +37,6 @@ var Reuser =
         this._createChildren(mergedBodyNode, pageBBodyNode, null);
         this._createChildren(mergedBodyNode, pageABodyNode, "r");
 
-
         if(!this._areSelectorsSupported(pageAModel.trackedElementsSelectors.concat(pageBModel.reuseIntoDestinationSelectors)))
         {
             console.warn("Used selectors are not supported in Reuser - only simple selectors by class and id!");
@@ -276,7 +275,7 @@ var Reuser =
         }
         else
         {
-            alert("Unknown code model!");
+            console.log("Unknown code model!");
         }
     },
 
@@ -306,7 +305,7 @@ var Reuser =
     {
         if(originalModel == null || originalModel.type != "Program") { return null; }
 
-        return Firecrow.ASTHelper.createCopy(originalModel, origin == "r");
+        return ASTHelper.createCopy(originalModel, origin == "r");
     },
 
     _cloneShallowMarkConflicts: function(node, conflictedNode)
