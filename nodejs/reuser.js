@@ -4,10 +4,10 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/1/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/1/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/2/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/2/pageB.html-codeModel.txt");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/1/expectedResult.html");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/2/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
@@ -54,7 +54,7 @@ spawnPhantomJsProcess
     {
         pageAExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionSummaryFile, {encoding: "utf8"}));
 
-        updatePageModel(pageAExecutionSummary, pageAModelMapping);
+        updatePageModel(pageAExecutionSummary, pageAModelMapping, pageAModel);
 
         copyFileContent(pageBModelPath, scenarioModelForReuserPath);
         console.log("reuser:", "Analyzing", pageBModelPath);
@@ -66,7 +66,7 @@ spawnPhantomJsProcess
             function onClose()
             {
                 pageBExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionSummaryFile, {encoding: "utf8"}));
-                updatePageModel(pageBExecutionSummary, pageBModelMapping);
+                updatePageModel(pageBExecutionSummary, pageBModelMapping, pageBModel);
                 performReuse(pageAExecutionSummary, pageBExecutionSummary);
             }
         );
@@ -103,12 +103,19 @@ function performReuse(pageAExecutionSummary, pageBExecutionSummary)
     }
 }
 
-function updatePageModel(executionSummary, pageModelMapping)
+function updatePageModel(executionSummary, pageModelMapping, pageModel)
 {
     updateIncludedNodes(executionSummary.includedNodeIds, pageModelMapping);
-    updatePageModelNodesWithDependencies(executionSummary.dependencyGraph.htmlNodes, pageModelMapping);
-    updatePageModelNodesWithDependencies(executionSummary.dependencyGraph.cssNodes, pageModelMapping);
-    updatePageModelNodesWithDependencies(executionSummary.dependencyGraph.jsNodes, pageModelMapping);
+
+    pageModel.htmlNodes = [];
+    pageModel.cssNodes = [];
+    pageModel.jsNodes = [];
+
+    updatePageModelNodes(executionSummary.dependencyGraph.htmlNodes, pageModelMapping, pageModel);
+    updatePageModelNodes(executionSummary.dependencyGraph.cssNodes, pageModelMapping, pageModel);
+    updatePageModelNodes(executionSummary.dependencyGraph.jsNodes, pageModelMapping, pageModel);
+
+    updateDomQueriesMap(executionSummary.domQueriesMap, pageModelMapping);
 }
 
 function updateIncludedNodes(includedNodeIds, pageModelMapping)
@@ -123,7 +130,7 @@ function updateIncludedNodes(includedNodeIds, pageModelMapping)
     }
 }
 
-function updatePageModelNodesWithDependencies(nodes, pageModelMapping)
+function updatePageModelNodes(nodes, pageModelMapping, pageModel)
 {
     for(var i = 0; i < nodes.length; i++)
     {
@@ -132,6 +139,10 @@ function updatePageModelNodesWithDependencies(nodes, pageModelMapping)
         if(node.modelId != -1)
         {
             var nodeModel = pageModelMapping[node.modelId];
+
+                 if(node.type == "html") { pageModel.htmlNodes.push(nodeModel); }
+            else if(node.type == "css") { pageModel.cssNodes.push(nodeModel); }
+            else if(node.type == "js") { pageModel.jsNodes.push(nodeModel); }
 
             nodeModel.dependencies = getUpdatedDependencies(node.dataDependencies, pageModelMapping);
         }
@@ -154,6 +165,14 @@ function getUpdatedDependencies(dependencies, pageModelMapping)
     }
 
     return updatedDependencies;
+}
+
+function updateDomQueriesMap(domQueriesMap, pageModelMapping)
+{
+    for(var nodeId in domQueriesMap)
+    {
+        domQueriesMap[nodeId].codeConstruct = pageModelMapping[nodeId];
+    }
 }
 
 function createModelMapping(pageModel)

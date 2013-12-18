@@ -192,6 +192,9 @@
         });
 
         executionInfo.includedNodeIds = includedNodeIds;
+        executionInfo.domQueriesMap = browser.domQueriesMap;
+        executionInfo.dynamicIdMap = browser.dynamicIdMap;
+        executionInfo.dynamicClassMap = browser.dynamicClassMap;
         executionInfoTextArea.textContent = JSON.stringify(executionInfo);
     })();
 </script>

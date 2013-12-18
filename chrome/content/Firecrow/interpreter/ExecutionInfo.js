@@ -50,8 +50,23 @@ fcBrowser.ExecutionInfo.prototype =
     {
         return {
             dependencyGraph: this.dependencyGraph,
-            includedNodeIds: this.includedNodeIds
+            includedNodeIds: this.includedNodeIds,
+            domQueriesMap: this._getSimplifiedDomQueries(this.domQueriesMap),
+            dynamicIdMap: this.dynamicIdMap,
+            dynamicClassMap: this.dynamicClassMap
         };
+    },
+
+    _getSimplifiedDomQueries: function(domQueriesMap)
+    {
+        var simplifiedMap = {};
+
+        for(var prop in domQueriesMap)
+        {
+            simplifiedMap[prop] = { methodName: domQueriesMap[prop].methodName, selectorsMap: domQueriesMap[prop].selectorsMap };
+        }
+
+        return simplifiedMap;
     },
 
     toJSON: function()

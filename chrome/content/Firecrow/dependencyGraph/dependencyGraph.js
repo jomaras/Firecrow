@@ -74,7 +74,7 @@ FBL.ns(function() { with (FBL) {
 
             this.nodes.push(node);
 
-            if (node.type == "html") { this.htmlNodes.push(node); }
+                 if (node.type == "html") { this.htmlNodes.push(node); }
             else if (node.type == "css") { this.cssNodes.push(node); }
             else if (node.type == "js") { this.jsNodes.push(node); }
         },

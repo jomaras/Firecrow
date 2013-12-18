@@ -45,6 +45,8 @@ FBL.ns(function() { with (FBL) {
             this.breakContinueReturnEventsCallbacks = [];
 
             this.domQueriesMap = {};
+            this.dynamicIdMap = {};
+            this.dynamicClassMap = {};
 
             this.errorMessages = [];
             this.cssRules = [];
@@ -1131,6 +1133,20 @@ FBL.ns(function() { with (FBL) {
             }
 
             this.domQueriesMap[codeConstruct.nodeId].selectorsMap[selector] = true;
+        },
+
+        logDynamicId: function(idValue, codeConstructId)
+        {
+            if(this.dynamicIdMap[idValue] == null) { this.dynamicIdMap[idValue] = { value: idValue, codeConstructIdMap: {}}; }
+
+            this.dynamicIdMap[idValue].codeConstructIdMap[codeConstructId] = 1;
+        },
+
+        logDynamicClass: function(classValue, codeConstructId)
+        {
+            if(this.dynamicClassMap[classValue] == null) { this.dynamicClassMap[classValue] = { value: classValue, codeConstructIdMap: {}}; }
+
+            this.dynamicClassMap[classValue].codeConstructIdMap[codeConstructId] = 1;
         },
 
         //TODO - think about new name
