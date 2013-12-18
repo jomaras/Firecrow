@@ -49,7 +49,8 @@ fcBrowser.ExecutionInfo.prototype =
     toReuseJson: function()
     {
         return {
-            test: "test"
+            dependencyGraph: this.dependencyGraph,
+            includedNodeIds: this.includedNodeIds
         };
     },
 

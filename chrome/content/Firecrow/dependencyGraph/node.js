@@ -18,7 +18,7 @@ FBL.ns(function() { with (FBL) {
         this.model.graphNode = this;
         this.idString = this.generateId();
 
-        this.idNum = Node.LAST_ID++;
+        this.idNum = fcGraph.Node.LAST_ID++;
     };
 
     fcGraph.Node.notifyError = function(message) { alert("Node - " + message); }
@@ -36,6 +36,39 @@ FBL.ns(function() { with (FBL) {
         isCssNode: function() { return this.isNodeOfType("css"); },
         isJsNode: function() { return this.isNodeOfType("js"); },
         isResourceNode: function() { return this.isNodeOfType("resource"); },
+
+        getSimplified: function()
+        {
+            return {
+                modelId : this.model != null ? this.model.nodeId : -1,
+                type: this.type,
+                isDynamic: this.isDynamic ? 1 : undefined,
+                dataDependencies: this._getSimplifiedDataDependencies()
+            };
+        },
+
+        _getSimplifiedDataDependencies: function()
+        {
+            var simplifiedDependencies = [];
+            var simplifiedDependenciesMap = {};
+
+            for(var i = 0; i < this.dataDependencies.length; i++)
+            {
+                var dependency = this.dataDependencies[i];
+
+                if(!dependency.isValueDependency) { continue; }
+
+                var edgeSignature = dependency.getEdgeSignature();
+
+                if(!simplifiedDependenciesMap[edgeSignature])
+                {
+                    simplifiedDependencies.push(dependency.getSimplified());
+                    simplifiedDependenciesMap[edgeSignature] = true;
+                }
+            }
+
+            return simplifiedDependencies;
+        },
 
         addStructuralDependency: function(destinationNode, isDynamic)
         {

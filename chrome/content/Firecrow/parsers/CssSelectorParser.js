@@ -1,4 +1,12 @@
 //https://github.com/subtleGradient/slick/blob/master/Source/Slick.Parser.js
+var usesModule = typeof module !== 'undefined' && module.exports;
+var ASTHelper;
+if(usesModule)
+{
+    var CssSelectorParser;
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+}
+
 FBL.ns(function() { with (FBL) {
 /*****************************************************/
 (function(){
@@ -193,7 +201,7 @@ FBL.ns(function() { with (FBL) {
         return '';
     };
 
-    Firecrow.CssSelectorParser = {
+    Firecrow.CssSelectorParser = CssSelectorParser = {
         isIdSelector: function(selector) { return selector != null && selector.indexOf("#") == 0; },
         isClassSelector: function(selector) { return selector != null && selector.indexOf(".") == 0; },
 
@@ -326,3 +334,8 @@ FBL.ns(function() { with (FBL) {
 })();
 /*******************************************************/
 }});
+
+if(usesModule)
+{
+    exports.CssSelectorParser = CssSelectorParser;
+}

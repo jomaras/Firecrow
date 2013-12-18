@@ -173,7 +173,21 @@
         loadingTimeTextArea.textContent = dateNow() - startTime;
         slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
         noEvaluatedExpressionsTextArea.textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
+
         executionInfo.setSerializeToReuseJson();
+        executionInfo.dependencyGraph = result.dependencyGraph.getSimplified();
+        var includedNodeIdMap = {};
+        var includedNodeIds = [];
+        Firecrow.ASTHelper.traverseAst(pageModel, function(element)
+        {
+            if(!includedNodeIdMap[element.nodeId] && element.shouldBeIncluded)
+            {
+                includedNodeIds.push(element.nodeId);
+                includedNodeIdMap[element.nodeId] = true;
+            }
+        });
+
+        executionInfo.includedNodeIds = includedNodeIds;
         executionInfoTextArea.textContent = JSON.stringify(executionInfo);
     })();
 </script>

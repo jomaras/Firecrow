@@ -53,6 +53,22 @@ Firecrow.DependencyGraph.Edge = function(sourceNode, destinationNode, isDynamic,
      console.log(location.replace(/\n/," ") + "; index:" + index + "; " + "; info: " + dependencyInfo + "; aInfo: " + additionalInfo);*/
 };
 
+Firecrow.DependencyGraph.Edge.prototype.getEdgeSignature = function()
+{
+    var sourceSignature = this.sourceNode.model != null ? this.sourceNode.model.nodeId : -1;
+    var destinationSignature = this.destinationNode.model != null ? this.destinationNode.model.nodeId : -1;
+
+    return sourceSignature + "-" + destinationSignature;
+};
+
+Firecrow.DependencyGraph.Edge.prototype.getSimplified = function()
+{
+    return {
+        sourceNodeId: this.sourceNode.model != null ? this.sourceNode.model.nodeId : -1,
+        destinationNodeId: this.destinationNode.model != null ? this.destinationNode.model.nodeId : -1
+    };
+};
+
 Firecrow.DependencyGraph.Edge.notifyError = function(message) { alert("Edge - " + message); }
 /*************************************************************************************/
 }});

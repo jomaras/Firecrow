@@ -46,6 +46,28 @@ FBL.ns(function() { with (FBL) {
 
     DependencyGraph.prototype = dummy =
     {
+        getSimplified: function()
+        {
+            var simplifiedDependencyGraph = { htmlNodes:[], cssNodes:[], jsNodes:[] };
+
+            for(var i = 0; i < this.htmlNodes.length; i++)
+            {
+                simplifiedDependencyGraph.htmlNodes.push(this.htmlNodes[i].getSimplified());
+            }
+
+            for(var i = 0; i < this.cssNodes.length; i++)
+            {
+                simplifiedDependencyGraph.cssNodes.push(this.cssNodes[i].getSimplified());
+            }
+
+            for(var i = 0; i < this.jsNodes.length; i++)
+            {
+                simplifiedDependencyGraph.jsNodes.push(this.jsNodes[i].getSimplified());
+            }
+
+            return simplifiedDependencyGraph;
+        },
+
         addNode: function(node)
         {
             if(!ValueTypeHelper.isOfType(node, Node)) { this.notifyError("Node is not of type DependencyGraph.Node!"); return; }
