@@ -105,7 +105,7 @@
         {
             vertical-align: top;
         }
-        #slicingResultTextArea
+        #slicingResultTextArea, #wholeCodeTextArea
         {
             width: 70%;
             height: 600px;
@@ -114,6 +114,7 @@
 </head>
 <body>
 <iframe id="firecrowFrame" height="800" width="1000"></iframe>
+<textarea id="wholeCodeTextArea"></textarea>
 <textarea id="slicingResultTextArea"></textarea>
 <textarea id="loadingTimeTextArea"></textarea>
 <textarea id="astNodesTextArea"></textarea>
@@ -131,6 +132,7 @@
         var slicingCriteriaCountTextArea = document.getElementById("slicingCriteriaCountTextArea");
         var noEvaluatedExpressionsTextArea = document.getElementById("noEvaluatedExpressionsTextArea");
         var executionInfoTextArea = document.getElementById("executionInfo");
+        var wholeCodeTextArea = document.getElementById("wholeCodeTextArea");
 
         var pageModel = HtmlModelMapping[0].model;
 
@@ -169,6 +171,7 @@
         var executionInfo = browser.getExecutionInfo();
 
         slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+        wholeCodeTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateStandAloneCode(pageModel.htmlElement);
 
         astNodesTextArea.textContent = nodeId;
         loadingTimeTextArea.textContent = dateNow() - startTime;

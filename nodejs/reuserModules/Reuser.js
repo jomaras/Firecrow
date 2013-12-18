@@ -4,6 +4,7 @@ var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/h
 var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Firecrow/parsers/CssSelectorParser.js")).CssSelectorParser;
 var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
 var ConflictFixer = require(path.resolve(__dirname, "ConflictFixer.js")).ConflictFixer;
+var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
 
 var Reuser =
 {
@@ -36,6 +37,7 @@ var Reuser =
         this._createChildren(mergedBodyNode, pageBBodyNode, null);
         this._createChildren(mergedBodyNode, pageABodyNode, "r");
 
+
         if(!this._areSelectorsSupported(pageAModel.trackedElementsSelectors.concat(pageBModel.reuseIntoDestinationSelectors)))
         {
             console.warn("Used selectors are not supported in Reuser - only simple selectors by class and id!");
@@ -54,7 +56,7 @@ var Reuser =
         var newParents = this._getNodesBySelectors(mergedModel, reuseIntoDestinationSelectors);
 
         if(nodesToMove == null || nodesToMove.length == 0) { return; }
-        if(newParents == null || newParents.length == 0) { debugger; alert("A node should be moved!"); return; }
+        if(newParents == null || newParents.length == 0) { debugger; console.log("A node should be moved!"); return; }
 
         var newParent = newParents[0];
 
@@ -64,13 +66,7 @@ var Reuser =
 
             if(node.parent == newParent) { continue; }
 
-            //remove from previous position
-            try
-            {
-                Firecrow.ValueTypeHelper.removeFromArrayByElement(node.parent.childNodes, node);
-            }
-            catch(e){debugger;}
-
+            ValueTypeHelper.removeFromArrayByElement(node.parent.childNodes, node);
 
             newParent.childNodes.push(node);
             node.parent = newParent;
