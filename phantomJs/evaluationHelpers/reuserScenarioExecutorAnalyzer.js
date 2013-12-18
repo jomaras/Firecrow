@@ -11,7 +11,7 @@ var currentDirectoryPath = currentFilePath.replace(/[a-zA-Z]+\.[a-zA-Z]+/,"");
 fs.changeWorkingDirectory(currentDirectoryPath);
 
 var scenarioExecutorUrl = fs.absolute("../helperPages/reuserScenarioExecutorAnalyzer.html");
-var scenarioExecutorDataFile = fs.absolute("../dataFiles/scenarioExecutor.txt");
+var scenarioExecutorDataFile = fs.absolute("../dataFiles/scenarioExecutorAnalyzer.txt");
 
 fs.write(scenarioExecutorDataFile, "");
 

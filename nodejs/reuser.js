@@ -4,19 +4,22 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/2/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/2/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/4/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/4/pageB.html-codeModel.txt");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/2/expectedResult.html");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/4/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
 
-var scenarioModelForReuserPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuser.txt");
-var phantomReuseSlicerScript = path.resolve(__dirname, "../phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js");
-var phantomReuseAnalyzerScript = path.resolve(__dirname, "../phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js");
+var scenarioModelForReuserSlicerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserSlicer.txt");
+var scenarioModelForReuserAnalyzerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt");
 
-var scenarioExecutionSummaryFile = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioExecutor.txt");
+var phantomReuseSlicerScript = path.resolve(__dirname, "../phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js");
+var phantomReuseAnalyzerScript = path.resolve(__dirname, "../phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js");
+
+var scenarioExecutionSlicerSummaryFile = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioExecutorSlicer.txt");
+var scenarioExecutionAnalyzerSummaryFile = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioExecutorAnalyzer.txt");
 
 var Reuser = require(path.resolve(__dirname, "reuserModules/Reuser.js")).Reuser;
 var ASTHelper = require(path.resolve(__dirname, "../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
@@ -44,7 +47,7 @@ var pageBExecutionSummary = null;
 ASTHelper.setParentsChildRelationships(pageAModel);
 ASTHelper.setParentsChildRelationships(pageBModel);
 
-copyFileContent(pageAModelPath, scenarioModelForReuserPath);
+copyFileContent(pageAModelPath, scenarioModelForReuserSlicerPath);
 console.log("reuser:", "Slicing", pageAModelPath);
 spawnPhantomJsProcess
 (
@@ -52,11 +55,11 @@ spawnPhantomJsProcess
     function onData(data) { console.log("PhantomJs-ReuseSlicer:", data.toString()); },
     function onClose()
     {
-        pageAExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionSummaryFile, {encoding: "utf8"}));
+        pageAExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionSlicerSummaryFile, {encoding: "utf8"}));
 
         updatePageModel(pageAExecutionSummary, pageAModelMapping, pageAModel);
 
-        copyFileContent(pageBModelPath, scenarioModelForReuserPath);
+        copyFileContent(pageBModelPath, scenarioModelForReuserAnalyzerPath);
         console.log("reuser:", "Analyzing", pageBModelPath);
 
         spawnPhantomJsProcess
@@ -65,7 +68,7 @@ spawnPhantomJsProcess
             function onData(data) { console.log("PhantomJs-ReuseAnalyzer:" + data.toString()); },
             function onClose()
             {
-                pageBExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionSummaryFile, {encoding: "utf8"}));
+                pageBExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionAnalyzerSummaryFile, {encoding: "utf8"}));
                 updatePageModel(pageBExecutionSummary, pageBModelMapping, pageBModel);
                 performReuse(pageAExecutionSummary, pageBExecutionSummary);
             }
@@ -143,6 +146,11 @@ function updatePageModelNodes(nodes, pageModelMapping, pageModel)
                  if(node.type == "html") { pageModel.htmlNodes.push(nodeModel); }
             else if(node.type == "css") { pageModel.cssNodes.push(nodeModel); }
             else if(node.type == "js") { pageModel.jsNodes.push(nodeModel); }
+
+            if(nodeModel == null)
+            {
+                debugger;
+            }
 
             nodeModel.dependencies = getUpdatedDependencies(node.dataDependencies, pageModelMapping);
         }
