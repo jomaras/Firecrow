@@ -385,6 +385,25 @@ FBL.ns(function() { with (FBL) {
             return this.executionInfo;
         },
 
+        getSimplifiedUndefinedGlobalPropertiesAccessMap: function()
+        {
+            var simplified = {};
+
+            var map = this.getUndefinedGlobalPropertiesAccessMap();
+
+            for(var varName in map)
+            {
+                simplified[varName] = {};
+
+                for(var constructId in map[varName])
+                {
+                    simplified[varName][constructId] = {nodeId: constructId };
+                }
+            }
+
+            return simplified;
+        },
+
         getUndefinedGlobalPropertiesAccessMap: function()
         {
             var map = {};

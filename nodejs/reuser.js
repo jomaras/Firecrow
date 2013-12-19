@@ -4,10 +4,10 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/14/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/14/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/19/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/19/pageB.html-codeModel.txt");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/14/expectedResult.html");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/19/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
@@ -123,6 +123,8 @@ function updatePageModel(executionSummary, pageModelMapping, pageModel)
 
     updateDynamicIds(executionSummary.dynamicIdMap, pageModelMapping);
     updateDynamicClasses(executionSummary.dynamicClassMap, pageModelMapping);
+
+    updateUndefinedGlobalProperties(executionSummary.undefinedGlobalProperties, pageModelMapping);
 }
 
 function updateIncludedNodes(includedNodeIds, pageModelMapping)
@@ -243,6 +245,19 @@ function updateDynamicClasses(dynamicClassesMap, pageModelMapping)
                     model.dynamicClasses.push({name: "class", value: item.value, setConstruct: pageModelMapping[setConstructId]});
                 }
             }
+        }
+    }
+}
+
+function updateUndefinedGlobalProperties(undefinedGlobalProperties, pageModelMapping)
+{
+    for(var propName in undefinedGlobalProperties)
+    {
+        var property = undefinedGlobalProperties[propName];
+
+        for(var nodeId in property)
+        {
+            property[nodeId] = pageModelMapping[nodeId];
         }
     }
 }

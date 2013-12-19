@@ -11,9 +11,13 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" />
@@ -69,25 +73,43 @@
       <file leaf-file-name="reuser.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="78" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4828">
+            <state line="259" column="28" selection-start="9683" selection-end="9683" vertical-scroll-proportion="0.0" vertical-offset="4012" max-vertical-offset="5083">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConflictFixer.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="reuserScenarioExecutorAnalyzer.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="179" column="47" selection-start="11115" selection-end="11140" vertical-scroll-proportion="-11.653846" vertical-offset="2740" max-vertical-offset="3264">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="reuserScenarioExecutorSlicer.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="171" column="0" selection-start="10660" selection-end="10660" vertical-scroll-proportion="-5.769231" vertical-offset="2757" max-vertical-offset="3247">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConflictFixer.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="795" column="0" selection-start="31287" selection-end="31287" vertical-scroll-proportion="0.0" vertical-offset="13348" max-vertical-offset="18751">
+            <state line="188" column="55" selection-start="8931" selection-end="8931" vertical-scroll-proportion="0.41701245" vertical-offset="2995" max-vertical-offset="18751">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ASTHelper.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1295" column="33" selection-start="42757" selection-end="42757" vertical-scroll-proportion="0.27593362" vertical-offset="21882" max-vertical-offset="30209">
+            <state line="1302" column="12" selection-start="43063" selection-end="43063" vertical-scroll-proportion="0.0" vertical-offset="21525" max-vertical-offset="30209">
               <folding />
             </state>
           </provider>
@@ -102,55 +124,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dependencyGraph.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="68" selection-start="2744" selection-end="2744" vertical-scroll-proportion="0.0" vertical-offset="727" max-vertical-offset="9588">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="node.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="70" selection-start="1771" selection-end="1771" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="4080">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DocumentExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="52" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1785">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="InternalExecutor.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="114" column="52" selection-start="4907" selection-end="4907" vertical-scroll-proportion="0.0" vertical-offset="1658" max-vertical-offset="7786">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Object.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="405" column="68" selection-start="13309" selection-end="13309" vertical-scroll-proportion="0.0" vertical-offset="6635" max-vertical-offset="8398">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reuser.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1508" column="35" selection-start="56209" selection-end="56240" vertical-scroll-proportion="0.0" vertical-offset="25411" max-vertical-offset="27642">
               <folding />
             </state>
           </provider>
@@ -188,19 +165,19 @@
         <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js" />
         <option value="$PROJECT_DIR$/nodejs/reuserModules/Reuser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-        <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
-        <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-        <option value="$PROJECT_DIR$/nodejs/reuser.js" />
-        <option value="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+        <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
+        <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuser.js" />
       </list>
     </option>
   </component>
@@ -3317,7 +3294,11 @@
       <created>1387448801115</created>
       <updated>1387448801115</updated>
     </task>
-    <option name="localTasksCounter" value="682" />
+    <task id="LOCAL-00682" summary="Modifications to support finding variable declarations in the new environment">
+      <created>1387449949857</created>
+      <updated>1387449949857</updated>
+    </task>
+    <option name="localTasksCounter" value="683" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3419,7 +3400,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="- when generating scenarios the scenario generator process checks if the  phantomJs process hangs (kills it, if it does)" />
     <MESSAGE value="- removing apsolute paths from nodeJs scripts" />
     <MESSAGE value="- ConstraintSolver from nodeJs does not rely on phantomJs nor on php" />
     <MESSAGE value="-With minor memory machinations (only writing the executionInfo for each event to a file in phantomJs/dataFiles/eventExecutions/" />
@@ -3444,7 +3424,8 @@
     <MESSAGE value="Bug fix when serializing into code pageAScriptCode in Reuser" />
     <MESSAGE value="Bug fix when copying RegEx node in Reuser" />
     <MESSAGE value="Fixing dynamic class problems, and javascript problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing dynamic class problems, and javascript problems" />
+    <MESSAGE value="Modifications to support finding variable declarations in the new environment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modifications to support finding variable declarations in the new environment" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3452,31 +3433,10 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="83" />
+      <option name="time" value="85" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="50" selection-start="1698" selection-end="1698" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="11951">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="176" column="8" selection-start="10911" selection-end="11124" vertical-scroll-proportion="-9.038462" vertical-offset="2757" max-vertical-offset="3230">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="78" selection-start="10475" selection-end="10475" vertical-scroll-proportion="-3.1538463" vertical-offset="2740" max-vertical-offset="3247">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1508" column="35" selection-start="56209" selection-end="56240" vertical-scroll-proportion="0.0" vertical-offset="25411" max-vertical-offset="27642">
@@ -3519,16 +3479,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1143" column="10" selection-start="48051" selection-end="48051" vertical-scroll-proportion="0.0" vertical-offset="19168" max-vertical-offset="22508">
+        <state line="114" column="52" selection-start="4907" selection-end="4907" vertical-scroll-proportion="0.0" vertical-offset="1658" max-vertical-offset="7786">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1302" column="12" selection-start="43063" selection-end="43063" vertical-scroll-proportion="0.0" vertical-offset="21525" max-vertical-offset="30209">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="68" selection-start="2744" selection-end="2744" vertical-scroll-proportion="0.0" vertical-offset="574" max-vertical-offset="9588">
+        <state line="79" column="68" selection-start="2744" selection-end="2744" vertical-scroll-proportion="1.375" vertical-offset="727" max-vertical-offset="9588">
           <folding />
         </state>
       </provider>
@@ -3540,30 +3507,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="78" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4828">
+        <state line="171" column="0" selection-start="10660" selection-end="10660" vertical-scroll-proportion="-5.769231" vertical-offset="2757" max-vertical-offset="3247">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="52" selection-start="4907" selection-end="4907" vertical-scroll-proportion="0.0" vertical-offset="1658" max-vertical-offset="7786">
+        <state line="179" column="47" selection-start="11115" selection-end="11140" vertical-scroll-proportion="-11.653846" vertical-offset="2740" max-vertical-offset="3264">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="53" selection-start="1979" selection-end="1979" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="11968">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="399" column="76" selection-start="16969" selection-end="16969" vertical-scroll-proportion="0.0" vertical-offset="6457" max-vertical-offset="22831">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="259" column="28" selection-start="9683" selection-end="9683" vertical-scroll-proportion="0.0" vertical-offset="4012" max-vertical-offset="5083">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="795" column="0" selection-start="31287" selection-end="31287" vertical-scroll-proportion="0.0" vertical-offset="13348" max-vertical-offset="18751">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1295" column="33" selection-start="42757" selection-end="42757" vertical-scroll-proportion="0.27593362" vertical-offset="21882" max-vertical-offset="30209">
+        <state line="188" column="55" selection-start="8931" selection-end="8931" vertical-scroll-proportion="0.41701245" vertical-offset="2995" max-vertical-offset="18751">
           <folding />
         </state>
       </provider>

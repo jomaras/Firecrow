@@ -218,7 +218,7 @@ var ConflictFixer =
                 }
             }
 
-            var undefinedGlobalPropertiesMap = pageAExecutionSummary.undefinedGlobalPropertiesAccessMap;
+            var undefinedGlobalPropertiesMap = pageAExecutionSummary.undefinedGlobalProperties;
 
             for(var propertyName in undefinedGlobalPropertiesMap)
             {

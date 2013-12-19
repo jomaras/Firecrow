@@ -177,6 +177,7 @@
         executionInfo.dynamicClassMap = browser.dynamicClassMap;
         executionInfo.userSetGlobalProperties = browser.globalObject.getSimplifiedUserSetGlobalProperties();
         executionInfo.userSetDocumentProperties = browser.globalObject.getSimplifiedUserSetDocumentProperties();
+        executionInfo.undefinedGlobalProperties = browser.getSimplifiedUndefinedGlobalPropertiesAccessMap();
 
         executionInfoTextArea.textContent = JSON.stringify(executionInfo);
     })();
