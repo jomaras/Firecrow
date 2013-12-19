@@ -433,6 +433,23 @@ FBL.ns(function() { with (FBL) {
             return map;
         },
 
+        getSimplifiedResourceSetterMap: function()
+        {
+            var resourceSetterMap = this.getResourceSetterMap();
+            var simplified = {};
+
+            for(var nodeId in resourceSetterMap)
+            {
+                simplified[nodeId] =
+                {
+                    resourceValue: resourceSetterMap[nodeId].resourceValue,
+                    codeConstructId: nodeId
+                };
+            }
+
+            return simplified;
+        },
+
         getResourceSetterMap: function()
         {
             var map = {};

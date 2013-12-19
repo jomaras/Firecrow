@@ -1,13 +1,13 @@
-var EXPORTED_SYMBOLS = ["UriHelper"];
-
-if(typeof FBL === "undefined")
+var usesModule = typeof module !== 'undefined' && module.exports;
+var UriHelper;
+if(usesModule)
 {
-    FBL =  { ns:  function(namespaceFunction){ namespaceFunction(); }, Firecrow: {}};
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
 }
 
 FBL.ns(function () { with (FBL) {
 /******/
-Firecrow.UriHelper =
+Firecrow.UriHelper = UriHelper =
 {
     URI: null,
 
@@ -114,7 +114,7 @@ Firecrow.UriHelper =
 
 (function(undefined) {
 
-    var _use_module = typeof module !== "undefined" && module.exports,
+    var _use_module = false,
         _load_module = function(module) {
             return _use_module ? require('./' + module) : this[module];
         },
@@ -1706,14 +1706,18 @@ Firecrow.UriHelper =
 
         return true;
     };
-
-    (typeof module !== 'undefined' && module.exports
+    if(Firecrow != null && Firecrow.UriHelper != null)
+        Firecrow.UriHelper.URI = URI
+    /*(typeof module !== 'undefined' && module.exports
         ? module.exports = URI
-        : Firecrow.UriHelper.URI = URI);
+        : Firecrow.UriHelper.URI = URI);*/
 
 })();
 
 /******/
 }});
 
-var UriHelper = FBL.Firecrow.UriHelper;
+if(usesModule)
+{
+    exports.UriHelper = FBL.Firecrow.UriHelper;
+}
