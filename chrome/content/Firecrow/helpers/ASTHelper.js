@@ -684,7 +684,9 @@ Firecrow.ASTHelper = ASTHelper =
 
         this.traverseAst(programModel, function(propertyValue, propertyName, parentElement)
         {
-            if(copyOnlyUsedElements && (!parentElement.shouldBeIncluded || !propertyValue.shouldBeIncluded) && parentElement.type != "Program")
+            if(copyOnlyUsedElements
+           && (!parentElement.shouldBeIncluded || !propertyValue.shouldBeIncluded)
+           && parentElement.type != "Program" && propertyValue.RegExpBase64 == null)
             {
                 return;
             }

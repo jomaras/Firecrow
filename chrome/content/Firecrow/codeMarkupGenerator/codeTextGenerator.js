@@ -2,6 +2,7 @@ var usesModule = typeof module !== 'undefined' && module.exports;
 if(usesModule)
 {
     FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+    var atob = require("atob");
 }
 var CodeTextGenerator;
 FBL.ns(function () { with (FBL) {
@@ -1092,7 +1093,7 @@ Firecrow.CodeTextGenerator.prototype =
                 return literal.raw;
             }
 
-            return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace().replace(/\n/g, "\\n").replace(/\r/g, "\\r") + "'";
+            return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n").replace(/\r/g, "\\r") + "'";
         }
         else if (ValueTypeHelper.isBoolean(literal.value) || ValueTypeHelper.isNumber(literal.value)) { return literal.value; }
         else if(ValueTypeHelper.isObject(literal.value))
