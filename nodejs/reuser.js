@@ -4,10 +4,10 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/11/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/11/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/12/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/12/pageB.html-codeModel.txt");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/11/expectedResult.html");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/12/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
@@ -119,6 +119,10 @@ function updatePageModel(executionSummary, pageModelMapping, pageModel)
     updatePageModelNodes(executionSummary.dependencyGraph.jsNodes, pageModelMapping, pageModel);
 
     updateDomQueriesMap(executionSummary.domQueriesMap, pageModelMapping);
+    updateUserSetGlobalProperties(executionSummary.userSetGlobalProperties, pageModelMapping);
+
+    updateDynamicIds(executionSummary.dynamicIdMap, pageModelMapping);
+    updateDynamicClasses(executionSummary.dynamicClassMap, pageModelMapping);
 }
 
 function updateIncludedNodes(includedNodeIds, pageModelMapping)
@@ -143,6 +147,11 @@ function updatePageModelNodes(nodes, pageModelMapping, pageModel)
         {
             var nodeModel = pageModelMapping[node.modelId];
 
+            if(nodeModel == null)
+            {
+                pageModelMapping[node.modelId] = nodeModel = { type:"DummyCodeElement", nodeId: node.modelId };;
+            }
+
                  if(node.type == "html") { pageModel.htmlNodes.push(nodeModel); }
             else if(node.type == "css") { pageModel.cssNodes.push(nodeModel); }
             else if(node.type == "js") { pageModel.jsNodes.push(nodeModel); }
@@ -150,6 +159,7 @@ function updatePageModelNodes(nodes, pageModelMapping, pageModel)
             if(nodeModel != null)
             {
                 nodeModel.dependencies = getUpdatedDependencies(node.dataDependencies, pageModelMapping);
+                nodeModel.reverseDependencies = getUpdatedDependencies(node.reverseDependencies, pageModelMapping);
             }
         }
     }
@@ -178,6 +188,62 @@ function updateDomQueriesMap(domQueriesMap, pageModelMapping)
     for(var nodeId in domQueriesMap)
     {
         domQueriesMap[nodeId].codeConstruct = pageModelMapping[nodeId];
+    }
+}
+
+function updateUserSetGlobalProperties(userSetGlobalProperties, pageModelMapping)
+{
+    for(var i = 0; i < userSetGlobalProperties.length; i++)
+    {
+        var userSetGlobalProperty = userSetGlobalProperties[i];
+
+        userSetGlobalProperty.declarationConstruct = pageModelMapping[userSetGlobalProperty.declarationConstructId];
+    }
+}
+
+function updateDynamicIds(dynamicIdMap, pageModelMapping)
+{
+    for(var dynamicId in dynamicIdMap)
+    {
+        var item = dynamicIdMap[dynamicId];
+
+        for(var nodeId in item.nodeIdMap)
+        {
+            var model = pageModelMapping[nodeId];
+
+            if(model)
+            {
+                if(model.dynamicIds == null) { model.dynamicIds = []; }
+
+                for(var setConstructId in item.codeConstructIdMap)
+                {
+                    model.dynamicIds.push({name: "id", value: item.value, setConstruct: pageModelMapping[setConstructId]});
+                }
+            }
+        }
+    }
+}
+
+function updateDynamicClasses(dynamicClassesMap, pageModelMapping)
+{
+    for(var dynamicClass in dynamicClassesMap)
+    {
+        var item = dynamicClassesMap[dynamicClass];
+
+        for(var nodeId in item.nodeIdMap)
+        {
+            var model = pageModelMapping[nodeId];
+
+            if(model)
+            {
+                if(model.dynamicClasses == null) { model.dynamicClasses = []; }
+
+                for(var setConstructId in item.codeConstructIdMap)
+                {
+                    model.dynamicClasses.push({name: "class", value: item.value, setConstruct: pageModelMapping[setConstructId]});
+                }
+            }
+        }
     }
 }
 

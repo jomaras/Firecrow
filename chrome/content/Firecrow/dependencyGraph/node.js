@@ -43,18 +43,19 @@ FBL.ns(function() { with (FBL) {
                 modelId : this.model != null ? this.model.nodeId : -1,
                 type: this.type,
                 isDynamic: this.isDynamic ? 1 : undefined,
-                dataDependencies: this._getSimplifiedDataDependencies()
+                dataDependencies: this._getSimplifiedDependencies(this.dataDependencies),
+                reverseDependencies: this._getSimplifiedDependencies(this.reverseDependencies)
             };
         },
 
-        _getSimplifiedDataDependencies: function()
+        _getSimplifiedDependencies: function(dependencies)
         {
             var simplifiedDependencies = [];
             var simplifiedDependenciesMap = {};
 
-            for(var i = 0; i < this.dataDependencies.length; i++)
+            for(var i = 0; i < dependencies.length; i++)
             {
-                var dependency = this.dataDependencies[i];
+                var dependency = dependencies[i];
 
                 if(!dependency.isValueDependency) { continue; }
 

@@ -808,6 +808,7 @@ Firecrow.ASTHelper = ASTHelper =
                 || propName == "match"
                 || propName == "globalObject"
                 || propName == "dependencies"
+                || propName == "reverseDependencies"
                 || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
             var propertyValue = astElement[propName];

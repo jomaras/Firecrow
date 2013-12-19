@@ -32,6 +32,7 @@ fcModel.GlobalObject = function(browser)
 
         this._EXECUTION_COMMAND_COUNTER = 0;
         this.TIMEOUT_ID_COUNTER = 0;
+        this.DYNAMIC_NODE_COUNTER = 0;
     }
     catch(e)
     {
@@ -337,6 +338,32 @@ fcModel.GlobalObject.prototype._getEventObjectModel = function(eventObject)
 //<editor-fold desc="'Public' methods">
 fcModel.GlobalObject.prototype.isPrimitive = function() { return false; }
 
+fcModel.GlobalObject.prototype.getSimplifiedUserSetGlobalProperties = function()
+{
+    return this.convertToSimplifiedUserSetProperties(this.getUserSetGlobalProperties());
+
+};
+
+fcModel.GlobalObject.prototype.convertToSimplifiedUserSetProperties = function(properties)
+{
+    var simplifiedProperties = [];
+
+    for(var i = 0; i < properties.length; i++)
+    {
+        var property = properties[i];
+        simplifiedProperties.push
+        ({
+            name: property.name,
+            declarationConstructId: property.declarationPosition.codeConstruct != null
+                                  ? property.declarationPosition.codeConstruct.nodeId
+                                  : -1,
+            isEventProperty: fcModel.GlobalObject.CONST.isEventProperty(property.name)
+        });
+    }
+
+    return simplifiedProperties;
+};
+
 fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
 {
     var userSetGlobalProperties = [];
@@ -351,6 +378,11 @@ fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
     }
 
     return userSetGlobalProperties;
+};
+
+fcModel.GlobalObject.prototype.getSimplifiedUserSetDocumentProperties = function()
+{
+    return this.convertToSimplifiedUserSetProperties(this.document.getUserDefinedProperties());
 };
 
 fcModel.GlobalObject.prototype.getUserSetDocumentProperties = function()

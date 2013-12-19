@@ -175,6 +175,9 @@
         executionInfo.domQueriesMap = browser.domQueriesMap;
         executionInfo.dynamicIdMap = browser.dynamicIdMap;
         executionInfo.dynamicClassMap = browser.dynamicClassMap;
+        executionInfo.userSetGlobalProperties = browser.globalObject.getSimplifiedUserSetGlobalProperties();
+        executionInfo.userSetDocumentProperties = browser.globalObject.getSimplifiedUserSetDocumentProperties();
+
         executionInfoTextArea.textContent = JSON.stringify(executionInfo);
     })();
 </script>

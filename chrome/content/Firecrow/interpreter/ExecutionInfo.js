@@ -53,7 +53,9 @@ fcBrowser.ExecutionInfo.prototype =
             includedNodeIds: this.includedNodeIds,
             domQueriesMap: this._getSimplifiedDomQueries(this.domQueriesMap),
             dynamicIdMap: this.dynamicIdMap,
-            dynamicClassMap: this.dynamicClassMap
+            dynamicClassMap: this.dynamicClassMap,
+            userSetGlobalProperties: this.userSetGlobalProperties,
+            userSetDocumentProperties: this.userSetDocumentProperties
         };
     },
 

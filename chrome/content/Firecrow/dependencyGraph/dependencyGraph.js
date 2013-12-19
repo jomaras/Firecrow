@@ -13,6 +13,7 @@ FBL.ns(function() { with (FBL) {
         this.htmlNodes = [];
         this.cssNodes = [];
         this.jsNodes = [];
+        this.dynamicNodes = [];
 
         this.controlFlow = [];
         this.importantConstructDependencyIndexMapping = [];

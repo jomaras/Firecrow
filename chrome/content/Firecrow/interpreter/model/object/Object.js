@@ -399,7 +399,7 @@ fcModel.Object.prototype =
 
             if(this.dummyDependencyNode == null)
             {
-                this.dummyDependencyNode = { type: "DummyCodeElement", id: this.id, mainObjectCreationCodeConstruct: this.creationCodeConstruct};
+                this.dummyDependencyNode = { type: "DummyCodeElement", id: this.id, mainObjectCreationCodeConstruct: this.creationCodeConstruct, nodeId: "D" + this.globalObject.DYNAMIC_NODE_COUNTER++};
                 this.globalObject.browser.callNodeCreatedCallbacks(this.dummyDependencyNode, "js", true);
             }
 

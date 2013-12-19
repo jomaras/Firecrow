@@ -286,7 +286,7 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
             evaluationPositionId: evaluationPosition
         };
 
-        childNode.modelElement = { type: childNode.nodeName.toLowerCase(), domElement: childNode , isDummyElement: true};
+        childNode.modelElement = { type: childNode.nodeName.toLowerCase(), domElement: childNode , isDummyElement: true, nodeId: "D" + this.globalObject.DYNAMIC_NODE_COUNTER++};
         this.globalObject.browser.callNodeCreatedCallbacks(childNode.modelElement, "html", true);
 
         this.globalObject.dependencyCreator.createDataDependency(htmlElement.modelElement, childNode.modelElement, evaluationPosition);
@@ -297,7 +297,7 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
             childNode.modelElement.dynamicIds = {};
             var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
             childNode.modelElement.dynamicIds[childNode.id + codeConstructId] = {name:'id', value: childNode.id, setConstruct: codeConstruct};
-            this.globalObject.browser.logDynamicId(childNode.id, codeConstructId);
+            this.globalObject.browser.logDynamicId(childNode.id, codeConstructId, childNode.modelElement.nodeId);
         }
 
         if(childNode.className != null && childNode.className != "")
@@ -305,7 +305,7 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
             childNode.modelElement.dynamicClasses = {};
             var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
             childNode.modelElement.dynamicClasses[childNode.className + codeConstructId] = {name:'class', value: childNode.className, setConstruct: codeConstruct};
-            this.globalObject.browser.logDynamicClass(childNode.className, codeConstructId);
+            this.globalObject.browser.logDynamicClass(childNode.className, codeConstructId, childNode.modelElement.nodeId);
         }
 
         this.globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(childNode.modelElement);
@@ -370,7 +370,7 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
         var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
         this.htmlElement.modelElement.dynamicIds[propertyValue.jsValue + codeConstructId] = {name:'id', value: propertyValue.jsValue, setConstruct: codeConstruct};
 
-        this.globalObject.browser.logDynamicId(propertyValue.jsValue, codeConstructId);
+        this.globalObject.browser.logDynamicId(propertyValue.jsValue, codeConstructId, this.htmlElement.modelElement.nodeId);
     }
     else if(propertyName == "className")
     {
@@ -378,7 +378,7 @@ fcModel.HtmlElement.prototype._logDynamicPropertyModification = function(propert
 
         var codeConstructId = codeConstruct != null ? codeConstruct.nodeId : 0;
         this.htmlElement.modelElement.dynamicClasses[propertyValue.jsValue + codeConstructId] = {name:'class', value: propertyValue.jsValue, setConstruct: codeConstruct};
-        this.globalObject.browser.logDynamicClass(propertyValue.jsValue, codeConstructId);
+        this.globalObject.browser.logDynamicClass(propertyValue.jsValue, codeConstructId, this.htmlElement.modelElement.nodeId);
     }
     else if(propertyName == "src")
     {

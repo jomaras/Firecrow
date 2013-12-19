@@ -1,4 +1,5 @@
 var path = require('path');
+var atob = require("atob");
 
 var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
 var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
@@ -46,8 +47,512 @@ var ConflictFixer =
 
     _fixJsConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
     {
-
+        this._fixGlobalPropertyConflicts(pageAExecutionSummary, pageBExecutionSummary);
+        this._fixEventHandlerProperties(pageAExecutionSummary, pageBExecutionSummary);
+        this._fixPrototypeConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
+        this._fixTypeOnlyDomSelectors(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
     },
+
+    _fixTypeOnlyDomSelectors: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
+    {
+        this._fixTypeOnlyDomSelectorsInApplication(pageAModel, pageAExecutionSummary, "r");
+        this._fixTypeOnlyDomSelectorsInApplication(pageBModel, pageBExecutionSummary, null);
+    },
+
+    _fixTypeOnlyDomSelectorsInApplication: function(pageModel, pageExecutionSummary, origin)
+    {
+        if(pageExecutionSummary == null) { return; }
+        if(pageExecutionSummary.domQueriesMap == null) { return;}
+
+        var attributeSelector = origin == "r" ? this.generateReuseAttributeSelector()
+                                              : this.generateOriginalAttributeSelector();
+
+        for(var domQueryProp in pageExecutionSummary.domQueriesMap)
+        {
+            var domQuery = pageExecutionSummary.domQueriesMap[domQueryProp];
+            var callExpressionFirstArgument = ASTHelper.getFirstArgumentOfCallExpression(domQuery.codeConstruct);
+
+            for(var selector in domQuery.selectorsMap)
+            {
+                //TODO - selector warning, possible problems with getElementsByTagName
+                if(this._containsTypeSelector(selector) && (domQuery.methodName == "querySelector" || domQuery.methodName == "querySelectorAll"))
+                {
+                    this._replaceLiteralOrDirectIdentifierValue
+                    (
+                        {
+                            oldValue: selector,
+                            newValue: selector + attributeSelector
+                        },
+                        callExpressionFirstArgument
+                    );
+                }
+            }
+        }
+    },
+
+    _containsTypeSelector: function(selector)
+    {
+        if(selector == null || selector == "") { return false; }
+
+        var simpleSelectors = selector.split(",");
+
+        for(var i = 0; i < simpleSelectors.length; i++)
+        {
+            var simpleSelector = simpleSelectors[i].trim();
+
+            if(simpleSelector.indexOf(".") == -1 && simpleSelector.indexOf("#") == -1)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _fixGlobalPropertyConflicts: function(pageAExecutionSummary, pageBExecutionSummary)
+    {
+        var conflictedProperties = this._getConflictingProperties(pageAExecutionSummary, pageBExecutionSummary);
+
+        conflictedProperties.forEach(function(conflictedProperty)
+        {
+            if(conflictedProperty == null || conflictedProperty.declarationConstruct == null) { return; }
+
+            var newName = this.generateReusePrefix() + conflictedProperty.name;
+
+            var declarationConstruct = conflictedProperty.declarationConstruct;
+            var hasDeclarationBeenChanged = false;
+
+            if(ASTHelper.isAssignmentExpression(declarationConstruct))
+            {
+                if(ASTHelper.isIdentifier(declarationConstruct.left))
+                {
+                    declarationConstruct.left.name = newName;
+                    hasDeclarationBeenChanged = true;
+                }
+                else if (ASTHelper.isMemberExpression(declarationConstruct.left))
+                {
+                    if(!declarationConstruct.left.computed || conflictedProperty.name == declarationConstruct.left.property.name)
+                    {
+                        declarationConstruct.left.property.name = newName;
+                        hasDeclarationBeenChanged = true;
+                    }
+                    else if (ASTHelper.isMemberExpression(declarationConstruct.right)
+                        ||  (ASTHelper.isAssignmentExpression(declarationConstruct.right)
+                        && (ASTHelper.isMemberExpression(declarationConstruct.right.right)
+                        || ASTHelper.isIdentifier(declarationConstruct.right.right)))
+                        || (declarationConstruct.left.computed && ASTHelper.isIdentifier(declarationConstruct.right)))
+                    {
+                        //TODO - consider improving (problem when the conflicting property is assigned over for-in object extension)
+                        console.log("Trying to replace computed member expression");
+
+                        var memberPropertyDeclaration = null;
+
+                        if(ASTHelper.isMemberExpression(declarationConstruct.right) || ASTHelper.isIdentifier(declarationConstruct.right))
+                        {
+                            memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right, conflictedProperty.name);
+                        }
+                        else if (ASTHelper.isAssignmentExpression(declarationConstruct.right))
+                        {
+                            if(ASTHelper.isMemberExpression(declarationConstruct.right.right) || ASTHelper.isIdentifier(declarationConstruct.right.right))
+                            {
+                                memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right.right, conflictedProperty.name);
+                            }
+                        }
+
+                        if(memberPropertyDeclaration != null)
+                        {
+                            this._addCommentToParentStatement(memberPropertyDeclaration, "Firecrow - Rename global property");
+                            memberPropertyDeclaration.name = newName;
+                            hasDeclarationBeenChanged = true;
+                        }
+                        else
+                        {
+                            //In MooTools multiple objects can be extended with the same property, so it could have been fixed before
+                            //console.log("Can not find property declarator when fixing property conflicts");
+                            debugger;
+                        }
+                    }
+                    else
+                    {
+                        debugger;
+                        console.log("Unhandled expression when fixing global properties conflicts in assignment expression");
+                    }
+                }
+                else
+                {
+                    debugger;
+                    console.log("Unhandled expression when fixing global properties conflicts in assignment expression");
+                }
+            }
+            else if (ASTHelper.isVariableDeclarator(declarationConstruct) || ASTHelper.isFunctionDeclaration(declarationConstruct))
+            {
+                declarationConstruct.id.name = newName;
+                hasDeclarationBeenChanged = true;
+            }
+            else
+            {
+                debugger;
+                console.log("Unhandled expression when fixing global properties conflicts");
+            }
+
+            if(!hasDeclarationBeenChanged) { return; }
+            this._addCommentToParentStatement(declarationConstruct, "Firecrow - Rename global property");
+
+            var dependentEdges = declarationConstruct.reverseDependencies;
+
+            for(var i = 0, length = dependentEdges.length; i < length; i++)
+            {
+                var edge = dependentEdges[i];
+
+                var sourceConstruct = edge.sourceNode;
+
+                this._addCommentToParentStatement(sourceConstruct, "Firecrow - Rename global property");
+
+                if(ASTHelper.isIdentifier(sourceConstruct) && sourceConstruct.name == conflictedProperty.name)
+                {
+                    sourceConstruct.name = this.generateReusePrefix() + sourceConstruct.name;
+                }
+                else if (ASTHelper.isMemberExpression(sourceConstruct) && sourceConstruct.property.name == conflictedProperty.name)
+                {
+                    sourceConstruct.property.name = this.generateReusePrefix() + sourceConstruct.property.name;
+                }
+            }
+
+            var undefinedGlobalPropertiesMap = pageAExecutionSummary.undefinedGlobalPropertiesAccessMap;
+
+            for(var propertyName in undefinedGlobalPropertiesMap)
+            {
+                for(var propertyAccess in undefinedGlobalPropertiesMap[propertyName])
+                {
+                    var codeConstruct = undefinedGlobalPropertiesMap[propertyName][propertyAccess];
+
+                    var identifiers = ASTHelper.getAllElementsOfType(codeConstruct, [ASTHelper.CONST.Identifier]);
+
+                    identifiers.forEach(function(identifier)
+                    {
+                        if(identifier.name == conflictedProperty.name)
+                        {
+                            identifier.name = newName;
+
+                            this._addCommentToParentStatement(identifier, "Firecrow - Rename global property");
+                        }
+                    }, this);
+                }
+            }
+
+        }, this);
+    },
+
+    _fixEventHandlerProperties: function(pageAExecutionSummary, pageBExecutionSummary)
+    {
+        var conflictedHandlers = this._getConflictedHandlers(pageAExecutionSummary, pageBExecutionSummary);
+
+        if(conflictedHandlers.length == 0) { return; }
+
+        conflictedHandlers.forEach(function(conflictedHandler)
+        {
+            var reuseHandler = conflictedHandler.pageAConflictConstruct;
+            var reuseIntoHandler = conflictedHandler.pageBConflictConstruct;
+
+            this._replaceWithFirecrowHandler(reuseHandler);
+            this._replaceWithFirecrowHandler(reuseIntoHandler);
+        }, this);
+
+        this._insertFirecrowHandleConflictsCode(pageBExecutionSummary.pageModel, pageAExecutionSummary.pageModel);
+    },
+
+    _fixPrototypeConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
+    {
+        var reusePrototypeExtensions = this._getPrototypeExtensions(pageAExecutionSummary);
+        var reuseIntoPrototypeExtensions = this._getPrototypeExtensions(pageBExecutionSummary);
+
+        this._fixPrototypeSpilling(pageAModel, pageAExecutionSummary, reuseIntoPrototypeExtensions);
+        this._fixPrototypeSpilling(pageBModel, pageBExecutionSummary, reusePrototypeExtensions);
+    },
+
+    _getPrototypeExtensions: function(executionSummary)
+    {
+        var extensions = [];
+
+        var prototypes = executionSummary.internalPrototypes || [];
+
+        for(var i = 0; i < prototypes.length; i++)
+        {
+            var prototype = prototypes[i];
+
+            var userDefinedProperties = prototype.userDefinedProperties;
+
+            if(userDefinedProperties.length > 0)
+            {
+                extensions.push({ extendedObject: prototype, extendedProperties: userDefinedProperties});
+            }
+        }
+
+        return extensions;
+    },
+
+    _fixPrototypeSpilling: function(pageModel, pageExecutionSummary, prototypeExtensions)
+    {
+        for(var i = 0; i < prototypeExtensions.length; i++)
+        {
+            var prototypeExtension = prototypeExtensions[i];
+
+            this._fixIterationConstructs(pageExecutionSummary, prototypeExtension);
+        }
+    },
+
+    _fixIterationConstructs: function(pageExecutionSummary, prototypeExtension)
+    {
+        var forInIterations = pageExecutionSummary.forInIterations;
+
+        for(var i = 0; i < forInIterations.length; i++)
+        {
+            var forInIteration = forInIterations[i];
+            console.warn("Check prototype chain");
+            a++;//crash
+            this._extendForInBody(forInIteration.codeConstruct, prototypeExtension.extendedProperties);
+        }
+    },
+
+    _extendForInBody: function(forInStatement, extendedProperties)
+    {
+        var propertyName = ASTHelper.getPropertyNameFromForInStatement(forInStatement);
+
+        for(var i = 0; i < extendedProperties.length; i++)
+        {
+            var extendedProperty = extendedProperties[i];
+
+            if(forInStatement.handledForInExtensions == null) { forInStatement.handledForInExtensions = []; }
+
+            if(forInStatement.handledForInExtensions.indexOf(extendedProperty.name) == -1)
+            {
+                this._prependToForInBody(forInStatement, this._getSkipIterationConstruct(propertyName, extendedProperty.name));
+
+                forInStatement.handledForInExtensions.push(extendedProperty.name);
+            }
+        }
+    },
+
+    _getSkipIterationConstruct: function(propertyName, skipPropertyName)
+    {
+        var skipIterationConstructString = atob(_FOR_IN_SKIPPER_TEMPLATE);
+
+        var conflictCounter = this._CONFLICT_COUNTER;
+
+        var updatedSkipIterationConstructString = skipIterationConstructString.replace("{PROPERTY_NAME}", propertyName)
+        updatedSkipIterationConstructString = updatedSkipIterationConstructString.replace("{PROPERTY_VALUE}", skipPropertyName)
+        updatedSkipIterationConstructString = updatedSkipIterationConstructString.replace(/{NODE_ID}/g, function()
+        {
+            return '"' + (propertyName +  (conflictCounter++)) + '"';
+        });
+
+        var skipIterationConstruct = JSON.parse(updatedSkipIterationConstructString);
+
+        skipIterationConstruct.shouldBeIncluded = true;
+        skipIterationConstruct.test.shouldBeIncluded = true;
+        skipIterationConstruct.test.left.shouldBeIncluded = true;
+        skipIterationConstruct.test.right.shouldBeIncluded = true;
+        skipIterationConstruct.consequent.shouldBeIncluded = true;
+
+        skipIterationConstruct.children = [skipIterationConstruct.test, skipIterationConstruct.consequent];
+
+        skipIterationConstruct.test.parent = skipIterationConstruct;
+        skipIterationConstruct.consequent.parent = skipIterationConstruct;
+
+        return skipIterationConstruct;
+    },
+
+    _prependToForInBody: function(forInStatement, skipIterationConstruct)
+    {
+        if(ASTHelper.isBlockStatement(forInStatement.body))
+        {
+            skipIterationConstruct.parent = forInStatement.body;
+
+            ValueTypeHelper.insertIntoArrayAtIndex(forInStatement.body.body, skipIterationConstruct, 0);
+            ValueTypeHelper.insertIntoArrayAtIndex(forInStatement.body.children, skipIterationConstruct, 0);
+        }
+        else
+        {
+            debugger;
+            //alert("Reuser - Unhandled construct when prepending to ForIn body");
+        }
+    },
+
+    _CONFLICT_COUNTER: 0,
+
+    _replaceWithFirecrowHandler: function(codeConstruct)
+    {
+        var conflictCounter = this._CONFLICT_COUNTER;
+        var handlerParent = null;
+        var propertyNameParent = null;
+        var conflictTemplate = ValueTypeHelper.deepClone(HANDLER_CONFLICT_TEMPLATE);
+
+        ASTHelper.traverseWholeAST(conflictTemplate, function(propertyValue, propertyName, parentObject)
+        {
+            if(propertyName == "nodeId")
+            {
+                parentObject[propertyName] = propertyValue.replace("{ID_PREFIX}", "FirecrowHandler" + conflictCounter);
+            }
+
+            if(propertyName == "value")
+            {
+                if(propertyValue != null && propertyValue.value == "{HANDLER_LITERAL_TEMPLATE}")
+                {
+                    handlerParent = parentObject;
+                }
+                else if (propertyValue == "{PROPERTY_NAME}")
+                {
+                    propertyNameParent = parentObject;
+                }
+            }
+        });
+
+        ASTHelper.setParentsChildRelationships(conflictTemplate);
+
+        if(handlerParent != null && propertyNameParent != null)
+        {
+            if(ASTHelper.isAssignmentExpression(codeConstruct))
+            {
+                var parent = codeConstruct.parent;
+
+                parent.expression = conflictTemplate;
+                parent.children = [conflictTemplate];
+
+                conflictTemplate.parent = parent;
+
+                if(ASTHelper.isMemberExpression(codeConstruct.left))
+                {
+                    propertyNameParent.value = codeConstruct.left.property.name;
+                }
+                else if (ASTHelper.isIdentifier(codeConstruct.left))
+                {
+                    propertyNameParent.value = codeConstruct.left.name;
+                }
+                else { console.log("Unknown left hand side when replacing handlers");}
+
+                handlerParent.value = codeConstruct.right;
+                codeConstruct.right.parent = handlerParent;
+            }
+            else
+            {
+                console.log("Unhandled expression when replacing handlers");
+            }
+        }
+
+        this._CONFLICT_COUNTER++;
+    },
+
+    _getConflictedHandlers: function(pageAExecutionSummary, pageBExecutionSummary)
+    {
+        var pageAHandlerPropertiesMap = pageAExecutionSummary.eventHandlerPropertiesMap;
+        var pageBHandlerPropertiesMap = pageBExecutionSummary.eventHandlerPropertiesMap;
+
+        var conflictingHandlers = [];
+
+        for(var pageAProperty in pageAHandlerPropertiesMap)
+        {
+            for(var pageBProperty in pageBHandlerPropertiesMap)
+            {
+                if(pageAProperty == pageBProperty && pageAHandlerPropertiesMap[pageAProperty].shouldBeIncluded)
+                {
+                    conflictingHandlers.push({
+                        pageAConflictConstruct : pageAHandlerPropertiesMap[pageAProperty],
+                        pageBConflictConstruct : pageBHandlerPropertiesMap[pageBProperty]
+                    });
+                }
+            }
+        }
+
+        return conflictingHandlers;
+    },
+
+    _getConflictingProperties: function(pageAExecutionSummary, pageBExecutionSummary)
+    {
+        if(pageAExecutionSummary == null || pageBExecutionSummary == null) { return []; }
+
+        var pageAGlobalProperties = pageAExecutionSummary.userSetGlobalProperties;
+        var pageBGlobalProperties = pageBExecutionSummary.userSetGlobalProperties;
+
+        var conflictedProperties = [];
+
+        for(var i = 0; i < pageBGlobalProperties.length; i++)
+        {
+            var pageBProperty = pageBGlobalProperties[i];
+
+            for(var j = 0; j < pageAGlobalProperties.length; j++)
+            {
+                var pageAGlobalProperty = pageAGlobalProperties[j];
+
+                if(pageAGlobalProperty.name == pageBProperty.name && !pageAGlobalProperty.isEventProperty)
+                {
+                    conflictedProperties.push(pageAGlobalProperty);
+                }
+            }
+        }
+
+        var pageAUserDocumentProperties = pageAExecutionSummary.userSetDocumentProperties;
+        var pageBUserDocumentProperties = pageBExecutionSummary.userSetDocumentProperties;
+
+        for(var i = 0; i < pageBUserDocumentProperties.length; i++)
+        {
+            var pageBProperty = pageBUserDocumentProperties[i];
+
+            for(var j = 0; j < pageAUserDocumentProperties.length; j++)
+            {
+                var pageAProperty = pageAUserDocumentProperties[j];
+
+                if(pageAProperty.name == pageBProperty.name)
+                {
+                    conflictedProperties.push(pageBProperty);
+                }
+            }
+        }
+
+        var pageAPrototypeExtensions = pageAExecutionSummary.prototypeExtensions || [];
+        var pageBPrototypeExtensions = pageBExecutionSummary.prototypeExtensions || [];
+
+        for(var i = 0; i < pageAPrototypeExtensions.length; i++)
+        {
+            var pageAPrototypeExtension = pageAPrototypeExtensions[i];
+
+            for(var j = 0; j < pageBPrototypeExtensions.length; j++)
+            {
+                var pageBPrototypeExtension = pageBPrototypeExtensions[j];
+
+                if(pageAPrototypeExtension.extendedObject.constructor == pageBPrototypeExtension.extendedObject.constructor)
+                {
+                    var commonExtendedProperties = this._getCommonExtendedPropertiesFromReuse(pageAPrototypeExtension.extendedProperties, pageBPrototypeExtension.extendedProperties);
+
+                    if(commonExtendedProperties.length > 0)
+                    {
+                        ValueTypeHelper.pushAll(conflictedProperties, commonExtendedProperties);
+                    }
+                }
+            }
+        }
+
+        return conflictedProperties;
+    },
+
+    _getCommonExtendedPropertiesFromReuse: function(pageAProperties, pageBProperties)
+    {
+        var common = [];
+
+        for(var i = 0; i < pageAProperties.length; i++)
+        {
+            var pageAProperty = pageAProperties[i];
+            for(var j = 0; j < pageBProperties.length; j++)
+            {
+                if(pageAProperty.name == pageBProperties[j].name)
+                {
+                    common.push(pageAProperty);
+                }
+            }
+        }
+
+        return common;
+    },
+
 
     _fixCssConflicts: function(pageAModel, pageBModel)
     {
@@ -77,7 +582,8 @@ var ConflictFixer =
 
                 if(updatedSelectors.length != 0) { newSelectorValue += ", "; }
 
-                if(cleansedSelector == "body" || cleansedSelector == "html")
+                if(cleansedSelector == "body" || cleansedSelector == "html"
+                || CssSelectorParser.isIdSelector(cleansedSelector) || CssSelectorParser.isClassSelector(cleansedSelector))
                 {
                     updatedSelectors.push(cleansedSelector);
                     newSelectorValue += cleansedSelector;
@@ -363,6 +869,22 @@ var ConflictFixer =
         return false;
     },
 
+    _addCommentToParentStatement: function(codeConstruct, comment)
+    {
+        if(codeConstruct == null || comment == null || comment == "") { return; }
+
+        var parentStatement = ASTHelper.getParentStatement(codeConstruct);
+
+        if(parentStatement == null) { return; }
+
+        if(parentStatement.comments == null) { parentStatement.comments = []; }
+
+        if(parentStatement.comments.indexOf(comment) == -1)
+        {
+            parentStatement.comments.push(comment);
+        }
+    },
+
     generateReusePrefix: function()
     {
         return "_RU_";
@@ -382,8 +904,8 @@ var ConflictFixer =
     {
         if(pageANode == null || pageBNode == null) { return []; }
 
-        var pageAAttributes = (pageANode.attributes || []) //.concat(ValueTypeHelper.convertObjectMapToArray(pageANode.dynamicClasses)).concat(ValueTypeHelper.convertObjectMapToArray(pageANode.dynamicIds));
-        var pageBAttributes = (pageBNode.attributes || []) //.concat(ValueTypeHelper.convertObjectMapToArray(pageBNode.dynamicClasses)).concat(ValueTypeHelper.convertObjectMapToArray(pageBNode.dynamicIds));
+        var pageAAttributes = (pageANode.attributes || []).concat(pageANode.dynamicClasses || []).concat(pageANode.dynamicIds || []);
+        var pageBAttributes = (pageBNode.attributes || []).concat(pageBNode.dynamicClasses || []).concat(pageBNode.dynamicIds || []);
 
         if(pageAAttributes.length == 0) { return []; }
         if(pageBAttributes.length == 0) { return []; }
@@ -393,6 +915,7 @@ var ConflictFixer =
         for(var i = 0; i < pageAAttributes.length; i++)
         {
             var pageAAttribute = pageAAttributes[i];
+
             if(pageAAttribute.name != "class" && pageAAttribute.name != "name" && pageAAttribute.name != "id") { continue; }
             if(pageAAttribute.value == "") { continue; }
 

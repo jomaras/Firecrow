@@ -1135,18 +1135,20 @@ FBL.ns(function() { with (FBL) {
             this.domQueriesMap[codeConstruct.nodeId].selectorsMap[selector] = true;
         },
 
-        logDynamicId: function(idValue, codeConstructId)
+        logDynamicId: function(idValue, codeConstructId, nodeId)
         {
             if(this.dynamicIdMap[idValue] == null) { this.dynamicIdMap[idValue] = { value: idValue, codeConstructIdMap: {}}; }
 
             this.dynamicIdMap[idValue].codeConstructIdMap[codeConstructId] = 1;
+            this.dynamicIdMap[idValue].nodeIdMap[nodeId] = 1;
         },
 
-        logDynamicClass: function(classValue, codeConstructId)
+        logDynamicClass: function(classValue, codeConstructId, nodeId)
         {
-            if(this.dynamicClassMap[classValue] == null) { this.dynamicClassMap[classValue] = { value: classValue, codeConstructIdMap: {}}; }
+            if(this.dynamicClassMap[classValue] == null) { this.dynamicClassMap[classValue] = { value: classValue, codeConstructIdMap: {}, nodeIdMap: {}}; }
 
             this.dynamicClassMap[classValue].codeConstructIdMap[codeConstructId] = 1;
+            this.dynamicClassMap[classValue].nodeIdMap[nodeId] = 1;
         },
 
         //TODO - think about new name

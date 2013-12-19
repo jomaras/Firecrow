@@ -103,17 +103,15 @@ fcSimulator.InternalExecutor.prototype =
         catch(e)
         {
             this.globalObject.executionContextStack.callExceptionCallbacks
-            (
-                {
-                    exceptionGeneratingConstruct: creationConstruct,
-                    isDomStringException: true
-                }
-            );
+            ({
+                exceptionGeneratingConstruct: creationConstruct,
+                isDomStringException: true
+            });
 
             return;
         }
 
-        jsElement.modelElement = { type: "DummyCodeElement", domElement: jsElement };
+        jsElement.modelElement = { type: "DummyCodeElement", domElement: jsElement, nodeId: "D" + this.globalObject.DYNAMIC_NODE_COUNTER++ };
         this.globalObject.browser.callNodeCreatedCallbacks(jsElement.modelElement, "html", true);
 
         jsElement.creationPoint =
@@ -151,7 +149,7 @@ fcSimulator.InternalExecutor.prototype =
             evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
         };
 
-        jsElement.modelElement = { type: "DummyCodeElement", domElement: jsElement };
+        jsElement.modelElement = { type: "DummyCodeElement", domElement: jsElement, nodeId: "D" + this.globalObject.DYNAMIC_NODE_COUNTER++ };
 
         this.globalObject.browser.callNodeCreatedCallbacks(jsElement.modelElement, "html", false);
 
