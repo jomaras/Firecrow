@@ -771,6 +771,7 @@ var ConflictFixer =
         {
             if(ASTHelper.isAssignmentExpression(change.setConstruct))
             {
+                debugger;
                 this._replaceLiteralOrDirectIdentifierValue(change, change.setConstruct.right);
                 return;
             }

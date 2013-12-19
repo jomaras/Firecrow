@@ -1287,13 +1287,15 @@ Firecrow.ASTHelper = ASTHelper =
     getDeclarator: function(identifier)
     {
        if(!this.isIdentifier(identifier)) { return null; }
-       if(identifier.graphNode == null || identifier.graphNode.dataDependencies == null || identifier.graphNode.dataDependencies.length == 0) { return null;}
 
-       var dependencies = identifier.graphNode.dataDependencies;
+       var dependencies = identifier.graphNode != null ? identifier.graphNode.dataDependencies
+                                                       : identifier.dependencies;
 
-       for(var i = 0; i < dependencies.length; i++)
+       if(dependencies == null) { return null; }
+
+        for(var i = 0; i < dependencies.length; i++)
        {
-           var destinationNode = dependencies[i].destinationNode.model;
+           var destinationNode = dependencies[i].destinationNode.model || dependencies[i].destinationNode;
 
            if(this.isVariableDeclarator(destinationNode) && destinationNode.id.name == identifier.name)
            {
