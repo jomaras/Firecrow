@@ -4,6 +4,7 @@ var atob = require("atob");
 var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
 var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
 var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Firecrow/parsers/CssSelectorParser.js")).CssSelectorParser;
+var ReuserTemplates = require(path.resolve(__dirname, "../../chrome/content/Firecrow/templates/reuserTemplates.js")).ReuserTemplates;
 
 var ConflictFixer =
 {
@@ -13,8 +14,8 @@ var ConflictFixer =
     {
         this._fixHtmlConflicts(pageAModel, pageBModel, pageAExecutionSummary);
         this._fixResourceConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
-        this._fixJsConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
         this._fixCssConflicts(pageAModel, pageBModel);
+        this._fixJsConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
     },
 
     _fixHtmlConflicts: function(pageAModel, pageBModel, pageAExecutionSummary)
@@ -48,9 +49,9 @@ var ConflictFixer =
     _fixJsConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
     {
         this._fixGlobalPropertyConflicts(pageAExecutionSummary, pageBExecutionSummary);
-        this._fixEventHandlerProperties(pageAExecutionSummary, pageBExecutionSummary);
         this._fixPrototypeConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
         this._fixTypeOnlyDomSelectors(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
+        this._fixEventHandlerProperties(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
     },
 
     _fixTypeOnlyDomSelectors: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
@@ -243,22 +244,17 @@ var ConflictFixer =
         }, this);
     },
 
-    _fixEventHandlerProperties: function(pageAExecutionSummary, pageBExecutionSummary)
+    _fixEventHandlerProperties: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
     {
         var conflictedHandlers = this._getConflictedHandlers(pageAExecutionSummary, pageBExecutionSummary);
 
-        if(conflictedHandlers.length == 0) { return; }
-
         conflictedHandlers.forEach(function(conflictedHandler)
         {
-            var reuseHandler = conflictedHandler.pageAConflictConstruct;
-            var reuseIntoHandler = conflictedHandler.pageBConflictConstruct;
-
-            this._replaceWithFirecrowHandler(reuseHandler);
-            this._replaceWithFirecrowHandler(reuseIntoHandler);
+            this._replaceWithFirecrowHandler(conflictedHandler.pageAConflictConstruct);
+            this._replaceWithFirecrowHandler(conflictedHandler.pageBConflictConstruct);
         }, this);
 
-        this._insertFirecrowHandleConflictsCode(pageBExecutionSummary.pageModel, pageAExecutionSummary.pageModel);
+        this._insertFirecrowHandleConflictsCode(pageAModel, pageBModel);
     },
 
     _fixPrototypeConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
@@ -335,7 +331,7 @@ var ConflictFixer =
 
     _getSkipIterationConstruct: function(propertyName, skipPropertyName)
     {
-        var skipIterationConstructString = atob(_FOR_IN_SKIPPER_TEMPLATE);
+        var skipIterationConstructString = atob(ReuserTemplates._FOR_IN_SKIPPER);
 
         var conflictCounter = this._CONFLICT_COUNTER;
 
@@ -385,7 +381,7 @@ var ConflictFixer =
         var conflictCounter = this._CONFLICT_COUNTER;
         var handlerParent = null;
         var propertyNameParent = null;
-        var conflictTemplate = ValueTypeHelper.deepClone(HANDLER_CONFLICT_TEMPLATE);
+        var conflictTemplate = ValueTypeHelper.deepClone(ReuserTemplates._HANDLER_CONFLICT_TEMPLATE);
 
         ASTHelper.traverseWholeAST(conflictTemplate, function(propertyValue, propertyName, parentObject)
         {
@@ -440,6 +436,30 @@ var ConflictFixer =
         }
 
         this._CONFLICT_COUNTER++;
+    },
+
+    _insertFirecrowHandleConflictsCode: function(pageAModel, pageBModel)
+    {
+        var headElement = this._getHeadElement(pageBModel);
+
+        if(headElement == null) { console.log("There is no head element"); return; }
+
+        var handlerMapperScript = ValueTypeHelper.deepClone(ReuserTemplates._HANDLER_MAPPER_SCRIPT_CREATION_TEMPLATE);
+
+        ValueTypeHelper.insertIntoArrayAtIndex(headElement.childNodes, handlerMapperScript, 0);
+
+        var bodyElement = this._getBodyElement(pageAModel);
+
+        if(bodyElement == null) { console.log("There is no body element"); return; }
+
+        var scriptInvokerScriptElement =
+        {
+            type: "script", childNodes:[], attributes:[{name:"o", value: "Firecrow"}],
+            sourceCode: atob(ReuserTemplates._HANDLER_MAPPER_SCRIPT_INVOKER),
+            shouldBeIncluded: true
+        };
+
+        bodyElement.childNodes.push(scriptInvokerScriptElement);
     },
 
     _getConflictedHandlers: function(pageAExecutionSummary, pageBExecutionSummary)
@@ -552,7 +572,6 @@ var ConflictFixer =
 
         return common;
     },
-
 
     _fixCssConflicts: function(pageAModel, pageBModel)
     {
@@ -1088,6 +1107,42 @@ var ConflictFixer =
             var attribute = node.attributes[i];
 
             if(attribute.name == attributeName) { return attribute; }
+        }
+
+        return null;
+    },
+
+    _getHeadElement: function(model)
+    {
+        if(model == null) { return null; }
+        if(model.htmlElement == null) { return null; }
+
+        var children = model.htmlElement.childNodes;
+
+        for(var i = 0; i < children.length; i++)
+        {
+            if(children[i].type === "head")
+            {
+                return children[i];
+            }
+        }
+
+        return null;
+    },
+
+    _getBodyElement: function(model)
+    {
+        if(model == null) { return null; }
+        if(model.htmlElement == null) { return null; }
+
+        var children = model.htmlElement.childNodes;
+
+        for(var i = 0; i < children.length; i++)
+        {
+            if(children[i].type === "body")
+            {
+                return children[i];
+            }
         }
 
         return null;

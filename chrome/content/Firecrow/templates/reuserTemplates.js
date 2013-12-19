@@ -1,6 +1,13 @@
+var usesModule = typeof module !== 'undefined' && module.exports;
+if(usesModule)
+{
+    FBL =  { Firecrow: { Reuser: {}}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+    var ReuserTemplates;
+}
+
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
-Firecrow.Reuser.Templates =
+Firecrow.Reuser.Templates = ReuserTemplates =
 {
     _HANDLER_MAPPER_SCRIPT_CREATION_TEMPLATE:
     {
@@ -131,3 +138,7 @@ Firecrow.Reuser.Templates =
 
 }});
 
+if(usesModule)
+{
+    exports.ReuserTemplates = ReuserTemplates;
+}

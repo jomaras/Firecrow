@@ -56,7 +56,8 @@ fcBrowser.ExecutionInfo.prototype =
             dynamicClassMap: this.dynamicClassMap,
             userSetGlobalProperties: this.userSetGlobalProperties,
             userSetDocumentProperties: this.userSetDocumentProperties,
-            undefinedGlobalProperties: this.undefinedGlobalProperties
+            undefinedGlobalProperties: this.undefinedGlobalProperties,
+            eventHandlerPropertiesMap: this.eventHandlerPropertiesMap
         };
     },
 

@@ -380,6 +380,18 @@ fcModel.GlobalObject.prototype.getUserSetGlobalProperties = function()
     return userSetGlobalProperties;
 };
 
+fcModel.GlobalObject.prototype.getSimplifiedEventHandlerPropertiesMap = function()
+{
+    var simplifiedEventHandlerPropertiesMap = {};
+
+    for(var handlerName in this.eventHandlerPropertiesMap)
+    {
+        simplifiedEventHandlerPropertiesMap[handlerName] = this.eventHandlerPropertiesMap[handlerName].nodeId;
+    }
+
+    return simplifiedEventHandlerPropertiesMap;
+}
+
 fcModel.GlobalObject.prototype.getSimplifiedUserSetDocumentProperties = function()
 {
     return this.convertToSimplifiedUserSetProperties(this.document.getUserDefinedProperties());

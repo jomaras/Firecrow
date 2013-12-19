@@ -178,6 +178,7 @@
         executionInfo.userSetGlobalProperties = browser.globalObject.getSimplifiedUserSetGlobalProperties();
         executionInfo.userSetDocumentProperties = browser.globalObject.getSimplifiedUserSetDocumentProperties();
         executionInfo.undefinedGlobalProperties = browser.getSimplifiedUndefinedGlobalPropertiesAccessMap();
+        executionInfo.eventHandlerPropertiesMap = browser.globalObject.getSimplifiedEventHandlerPropertiesMap();
 
         executionInfoTextArea.textContent = JSON.stringify(executionInfo);
     })();

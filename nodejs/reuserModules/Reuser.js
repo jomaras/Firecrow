@@ -222,7 +222,7 @@ var Reuser =
             var mergedChild = this._cloneShallow(child);
             mergedChild.parent = mergedNode;
 
-            if(origin != null && mergedChild.attributes != null && mergedChild.type != "textNode")
+            if(origin != null && mergedChild.attributes != null && mergedChild.type != "textNode" && this._getAttribute(mergedChild, "o") == null)
             {
                 mergedChild.attributes.push({name:"o", value: origin});
             }
