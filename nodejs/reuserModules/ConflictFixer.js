@@ -248,6 +248,8 @@ var ConflictFixer =
     {
         var conflictedHandlers = this._getConflictedHandlers(pageAExecutionSummary, pageBExecutionSummary);
 
+        if(conflictedHandlers.length == 0) { return; }
+
         conflictedHandlers.forEach(function(conflictedHandler)
         {
             this._replaceWithFirecrowHandler(conflictedHandler.pageAConflictConstruct);
