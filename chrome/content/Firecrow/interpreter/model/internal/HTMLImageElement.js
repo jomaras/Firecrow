@@ -22,6 +22,7 @@ fcModel.HTMLImageElementPrototype = function(globalObject)
 {
     this.initObject(globalObject);
     this.constructor = fcModel.HTMLImageElementPrototype;
+    this.name = "HTMLImageElementPrototype";
 };
 
 fcModel.HTMLImageElementPrototype.prototype = new fcModel.Object();

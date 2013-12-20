@@ -52,6 +52,7 @@ fcModel.EventPrototype = function(globalObject)
     {
         this.initObject(globalObject);
         this.constructor = fcModel.EventPrototype;
+        this.name = "EventPrototype";
         fcModel.EventPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
             if(Event.prototype[propertyName] == null) { return; }

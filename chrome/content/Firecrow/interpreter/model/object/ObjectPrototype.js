@@ -11,6 +11,7 @@ fcModel.ObjectPrototype = function(globalObject)
 {
     this.initObject(globalObject);
     this.constructor = fcModel.ObjectPrototype;
+    this.name = "ObjectPrototype";
 };
 
 fcModel.ObjectPrototype.prototype = new fcModel.Object();

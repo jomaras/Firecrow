@@ -22,6 +22,7 @@ fcModel.ElementPrototype = function(globalObject)
 {
     this.initObject(globalObject);
     this.constructor = fcModel.ElementPrototype;
+    this.name = "ElementPrototype";
 };
 
 fcModel.ElementPrototype.prototype = new fcModel.Object();

@@ -77,6 +77,7 @@ fcModel.FunctionPrototype = function(globalObject)
 
         this.constructor = fcModel.FunctionPrototype;
         this.proto = this.globalObject.fcObjectPrototype;
+        this.name = "FunctionPrototype";
 
         //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function#Methods_2
     }

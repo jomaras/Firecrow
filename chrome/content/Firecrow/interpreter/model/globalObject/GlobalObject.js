@@ -977,6 +977,16 @@ fcModel.GlobalObject.prototype._deleteInternalObjects = function()
     delete this.event;
 };
 
+fcModel.GlobalObject.prototype.isInternalPrototype = function(object)
+{
+    for(var i = 0; i < this.internalPrototypes.length; i++)
+    {
+        if(this.internalPrototypes[i] == object) { return true;}
+    }
+
+    return false;
+};
+
 fcModel.GlobalObject.prototype._createInternalVariables = function()
 {
     this.addProperty("undefined", this.internalExecutor.createInternalPrimitiveObject(null, undefined));

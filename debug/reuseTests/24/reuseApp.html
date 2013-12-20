@@ -11,13 +11,22 @@
 
         var aProto = Array.prototype;
         aProto.getNext = function(curr){
-            var i = this.indexOf(curr);
-            var next = 0;
+            var currentIndex = -1;
 
-            if(i >= 0 && i < this.length - 1)
-                next = i + 1;
+            for(var i = 0; i < this.length; i++)
+            {
+                if(curr.indexOf(this[i]) != -1)
+                {
+                    currentIndex = i;
+                    break;
+                }
+            }
 
-            return this[next];
+            var nextIndex = currentIndex + 1;
+
+            if(nextIndex >= this.length) { nextIndex = 0; }
+
+            return this[nextIndex];
         };
 
         var iProto = HTMLImageElement.prototype

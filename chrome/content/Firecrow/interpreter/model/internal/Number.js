@@ -49,6 +49,7 @@ fcModel.NumberFunction.prototype = new fcModel.Object();
 fcModel.NumberPrototype = function(globalObject)
 {
     this.initObject(globalObject, null, Number.prototype, globalObject.fcObjectPrototype);
+    this.name = "NumberPrototype";
 };
 
 fcModel.NumberPrototype.prototype = new fcModel.Object();

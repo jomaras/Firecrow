@@ -4,10 +4,10 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/26/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/26/pageB.html-codeModel.txt");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/expectedResult.html");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/26/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
@@ -127,6 +127,8 @@ function updatePageModel(executionSummary, pageModelMapping, pageModel)
     updateUndefinedGlobalProperties(executionSummary.undefinedGlobalProperties, pageModelMapping);
     updateEventHandlerPropertiesMap(executionSummary.eventHandlerPropertiesMap, pageModelMapping);
     updateResourceSetterMap(executionSummary.resourceSetterMap, pageModelMapping);
+    updatePrototypeExtensions(executionSummary.prototypeExtensions, pageModelMapping);
+    updateForInIterations(executionSummary.forInIterations, pageModelMapping);
 }
 
 function updateIncludedNodes(includedNodeIds, pageModelMapping)
@@ -278,6 +280,27 @@ function updateResourceSetterMap(resourceSetterMap, pageModelMapping)
     for(var nodeId in resourceSetterMap)
     {
         resourceSetterMap[nodeId].codeConstruct = pageModelMapping[nodeId];
+    }
+}
+
+function updatePrototypeExtensions(prototypeExtensions, pageModelMapping)
+{
+    for(var prototype in prototypeExtensions)
+    {
+        var prototypeExtension = prototypeExtensions[prototype];
+
+        for(var i = 0; i < prototypeExtension.length; i++)
+        {
+            prototypeExtension[i].codeConstruct = pageModelMapping[prototypeExtension[i].codeConstructId];
+        }
+    }
+}
+
+function updateForInIterations(forInIterations, pageModelMapping)
+{
+    for(var nodeId in forInIterations)
+    {
+        forInIterations[nodeId].codeConstruct = pageModelMapping[nodeId];
     }
 }
 

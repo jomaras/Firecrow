@@ -180,6 +180,8 @@
         executionInfo.undefinedGlobalProperties = browser.getSimplifiedUndefinedGlobalPropertiesAccessMap();
         executionInfo.eventHandlerPropertiesMap = browser.globalObject.getSimplifiedEventHandlerPropertiesMap();
         executionInfo.resourceSetterMap = browser.getSimplifiedResourceSetterMap();
+        executionInfo.prototypeExtensions = browser.getInternalPrototypeExtensions();
+        executionInfo.forInIterations = browser.getSimplifiedForInIterations();
 
         executionInfoTextArea.textContent = JSON.stringify(executionInfo);
     })();

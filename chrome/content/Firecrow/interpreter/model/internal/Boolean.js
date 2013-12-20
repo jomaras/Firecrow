@@ -40,6 +40,7 @@ fcModel.BooleanPrototype = function(globalObject)
 {
     this.initObject(globalObject);
     this.constructor = fcModel.BooleanPrototype;
+    this.name = "BooleanPrototype";
 };
 
 fcModel.BooleanPrototype.prototype = new fcModel.Object();

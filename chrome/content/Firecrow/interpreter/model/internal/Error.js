@@ -29,6 +29,7 @@ fcModel.ErrorPrototype = function(globalObject)
     try
     {
         this.initObject(globalObject);
+        this.name = "ErrorPrototype";
         this.constructor = fcModel.ErrorPrototype;
     }
     catch(e) { fcModel.Error.notifyError("ErrorPrototype - error when creating error prototype:" + e); }

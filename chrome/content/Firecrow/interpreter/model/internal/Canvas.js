@@ -7,6 +7,7 @@ fcModel.CanvasPrototype = function(globalObject)
 {
     this.initObject(globalObject);
     this.constructor = fcModel.CanvasPrototype;
+    this.name = "CanvasPrototype";
 
     ["getContext", "toDataURL", "toBlob"].forEach(function(propertyName)
     {
@@ -54,6 +55,7 @@ fcModel.CanvasContextPrototype = function(globalObject)
     this.initObject(globalObject);
 
     this.addProperty("__proto__", this.globalObject.fcObjectPrototype);
+    this.name = "CanvasContextPrototype";
 
     fcModel.CanvasContext.CONST.METHODS.forEach(function(propertyName)
     {

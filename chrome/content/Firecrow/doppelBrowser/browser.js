@@ -450,6 +450,36 @@ FBL.ns(function() { with (FBL) {
             return simplified;
         },
 
+        getInternalPrototypeExtensions: function()
+        {
+            var prototypes = this.globalObject.internalPrototypes;
+            var prototypeExtensions = {};
+
+            for(var i = 0; i < prototypes.length; i++)
+            {
+                var prototype = prototypes[i];
+                var userDefinedProperties = prototype.getUserDefinedProperties();
+
+                if(userDefinedProperties.length == 0) { continue; }
+
+                prototypeExtensions[prototype.name] = [];
+
+                for(var j = 0; j < userDefinedProperties.length; j++)
+                {
+                    var property = userDefinedProperties[j]
+                    prototypeExtensions[prototype.name].push
+                    ({
+                        name: property.name,
+                        codeConstructId: property.declarationPosition != null && property.declarationPosition.codeConstruct != null
+                                       ? property.declarationPosition.codeConstruct.nodeId
+                                       : -1
+                    });
+                }
+            }
+
+            return prototypeExtensions;
+        },
+
         getResourceSetterMap: function()
         {
             var map = {};
@@ -511,6 +541,31 @@ FBL.ns(function() { with (FBL) {
                 parentStatementOrFunction.hasBeenExecuted = true;
                 this.executionInfo.logExecutedConstruct(parentStatementOrFunction);
             }
+        },
+
+        getSimplifiedForInIterations: function()
+        {
+            var forInIterations = this.executionInfo.objectForInIterations;
+            var simplified = {};
+
+            for(var i = 0; i < forInIterations.length; i++)
+            {
+                var forInIteration = forInIterations[i];
+
+                if(simplified[forInIteration.codeConstruct.nodeId] == null)
+                {
+                    simplified[forInIteration.codeConstruct.nodeId] = { codeConstructId: forInIteration.codeConstruct.nodeId, prototypes:{}};
+                }
+
+                var internalPrototypes = forInIteration.proto.iValue.getInternalPrototypeChain();
+
+                for(var j = 0; j < internalPrototypes.length; j++)
+                {
+                    simplified[forInIteration.codeConstruct.nodeId].prototypes[internalPrototypes[j].name] = 1;
+                }
+            }
+
+            return simplified;
         },
 
         getForInIterationsLog: function()

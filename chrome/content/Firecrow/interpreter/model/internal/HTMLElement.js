@@ -23,6 +23,7 @@ fcModel.HTMLElementPrototype = function(globalObject)
     this.initObject(globalObject);
     this.addProperty("__proto__", globalObject.fcElementPrototype);
     this.constructor = fcModel.HTMLElementPrototype;
+    this.name = "HTMLElementPrototype";
 };
 
 fcModel.HTMLElementPrototype.prototype = new fcModel.Object();

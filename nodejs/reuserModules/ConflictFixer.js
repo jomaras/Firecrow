@@ -372,11 +372,8 @@ var ConflictFixer =
 
     _fixPrototypeConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
     {
-        var reusePrototypeExtensions = this._getPrototypeExtensions(pageAExecutionSummary);
-        var reuseIntoPrototypeExtensions = this._getPrototypeExtensions(pageBExecutionSummary);
-
-        this._fixPrototypeSpilling(pageAModel, pageAExecutionSummary, reuseIntoPrototypeExtensions);
-        this._fixPrototypeSpilling(pageBModel, pageBExecutionSummary, reusePrototypeExtensions);
+        this._fixPrototypeSpilling(pageAModel, pageAExecutionSummary, pageBExecutionSummary.prototypeExtensions);
+        this._fixPrototypeSpilling(pageBModel, pageBExecutionSummary, pageAExecutionSummary.prototypeExtensions);
     },
 
     _getPrototypeExtensions: function(executionSummary)
@@ -402,26 +399,39 @@ var ConflictFixer =
 
     _fixPrototypeSpilling: function(pageModel, pageExecutionSummary, prototypeExtensions)
     {
-        for(var i = 0; i < prototypeExtensions.length; i++)
+        for(var prototype in prototypeExtensions)
         {
-            var prototypeExtension = prototypeExtensions[i];
-
-            this._fixIterationConstructs(pageExecutionSummary, prototypeExtension);
+            var prototypeExtension = prototypeExtensions[prototype];
+            var forInIterations = this._getIterationsOverPrototype(pageExecutionSummary.forInIterations, prototype);
+            this._fixIterationConstructs(forInIterations, prototypeExtension);
         }
     },
 
-    _fixIterationConstructs: function(pageExecutionSummary, prototypeExtension)
+    _getIterationsOverPrototype: function(forInIterations, prototype)
     {
-        var forInIterations = pageExecutionSummary.forInIterations;
+        var iterations = [];
 
+        for(var nodeId in forInIterations)
+        {
+            var forInIteration = forInIterations[nodeId];
+
+            if(forInIteration.prototypes[prototype])
+            {
+                iterations.push(forInIteration.codeConstruct);
+            }
+        }
+
+        return iterations;
+    },
+
+    _fixIterationConstructs: function(forInIterations, prototypeExtension)
+    {
         for(var i = 0; i < forInIterations.length; i++)
         {
-            var forInIteration = forInIterations[i];
-            console.warn("Check prototype chain");
-            a++;//crash
-            this._extendForInBody(forInIteration.codeConstruct, prototypeExtension.extendedProperties);
+            this._extendForInBody(forInIterations[i], prototypeExtension);
         }
     },
+
 
     _extendForInBody: function(forInStatement, extendedProperties)
     {

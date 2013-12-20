@@ -12,7 +12,7 @@ Firecrow.Reuser.Templates = ReuserTemplates =
     _HANDLER_MAPPER_SCRIPT_CREATION_TEMPLATE:
     {
         "type":"script",
-        "attributes":[{"name":"origin", "value": "Firecrow"}],
+        "attributes":[{"name":"o", "value": "Firecrow"}],
         "childNodes":[{"type":"textNode", "attributes":[], "childNodes":[], "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-3", "textContent":"\n        _FIRECROW_HANDLER_MAPPER = [];\n    "}],
         "nodeId":"{FIRECROW_HANDLER_MAPPER_ID}-4",
         "textContent":"\n        _FIRECROW_HANDLER_MAPPER = [];\n    ",

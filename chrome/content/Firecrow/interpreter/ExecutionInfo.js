@@ -58,7 +58,9 @@ fcBrowser.ExecutionInfo.prototype =
             userSetDocumentProperties: this.userSetDocumentProperties,
             undefinedGlobalProperties: this.undefinedGlobalProperties,
             eventHandlerPropertiesMap: this.eventHandlerPropertiesMap,
-            resourceSetterMap: this.resourceSetterMap
+            resourceSetterMap: this.resourceSetterMap,
+            prototypeExtensions: this.prototypeExtensions,
+            forInIterations: this.forInIterations
         };
     },
 

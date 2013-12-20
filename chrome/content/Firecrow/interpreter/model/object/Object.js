@@ -108,6 +108,36 @@ fcModel.Object.prototype =
         return this.getOwnProperty(propertyName) != null;
     },
 
+    getInternalPrototypeChain: function()
+    {
+        var prototypeChain = this.getPrototypeChain().concat([this]);
+
+        var internalPrototypeChain = [];
+
+        for(var i = 0; i < prototypeChain.length; i++)
+        {
+            if(this.globalObject.isInternalPrototype(prototypeChain[i]))
+            {
+                internalPrototypeChain.push(prototypeChain[i]);
+            }
+        }
+
+        return internalPrototypeChain;
+    },
+
+    getPrototypeChain: function()
+    {
+        var chain = [];
+
+        if(this.proto != null)
+        {
+            chain.push(this.proto.iValue);
+            ValueTypeHelper.pushAll(chain, this.proto.iValue.getPrototypeChain());
+        }
+
+        return chain;
+    },
+
     getProperty: function(propertyName, readPropertyConstruct)
     {
         try

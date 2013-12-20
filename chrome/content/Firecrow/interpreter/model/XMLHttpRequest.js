@@ -82,6 +82,7 @@ fcModel.XMLHttpRequestPrototype = function(globalObject)
     {
         this.initObject(globalObject);
         this.constructor = fcModel.XMLHttpRequestPrototype;
+        this.name = "XMLHttpRequestPrototype";
 
         fcModel.XMLHttpRequestPrototype.CONST.INTERNAL_PROPERTIES.METHODS.forEach(function(propertyName)
         {
