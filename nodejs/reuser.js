@@ -4,10 +4,10 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/22/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/22/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/pageB.html-codeModel.txt");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/22/expectedResult.html");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});

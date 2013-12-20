@@ -903,7 +903,6 @@ var ConflictFixer =
         {
             if(ASTHelper.isAssignmentExpression(change.setConstruct))
             {
-                debugger;
                 this._replaceLiteralOrDirectIdentifierValue(change, change.setConstruct.right);
                 return;
             }
@@ -946,25 +945,22 @@ var ConflictFixer =
         }
         else if(ASTHelper.isMemberExpression(codeConstruct))
         {
-            if(codeConstruct.property != null)
+            var dependencies = codeConstruct.dependencies.concat(codeConstruct.property.dependencies);
+            var hasReplaced = false;
+
+            for(var i = 0; i < dependencies.length; i++)
             {
-                var dependencies = codeConstruct.property.dataDependencies;
-                var hasReplaced = false;
+                var dependency = dependencies[i];
 
-                for(var i = 0; i < dependencies.length; i++)
+                if(ASTHelper.isLiteral(dependency.destinationNode))
                 {
-                    var dependency = dependencies[i];
-
-                    if(ASTHelper.isLiteral(dependency.destinationNode))
-                    {
-                        dependency.destinationNode.value = dependency.destinationNode.value.replace(change.oldValue, change.newValue);
-                        this._addCommentToParentStatement(dependency.destinationNode, renameMessage);
-                        hasReplaced = true;
-                    }
+                    dependency.destinationNode.value = dependency.destinationNode.value.replace(change.oldValue, change.newValue);
+                    this._addCommentToParentStatement(dependency.destinationNode, renameMessage);
+                    hasReplaced = true;
                 }
-
-                if(hasReplaced) { return; }
             }
+
+            if(hasReplaced) { return; }
         }
 
         this._addCommentToParentStatement(codeConstruct, "Could not rename");
