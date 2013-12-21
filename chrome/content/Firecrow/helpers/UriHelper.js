@@ -86,7 +86,7 @@ Firecrow.UriHelper = UriHelper =
             }
         }
 
-        return null;
+        return url;
     },
 
     areOnSameDomain: function(url1, url2)

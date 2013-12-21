@@ -85,7 +85,8 @@ var ConflictFixer =
 
     _getRelativePath: function(path, basePath)
     {
-        return UriHelper.getRelativeFrom(UriHelper.getAbsoluteUrl(path, basePath), basePath);
+        return basePath ? UriHelper.getRelativeFrom(UriHelper.getAbsoluteUrl(path, basePath), basePath)
+                        : path;
     },
 
     _getPathFromCssUrl: function(cssUrl)
@@ -147,13 +148,16 @@ var ConflictFixer =
                 newValue: this._wrapInReuseFolder(this._getRelativePath(setObject.resourceValue, pageModel.pageUrl))
             };
 
-            if(ASTHelper.isAssignmentExpression(setObject.codeConstruct))
+            if(change.oldValue != change.newValue)
             {
-                this._replaceLiteralOrDirectIdentifierValue(change, setObject.codeConstruct.right);
-                continue;
-            }
+                if(ASTHelper.isAssignmentExpression(setObject.codeConstruct))
+                {
+                    this._replaceLiteralOrDirectIdentifierValue(change, setObject.codeConstruct.right);
+                    continue;
+                }
 
-            this._addCommentToParentStatement(setObject.codeConstruct, "Firecrow - Could not rename " + change.oldValue + " -> " + change.newValue);
+                this._addCommentToParentStatement(setObject.codeConstruct, "Firecrow - Could not rename " + change.oldValue + " -> " + change.newValue);
+            }
         }
     },
 
@@ -668,24 +672,24 @@ var ConflictFixer =
             }
         }
 
-        var pageAPrototypeExtensions = pageAExecutionSummary.prototypeExtensions || [];
-        var pageBPrototypeExtensions = pageBExecutionSummary.prototypeExtensions || [];
+        var pageAPrototypeExtensions = pageAExecutionSummary.prototypeExtensions || {};
+        var pageBPrototypeExtensions = pageBExecutionSummary.prototypeExtensions || {};
 
-        for(var i = 0; i < pageAPrototypeExtensions.length; i++)
+        for(var prototypeAExtension in pageAExecutionSummary.prototypeExtensions)
         {
-            var pageAPrototypeExtension = pageAPrototypeExtensions[i];
+            var pageAPrototypeExtension = pageAPrototypeExtensions[prototypeAExtension];
+            var pageBPrototypeExtension = pageBPrototypeExtensions[prototypeAExtension];
 
-            for(var j = 0; j < pageBPrototypeExtensions.length; j++)
+            if(pageBPrototypeExtension != null)
             {
-                var pageBPrototypeExtension = pageBPrototypeExtensions[j];
-
-                if(pageAPrototypeExtension.extendedObject.constructor == pageBPrototypeExtension.extendedObject.constructor)
+                for(var i = 0; i < pageAPrototypeExtension.length; i++)
                 {
-                    var commonExtendedProperties = this._getCommonExtendedPropertiesFromReuse(pageAPrototypeExtension.extendedProperties, pageBPrototypeExtension.extendedProperties);
-
-                    if(commonExtendedProperties.length > 0)
+                    for(var j = 0; j < pageBPrototypeExtension.length; j++)
                     {
-                        ValueTypeHelper.pushAll(conflictedProperties, commonExtendedProperties);
+                        if(pageAPrototypeExtension[i].name == pageBPrototypeExtension[j].name)
+                        {
+                            conflictedProperties.push(pageAPrototypeExtension[i]);
+                        }
                     }
                 }
             }
