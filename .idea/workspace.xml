@@ -9,15 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/nodejs/reuserModules/CssConflictFixer.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/nodejs/reuserModules/HtmlConflictFixer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/nodejs/reuserModules/ResourceConflictFixer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -66,7 +67,72 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="JsConflictFixer.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="25" selection-start="732" selection-end="732" vertical-scroll-proportion="0.41632652" vertical-offset="0" max-vertical-offset="1411">
+              <folding>
+                <element signature="e#1354#7990#0" expanded="false" />
+                <element signature="e#8104#8339#0" expanded="false" />
+                <element signature="e#8455#8647#0" expanded="false" />
+                <element signature="e#8765#9278#0" expanded="false" />
+                <element signature="e#9378#10699#0" expanded="false" />
+                <element signature="e#10773#11210#0" expanded="false" />
+                <element signature="e#11273#11779#0" expanded="false" />
+                <element signature="e#11876#12218#0" expanded="false" />
+                <element signature="e#12295#12626#0" expanded="false" />
+                <element signature="e#12708#12866#0" expanded="false" />
+                <element signature="e#12940#13616#0" expanded="false" />
+                <element signature="e#13696#14995#0" expanded="false" />
+                <element signature="e#15076#15581#0" expanded="false" />
+                <element signature="e#15645#17785#0" expanded="false" />
+                <element signature="e#17865#18719#0" expanded="false" />
+                <element signature="e#18809#19664#0" expanded="false" />
+                <element signature="e#19757#22273#0" expanded="false" />
+                <element signature="e#22366#22789#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASTHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1537" column="6" selection-start="50125" selection-end="50125" vertical-scroll-proportion="0.0" vertical-offset="25289" max-vertical-offset="30991">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CssSelectorParser.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="223" column="28" selection-start="8434" selection-end="8454" vertical-scroll-proportion="0.0" vertical-offset="3236" max-vertical-offset="6477">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Reuser.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="541" column="4" selection-start="18416" selection-end="18416" vertical-scroll-proportion="0.0" vertical-offset="9012" max-vertical-offset="27642">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConflictFixerCommon.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4403">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -95,22 +161,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Event.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/HTMLImageElement.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/Canvas.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/Element.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/HTMLElement.js" />
-        <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/debug/reuseTests/31/result.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js" />
-        <option value="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
         <option value="$PROJECT_DIR$/nodejs/reuser.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuserModules/ResourceConflictFixer.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuserModules/HtmlConflictFixer.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuserModules/CssConflictFixer.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js" />
       </list>
     </option>
   </component>
@@ -190,6 +256,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nodejs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nodejs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reuserModules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3199,7 +3297,11 @@
       <created>1387636463009</created>
       <updated>1387636463009</updated>
     </task>
-    <option name="localTasksCounter" value="690" />
+    <task id="LOCAL-00690" summary="All reuse tests running successfully in nodejs">
+      <created>1387641708620</created>
+      <updated>1387641708620</updated>
+    </task>
+    <option name="localTasksCounter" value="691" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3238,19 +3340,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33924612" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33888888" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14232999" sideWeight="0.5833333" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14232999" sideWeight="0.5733333" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39222223" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41666666" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42666668" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -3264,31 +3366,6 @@
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3413793" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39655173" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27942064" sideWeight="0.49311927" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.50688076" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -3301,7 +3378,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="- modifications to the codeMarkupGenerator in order to correctly generate executed markup on statements from node" />
     <MESSAGE value="- minor bug fix with atob in node" />
     <MESSAGE value="Whitespace" />
     <MESSAGE value="- Break and Continue with labels" />
@@ -3326,7 +3402,8 @@
     <MESSAGE value="Fixed a bug when renaming literal or direct identifier value for member expression" />
     <MESSAGE value="Added support for fixing prototype spillings" />
     <MESSAGE value="Almost finished with adjusting reuser to nodejs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Almost finished with adjusting reuser to nodejs" />
+    <MESSAGE value="All reuse tests running successfully in nodejs" />
+    <option name="LAST_COMMIT_MESSAGE" value="All reuse tests running successfully in nodejs" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3337,11 +3414,6 @@
           <line>64</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js</url>
-          <line>233</line>
-          <option name="timeStamp" value="113" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -3350,55 +3422,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/31/result.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="37" selection-start="148" selection-end="148" vertical-scroll-proportion="0.21473685" vertical-offset="0" max-vertical-offset="544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/32/result.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="21" selection-start="93" selection-end="104" vertical-scroll-proportion="0.18398269" vertical-offset="0" max-vertical-offset="1071">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/33/reuseInto.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="38" selection-start="243" selection-end="243" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="493">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/33/reuseApp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="31" selection-start="338" selection-end="338" vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="510">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/34/reuseIntoApp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="51" selection-start="0" selection-end="513" vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="527">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/reuseTests/34/reuseApp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="48" selection-start="345" selection-end="345" vertical-scroll-proportion="0.55368423" vertical-offset="94" max-vertical-offset="595">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1321" column="20" selection-start="43502" selection-end="43502" vertical-scroll-proportion="0.89021957" vertical-offset="22011" max-vertical-offset="30141">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/reuseTests/35/reuseApp.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="4" selection-start="69" selection-end="353" vertical-scroll-proportion="0.21473685" vertical-offset="0" max-vertical-offset="475">
@@ -3441,24 +3464,116 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js">
+    <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="230" column="0" selection-start="9006" selection-end="9006" vertical-scroll-proportion="0.0" vertical-offset="3788" max-vertical-offset="22508">
+        <state line="7" column="38" selection-start="302" selection-end="302" vertical-scroll-proportion="0.23847695" vertical-offset="0" max-vertical-offset="6103">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1021" column="4" selection-start="38868" selection-end="38868" vertical-scroll-proportion="0.0" vertical-offset="18011" max-vertical-offset="27642">
+        <state line="541" column="4" selection-start="18416" selection-end="18416" vertical-scroll-proportion="0.0" vertical-offset="9012" max-vertical-offset="27642">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
+    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="38" selection-start="302" selection-end="302" vertical-scroll-proportion="0.23847695" vertical-offset="0" max-vertical-offset="6103">
+        <state line="9" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4403">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="38" selection-start="596" selection-end="596" vertical-scroll-proportion="0.21395881" vertical-offset="0" max-vertical-offset="874">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/CssConflictFixer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="6" selection-start="4869" selection-end="4869" vertical-scroll-proportion="0.33066362" vertical-offset="0" max-vertical-offset="874">
+          <folding>
+            <element signature="e#604#850#0" expanded="false" />
+            <element signature="e#935#2734#0" expanded="false" />
+            <element signature="e#1200#2728#0" expanded="false" />
+            <element signature="e#2793#4868#0" expanded="false" />
+            <element signature="e#4927#5281#0" expanded="false" />
+            <element signature="e#5344#5755#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ResourceConflictFixer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="0" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.33752862" vertical-offset="11" max-vertical-offset="935">
+          <folding>
+            <element signature="e#468#657#0" expanded="false" />
+            <element signature="e#716#1241#0" expanded="false" />
+            <element signature="e#1301#1854#0" expanded="false" />
+            <element signature="e#1934#2833#0" expanded="false" />
+            <element signature="e#2913#3593#0" expanded="false" />
+            <element signature="e#3647#3790#0" expanded="false" />
+            <element signature="e#4462#4535#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/HtmlConflictFixer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="0" selection-start="4486" selection-end="4486" vertical-scroll-proportion="0.5640732" vertical-offset="0" max-vertical-offset="874">
+          <folding>
+            <element signature="e#516#1288#0" expanded="false" />
+            <element signature="e#1373#1971#0" expanded="false" />
+            <element signature="e#2029#2489#0" expanded="false" />
+            <element signature="e#2578#3282#0" expanded="false" />
+            <element signature="e#3342#3545#0" expanded="false" />
+            <element signature="e#3640#4423#0" expanded="false" />
+            <element signature="e#4490#4964#0" expanded="false" />
+            <element signature="e#5039#6561#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="223" column="28" selection-start="8434" selection-end="8454" vertical-scroll-proportion="0.0" vertical-offset="3236" max-vertical-offset="6477">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1537" column="6" selection-start="50125" selection-end="50125" vertical-scroll-proportion="0.0" vertical-offset="25289" max-vertical-offset="30991">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="25" selection-start="732" selection-end="732" vertical-scroll-proportion="0.41632652" vertical-offset="0" max-vertical-offset="1411">
+          <folding>
+            <element signature="e#1354#7990#0" expanded="false" />
+            <element signature="e#8104#8339#0" expanded="false" />
+            <element signature="e#8455#8647#0" expanded="false" />
+            <element signature="e#8765#9278#0" expanded="false" />
+            <element signature="e#9378#10699#0" expanded="false" />
+            <element signature="e#10773#11210#0" expanded="false" />
+            <element signature="e#11273#11779#0" expanded="false" />
+            <element signature="e#11876#12218#0" expanded="false" />
+            <element signature="e#12295#12626#0" expanded="false" />
+            <element signature="e#12708#12866#0" expanded="false" />
+            <element signature="e#12940#13616#0" expanded="false" />
+            <element signature="e#13696#14995#0" expanded="false" />
+            <element signature="e#15076#15581#0" expanded="false" />
+            <element signature="e#15645#17785#0" expanded="false" />
+            <element signature="e#17865#18719#0" expanded="false" />
+            <element signature="e#18809#19664#0" expanded="false" />
+            <element signature="e#19757#22273#0" expanded="false" />
+            <element signature="e#22366#22789#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

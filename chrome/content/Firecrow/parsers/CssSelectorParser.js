@@ -201,9 +201,44 @@ FBL.ns(function() { with (FBL) {
         return '';
     };
 
-    Firecrow.CssSelectorParser = CssSelectorParser = {
+    Firecrow.CssSelectorParser = CssSelectorParser =
+    {
         isIdSelector: function(selector) { return selector != null && selector.indexOf("#") == 0; },
         isClassSelector: function(selector) { return selector != null && selector.indexOf(".") == 0; },
+
+        getSimpleSelectors: function(selector)
+        {
+            return selector && selector.split ? selector.split(",") : [];
+        },
+
+        getCssProperties: function(cssText)
+        {
+            var startOfPropertiesIndex = cssText.indexOf("{");
+            var endOfPropertiesIndex = cssText.indexOf("}");
+
+            var properties = cssText.substring(startOfPropertiesIndex + 1, endOfPropertiesIndex);
+
+            return properties.replace(/(\r)?\n/g, " ");
+        },
+
+        containsTypeSelector: function(selector)
+        {
+            if(selector == null || selector == "") { return false; }
+
+            var simpleSelectors = selector.split(",");
+
+            for(var i = 0; i < simpleSelectors.length; i++)
+            {
+                var simpleSelector = simpleSelectors[i].trim();
+
+                if(simpleSelector.indexOf(".") == -1 && simpleSelector.indexOf("#") == -1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        },
 
         endsWithPseudoSelector: function(selector)
         {

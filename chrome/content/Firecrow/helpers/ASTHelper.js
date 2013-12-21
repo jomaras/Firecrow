@@ -1501,6 +1501,56 @@ Firecrow.ASTHelper = ASTHelper =
         return conditions;
     },
 
+    getHeadElement: function(model)
+    {
+        if(model == null) { return null; }
+        if(model.htmlElement == null) { return null; }
+
+        var children = model.htmlElement.childNodes;
+
+        for(var i = 0; i < children.length; i++)
+        {
+            if(children[i].type === "head")
+            {
+                return children[i];
+            }
+        }
+
+        return null;
+    },
+
+    getBodyElement: function(model)
+    {
+        if(model == null) { return null; }
+        if(model.htmlElement == null) { return null; }
+
+        var children = model.htmlElement.childNodes;
+
+        for(var i = 0; i < children.length; i++)
+        {
+            if(children[i].type === "body")
+            {
+                return children[i];
+            }
+        }
+
+        return null;
+    },
+
+    removeFromParent: function(node)
+    {
+        if(node == null) { return; }
+
+        var parent = node.parent;
+
+        if(parent == null || parent.children == null) { return; }
+
+        ValueTypeHelper.removeFromArrayByIndex(parent.children, parent.children.indexOf(node));
+
+        if(parent.rules == null) { return; }
+        ValueTypeHelper.removeFromArrayByIndex(parent.rules, parent.rules.indexOf(node));
+    },
+
     isElementOfType: function(element, type)
     {
         if(element == null) { return false; }
