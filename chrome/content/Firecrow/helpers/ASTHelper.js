@@ -1309,18 +1309,14 @@ Firecrow.ASTHelper = ASTHelper =
     getValueLiteral: function(identifier)
     {
         if(!this.isIdentifier(identifier)) { return null; }
-        if(identifier.graphNode == null || identifier.graphNode.dataDependencies == null || identifier.graphNode.dataDependencies.length == 0) { return null;}
 
-        var dependencies = identifier.graphNode.dataDependencies;
+        var dependencies = identifier.dependencies;
 
         for(var i = 0; i < dependencies.length; i++)
         {
-            var destinationNode = dependencies[i].destinationNode.model;
+            var destinationNode = dependencies[i].destinationNode;
 
-            if(this.isLiteral(destinationNode) && dependencies[i].isValueDependency)
-            {
-                return destinationNode;
-            }
+            if(this.isLiteral(destinationNode)) { return destinationNode; }
         }
 
         return null;

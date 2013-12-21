@@ -4,10 +4,10 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/26/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/26/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/36/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/36/pageB.html-codeModel.txt");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/26/expectedResult.html");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/36/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
 var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
@@ -88,12 +88,19 @@ function performReuse(pageAExecutionSummary, pageBExecutionSummary)
 
     if(expectedResult != null && expectedResult != "")
     {
-        if(expectedResult.replace(/\s/g, "") != result.replace(/\s/g, ""))
+        var expectedWithoutWhitespace = expectedResult.replace(/\s/g, "");
+        var resultWithoutWhitespace = result.replace(/\s/g, "");
+        if(expectedWithoutWhitespace != resultWithoutWhitespace)
         {
             console.log("Result and expected result differ!");
             console.log(result);
             console.log("/*********************/");
+            console.log("/*********************/");
             console.log(expectedResult);
+            console.log("/*********************/");
+            console.log(expectedWithoutWhitespace);
+            console.log("/*********************/");
+            console.log(resultWithoutWhitespace);
         }
         else
         {
@@ -120,6 +127,7 @@ function updatePageModel(executionSummary, pageModelMapping, pageModel)
 
     updateDomQueriesMap(executionSummary.domQueriesMap, pageModelMapping);
     updateUserSetGlobalProperties(executionSummary.userSetGlobalProperties, pageModelMapping);
+    updateUserSetDocumentProperties(executionSummary.userSetDocumentProperties, pageModelMapping);
 
     updateDynamicIds(executionSummary.dynamicIdMap, pageModelMapping);
     updateDynamicClasses(executionSummary.dynamicClassMap, pageModelMapping);
@@ -204,6 +212,16 @@ function updateUserSetGlobalProperties(userSetGlobalProperties, pageModelMapping
         var userSetGlobalProperty = userSetGlobalProperties[i];
 
         userSetGlobalProperty.declarationConstruct = pageModelMapping[userSetGlobalProperty.declarationConstructId];
+    }
+}
+
+function updateUserSetDocumentProperties(userSetDocumentProperties, pageModelMapping)
+{
+    for(var i = 0; i < userSetDocumentProperties.length; i++)
+    {
+        var userSetProperty = userSetDocumentProperties[i];
+
+        userSetProperty.declarationConstruct = pageModelMapping[userSetProperty.declarationConstructId];
     }
 }
 

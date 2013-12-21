@@ -355,6 +355,23 @@ var ConflictFixer =
         }, this);
     },
 
+    _getPropertyDeclaration: function(codeConstruct, propertyName)
+    {
+        var dependencies = codeConstruct.dependencies;
+
+        for(var i = 0; i < dependencies.length; i++)
+        {
+            var destinationConstruct = dependencies[i].destinationNode;
+
+            if(ASTHelper.isProperty(destinationConstruct.parent) && destinationConstruct.parent.key.name == propertyName)
+            {
+                return destinationConstruct.parent.key;
+            }
+        }
+
+        return null;
+    },
+
     _fixEventHandlerProperties: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
     {
         var conflictedHandlers = this._getConflictedHandlers(pageAExecutionSummary, pageBExecutionSummary);
@@ -646,7 +663,7 @@ var ConflictFixer =
 
                 if(pageAProperty.name == pageBProperty.name)
                 {
-                    conflictedProperties.push(pageBProperty);
+                    conflictedProperties.push(pageAProperty);
                 }
             }
         }
@@ -809,6 +826,32 @@ var ConflictFixer =
                 }
             }
         }
+    },
+
+    _getCssPropertiesFromCssNode: function(cssNode)
+    {
+        var cssText = cssNode.cssText;
+
+        var startOfPropertiesIndex = cssText.indexOf("{");
+        var endOfPropertiesIndex = cssText.indexOf("}");
+
+        var properties = cssText.substring(startOfPropertiesIndex + 1, endOfPropertiesIndex);
+
+        return properties.replace(/(\r)?\n/g, " ");
+    },
+
+    _removeFromParent: function(node)
+    {
+        if(node == null) { return; }
+
+        var parent = node.parent;
+
+        if(parent == null || parent.children == null) { return; }
+
+        ValueTypeHelper.removeFromArrayByIndex(parent.children, parent.children.indexOf(node));
+
+        if(parent.rules == null) { return; }
+        ValueTypeHelper.removeFromArrayByIndex(parent.rules, parent.rules.indexOf(node));
     },
 
     _getNonMovableTypesCssNodes: function(cssNodes)

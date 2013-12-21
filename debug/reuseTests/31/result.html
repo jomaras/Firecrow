@@ -3,23 +3,24 @@
 <head>
     <title>Reuse Into</title>
     <style>
-        div:not([origin='reuse']){  color: red; }
-        .test:not([origin='reuse']){  color: green; }
+        div:not([o=r]){  color: red; }
+        .test:not([o=r]){  color: green; }
     </style>
 
 
-    <style origin="reuse">
-        div[origin='reuse']{  color: blue; }
-        .container[origin='reuse']{  color: yellow; }
+    <style o="r">
+        div[o=r]{  color: blue; }
+        .container[o=r]{  color: yellow; }
     </style>
 </head><body>
-<div class="test _OR_">Green Color</div>
-<div class="_OR_">Red Color</div>
+<div class="test">Green Color</div>
+<div
+        >Red Color</div>
 
 
-<div id="reuseContainer" origin="reuse" class="_RU_">
-    <div origin="reuse">Blue</div>
-    <div class="container" origin="reuse">Yellow</div>
+<div id="reuseContainer" o="r">
+    <div o="r">Blue</div>
+    <div class="container" o="r">Yellow</div>
 </div>
 
 </body>
