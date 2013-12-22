@@ -286,11 +286,7 @@ Firecrow.CodeTextGenerator.prototype =
                     }
                 }
 
-                if(statementCode === "") { return ""; }
-
-                return (!isElseIfStatement ? this.whitespace : "")
-                     + statementCode
-                     + (ASTHelper.isFunctionExpression(element.parent) ? "": this.newLine);
+                return statementCode;
             }
             else if (ASTHelper.isFunction(element))
             {
@@ -470,7 +466,7 @@ Firecrow.CodeTextGenerator.prototype =
         var code = "";
 
         this.indent();
-
+        console.log(blockStatement.nodeId, "S" + this.whitespace + "S");
         var body = blockStatement.body;
 
         if(body != null)
@@ -482,6 +478,7 @@ Firecrow.CodeTextGenerator.prototype =
         }
 
         this.deIndent();
+        console.log(blockStatement.nodeId, "E" + this.whitespace + "E");
 
         if(code === "") { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
 
@@ -1015,7 +1012,7 @@ Firecrow.CodeTextGenerator.prototype =
     generateFromLabeledStatement: function(labeledStatement)
     {
         return this.generateFromIdentifier(labeledStatement.label) + this._COLON
-             + this.generateJsCode(labeledStatement.body);
+             + this.generateJsCode(labeledStatement.body).replace(/^(\s)+/, " ");
     },
 
     generateFromVariableDeclaration: function(variableDeclaration)
@@ -1209,8 +1206,14 @@ Firecrow.CodeTextGenerator.prototype =
 
     whitespace: "",
     newLine: "\r\n",
-    indent: function() { this.whitespace += "  "; },
-    deIndent: function()  { this.whitespace = this.whitespace.replace(/\s\s$/, "");},
+    indent: function()
+    {
+        this.whitespace += "  ";
+    },
+    deIndent: function()
+    {
+        this.whitespace = this.whitespace.replace(/\s\s$/, "");
+    },
 
     notifyError: function(message) { debugger; Firecrow.CodeTextGenerator.notifyError(message); },
 

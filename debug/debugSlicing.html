@@ -143,7 +143,7 @@
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "114";
+        var pageIndex = "136";
 
         var href = document.location.href;
 
@@ -181,12 +181,12 @@
         var browser = result.browser;
         var dependencyGraph = result.dependencyGraph;
 
-        checkForErrors(browser, htmlModel);
-
         var codeContainer = document.getElementById("codeContainer");
 
         codeContainer.innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(pageModel);
         document.getElementById("slicedSourceTextContainer").value = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+
+        checkForErrors(browser, htmlModel);
 
         (new FBL.Firecrow.DependencyGraph.DependencyHighlighter(codeContainer, dependencyGraph));
 

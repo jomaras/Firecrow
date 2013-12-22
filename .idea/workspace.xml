@@ -11,10 +11,9 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/137/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -64,10 +63,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TODO" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TODO" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TODO">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="25" selection-start="919" selection-end="919" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="6630">
+            <state line="33" column="21" selection-start="1452" selection-end="1452" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6630">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="codeTextGenerator.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="288" column="37" selection-start="10669" selection-end="10669" vertical-scroll-proportion="0.35605007" vertical-offset="4640" max-vertical-offset="21913">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debugSlicing.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="202" column="24" selection-start="10648" selection-end="10648" vertical-scroll-proportion="-9.117647" vertical-offset="2969" max-vertical-offset="4522">
               <folding />
             </state>
           </provider>
@@ -102,8 +119,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/debug/reuseTests/31/result.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js" />
         <option value="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js" />
@@ -117,6 +132,8 @@
         <option value="$PROJECT_DIR$/nodejs/reuser.js" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
         <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/debug/slicingTests/137/index.html" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
       </list>
     </option>
@@ -211,6 +228,78 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="evaluation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="results" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evaluation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="results" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="coverageMarkup" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -225,7 +314,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
+              <option name="myItemId" value="debug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slicingTests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3242,7 +3335,11 @@
       <created>1387652114025</created>
       <updated>1387652114025</updated>
     </task>
-    <option name="localTasksCounter" value="692" />
+    <task id="LOCAL-00692" summary="Minor bug fix: atob definition in case it was loaded by a module, was a variable declaration which would override the original atob when included normally &#10;">
+      <created>1387724840883</created>
+      <updated>1387724840883</updated>
+    </task>
+    <option name="localTasksCounter" value="693" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3283,23 +3380,23 @@
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33813748" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33888888" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20084344" sideWeight="0.66186255" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20084344" sideWeight="0.8422222" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39222223" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.611465" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15777777" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3319,7 +3416,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Whitespace" />
     <MESSAGE value="- Break and Continue with labels" />
     <MESSAGE value="- CodeTextGenerator - put sequence expression in parenthesis" />
     <MESSAGE value="CodeTextGenerator - fixed bug with variable declaration not generating &quot;;&quot; after variable declaration if in switch, for, if.." />
@@ -3344,7 +3440,8 @@
     <MESSAGE value="Almost finished with adjusting reuser to nodejs" />
     <MESSAGE value="All reuse tests running successfully in nodejs" />
     <MESSAGE value="Refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring" />
+    <MESSAGE value="Minor bug fix: atob definition in case it was loaded by a module, was a variable declaration which would override the original atob when included normally" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor bug fix: atob definition in case it was loaded by a module, was a variable declaration which would override the original atob when included normally" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3363,26 +3460,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Reuser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="541" column="4" selection-start="18416" selection-end="18416" vertical-scroll-proportion="0.0" vertical-offset="9012" max-vertical-offset="27642" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4403" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="38" selection-start="596" selection-end="596" vertical-scroll-proportion="0.21395881" vertical-offset="0" max-vertical-offset="874" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/CssConflictFixer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="6" selection-start="4869" selection-end="4869" vertical-scroll-proportion="0.33066362" vertical-offset="0" max-vertical-offset="874" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ResourceConflictFixer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="0" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.33752862" vertical-offset="11" max-vertical-offset="935" />
@@ -3395,7 +3472,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="223" column="28" selection-start="8434" selection-end="8454" vertical-scroll-proportion="0.0" vertical-offset="3236" max-vertical-offset="6477" />
+        <state line="223" column="28" selection-start="8434" selection-end="8454" vertical-scroll-proportion="0.0" vertical-offset="3236" max-vertical-offset="6477">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js">
@@ -3410,33 +3489,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1499" column="0" selection-start="49287" selection-end="49287" vertical-scroll-proportion="0.22146119" vertical-offset="25289" max-vertical-offset="30991" />
+        <state line="1499" column="0" selection-start="49287" selection-end="49287" vertical-scroll-proportion="0.22146119" vertical-offset="25289" max-vertical-offset="30991">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="52" selection-start="786" selection-end="786" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="4" selection-start="173" selection-end="173" vertical-scroll-proportion="0.1218638" vertical-offset="0" max-vertical-offset="21862">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.0238533" vertical-offset="2193" max-vertical-offset="4522">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/04-dragable-boxes/js/dragable-boxes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="63" selection-start="3215" selection-end="3215" vertical-scroll-proportion="0.3655914" vertical-offset="1428" max-vertical-offset="17765">
           <folding />
         </state>
       </provider>
@@ -3448,9 +3508,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/regressions/slicingTests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="23" selection-start="212" selection-end="212" vertical-scroll-proportion="0.2090164" vertical-offset="0" max-vertical-offset="1139">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/regressions/scenarioGenerators.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="874" selection-end="874" vertical-scroll-proportion="0.4180328" vertical-offset="0" max-vertical-offset="952">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/136/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="732">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/04-dragable-boxes/js/dragable-boxes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="105" column="11" selection-start="3448" selection-end="3485" vertical-scroll-proportion="-0.63838667" vertical-offset="2244" max-vertical-offset="17765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/137/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="732">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TODO">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="25" selection-start="919" selection-end="919" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="6630">
+        <state line="33" column="21" selection-start="1452" selection-end="1452" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="202" column="24" selection-start="10648" selection-end="10648" vertical-scroll-proportion="-9.117647" vertical-offset="2969" max-vertical-offset="4522">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="288" column="37" selection-start="10669" selection-end="10669" vertical-scroll-proportion="0.35605007" vertical-offset="4640" max-vertical-offset="21913">
           <folding />
         </state>
       </provider>
