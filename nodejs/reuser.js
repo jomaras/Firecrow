@@ -10,7 +10,8 @@ var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModel
 var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/expectedResult.html");
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
 
-var expectedResult = fs.readFileSync(expectedResultPath, {encoding:"utf8"});
+var expectedResult = fs.existsSync(expectedResultPath) ? fs.readFileSync(expectedResultPath, {encoding:"utf8"})
+                                                       : "";
 
 var scenarioModelForReuserSlicerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserSlicer.txt");
 var scenarioModelForReuserAnalyzerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt");

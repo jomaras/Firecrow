@@ -2,7 +2,7 @@ var usesModule = typeof module !== 'undefined' && module.exports;
 if(usesModule)
 {
     FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
-    var atob = require("atob");
+    atob = require("atob");
 }
 var CodeTextGenerator;
 FBL.ns(function () { with (FBL) {

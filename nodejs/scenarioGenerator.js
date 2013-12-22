@@ -12,7 +12,7 @@ ScenarioGenerator.shouldPrintDetailedMessages = true;
 ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
 ScenarioGenerator.generateAdditionalTimingEvents = false;
 
-var pageName = process.argv[2] || "07-homeostasis";
+var pageName = process.argv[2] || "04-dragable-boxes";
 ScenarioGenerator.prioritization = process.argv[3] || ScenarioGenerator.PRIORITIZATION.fifo;
 ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 3;
 
