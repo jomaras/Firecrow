@@ -466,7 +466,6 @@ Firecrow.CodeTextGenerator.prototype =
         var code = "";
 
         this.indent();
-        console.log(blockStatement.nodeId, "S" + this.whitespace + "S");
         var body = blockStatement.body;
 
         if(body != null)
@@ -478,7 +477,6 @@ Firecrow.CodeTextGenerator.prototype =
         }
 
         this.deIndent();
-        console.log(blockStatement.nodeId, "E" + this.whitespace + "E");
 
         if(code === "") { return this._LEFT_GULL_WING + this._RIGHT_GULL_WING; }
 
