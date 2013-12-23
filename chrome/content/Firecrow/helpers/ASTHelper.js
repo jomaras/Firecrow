@@ -79,7 +79,7 @@ Firecrow.ASTHelper = ASTHelper =
                     }
                 }
 
-                if(ASTHelper.isStatement(astElement) && !ASTHelper.isBlockStatement(astElement))
+                if(ASTHelper.isStatement(astElement) && !ASTHelper.isBlockStatement(astElement) && !ASTHelper.isEmptyStatement(astElement))
                 {
                     totalNumberOfStatements++;
 

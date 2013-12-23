@@ -680,7 +680,14 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromSequenceExpression: function(sequenceExpression)
     {
-        return this._LEFT_PARENTHESIS + this.getSequenceCode(sequenceExpression.expressions) + this._RIGHT_PARENTHESIS;
+        var sequenceCode = this.getSequenceCode(sequenceExpression.expressions);
+
+        if(!ASTHelper.isLoopStatement(sequenceExpression.parent))
+        {
+            sequenceCode = this._LEFT_PARENTHESIS + sequenceCode + this._RIGHT_PARENTHESIS;
+        }
+
+        return sequenceCode;
     },
 
     generateFromArrayExpression: function(arrayExpression)

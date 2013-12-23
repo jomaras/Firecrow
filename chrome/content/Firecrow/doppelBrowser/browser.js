@@ -533,7 +533,7 @@ FBL.ns(function() { with (FBL) {
             if(codeConstruct == null || codeConstruct.type == null) { return; }
 
             codeConstruct.hasBeenExecuted = true;
-            //this.executionInfo.logExecutedConstruct(codeConstruct);
+            this.executionInfo.logExecutedConstruct(codeConstruct);
 
             var parentStatementOrFunction = ASTHelper.getParentStatementOrFunction(codeConstruct);
             if(parentStatementOrFunction != null)

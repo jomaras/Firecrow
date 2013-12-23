@@ -2,7 +2,6 @@ var fs = require('fs');
 var path = require('path');
 
 var ScenarioGenerator = require(path.resolve(__dirname, "scenarioGeneratorModules/ScenarioGenerator.js")).ScenarioGenerator;
-var scenarioEmpiricalDataPath = path.resolve(__dirname, "../../EventRecorder/recordings/aggregateJsonData.txt");
 
 var visitedCodeTemplatePath = path.resolve(__dirname, "../phantomJs/helperPages/viewExecutedCodeTemplate.html");
 var visitedCodeDestinationFolder = path.resolve(__dirname, "../evaluation/results/coverageMarkup") + path.sep;
@@ -12,17 +11,18 @@ ScenarioGenerator.shouldPrintDetailedMessages = true;
 ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
 ScenarioGenerator.generateAdditionalTimingEvents = false;
 
-var pageName = process.argv[2] || "04-dragable-boxes";
+var pageName = process.argv[2] || "testApplication"//"28-floatwar";
 ScenarioGenerator.prioritization = process.argv[3] || ScenarioGenerator.PRIORITIZATION.fifo;
-ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 3;
+ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 30;
 
 console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prioritization, ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS);
 
-var coverageFolder = path.resolve(__dirname, "../evaluation/results/coverage") + path.sep + ScenarioGenerator.prioritization + path.sep;
-var scenarioModelPath = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json");
+var coverageFolder = process.argv[5] || path.resolve(__dirname, "../evaluation/results/coverage") + path.sep + ScenarioGenerator.prioritization + path.sep;
+var scenarioModelPath = process.argv[6] || path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json"); //"C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\40.json";
 var eventExecutionsFolder = path.resolve(__dirname, "../phantomJs/dataFiles/eventExecutions/");
+var achievedCoverageFile = path.resolve(__dirname, "../evaluation/results/achievedCoverage.txt");
 
-//ScenarioGenerator.setEmpiricalData(JSON.parse(fs.readFileSync(scenarioEmpiricalDataPath, { encoding: "utf-8"})));
+fs.writeFileSync(achievedCoverageFile, "");
 
 function deleteEventExecutionFiles()
 {
@@ -36,26 +36,27 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
 {
     console.log("ScenarioGenerator", message);
     console.log("The process has achieved statement coverage: " + (coverage != null ? coverage.statementCoverage : 0));
+    fs.writeFileSync(achievedCoverageFile, (coverage != null ? coverage.statementCoverage : 0));
 
     var coverageFile = coverageFolder + pageName + ".txt";
-    try
+
+    if(!fs.existsSync(coverageFolder))
     {
         fs.mkdirSync(coverageFolder);
     }
-    catch(e) { console.log("Error when creating coverageFolders", e);}
 
     fs.writeFileSync(coverageFile, getCoverageData());
 
     var filteredScenarios = scenarios.getSubsumedProcessedScenarios();
 
-    console.warn("Kept scenarios: ", filteredScenarios.length);
+    console.log("Kept scenarios: ", filteredScenarios.length);
 
     for(var i = 0; i < filteredScenarios.length; i++)
     {
-        console.warn("Scenario", i, filteredScenarios[i].getEventsQuery());
+        console.log("Scenario", i, filteredScenarios[i].getEventsQuery());
     }
 
-    console.warn("Deleting event execution files");
+    console.log("Deleting event execution files");
     deleteEventExecutionFiles();
 
     var markupCode = ScenarioGenerator.generateVisitedMarkup();
@@ -66,9 +67,7 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
     var coveredCodePage = visitedCodeDestinationFolder + pageName + "-" + ScenarioGenerator.prioritization + ".htmla";
 
     fs.writeFileSync(coveredCodePage , content);
-    console.warn("Covered code html: ", coveredCodePage);
-
-    process.exit();
+    console.log("Covered code html: ", coveredCodePage);
 });
 
 function getCoverageData()

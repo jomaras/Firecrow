@@ -113,6 +113,8 @@ var ScenarioGenerator =
 
         ScenarioGenerator._setUpPageModel();
         ScenarioGenerator._generateScenarios();
+
+        ScenarioGenerator.scriptPathsToIgnore = ScenarioGenerator.pageModel.scriptPathsToIgnore || [];
     },
 
     _getScenarioExecutorUrl: function(scenarioExecutorPageUrl, pageModelUrl)
@@ -138,6 +140,7 @@ var ScenarioGenerator =
     _hasAchievedFullCoverage: function(coverage)
     {
         ScenarioGenerator.lastCoverage = coverage;
+
         if(coverage.statementCoverage == 1)
         {
             ScenarioGenerator._callCallback("The process has achieved full coverage: " + ScenarioGenerator.pageModelUrl);
@@ -342,7 +345,8 @@ var ScenarioGenerator =
         if(ScenarioGenerator.shouldPrintDetailedMessages)
         {
             var now = new Date();
-            console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " with id: " + scenario.id + " " + pageUrl, now.getHours() + ":" + now.getMinutes() );
+            console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " with id: " + scenario.id + " " + pageUrl, now.getHours() + ":" + now.getMinutes());
+            console.log(scenario.getEventsQuery());
             //console.log("Input Constraint: " + scenario.inputConstraint);
             //console.log("Events: ");
             //console.log(scenario.getEventsInfo());
@@ -488,6 +492,7 @@ var ScenarioGenerator =
                     if(createdScenario != null)
                     {
                         createdScenario.setParametrizedEvents(parametrizedEvents);
+                        ScenarioGenerator._mapParametrizedEvents(createdScenario, parametrizedEvents);
                         createdScenario.setCreationTypeSymbolic();
                     }
                 }
@@ -547,10 +552,13 @@ var ScenarioGenerator =
         {
             ScenarioGenerator._createAdditionalMouseMoveEvents(newParametrizedEvent, newScenario.events, newScenario.parametrizedEvents, null, newScenario);
         }
+
+        ScenarioGenerator._mapParametrizedEvents(newScenario, newScenario.parametrizedEvents);
     },
 
     _createNewScenariosByAppendingParametrizedEvents: function (scenario, scenarios, eventRegistration, parametrizedEventsLog)
     {
+        if(scenario.id == 11) {debugger;}
         for(var propName in parametrizedEventsLog)
         {
             var log = parametrizedEventsLog[propName];

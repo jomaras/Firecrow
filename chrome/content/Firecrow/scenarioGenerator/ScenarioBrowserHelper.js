@@ -222,7 +222,7 @@ fcScenarioGenerator.ScenarioBrowserHelper =
         var symbolicValue = null;
         if(!dontCreateSymbolicValue)
         {
-            symbolicValue = new fcSymbolic.Identifier(fcScenarioGenerator.ScenarioGenerator.addSuffix(propertyName, executionOrderId));
+            symbolicValue = new fcSymbolic.Identifier(this.addSuffix(propertyName, executionOrderId));
         }
 
         if(ValueTypeHelper.isPrimitive(propertyValue))
@@ -245,7 +245,7 @@ fcScenarioGenerator.ScenarioBrowserHelper =
         {
             var propValue = parameters[propName];
 
-            eventInfo[propName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(fcScenarioGenerator.ScenarioGenerator.addSuffix(propName, eventIndex)));
+            eventInfo[propName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this.addSuffix(propName, eventIndex)));
             eventInfoFcObject.addProperty(propName, eventInfo[propName]);
         }
     },
@@ -284,6 +284,11 @@ fcScenarioGenerator.ScenarioBrowserHelper =
                 }
             }
         }
+    },
+
+    addSuffix: function(name, suffixID)
+    {
+        return name + "_FC_" + suffixID;
     }
 };
 /*****************************************************/

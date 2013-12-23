@@ -360,21 +360,26 @@ ScenarioCollection.prototype =
 
     getSubsumedProcessedScenarios: function()
     {
-        var processedScenarios = this.getExecutedScenarios();
+        var executedScenarios = this.getExecutedScenarios();
 
-        processedScenarios = this._removeUnrelatedToUiControls(processedScenarios);
+        //console.log("Executed scenarios: " + executedScenarios.length);
 
-        processedScenarios.sort(function(s1, s2)
+        executedScenarios = this._removeUnrelatedToUiControls(executedScenarios);
+
+        //console.log("Scenarios related to UI control: " + executedScenarios.length);
+
+        executedScenarios.sort(function(s1, s2)
         {
             return s2.events.length - s1.events.length;
         });
 
-        var jointCoverage = this._getJointCoverageMap(processedScenarios);
+        var jointCoverage = this._getJointCoverageMap(executedScenarios);
         var keptScenarios = [];
 
-        for(var i = 0; i < processedScenarios.length; i++)
+        for(var i = 0; i < executedScenarios.length; i++)
         {
-            var scenario = processedScenarios[i];
+            var scenario = executedScenarios[i];
+
             if(this._canScenarioBeRemoved(jointCoverage, scenario))
             {
                 this._removeScenarioCoverageFromJointCoverage(jointCoverage, scenario);
