@@ -17,7 +17,7 @@ fcModel.GlobalObject = function(browser)
         this.internalExecutor = new Firecrow.Interpreter.Simulator.InternalExecutor(this);
 
         this._setExecutionEnvironment(browser);
-        this._detectExecutionEnvironentProperties();
+        this._detectExecutionEnvironmentProperties();
 
         this._createInternalPrototypes();
         this._createInternalObjects();
@@ -660,7 +660,7 @@ fcModel.GlobalObject.prototype._setExecutionEnvironment = function(browser)
     this.origWindow.assertNotEquals = function assertNotEquals(){};
 };
 
-fcModel.GlobalObject.prototype._detectExecutionEnvironentProperties = function()
+fcModel.GlobalObject.prototype._detectExecutionEnvironmentProperties = function()
 {
     this.throwsExceptionOnPushWithNodeList = (function()
     {

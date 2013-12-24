@@ -120,6 +120,14 @@ fcScenarioGenerator.ScenarioBrowserHelper =
             case "mouseup":
             case "mousemove":
             case "mouseover":
+            case "touchstart":
+            case "touchmove":
+            case "touchend":
+            case "touchcancel":
+            case "ontouchstart":
+            case "ontouchmove":
+            case "ontouchend":
+            case "ontouchcancel":
                 return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
             case "onkeyup":
@@ -157,6 +165,11 @@ fcScenarioGenerator.ScenarioBrowserHelper =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", elementPosition.y, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 1, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex, true);
+
+        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "touches", browser, eventIndex);
+        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "targetTouches", browser, eventIndex);
+        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "changedTouches", browser, eventIndex);
+
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
 
@@ -237,6 +250,27 @@ fcScenarioGenerator.ScenarioBrowserHelper =
         eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 
+    _addTouchesEventObjectArrayProperty: function(eventInfo, eventInfoFcObject, propertyName, browser, executionOrderId)
+    {
+        var object = browser.globalObject.internalExecutor.createNonConstructorObject(null, {});
+
+        object.iValue.addProperty("pageX", this._createPrimitiveSymbolicValue("pageX", 0, browser, executionOrderId));
+        object.iValue.addProperty("pageY", this._createPrimitiveSymbolicValue("pageY", 0, browser, executionOrderId));
+
+        object.iValue.addProperty("clientX", this._createPrimitiveSymbolicValue("clientX", 0, browser, executionOrderId));
+        object.iValue.addProperty("clientY", this._createPrimitiveSymbolicValue("clientY", 0, browser, executionOrderId));
+
+        var touches = browser.globalObject.internalExecutor.createArray(null, [object]);
+
+        eventInfo[propertyName] = touches;
+        eventInfoFcObject.addProperty(propertyName, touches);
+    },
+
+    _createPrimitiveSymbolicValue: function(propertyName, propertyValue, browser, executionOrderId)
+    {
+        return browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propertyValue, new fcSymbolic.Identifier(this.addSuffix(propertyName, executionOrderId)));
+    },
+
     _updateWithConstraintInfo: function(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex)
     {
         if(parameters == null) { return; }
@@ -247,6 +281,16 @@ fcScenarioGenerator.ScenarioBrowserHelper =
 
             eventInfo[propName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this.addSuffix(propName, eventIndex)));
             eventInfoFcObject.addProperty(propName, eventInfo[propName]);
+
+            if(propName == "pageX" || propName == "pageY" || propName == "clientX" || propName == "clientY")
+            {
+                if(eventInfo.touches != null && eventInfo.touches.iValue != null && eventInfo.touches.iValue.items != null && eventInfo.touches.iValue.items[0] != null)
+                {
+                    var touchItem = eventInfo.touches.iValue.items[0];
+
+                    touchItem.iValue.addProperty(propName, this._createPrimitiveSymbolicValue(propName, propValue, browser, eventIndex));
+                }
+            }
         }
     },
 

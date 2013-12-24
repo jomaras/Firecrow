@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var el = document.getElementById("mainContainer");
+
+        el.addEventListener("touchstart", handleStart, false);
+
+        function handleStart(e)
+        {
+            var touches = e.touches;
+            var a = 3;
+
+            if(touches[0].pageX < 200)
+            {
+                a++;
+            }
+            else
+            {
+                a--;
+            }
+        }
+    </script>
+</body>
+</html>
