@@ -8,7 +8,7 @@ var dummyCoverageFolder = path.resolve(__dirname, "../evaluation/results/dummyFo
 var achievedCoverageFile = path.resolve(__dirname, "../evaluation/results/achievedCoverage.txt");
 
 var testModelFilePaths = getFiles(testsRootFolder);
-//testModelFilePaths = ["C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\42.json"]; //31, 38, 40, 42
+//testModelFilePaths = ["C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\17.json"]; //17, 26, 30, 40
 
 (function processNextTestFolderPath()
 {
@@ -21,7 +21,7 @@ var testModelFilePaths = getFiles(testsRootFolder);
     spawnNodeJsProcess
     (
         scenarioGeneratorScriptPath,
-        ["testApplication", "symbolicNewCoverageSequential", 40, dummyCoverageFolder, testModelFilePath],
+        ["testApplication", "symbolicNewCoverage", 40, dummyCoverageFolder, testModelFilePath],
         function onData(data)
         {
             //console.log(data.toString());

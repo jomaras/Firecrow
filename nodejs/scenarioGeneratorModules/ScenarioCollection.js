@@ -395,11 +395,11 @@ ScenarioCollection.prototype =
 
     _canScenarioBeRemoved: function(jointCoverage, scenario)
     {
-        var executedConstructs = scenario.executionInfo.executedConstructsIdMap;
+        var executedConstructIds = scenario.executionInfo.executedConstructsIdMap;
 
-        for(var constructId in executedConstructs)
+        for(var i = 0; i < executedConstructIds.length; i++)
         {
-            if(jointCoverage[constructId] - 1 <= 0) { return false; }
+            if(jointCoverage[executedConstructIds[i]] - 1 <= 0) { return false; }
         }
 
         return true;
@@ -407,11 +407,11 @@ ScenarioCollection.prototype =
 
     _removeScenarioCoverageFromJointCoverage: function(jointCoverage, scenario)
     {
-        var executedConstructs = scenario.executionInfo.executedConstructsIdMap;
+        var executedConstructIds = scenario.executionInfo.executedConstructsIdMap;
 
-        for(var constructId in executedConstructs)
+        for(var i = 0; i < executedConstructIds.length; i++)
         {
-            jointCoverage[constructId]--;
+            jointCoverage[executedConstructIds[i]]--;
         }
     },
 
@@ -423,8 +423,9 @@ ScenarioCollection.prototype =
         {
             var executedConstructs = scenarios[i].executionInfo.executedConstructsIdMap;
 
-            for(var constructId in executedConstructs)
+            for(var j = 0; j < executedConstructs.length; j++)
             {
+                var constructId = executedConstructs[j];
                 if(jointCoverage[constructId] == null)
                 {
                     jointCoverage[constructId] = 1
