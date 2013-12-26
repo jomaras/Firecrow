@@ -38,6 +38,7 @@ FBL.ns(function() { with (FBL) {
             if(executeRegisteredEvents)
             {
                 browser.executeLoadingEvents();
+                browser.executeAjaxEvents();
                 browser.executeTimingEvents();
             }
 
@@ -74,6 +75,7 @@ FBL.ns(function() { with (FBL) {
             if(executeRegisteredEvents)
             {
                 browser.executeLoadingEvents();
+                browser.executeAjaxEvents();
                 browser.executeTimingEvents();
             }
 

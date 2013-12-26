@@ -128,6 +128,8 @@ fcScenarioGenerator.ScenarioBrowserHelper =
             case "ontouchmove":
             case "ontouchend":
             case "ontouchcancel":
+            case "onselectstart":
+            case "selectstart":
                 return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
             case "onkeyup":

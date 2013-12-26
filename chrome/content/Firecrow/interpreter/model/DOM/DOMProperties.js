@@ -78,7 +78,9 @@ fcModel.DOM_PROPERTIES =
             "oncopy", "oncut", "onpaste", "onbeforeunload", "onblur", "onchange", "onclick",
             "oncontextmenu", "ondblclick", "onfocus", "onkeydown", "onkeypress", "onkeyup",
             "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onresize",
-            "onscroll", "onwheel", "click", "keydown", "keyup", "keypress"
+            "onscroll", "onwheel", "click", "keydown", "keyup", "keypress", "touchstart", "touchend",
+            "touchcancel", "touchleave", "touchmove", "ontouchstart", "ontouchend",
+            "ontouchcancel", "ontouchleave", "ontouchmove", "selectstart", "onselectstart"
         ],
         OTHER: ["dataset", "style", "classList", "files", "valueAsDate"]
     },

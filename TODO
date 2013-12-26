@@ -1,45 +1,26 @@
 - implement the situation in which the first event carries browser information (i.e. browser version, browser size...)
 - maybe it would be an ok idea to put a flag in the execution summary (i.e. attempting to read ActiveXObject, document height, document width)
-
+- eventLength prioritization should choose the next largest scenario, with the obvious downfall of generating much larger scenarios.
 
 ******************   0. Programming  ******************
 - Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests
                               add scenario filtering
+
+    Can't get any better:
     - 01-3dModeller
-        - ?
-    - 02-ajaxtabsconent (first doable, next three i can not even manually get)
-        - have to implement cookie interface
-        - expand tab function (else if relattrvalue == "#iframe") is never executed
-        - iframedisplay never executed
-        - init: function - selectedtab = i not executed
-                           selectedtab != -1
+    - 02-ajaxtabsconent
+    - 04-dragable-boxes
+    - 05-dynamicArticles
+
     - 03-ball_pool (try more!)
-
-    - 04-dragable-boxes - major improvements possible!
-        - autoscroll (i should implement the situation in which the first event carries browser information, e.g. browser version, which functions exist, browser size)
-        - dragObject.nextSibling
-        - dragDropCounter
-        - highlightCloseButton
-        - saveFeed
-        - showRSSData
-        - cancelSelectionEvent
-        - cancelEvent
-        - createFeed
-        - clearCookiesForDragableBoxes
-        - disableBoxDrag
-
-    - 05-dynamicArticles (minor possible)
-        - createURLString function
     - 06-fractalViewer (leaves not drawn, so lower coverage, not sure on improvements)
+        - improvements possible, but?
     - 07-homeostasis
         - reduced, but still breaking in phantomJs
     - 08-pacman (minor improvements)
-        - handleTouchStart
-            - touches
-            - handleTouchMove
-            - handleTouchEnd
     - 20-3dMaker
         - two clicks have to be generated (at least two points, and then a key should be pressed), why isn't it working??
+        - maybe there is no dependency between [].length and [].push ?
 
     - 21-angelJump
         - try to cause game over, would significantly influence coverage

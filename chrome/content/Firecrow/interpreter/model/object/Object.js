@@ -511,8 +511,13 @@ fcModel.Object.prototype =
         }
 
         return properties;
-    }
+    },
     //</editor-fold>
+
+    isDefinedInCurrentContext: function()
+    {
+        return this.creationContext == this.globalObject.executionContextStack.activeContext;
+    }
 };
 //</editor-fold>
 /*************************************************************************************/

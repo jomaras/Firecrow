@@ -218,6 +218,11 @@
                 }
             })();
 
+            (function executeAjaxEvents()
+            {
+                browser.executeAjaxEvents();
+            })();
+
             (function addDefaultConstraints()
             {
                 var executionInfo = browser.getExecutionInfo();

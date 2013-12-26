@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer">
+        Test test test test
+    </div>
+
+    <script>
+        document.body.onselectstart = function()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+
+            mainContainer.textContent += "Selecting";
+        }
+    </script>
+</body>
+</html>

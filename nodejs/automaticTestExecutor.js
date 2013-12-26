@@ -49,7 +49,6 @@ var testModelFilePaths = getFiles(testsRootFolder);
         function onError(error)
         {
             error && console.log("Error:", error);
-
         }
     );
 

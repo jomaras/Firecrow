@@ -7,6 +7,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 var fcSimulator = Firecrow.Interpreter.Simulator;
+var ASTHelper = Firecrow.ASTHelper;
 fcModel.ArrayExecutor =
 {
     executeInternalArrayMethod : function(thisObject, functionObject, args, callExpression, callCommand)
@@ -38,12 +39,19 @@ fcModel.ArrayExecutor =
                 case "reverse":
                 case "shift":
                 case "push":
-                case "concat":
                 case "slice":
-                case "indexOf":
-                case "lastIndexOf":
                 case "unshift":
                 case "splice":
+                    if(callExpression != null && ASTHelper.isMemberExpression(callExpression.callee) && ASTHelper.isIdentifier(callExpression.callee.object))
+                    {
+                        if(!fcThisValue.isDefinedInCurrentContext())
+                        {
+                            globalObject.browser.logModifyingExternalContextObject(fcThisValue.creationCodeConstruct != null ? fcThisValue.creationCodeConstruct.nodeId : -1, callExpression.callee.object.name)
+                        }
+                    }
+                case "concat":
+                case "indexOf":
+                case "lastIndexOf":
                 case "join":
                     return fcModel.Array.prototype[functionName].apply(fcThisValue, [thisObjectValue, args, callExpression, thisObject]);
                 case "sort":

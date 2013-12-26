@@ -124,6 +124,22 @@ FBL.ns(function() { with (FBL) {
 
             this.setLoadingEventsExecuted();
         },
+
+        executeAjaxEvents: function()
+        {
+            var ajaxEvents = this.globalObject.ajaxHandlers;
+
+            for(var i = 0; i < ajaxEvents.length; i++)
+            {
+                var ajaxEvent = ajaxEvents[i];
+                if(!ajaxEvent.hasBeenHandled)
+                {
+                    this.executeEvent(ajaxEvent);
+                    ajaxEvent.hasBeenHandled = true;
+                }
+            }
+        },
+
         noOfTimingEventsExe: 0,
         executeTimingEvents: function()
         {
@@ -1228,7 +1244,7 @@ FBL.ns(function() { with (FBL) {
 
         logDynamicId: function(idValue, codeConstructId, nodeId)
         {
-            if(this.dynamicIdMap[idValue] == null) { this.dynamicIdMap[idValue] = { value: idValue, codeConstructIdMap: {}}; }
+            if(this.dynamicIdMap[idValue] == null) { this.dynamicIdMap[idValue] = { value: idValue, codeConstructIdMap: {}, nodeIdMap: {}}; }
 
             this.dynamicIdMap[idValue].codeConstructIdMap[codeConstructId] = 1;
             this.dynamicIdMap[idValue].nodeIdMap[nodeId] = 1;

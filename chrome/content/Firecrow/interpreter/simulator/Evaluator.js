@@ -38,6 +38,7 @@ fcSimulator.Evaluator.prototype =
     {
         try
         {
+
                  if (command.isEvalIdentifierCommand()) { this._evalIdentifierCommand(command); }
             else if (command.isEvalAssignmentExpressionCommand()) { this._evalAssignmentCommand(command); }
             else if (command.isEvalMemberExpressionCommand()) { this._evalMemberCommand(command); }

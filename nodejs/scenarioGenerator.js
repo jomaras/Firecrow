@@ -19,7 +19,7 @@ console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prior
 
 var coverageFolder = process.argv[5] || path.resolve(__dirname, "../evaluation/results/coverage") + path.sep + ScenarioGenerator.prioritization + path.sep;
 var generatedScenariosFolder = process.argv[5] || path.resolve(__dirname, "../evaluation/results/generatedScenarios") + path.sep + ScenarioGenerator.prioritization + path.sep;
-var scenarioModelPath = process.argv[6] || "C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\45.json";//path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json"); //"C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\40.json";
+var scenarioModelPath = process.argv[6] || "C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\47.json"//path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json"); //"C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\40.json";
 var eventExecutionsFolder = path.resolve(__dirname, "../phantomJs/dataFiles/eventExecutions/");
 var achievedCoverageFile = path.resolve(__dirname, "../evaluation/results/achievedCoverage.txt");
 

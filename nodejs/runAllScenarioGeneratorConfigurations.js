@@ -25,9 +25,9 @@ var applicationNames = ["01-3dModeller", "02-ajaxtabscontent", "03-ball_pool", "
 //07-homeostasis - NOK (too much data)
 
 //applicationNames = ["02-ajaxtabscontent", "21-angelJump", "22-minesweeper", "23-prism3D", "25-snake", "05-dynamicArticles", "06-fractal_viewer", "24-rentingAgency", "27-tinySlider", "26-snowpar", "28-floatwar"];
-applicationNames = ["30-test"];
+applicationNames = ["08-pacman"];
 
-var eventTypes = ["fifo"]; //["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential"];
+var eventTypes = ["symbolicNewCoverage"]//, "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 
@@ -65,7 +65,7 @@ var processOutput = "";
     spawnNodeJsProcess
     (
         scenarioGeneratorPath,
-        [applicationName, eventType, "30"],
+        [applicationName, eventType, "100"],
         function (data)
         {
             var str = data.toString()

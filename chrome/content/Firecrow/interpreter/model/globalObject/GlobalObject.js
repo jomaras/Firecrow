@@ -421,7 +421,7 @@ fcModel.GlobalObject.prototype.logForInIteration = function(codeConstruct, objec
 
 fcModel.GlobalObject.prototype.getLoadedHandlers = function()
 {
-    return this.getDOMContentLoadedHandlers().concat(this.getOnLoadFunctions()).concat(this.ajaxHandlers);
+    return this.getDOMContentLoadedHandlers().concat(this.getOnLoadFunctions());
 };
 
 fcModel.GlobalObject.prototype.simpleDependencyEstablished = function(fromConstruct, toConstruct)
