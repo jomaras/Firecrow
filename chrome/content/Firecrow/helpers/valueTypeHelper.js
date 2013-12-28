@@ -433,6 +433,26 @@ Firecrow.ValueTypeHelper =
         catch(e) { alert("Error while removing elements from array by index: " + e);}
     },
 
+    getArraysIntersection: function(firstArray, secondArray)
+    {
+        if(firstArray == null || secondArray == null || firstArray.length == 0 || secondArray.length == 0) { return []; }
+
+        var intersection = [];
+
+        for(var i = 0; i < firstArray.length; i++)
+        {
+            for(var j = 0; j < secondArray.length; j++)
+            {
+                if(firstArray[i] == secondArray[j])
+                {
+                    intersection.push(firstArray[i]);
+                }
+            }
+        }
+
+        return intersection;
+    },
+
     insertIntoStringAtPosition: function(baseString, insertionString, position)
     {
         if(baseString == "") { return insertionString; }

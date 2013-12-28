@@ -282,14 +282,16 @@ var ScenarioGenerator =
 
                     if(executionInfoSummary.cookie != null && executionInfoSummary.cookie != "")
                     {
-                        var cookieScenario = new ScenarioModule.Scenario([], null, null, ScenarioModule.Scenario.CREATION_TYPE.newEvent, executionInfoSummary.cookie);
+                        var cookieScenario = new ScenarioModule.Scenario([], null, null, ScenarioModule.Scenario.CREATION_TYPE.symbolic, executionInfoSummary.cookie);
                         ScenarioGenerator.scenarios.addScenario(cookieScenario);
                     }
 
-                    if(eventRegistrations.length == 0 && cookieScenario == null)
+                    var differentBrowsers = ScenarioGenerator._getDifferentBrowsers(executionInfoSummary);
+
+                    for(var i = 0; i < differentBrowsers.length; i++)
                     {
-                        ScenarioGenerator._noMoreScenariosForProcessing();
-                        return;
+                        var browserScenario = new ScenarioModule.Scenario([], null, null, ScenarioModule.Scenario.CREATION_TYPE.symbolic, "", differentBrowsers[i]);
+                        ScenarioGenerator.scenarios.addScenario(browserScenario);
                     }
 
                     for(var i = 0; i < eventRegistrations.length; i++)
@@ -469,7 +471,8 @@ var ScenarioGenerator =
             ({
                 events: scenario != null ? scenario.getEventsQuery() : "[]",
                 scriptsToIgnore: (JSON.stringify(ScenarioGenerator.scriptPathsToIgnore) || "[]"),
-                cookie: scenario != null ? scenario.cookie : ""
+                cookie: scenario != null ? scenario.cookie : "",
+                browser: scenario != null ? scenario.browser : ""
             })
         );
     },
@@ -856,7 +859,51 @@ var ScenarioGenerator =
     {
         var logContent = fs.readFileSync(outputFile, {encoding:"utf8"});
         fs.writeFileSync(outputFile, logContent + "\n" + message);
-    }
+    },
+
+    _getDifferentBrowsers: function(executionInfoSummary)
+    {
+        var accessedProperties = this._getAccessedBrowserSpecificProperties(executionInfoSummary);
+
+        var browsers = [];
+
+        if(ValueTypeHelper.getArraysIntersection(ScenarioGenerator._IE_PROPERTIES, accessedProperties).length != 0)
+        {
+            browsers.push("IE");
+        }
+
+        return browsers;
+    },
+
+    _getAccessedBrowserSpecificProperties: function(executionInfoSummary)
+    {
+        var accessedProperties = [];
+
+        for(var propName in executionInfoSummary.undefinedGlobalPropertiesAccessMap)
+        {
+            if(ScenarioGenerator._BROWSER_SPECIFIC_PROPERTIES.indexOf(propName) != -1)
+            {
+                accessedProperties.push(propName);
+            }
+        }
+
+        return accessedProperties;
+    },
+
+    _BROWSER_SPECIFIC_PROPERTIES: ["ActiveXObject"],
+    _IE_PROPERTIES: ["ActiveXObject"],
+    _BROWSERS:
+    [
+        "IE6", "IE7", "IE8", "IE9", "IE10", "IE11",
+        "Chrome",
+        "Firefox3.5",
+        "Firefox3.6",
+        "Firefox4",
+        "Firefox9",
+        "Firefox10",
+        "Firefox18",
+        "Firefox23"
+    ]
 }
 
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction, onErrorFunction)

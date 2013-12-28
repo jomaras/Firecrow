@@ -1033,6 +1033,16 @@ fcModel.GlobalObject.prototype._deleteHandlerMaps = function()
     delete this.timeoutHandlers;
     delete this.intervalHandlers;
 };
+
+fcModel.GlobalObject.prototype.setBrowserVersion = function(browserVersion)
+{
+    if(browserVersion == null || browserVersion == "") { return; }
+
+    if(browserVersion.indexOf("IE") == 0)
+    {
+        this.addProperty("ActiveXObject", new fcModel.fcValue(XMLHttpRequest, this.xmlHttpRequestFunction, null), null);
+    }
+};
 //</editor-fold>
 
 fcModel.WindowFunction = function(globalObject)

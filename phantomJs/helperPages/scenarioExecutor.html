@@ -115,6 +115,7 @@
         var scriptsToIgnore = JSON.parse(scenarioData.scriptsToIgnore || "[]");
         var cookie = scenarioData.cookie || "";
         var eventDescriptors = JSON.parse(eventsJSON);
+        var browserVersion = scenarioData.browser || "";
 
         if(!pageUrl){ throw new Error("url has to be specified");}
 
@@ -181,6 +182,7 @@
 
             var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
             browser.globalObject.document.setCookie(cookie);
+            browser.globalObject.setBrowserVersion(browserVersion);
 
             browser.url = pageUrl;
             if(browser.url.indexOf("CodeModels") != -1) { browser.url = browser.url.replace("CodeModels", "Firecrow");}

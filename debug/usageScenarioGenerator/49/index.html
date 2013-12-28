@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        var ajax = null;
+        var a = 0;
+        if(window.ActiveXObject)
+        {
+            ajax = new ActiveXObject("Microsoft.XMLHTTP");
+            a++;
+        }
+        else
+        {
+            ajax = new XMLHttpRequest();
+            a++;
+        }
+    </script>
+</body>
+</html>
