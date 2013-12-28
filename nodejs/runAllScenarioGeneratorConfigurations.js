@@ -25,7 +25,7 @@ var applicationNames = ["01-3dModeller", "02-ajaxtabscontent", "03-ball_pool", "
 //07-homeostasis - NOK (too much data)
 
 //applicationNames = ["02-ajaxtabscontent", "21-angelJump", "22-minesweeper", "23-prism3D", "25-snake", "05-dynamicArticles", "06-fractal_viewer", "24-rentingAgency", "27-tinySlider", "26-snowpar", "28-floatwar"];
-applicationNames = ["02-ajaxtabscontent"];
+applicationNames = ["03-ball_pool"];
 
 var eventTypes = ["symbolicNewCoverage"]//, "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
 

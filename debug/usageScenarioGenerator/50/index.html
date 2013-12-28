@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+    var windowScreenX = window.screenX;
+    var windowScreenY = window.screenY;
+    var windowInnerWidth = window.innerWidth;
+    var windowInnerHeight = window.innerHeight;
+    var a = 0;
+
+    window.setInterval(function()
+    {
+        if(window.screenX != windowScreenX)
+        {
+            a++;
+        }
+        else
+        {
+            a++;
+        }
+
+        if(window.screenY != windowScreenY)
+        {
+            a++;
+        }
+        else
+        {
+            a++;
+        }
+
+        if(window.innerWidth != windowInnerWidth)
+        {
+            a++;
+        }
+        else
+        {
+            a++;
+        }
+
+        if(window.innerHeight != windowInnerHeight)
+        {
+            a++;
+        }
+        else
+        {
+            a++;
+        }
+    }, 1000);
+    </script>
+</body>
+</html>

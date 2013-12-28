@@ -170,6 +170,19 @@
                 }
             }
 
+            function updateSize(browser, sizeProperties)
+            {
+                if(sizeProperties == null) { return ;}
+
+                for(var sizeProperty in sizeProperties)
+                {
+                    if(Firecrow.ValueTypeHelper.isNumber(sizeProperties[sizeProperty]))
+                    {
+                        browser.globalObject.addProperty(sizeProperty, browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, sizeProperties[sizeProperty]));
+                    }
+                }
+            }
+
             (function setUpPageModel()
             {
                 Firecrow.ASTHelper.setParentsChildRelationships(pageModel);
@@ -214,6 +227,7 @@
                     if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); continue;}
 
                     updateDomWithConstraintInfo(eventRegistration, eventDescriptor.parameters);
+                    updateSize(browser, eventDescriptor.sizeProperties);
 
                     browser.executeEvent
                     (

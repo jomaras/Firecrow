@@ -64,8 +64,10 @@ fcModel.GlobalObject.CONST =
             "onload", "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup",
             "onmozbeforepaint", "onpaint", "onpopstate", "onreset", "onresize", "onscroll",
             "onselect", "onsubmit", "onunload", "onpageshow", "onpagehide"
-        ]
+        ],
+        SIZE_PROPERTIES: ["screenX", "screenY", "innerWidth", "innerHeight"]
     },
+    isSizeProperty: function(propertyName) { return this.INTERNAL_PROPERTIES.SIZE_PROPERTIES.indexOf(propertyName) != -1; },
     isMethod: function(methodName) { return this.INTERNAL_PROPERTIES.METHODS.indexOf(methodName) != -1; },
     isEventProperty: function(propertyName) { return this.INTERNAL_PROPERTIES.EVENT_PROPERTIES.indexOf(propertyName) != -1; }
 };
@@ -79,6 +81,7 @@ fcModel.GlobalObject.prototype.getJsPropertyValue = function(propertyName, codeC
     var propertyValue = this.getPropertyValue(propertyName, codeConstruct);
 
     if(propertyValue === undefined) { this.browser.logAccessingUndefinedProperty(propertyName, codeConstruct); }
+    if(fcModel.GlobalObject.CONST.isSizeProperty(propertyName)) { this.browser.logAccessingSizeProperty(propertyName, codeConstruct); }
 
     return propertyValue;
 };
@@ -994,6 +997,10 @@ fcModel.GlobalObject.prototype._createInternalVariables = function()
     this.addProperty("NaN", this.internalExecutor.createInternalPrimitiveObject(null, NaN));
     this.addProperty("mozInnerScreenX", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenX));
     this.addProperty("mozInnerScreenY", this.internalExecutor.createInternalPrimitiveObject(null, window.mozInnerScreenY));
+    this.addProperty("screenX", this.internalExecutor.createInternalPrimitiveObject(null, window.screenX));
+    this.addProperty("screenY", this.internalExecutor.createInternalPrimitiveObject(null, window.screenY));
+    this.addProperty("innerWidth", this.internalExecutor.createInternalPrimitiveObject(null, window.innerWidth));
+    this.addProperty("innerHeight", this.internalExecutor.createInternalPrimitiveObject(null, window.innerHeight));
 
     var eventHandlerNames = ("onafterprint, onbeforeprint, onbeforeunload, onhashchange, onmessage, onoffline, ononline, onpopstate"
     +"onpagehide, onpageshow, onresize, onunload, ondevicemotion, ondeviceorientation, ondeviceproximity"

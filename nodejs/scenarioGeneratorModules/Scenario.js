@@ -139,9 +139,13 @@ Scenario.prototype =
         }
 
         var eventsString = "";
-        for(var i = 0 ; i < this.events.length; i++) { eventsString += this.events[i].generateFingerprint(); }
 
-        return this.fingerprint = inputConstraintString + resolvedResult + eventsString + this.cookie + this.browser;
+        for(var i = 0 ; i < this.events.length; i++)
+        {
+            eventsString += this.events[i].generateFingerprint();
+        }
+
+        return this.fingerprint = inputConstraintString + resolvedResult + eventsString + this.cookie + this.browser +  JSON.stringify(this.sizeProperties || {});
     },
 
     isSymbolicCreationType: function() { return this.creationType == Scenario.CREATION_TYPE.symbolic; },

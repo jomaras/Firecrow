@@ -108,7 +108,6 @@ var ScenarioGenerator =
     {
         var modelContent = fs.readFileSync(this.pageModelUrl, {encoding:"utf8"});
 
-        //fs.writeFileSync(outputFile, this.pageModelUrl + " : " + modelContent);
         ScenarioGenerator.pageModel = JSON.parse(modelContent);
 
         ScenarioGenerator._setUpPageModel();
@@ -423,6 +422,8 @@ var ScenarioGenerator =
                                 ScenarioGenerator._printCoverage(totalCoverage, "TotalApp Coverage");
                             }
 
+                            ScenarioGenerator._createResizingScenario(scenario);
+
                             ScenarioGenerator._createInvertedPathScenarios(scenario);
 
                             //MEMORY
@@ -472,9 +473,48 @@ var ScenarioGenerator =
                 events: scenario != null ? scenario.getEventsQuery() : "[]",
                 scriptsToIgnore: (JSON.stringify(ScenarioGenerator.scriptPathsToIgnore) || "[]"),
                 cookie: scenario != null ? scenario.cookie : "",
-                browser: scenario != null ? scenario.browser : ""
+                browser: scenario != null ? scenario.browser : "",
+                sizeProperties: scenario != null ? scenario.sizeProperties : {}
             })
         );
+    },
+
+    _createResizingScenario: function(scenario)
+    {
+        var executionInfo = scenario.executionInfo;
+
+        var lastEventExecution = executionInfo.eventExecutions != null && executionInfo.eventExecutions.length != 0 ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] : null;
+        var newScenario = null;
+
+        if(lastEventExecution != null)
+        {
+            for(var identifierName in lastEventExecution.sizePropertiesAccessMap)
+            {
+                if(newScenario == null) { newScenario = scenario.createCopy(); }
+
+                if(newScenario.parametrizedEvents.length == 0)
+                {
+                    if(newScenario.sizeProperties == null) { newScenario.sizeProperties = {}; }
+
+                    newScenario.sizeProperties[identifierName] = 500;
+                }
+                else
+                {
+                    var lastEvent = newScenario.parametrizedEvents[newScenario.parametrizedEvents.length-1];
+
+                    if(lastEvent.sizeProperties == null) { lastEvent.sizeProperties = {}; }
+
+                    lastEvent.sizeProperties[identifierName] = 500;
+                }
+            }
+        }
+
+        if(newScenario != null)
+        {
+            ScenarioGenerator.scenarios.addScenario(newScenario);
+            newScenario.parentScenarios.push(scenario);
+            ScenarioGenerator._mapParametrizedEvents(newScenario, newScenario.parametrizedEvents);
+        }
     },
 
     _createInvertedPathScenarios: function (scenario)
@@ -566,7 +606,7 @@ var ScenarioGenerator =
 
     _createNewScenariosByAppendingParametrizedEvents: function (scenario, scenarios, eventRegistration, parametrizedEventsLog)
     {
-        if(scenario.id == 11) {debugger;}
+
         for(var propName in parametrizedEventsLog)
         {
             var log = parametrizedEventsLog[propName];
@@ -733,6 +773,7 @@ var ScenarioGenerator =
         for(var i = 0; i < parametrizedEvents.length; i++)
         {
             var parametrizedEvent = parametrizedEvents[i];
+            var parametrizedEventFingerprint = parametrizedEvent.getFingerprint();
             var baseEventFingerPrint = parametrizedEvent.baseEvent.fingerprint;
 
             if(ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint] == null)
@@ -740,16 +781,17 @@ var ScenarioGenerator =
                 ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint] = { };
             }
 
-            if(ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint] == null)
+            if(ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEventFingerprint] == null)
             {
-                ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint] = {
+                ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEventFingerprint] =
+                {
                     scenarios: [],
                     parametrizedEvents: []
                 };
             }
 
-            ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint].scenarios.push(scenario);
-            ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEvent.fingerprint].parametrizedEvents.push(parametrizedEvent);
+            ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEventFingerprint].scenarios.push(scenario);
+            ScenarioGenerator._parametrizedEventsMap[baseEventFingerPrint][parametrizedEventFingerprint].parametrizedEvents.push(parametrizedEvent);
         }
     },
 

@@ -168,9 +168,9 @@ fcScenarioGenerator.ScenarioBrowserHelper =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 1, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex, true);
 
-        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "touches", browser, eventIndex);
-        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "targetTouches", browser, eventIndex);
-        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "changedTouches", browser, eventIndex);
+        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "touches", browser, eventIndex, eventRegistration.eventType);
+        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "targetTouches", browser, eventIndex, eventRegistration.eventType);
+        this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "changedTouches", browser, eventIndex, eventRegistration.eventType);
 
 
         this._updateWithConstraintInfo(eventInfo, eventInfoFcObject, eventRegistration, browser, parameters, eventIndex);
@@ -252,17 +252,24 @@ fcScenarioGenerator.ScenarioBrowserHelper =
         eventInfoFcObject.addProperty(propertyName, eventInfo[propertyName]);
     },
 
-    _addTouchesEventObjectArrayProperty: function(eventInfo, eventInfoFcObject, propertyName, browser, executionOrderId)
+    _addTouchesEventObjectArrayProperty: function(eventInfo, eventInfoFcObject, propertyName, browser, executionOrderId, eventType)
     {
         var object = browser.globalObject.internalExecutor.createNonConstructorObject(null, {});
 
-        object.iValue.addProperty("pageX", this._createPrimitiveSymbolicValue("pageX", 0, browser, executionOrderId));
-        object.iValue.addProperty("pageY", this._createPrimitiveSymbolicValue("pageY", 0, browser, executionOrderId));
+        if(eventType == "touchend" || eventType == "ontouchend")
+        {
+            var touches = browser.globalObject.internalExecutor.createArray(null, []);
+        }
+        else
+        {
+            object.iValue.addProperty("pageX", this._createPrimitiveSymbolicValue("pageX", 0, browser, executionOrderId));
+            object.iValue.addProperty("pageY", this._createPrimitiveSymbolicValue("pageY", 0, browser, executionOrderId));
 
-        object.iValue.addProperty("clientX", this._createPrimitiveSymbolicValue("clientX", 0, browser, executionOrderId));
-        object.iValue.addProperty("clientY", this._createPrimitiveSymbolicValue("clientY", 0, browser, executionOrderId));
+            object.iValue.addProperty("clientX", this._createPrimitiveSymbolicValue("clientX", 0, browser, executionOrderId));
+            object.iValue.addProperty("clientY", this._createPrimitiveSymbolicValue("clientY", 0, browser, executionOrderId));
 
-        var touches = browser.globalObject.internalExecutor.createArray(null, [object]);
+            var touches = browser.globalObject.internalExecutor.createArray(null, [object]);
+        }
 
         eventInfo[propertyName] = touches;
         eventInfoFcObject.addProperty(propertyName, touches);

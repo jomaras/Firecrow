@@ -49,7 +49,7 @@ Event.prototype =
 {
     generateFingerprint: function()
     {
-        return this.thisObjectDescriptor + this.eventType + this.handlerConstruct.nodeId;
+        return this.thisObjectDescriptor + this.eventType + this.handlerConstruct.nodeId + JSON.stringify(this.sizeProperties || {});
     },
 
     generateTypeHandlerFingerprint: function()
@@ -125,14 +125,7 @@ var ParametrizedEvent = function (baseEvent, parameters)
     this.baseEvent = baseEvent;
     this.setParameters(parameters);
 
-    try
-    {
-        this.fingerprint = this.baseEvent.fingerprint + JSON.stringify(this.parameters);
-    }
-    catch(e)
-    {
-        alert(e + " at event");
-    }
+    this.getFingerprint();
 };
 
 ParametrizedEvent.createFromEvents = function(events, inputConstraint)
@@ -160,8 +153,22 @@ ParametrizedEvent.prototype =
             eventType: this.baseEvent.eventType,
             handlerConstructId: this.baseEvent.handlerConstruct.nodeId,
             registrationConstructId: this.baseEvent.registrationConstruct.nodeId,
-            parameters: this.parameters
+            parameters: this.parameters,
+            sizeProperties: this.sizeProperties
         });
+    },
+
+    getFingerprint: function()
+    {
+        try
+        {
+            this.fingerprint = this.baseEvent.generateFingerprint() + JSON.stringify(this.parameters) + JSON.stringify(this.sizeProperties || {});
+            return this.fingerprint;
+        }
+        catch(e)
+        {
+            console.warn(e + " at event");
+        }
     },
 
     setParameters: function(parameters)

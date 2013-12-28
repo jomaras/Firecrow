@@ -594,6 +594,11 @@ FBL.ns(function() { with (FBL) {
             this.executionInfo.logAccessingUndefinedProperty(propertyName, codeConstruct);
         },
 
+        logAccessingSizeProperty: function(propertyName, codeConstruct)
+        {
+            this.executionInfo.logAccessingSizeProperty(propertyName, codeConstruct);
+        },
+
         logResourceSetting: function(codeConstruct, resourcePath)
         {
             this.executionInfo.logResourceSetting(codeConstruct, resourcePath);

@@ -19,6 +19,7 @@ var ObjectConverter =
 
         executionInfo.pathConstraint = PathConstraintModule.PathConstraint.fromObjectLiteral(executionInfo.pathConstraint, pageModelMapping);
         executionInfo.undefinedGlobalPropertiesAccessMap = this.convertUndefinedGlobalPropertiesAccessMap(executionInfo.undefinedGlobalPropertiesAccessMap);
+        executionInfo.sizePropertiesAccessMap = this.convertSizePropertiesAccessMap(executionInfo.sizePropertiesAccessMap);
         executionInfo.globalModifiedIdentifiers = this.convertToObjectWithCodeConstructs(executionInfo.globalModifiedIdentifiers);
         executionInfo.afterLoadingModifiedIdentifiers = this.convertToObjectWithCodeConstructs(executionInfo.afterLoadingModifiedIdentifiers);
         executionInfo.globalAccessedIdentifiers = this.convertToObjectWithCodeConstructs(executionInfo.globalAccessedIdentifiers);
@@ -60,7 +61,8 @@ var ObjectConverter =
             typeDescriptor: eventExecution.typeDescriptor,
             typeVisitedFunctionsMap: this.convertToObjectWithCodeConstructs(eventExecution.typeVisitedFunctionsMap),
             visitedFunctionsMap: this.convertToObjectWithCodeConstructs(eventExecution.visitedFunctionsMap),
-            dataDependencies: eventExecution.dataDependencies
+            dataDependencies: eventExecution.dataDependencies,
+            sizePropertiesAccessMap: this.convertSizePropertiesAccessMap(eventExecution.sizePropertiesAccessMap)
         };
     },
 
@@ -140,6 +142,26 @@ var ObjectConverter =
             if(obj[propertyName] == null) { obj[propertyName] = {} }
 
             var propertyModifications = undefinedGlobalPropertiesAccessMap[propertyName];
+
+            for(var i = 0; i < propertyModifications.length; i++)
+            {
+                var constructId = propertyModifications[i];
+                obj[propertyName][constructId] = this._pageModelMapping[constructId];
+            }
+        }
+
+        return obj;
+    },
+
+    convertSizePropertiesAccessMap: function(sizePropertiesAccessMap)
+    {
+        var obj = {};
+
+        for(var propertyName in sizePropertiesAccessMap)
+        {
+            if(obj[propertyName] == null) { obj[propertyName] = {} }
+
+            var propertyModifications = sizePropertiesAccessMap[propertyName];
 
             for(var i = 0; i < propertyModifications.length; i++)
             {

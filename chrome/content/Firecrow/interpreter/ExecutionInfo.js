@@ -37,6 +37,8 @@ fcBrowser.ExecutionInfo = function()
     this.dataDependencies = {};
     this.branchingConstructs = {};
     this.importantModifications = {};
+
+    this.sizePropertiesAccessMap = {};
 };
 
 fcBrowser.ExecutionInfo.prototype =
@@ -82,6 +84,7 @@ fcBrowser.ExecutionInfo.prototype =
             pathConstraint: this.pathConstraint,
 
             undefinedGlobalPropertiesAccessMap: this.getUndefinedGlobalPropertiesAccessMapJson(),
+            sizePropertiesAccessMap: this.getSizePropertiesAccessMapJson(this),
             /*Resource setter and for in iterations are not required*/
 
             globalModifiedIdentifiers: ValueTypeHelper.convertObjectPropertyNamesToArray(this.globalModifiedIdentifiers),
@@ -117,6 +120,7 @@ fcBrowser.ExecutionInfo.prototype =
     {
         return {
             baseObjectDescriptor: eventExecution.baseObjectDescriptor,
+            sizePropertiesAccessMap: this.getSizePropertiesAccessMapJson(eventExecution),
             branchingConstructs: ValueTypeHelper.convertObjectPropertyNamesToArray(eventExecution.branchingConstructs),
             eventDescriptor: eventExecution.eventDescriptor,
             eventRegistrations: this._getEventRegistrationsJson(eventExecution.eventRegistrations),
@@ -146,6 +150,32 @@ fcBrowser.ExecutionInfo.prototype =
             for(var constructId in this.undefinedGlobalPropertiesAccessMap[propertyName])
             {
                 if(!this.undefinedGlobalPropertiesAccessMap[propertyName].hasOwnProperty(constructId)) { continue; }
+                try
+                {
+                    obj[propertyName].push(constructId);
+                }
+                catch(e)
+                {
+                    debugger;
+                }
+            }
+        }
+
+        return obj;
+    },
+
+    getSizePropertiesAccessMapJson: function(executionInfo)
+    {
+        var obj = {};
+
+        for(var propertyName in executionInfo.sizePropertiesAccessMap)
+        {
+            if(!executionInfo.sizePropertiesAccessMap.hasOwnProperty(propertyName)) { continue; }
+            if(obj[propertyName] == null) { obj[propertyName] = [] }
+
+            for(var constructId in executionInfo.sizePropertiesAccessMap[propertyName])
+            {
+                if(!executionInfo.sizePropertiesAccessMap[propertyName].hasOwnProperty(constructId)) { continue; }
                 try
                 {
                     obj[propertyName].push(constructId);
@@ -237,7 +267,7 @@ fcBrowser.ExecutionInfo.prototype =
 
     getLastEventInfoString: function()
     {
-        var object = this.currentEventExecutionInfo != null ? this.currentEventExecutionInfo : this;
+        var object = this.currentEventExecutionInfo || this;
         return "PathConstraint: " + this.pathConstraint.toString() + "\r\n"
             +  "AI: " + ValueTypeHelper.convertObjectPropertyNamesToArray(object.globalAccessedIdentifiers).join(",")  + "\r\n"
             +  "MI: " + ValueTypeHelper.convertObjectPropertyNamesToArray(object.globalModifiedIdentifiers).join(",") + "\r\n"
@@ -314,7 +344,8 @@ fcBrowser.ExecutionInfo.prototype =
             globalModifiedObjects: {},
             branchingConstructs: {},
             importantModifications: {},
-            dataDependencies: {}
+            dataDependencies: {},
+            sizePropertiesAccessMap: {}
         };
 
         this.eventExecutions.push(this.currentEventExecutionInfo);
@@ -455,6 +486,17 @@ fcBrowser.ExecutionInfo.prototype =
         }
 
         this.undefinedGlobalPropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct;
+    },
+
+    logAccessingSizeProperty: function(propertyName, codeConstruct)
+    {
+        if(codeConstruct == null) { return; }
+
+        var executionInfo = this.currentEventExecutionInfo || this;
+
+        if(executionInfo.sizePropertiesAccessMap[propertyName] == null) { executionInfo.sizePropertiesAccessMap[propertyName] = {}; }
+
+        executionInfo.sizePropertiesAccessMap[propertyName][codeConstruct.nodeId] = codeConstruct
     },
 
     logResourceSetting: function(codeConstruct, resourcePath)
