@@ -28,7 +28,8 @@ Scenario.CREATION_TYPE =
     newEvent: "newEvent",
     existingEvent: "existingEvent",
     timingEvents: "timingEvents",
-    mouseMoveEvents: "mouseMoveEvents"
+    mouseMoveEvents: "mouseMoveEvents",
+    resize: "resize"
 };
 
 Scenario.prototype =
@@ -149,6 +150,7 @@ Scenario.prototype =
     },
 
     isSymbolicCreationType: function() { return this.creationType == Scenario.CREATION_TYPE.symbolic; },
+    isResizeCreationType: function() { return this.creationType == Scenario.CREATION_TYPE.resize; },
 
     isEqualTo: function(scenario)
     {
@@ -269,6 +271,11 @@ Scenario.prototype =
         }
 
         return string;
+    },
+
+    setCreationTypeResize: function()
+    {
+        this.creationType = Scenario.CREATION_TYPE.resize;
     },
 
     setCreationTypeSymbolic: function()

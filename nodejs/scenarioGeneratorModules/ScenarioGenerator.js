@@ -481,6 +481,8 @@ var ScenarioGenerator =
 
     _createResizingScenario: function(scenario)
     {
+        if(scenario.isResizeCreationType()) { return; }
+
         var executionInfo = scenario.executionInfo;
 
         var lastEventExecution = executionInfo.eventExecutions != null && executionInfo.eventExecutions.length != 0 ? executionInfo.eventExecutions[executionInfo.eventExecutions.length - 1] : null;
@@ -490,7 +492,7 @@ var ScenarioGenerator =
         {
             for(var identifierName in lastEventExecution.sizePropertiesAccessMap)
             {
-                if(newScenario == null) { newScenario = scenario.createCopy(); }
+                if(newScenario == null) { newScenario = scenario.createCopy(); newScenario.setCreationTypeResize(); }
 
                 if(newScenario.parametrizedEvents.length == 0)
                 {
