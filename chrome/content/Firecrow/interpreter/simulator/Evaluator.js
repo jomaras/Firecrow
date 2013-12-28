@@ -157,6 +157,7 @@ fcSimulator.Evaluator.prototype =
 
         this.globalObject.browser.logConstructExecuted(assignmentExpression);
         this.globalObject.browser.logConstructExecuted(assignmentCommand.leftSide);
+        this.globalObject.browser.logConstructExecuted(assignmentCommand.rightSide);
     },
 
     _evalUpdateCommand: function(evalUpdateCommand)

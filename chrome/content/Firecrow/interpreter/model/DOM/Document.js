@@ -111,6 +111,18 @@ fcModel.Document.prototype.getElementByXPath = function(xPath)
     return fcModel.HtmlElementExecutor.wrapToFcElement(foundElement, this.globalObject, null);
 };
 
+fcModel.Document.prototype.getCookie = function()
+{
+    var cookieValue = this.getPropertyValue("cookie");
+
+    return cookieValue != null ? cookieValue.jsValue : "";
+};
+
+fcModel.Document.prototype.setCookie = function(cookie)
+{
+    this.addProperty("cookie", this.globalObject.internalExecutor.createInternalPrimitiveObject(null, cookie));
+}
+
 fcModel.Document.prototype._getHtmlElement = function()
 {
     for(var i = 0; i < this.document.childNodes.length; i++)

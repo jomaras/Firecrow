@@ -3,7 +3,7 @@ var path = require('path');
 var Event = require(path.resolve(__dirname, "Event.js")).Event;
 var PathConstraint = require(path.resolve(__dirname, "PathConstraint.js")).PathConstraint;
 
-var Scenario = function Scenario(events, inputConstraint, parentScenarios, creationType)
+var Scenario = function Scenario(events, inputConstraint, parentScenarios, creationType, cookie)
 {
     this.id = Scenario.LAST_ID++;
 
@@ -13,6 +13,7 @@ var Scenario = function Scenario(events, inputConstraint, parentScenarios, creat
     this.executionInfo = null;
     this.parametrizedEvents = [];
     this.creationType = creationType || Scenario.CREATION_TYPE.default;
+    this.cookie = cookie;
     this.setCoverage(0);
     this.generateFingerprint();
 };
@@ -139,7 +140,7 @@ Scenario.prototype =
         var eventsString = "";
         for(var i = 0 ; i < this.events.length; i++) { eventsString += this.events[i].generateFingerprint(); }
 
-        return this.fingerprint = inputConstraintString + resolvedResult + eventsString;
+        return this.fingerprint = inputConstraintString + resolvedResult + eventsString + this.cookie;
     },
 
     isSymbolicCreationType: function() { return this.creationType == Scenario.CREATION_TYPE.symbolic; },

@@ -47,7 +47,8 @@ ScenarioCollection.prototype =
             case "fifo":
                 return this._getNextSequentially();
             case "eventLength":
-                return this._getNextByLength();
+                //return this._getNextByLength();
+                return this._getLargest();
             case "pathCoverage":
                 return this._getNextByMaximizingPathCoverage();
             case "pathCoverageSequential":
@@ -73,6 +74,18 @@ ScenarioCollection.prototype =
         }
 
         return null;
+    },
+
+    _getLargest: function()
+    {
+        var nonExecutedScenarios = this.getNonExecutedScenarios();
+
+        var sorted = nonExecutedScenarios.sort(function (a, b)
+        {
+            return b.length - a.length;
+        });
+
+        return sorted[0];
     },
 
     _getNextRandomly: function()
@@ -226,14 +239,10 @@ ScenarioCollection.prototype =
         return scenarios[0];
     },
 
-    _getNextByEventLength: function()
-    {
-
-    },
-
     _getNextByLength: function()
     {
         var lengthGroups = this.lengthGroups;
+
         for(var i = 0, length = lengthGroups.length; i < length; i++)
         {
             var lengthGroup = this.lengthGroups[i];

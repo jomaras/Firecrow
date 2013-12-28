@@ -113,6 +113,7 @@
         var selector = window.queryString["selector"] || "*";
         var eventsJSON = scenarioData.events || "[]";
         var scriptsToIgnore = JSON.parse(scenarioData.scriptsToIgnore || "[]");
+        var cookie = scenarioData.cookie || "";
         var eventDescriptors = JSON.parse(eventsJSON);
 
         if(!pageUrl){ throw new Error("url has to be specified");}
@@ -179,6 +180,8 @@
             }());
 
             var browser = new FBL.Firecrow.DoppelBrowser.Browser(pageModel);
+            browser.globalObject.document.setCookie(cookie);
+
             browser.url = pageUrl;
             if(browser.url.indexOf("CodeModels") != -1) { browser.url = browser.url.replace("CodeModels", "Firecrow");}
             browser.registerSlicingCriteria([{type:"DOM_MODIFICATION", cssSelector: selector}]);
@@ -323,6 +326,8 @@
 
             var executionInfo = browser.getExecutionInfo();
             executionInfo.achievedCoverage = ASTHelper.calculateCoverage(pageModel, scriptsToIgnore);
+            executionInfo.cookie = browser.globalObject.document.getCookie();
+
             try
             {
                 document.getElementById("executionInfo").value = JSON.stringify(executionInfo);

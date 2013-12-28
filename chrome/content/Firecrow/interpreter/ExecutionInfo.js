@@ -107,7 +107,8 @@ fcBrowser.ExecutionInfo.prototype =
 
             dataDependencies: this.dataDependencies,
             achievedCoverage: this.achievedCoverage,
-            hasImportantModifications: ValueTypeHelper.objectHasProperties(this.importantModifications)
+            hasImportantModifications: ValueTypeHelper.objectHasProperties(this.importantModifications),
+            cookie: this.cookie
         };
     },
 

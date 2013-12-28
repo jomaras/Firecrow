@@ -241,7 +241,7 @@ var ScenarioGenerator =
 
         console.log("Executing empty scenario: ", scenarioExecutorUrl);
 
-        ScenarioGenerator._saveScenarioInfoToFile();
+        ScenarioGenerator._saveScenarioInfoToFile(null);
 
         spawnPhantomJsProcess
         (
@@ -280,13 +280,17 @@ var ScenarioGenerator =
                         return;
                     }
 
-                    if(eventRegistrations.length == 0)
+                    if(executionInfoSummary.cookie != null && executionInfoSummary.cookie != "")
+                    {
+                        var cookieScenario = new ScenarioModule.Scenario([], null, null, ScenarioModule.Scenario.CREATION_TYPE.newEvent, executionInfoSummary.cookie);
+                        ScenarioGenerator.scenarios.addScenario(cookieScenario);
+                    }
+
+                    if(eventRegistrations.length == 0 && cookieScenario == null)
                     {
                         ScenarioGenerator._noMoreScenariosForProcessing();
                         return;
                     }
-
-                    ScenarioGenerator._updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
 
                     for(var i = 0; i < eventRegistrations.length; i++)
                     {
@@ -464,7 +468,8 @@ var ScenarioGenerator =
             "var scenarioData = " + JSON.stringify
             ({
                 events: scenario != null ? scenario.getEventsQuery() : "[]",
-                scriptsToIgnore: (JSON.stringify(ScenarioGenerator.scriptPathsToIgnore) || "[]")
+                scriptsToIgnore: (JSON.stringify(ScenarioGenerator.scriptPathsToIgnore) || "[]"),
+                cookie: scenario != null ? scenario.cookie : ""
             })
         );
     },

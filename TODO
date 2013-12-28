@@ -1,6 +1,6 @@
 - implement the situation in which the first event carries browser information (i.e. browser version, browser size...)
 - maybe it would be an ok idea to put a flag in the execution summary (i.e. attempting to read ActiveXObject, document height, document width)
-- eventLength prioritization should choose the next largest scenario, with the obvious downfall of generating much larger scenarios.
+- write anything in cookie
 
 ******************   0. Programming  ******************
 - Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests
@@ -9,36 +9,29 @@
     Can't get any better:
     - 01-3dModeller
     - 02-ajaxtabsconent
+        - cookies
+        - window.location.search can be a symbolic parameter
     - 04-dragable-boxes
+        - cookies
     - 05-dynamicArticles
+    - 25-snake
+    - 26-snowpar
+    - 21-angelJump (nothing)
+            - try to cause game over, would significantly influence coverage
+    - 23-prism3D
 
-    - 03-ball_pool (try more!)
     - 06-fractalViewer (leaves not drawn, so lower coverage, not sure on improvements)
         - improvements possible, but?
-    - 07-homeostasis
-        - reduced, but still breaking in phantomJs
+
     - 08-pacman (minor improvements)
     - 20-3dMaker
         - two clicks have to be generated (at least two points, and then a key should be pressed), why isn't it working??
-        - maybe there is no dependency between [].length and [].push ?
 
-    - 21-angelJump
-        - try to cause game over, would significantly influence coverage
+    - 03-ball_pool (try more!)
+    - 07-homeostasis
+        - reduced, but still breaking in phantomJs
 
-    - 23-prism3D
-        - ontouchmove
-        - onmousemove (mb == 1)
-        - ontouchstart
-        - ontouchmove
-        - ontouchend
-
-    - 25-snake
-        - e.keyCode === 37
-    - 26-snowpar
-        - clientX, clientY
-        - drawGraph, drawSnow, drawOlines
 - Go Through all big slicing examples
-- Migrate reuse to nodejs..
 
 ******************    1. Writing    ******************
 Chapter 1 - DONE
