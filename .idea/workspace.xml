@@ -8,15 +8,8 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Update to logging expression trace">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="When creating dependencies between css and html nodes, the matchesSelector function now ignores :hover, :active">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -84,10 +77,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugTestPages.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="debugTestPages.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="370" selection-end="370" vertical-scroll-proportion="0.32864675" vertical-offset="0" max-vertical-offset="3196">
+            <state line="9" column="49" selection-start="249" selection-end="249" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="3196">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="browser.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="705" column="87" selection-start="27752" selection-end="27752" vertical-scroll-proportion="0.38991597" vertical-offset="11753" max-vertical-offset="24497">
               <folding />
             </state>
           </provider>
@@ -155,12 +157,12 @@
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced3.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html" />
         <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html" />
         <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
       </list>
     </option>
   </component>
@@ -3378,7 +3380,11 @@
       <created>1388342772524</created>
       <updated>1388342772524</updated>
     </task>
-    <option name="localTasksCounter" value="704" />
+    <task id="LOCAL-00704" summary="When creating dependencies between css and html nodes, the matchesSelector function now ignores :hover, :active">
+      <created>1388345821991</created>
+      <updated>1388345821991</updated>
+    </task>
+    <option name="localTasksCounter" value="705" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3460,7 +3466,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Bug fix when creating a copy of the reuse script model" />
     <MESSAGE value="Bug fix when serializing into code pageAScriptCode in Reuser" />
     <MESSAGE value="Bug fix when copying RegEx node in Reuser" />
     <MESSAGE value="Fixing dynamic class problems, and javascript problems" />
@@ -3485,7 +3490,8 @@
     <MESSAGE value="Simple browser differentiation support added" />
     <MESSAGE value="Simple work on resizing browser" />
     <MESSAGE value="Update to logging expression trace" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to logging expression trace" />
+    <MESSAGE value="When creating dependencies between css and html nodes, the matchesSelector function now ignores :hover, :active" />
+    <option name="LAST_COMMIT_MESSAGE" value="When creating dependencies between css and html nodes, the matchesSelector function now ignores :hover, :active" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3826,13 +3832,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="711" column="148" selection-start="28092" selection-end="28092" vertical-scroll-proportion="0.56134456" vertical-offset="11753" max-vertical-offset="24412">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="649" column="0" selection-start="20652" selection-end="20742" vertical-scroll-proportion="0.36254296" vertical-offset="10822" max-vertical-offset="54383">
@@ -3856,7 +3855,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="370" selection-end="370" vertical-scroll-proportion="0.32864675" vertical-offset="0" max-vertical-offset="3196">
+        <state line="9" column="49" selection-start="249" selection-end="249" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="3196">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="705" column="87" selection-start="27752" selection-end="27752" vertical-scroll-proportion="0.38991597" vertical-offset="11753" max-vertical-offset="24497">
           <folding />
         </state>
       </provider>

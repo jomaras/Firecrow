@@ -703,13 +703,18 @@ FBL.ns(function() { with (FBL) {
 
         matchesSelector: function(htmlElement, selector)
         {
-            if(htmlElement == null || this._matchesSelector == null
+            if(htmlElement == null || this._matchesSelector == null || selector == null
             || ValueTypeHelper.isDocumentFragment(htmlElement) || ValueTypeHelper.isTextNode(htmlElement)
             || ValueTypeHelper.isDocument(htmlElement)) { return false; }
 
+            if(selector.indexOf(":hover") != -1 || selector.indexOf(":active") != -1)
+            {
+                selector = selector.replace(/:hover|:active/gi, "");
+            }
+
             try
             {
-                return this._matchesSelector.call(htmlElement, selector) || this._matchesSelector.call(htmlElement, selector.replace(/:hover|:active/gi, ""));
+                return this._matchesSelector.call(htmlElement, selector);
             }
             catch(e)
             {
