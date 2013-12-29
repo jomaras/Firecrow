@@ -274,6 +274,9 @@ var ScenarioGenerator =
 
                     ScenarioGenerator._updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
 
+                    var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel, ScenarioGenerator.scriptPathsToIgnore);
+                    ScenarioGenerator.coverages.push(totalCoverage);
+
                     if(ScenarioGenerator._hasAchievedFullCoverage(achievedCoverage))
                     {
                         return;

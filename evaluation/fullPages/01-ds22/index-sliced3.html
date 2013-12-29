@@ -5,8 +5,8 @@
     
     
     
-    <link href="css/style.css" type="text/css" rel="stylesheet"/>
-    <!--<style>body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; text-align: center; line-height: 26px; margin: 0px; padding: 0px; }
+    <style href="css/style.css" type="text/css" rel="stylesheet">
+    body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; text-align: center; line-height: 26px; margin: 0px; padding: 0px; }
     #container { width: 960px; margin: 0px auto; text-align: left; color: rgb(204, 204, 204); text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.15); }
     #footer { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/hr.png") repeat-x scroll 0% 0% rgba(0, 0, 0, 0.1); text-align: left; color: rgb(255, 255, 255); }
     a { color: rgb(255, 255, 255); text-decoration: none; border-bottom: 1px dotted rgb(255, 255, 255); -moz-transition-property: color; -moz-transition-duration: 0.25s; }
@@ -34,9 +34,9 @@
     li.roundabout-in-focus { cursor: default; }
     a.active { color: rgb(255, 255, 255) ! important; }
     #mobile_nav { display: none; }
-     </style>-->
-    <link href="css/960_12_col.css" type="text/css" rel="stylesheet"/>
-    <!--<style>body { min-width: 960px; }
+</style>
+    <style href="css/960_12_col.css" type="text/css" rel="stylesheet">
+    body { min-width: 960px; }
     .container_12 { margin-left: auto; margin-right: auto; width: 960px; }
     .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 { display: inline; float: left; margin-left: 10px; margin-right: 10px; }
     .container_12 .grid_4 { width: 300px; }
@@ -44,7 +44,7 @@
     .container_12 .grid_12 { width: 940px; }
     .clear { clear: both; display: block; overflow: hidden; visibility: hidden; width: 0px; height: 0px; }
     .clearfix, .container_12 {  }
-     </style>-->
+</style>
     
     <script type="text/javascript">
   +((function(window, undefined)
@@ -1605,14 +1605,6 @@
       {
         return jQuery.dir(elem, 'parentNode');
       }, 
-      parentsUntil: function(elem, i, until){}, 
-      next: function(elem){}, 
-      prev: function(elem){}, 
-      nextAll: function(elem){}, 
-      prevAll: function(elem){}, 
-      nextUntil: function(elem, i, until){}, 
-      prevUntil: function(elem, i, until){}, 
-      siblings: function(elem){}, 
       children: function(elem)
       {
         return jQuery.sibling(elem.firstChild);
@@ -1691,7 +1683,7 @@
       var safeFrag = document.createDocumentFragment();
       return safeFrag;
     }
-    var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
+    var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rhtml = /<|&#?\w+;/, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, '', ''] : 0
     };
     jQuery.fn.extend({
@@ -1723,7 +1715,6 @@
             else 
             {
               tmp = tmp || safe.appendChild(context.createElement('div'));
-              tag = (rtagName.exec(elem))[1].toLowerCase();
               wrap = wrapMap[tag] || wrapMap._default;
               tmp.innerHTML = (wrap[1] + elem.replace(rxhtmlTag, '<$1></$2>')) + wrap[2];
               jQuery.merge(nodes, tmp.childNodes);
@@ -1889,7 +1880,7 @@
       };
     });
     jQuery(function(){});
-    jQuery.each({margin: '', padding: '', border: 'Width'}, function(prefix, suffix)
+    jQuery.each({margin: '', padding: ''}, function(prefix, suffix)
     {
       jQuery.cssHooks[prefix + suffix] = {};
       if(!(rmargin.test(prefix)))
@@ -3483,7 +3474,7 @@
 
         this.each(function()
         {
-          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration, o = e ? e : m.easing;
+          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration, o = e ? 0 : m.easing;
           f || (f = {
             timerStart: h, 
             start: m.bearing, 
@@ -3497,6 +3488,7 @@
             if(typeof (a.easing.def) == 'string')
             {
               j = a.easing[o];
+
               k = j(null, i, f.start, b - f.start, f.totalTime);
             }
 

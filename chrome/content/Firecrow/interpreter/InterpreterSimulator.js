@@ -52,19 +52,7 @@ FBL.ns(function() { with (FBL) {
 
                     this._processCommand(command); //if(command.codeConstruct.loc != null && command.codeConstruct.loc.start.line == 1378)debugger;3
 
-                    if(codeConstruct)
-                    {
-                        codeConstruct.hasBeenExecuted = true;
-                    }
-
-                    //This should be even more specific, not all identifiers are required
-                    //MemberExpressions - always
-                    //CallExpression - callee
-                    //Identifiers - if in memberExpression, condition, binary expression
-                    if(ASTHelper.isIdentifierMemberOrCallExpression(codeConstruct))
-                    {
-                        this.globalObject.browser.callExpressionEvaluatedCallbacks(codeConstruct);
-                    }
+                    if(codeConstruct) { codeConstruct.hasBeenExecuted = true; }
 
                     fcSimulator.noOfEvaluatedExpressions++;
 

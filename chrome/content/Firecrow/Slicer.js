@@ -42,7 +42,7 @@ FBL.ns(function() { with (FBL) {
                 browser.executeTimingEvents();
             }
 
-            Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
+            Firecrow.DependencyGraph.DependencyGraph.sliceUnions = true;
             if(doNotFixSliceUnionProblems)
             {
                 Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;

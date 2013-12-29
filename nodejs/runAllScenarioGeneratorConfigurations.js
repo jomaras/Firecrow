@@ -15,9 +15,9 @@ var applicationModelsRootFolder = path.resolve(__dirname, "../../CodeModels/eval
 var scenarioGeneratorCoverageComparatorPath = path.resolve(__dirname, "../phantomJs/evaluationHelpers/scenarioGeneratorCoverageComparator.js");
 var scenarioGeneratorPath = path.resolve(__dirname, "scenarioGenerator.js");
 
-var applicationNames = ["01-3dModeller", "02-ajaxtabscontent", "03-ball_pool", "04-dragable-boxes", "05-dynamicArticles",
+var applicationNames = ["10-htmlEdit", "02-ajaxtabscontent", "03-ball_pool", "04-dragable-boxes", "05-dynamicArticles",
                         "06-fractal_viewer", "07-homeostasis", "08-pacman", "20-3dMaker", "21-angelJump", "22-minesweeper",
-                        "23-prism3D", "24-rentingAgency", "25-snake", "26-snowpar", "27-tinySlider", "28-floatwar"];
+                        "23-prism3D", "24-rentingAgency", "25-snake", "26-snowpar", "27-tinySlider", "28-floatwar"]; //01-3dModeller
 
 //01-3dModeller; 08-pacman; 20-3dMaker; - OK
 //03-ball_pool - NOK (no model)
@@ -25,9 +25,9 @@ var applicationNames = ["01-3dModeller", "02-ajaxtabscontent", "03-ball_pool", "
 //07-homeostasis - NOK (too much data)
 
 //applicationNames = ["02-ajaxtabscontent", "21-angelJump", "22-minesweeper", "23-prism3D", "25-snake", "05-dynamicArticles", "06-fractal_viewer", "24-rentingAgency", "27-tinySlider", "26-snowpar", "28-floatwar"];
-applicationNames = ["03-ball_pool"];
+applicationNames = ["10-htmlEdit"];
 
-var eventTypes = ["symbolicNewCoverage"]//, "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
+var eventTypes = ["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 

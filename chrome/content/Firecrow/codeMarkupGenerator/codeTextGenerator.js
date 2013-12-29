@@ -143,9 +143,11 @@ Firecrow.CodeTextGenerator.prototype =
 
             if(this.isSlicing && !htmlElement.shouldBeIncluded){ return htmlElementContent; }
 
-            var code = this.generateStartHtmlTagString(htmlElement.type)
+            var htmlElementType = htmlElement.type != "link" ? htmlElement.type : "style";
+
+            var code = this.generateStartHtmlTagString(htmlElementType)
                      + this.generateHtmlElementAttributes(htmlElement)
-                     + (this.isEmptyElementType(htmlElement.type) ? "/>" : ">");
+                     + (this.isEmptyElementType(htmlElementType) ? "/>" : ">");
 
             if(htmlElement.type == "html")
             {
@@ -183,7 +185,7 @@ Firecrow.CodeTextGenerator.prototype =
                 }
             }
 
-            return code + htmlElementContent + (htmlElement.type == "html" ? this.newLine : "") + this.generateEndHtmlTagString(htmlElement.type);
+            return code + htmlElementContent + (htmlElementType == "html" ? this.newLine : "") + this.generateEndHtmlTagString(htmlElementType);
         }
         catch(e)
         {

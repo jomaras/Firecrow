@@ -216,7 +216,11 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isStartLogicalExpressionCommand()) { }
                 else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
                 else if (command.isCallCallbackMethodCommand()) {}
-                else if (command.isEvalCallExpressionCommand()) { this.dependencyCreator.addCallExpressionDependencies(command.codeConstruct); }
+                else if (command.isEvalCallExpressionCommand())
+                {
+                    this.dependencyCreator.addCallExpressionDependencies(command.codeConstruct);
+                    this.globalObject.browser.callExpressionEvaluatedCallbacks(command.codeConstruct.callee);
+                }
                 else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.addCallbackDependencies(command.codeConstruct, command.callCallbackCommand.codeConstruct); }
                 else if (command.isLabelCommand()) { this._logLabelCommand(command) ;}
                 else if (command.isConvertToPrimitiveCommand()) {}

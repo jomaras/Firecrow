@@ -29,7 +29,9 @@ fcModel.DocumentExecutor =
         }
         else if (functionName == "getElementsByTagName" || functionName == "querySelectorAll" || functionName == "getElementsByClassName" || functionName == "getElementsByName") { return this.getElements(globalObject, functionName, args[0].jsValue, callExpression, functionName);}
         else if (functionName == "getElementById" || functionName == "querySelector") { return this.getElement(globalObject, functionName, args[0].jsValue, callExpression); }
-        else if (functionName == "createAttribute") { return fcModel.Attr.wrapAttribute(globalObject.origDocument.createAttribute(args[0].jsValue), globalObject, callExpression);}
+        else if (functionName == "createAttribute") { return fcModel.Attr.wrapAttribute(globalObject.origDocument.createAttribute(args[0].jsValue), globalObject, callExpression); }
+        else if (functionName == "open" || functionName == "close") { return null;}
+        else if (functionName == "write") { return null; }
 
         this.notifyError("Unhandled document method: " +  functionName);
 

@@ -8,6 +8,7 @@ Copyright  2006 All rights reserved. Jacob Lee <letsgolee@lycos.co.kr>
 
 Free for non-commercial && commercial use.
 */
+$.browser = { mozilla: true};
 function getXHTML(data) {
     return new Html2Xhtml(data).parse()
 };

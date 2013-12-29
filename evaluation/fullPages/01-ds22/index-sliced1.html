@@ -5,8 +5,8 @@
     
     
     
-    <link href="css/style.css" type="text/css" rel="stylesheet"/>
-    <!--<style>body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; text-align: center; line-height: 26px; margin: 0px; padding: 0px; }
+    <style href="css/style.css" type="text/css" rel="stylesheet">
+    body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; text-align: center; line-height: 26px; margin: 0px; padding: 0px; }
     #container { width: 960px; margin: 0px auto; text-align: left; color: rgb(204, 204, 204); text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.15); }
     #footer { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/hr.png") repeat-x scroll 0% 0% rgba(0, 0, 0, 0.1); text-align: left; color: rgb(255, 255, 255); }
     h2 { color: rgb(255, 255, 255); font-size: 24px; }
@@ -40,9 +40,8 @@
     li.roundabout-in-focus { cursor: default; }
     a.active { color: rgb(255, 255, 255) ! important; }
     #mobile_nav { display: none; }
-    </style>-->
-    <link href="css/960_12_col.css" type="text/css" rel="stylesheet"/>
-    <!--<style>
+</style>
+    <style href="css/960_12_col.css" type="text/css" rel="stylesheet">
     body { min-width: 960px; }
     .container_12 { margin-left: auto; margin-right: auto; width: 960px; }
     .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12 { display: inline; float: left; margin-left: 10px; margin-right: 10px; }
@@ -52,7 +51,7 @@
     .container_12 .grid_11 { width: 860px; }
     .container_12 .grid_12 { width: 940px; }
     .clearfix, .container_12 {  }
-    </style>-->
+</style>
     
     <script type="text/javascript">
   +((function(window, undefined)
@@ -1402,7 +1401,7 @@
             if(!(event.namespace_re))
             {
               event.handleObj = handleObj;
-              ((jQuery.event.special[handleObj.origType]).handle || handleObj.handler).apply(matched.elem, args);
+              ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
             }
           }
         }
@@ -1609,14 +1608,6 @@
       {
         return jQuery.dir(elem, 'parentNode');
       }, 
-      parentsUntil: function(elem, i, until){}, 
-      next: function(elem){}, 
-      prev: function(elem){}, 
-      nextAll: function(elem){}, 
-      prevAll: function(elem){}, 
-      nextUntil: function(elem, i, until){}, 
-      prevUntil: function(elem, i, until){}, 
-      siblings: function(elem){}, 
       children: function(elem)
       {
         return jQuery.sibling(elem.firstChild);
@@ -1695,7 +1686,7 @@
       var safeFrag = document.createDocumentFragment();
       return safeFrag;
     }
-    var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rhtml = /<|&#?\w+;/, wrapMap = {
+    var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rhtml = /<|&#?\w+;/, wrapMap = {
       _default: jQuery.support.htmlSerialize ? [0, '', ''] : 0
     };
     jQuery.fn.extend({
@@ -1727,7 +1718,6 @@
             else 
             {
               tmp = tmp || safe.appendChild(context.createElement('div'));
-              tag = (rtagName.exec(elem))[1].toLowerCase();
               wrap = wrapMap[tag] || wrapMap._default;
               tmp.innerHTML = (wrap[1] + elem.replace(rxhtmlTag, '<$1></$2>')) + wrap[2];
               jQuery.merge(nodes, tmp.childNodes);
@@ -1917,7 +1907,7 @@
       };
     });
     jQuery(function(){});
-    jQuery.each({margin: '', padding: '', border: 'Width'}, function(prefix, suffix)
+    jQuery.each({margin: '', padding: ''}, function(prefix, suffix)
     {
       jQuery.cssHooks[prefix + suffix] = {};
       if(!(rmargin.test(prefix)))

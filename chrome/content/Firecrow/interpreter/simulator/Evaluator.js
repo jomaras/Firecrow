@@ -191,11 +191,11 @@ fcSimulator.Evaluator.prototype =
     _evalIdentifierCommand: function(identifierCommand)
     {
         var identifierConstruct = identifierCommand.codeConstruct;
-        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 17)debugger
+
         //if(identifierConstruct.nodeId == 99071)debugger
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
-
+        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8154 && identifierConstruct.name == "i")debugger
         this.executionContextStack.setExpressionValue
         (
             identifierConstruct,
@@ -218,6 +218,8 @@ fcSimulator.Evaluator.prototype =
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
         //if(memberExpression.loc != null && memberExpression.loc.start.line >= 5072 && memberExpression.loc.start.line <= 5074)debugger;
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
+
+        this.globalObject.browser.callExpressionEvaluatedCallbacks(memberExpression.object);
 
         var property = this.executionContextStack.getExpressionValue(memberExpression.property);
         var propertyValue = this._getPropertyValue(object, property, memberExpression);

@@ -164,15 +164,15 @@ FBL.ns(function() { with (FBL) {
             }
 
             var edge = sourceNodeModelObject.graphNode.addControlDependency
-                (
-                    targetNodeModelObject.graphNode,
-                    true,
-                    this.dependencyEdgesCounter++,
-                    dependencyCreationInfo,
-                    destinationNodeDependencyInfo,
-                    false,
-                    isPreviouslyExecutedBlockStatementDependency
-                );
+            (
+                targetNodeModelObject.graphNode,
+                true,
+                this.dependencyEdgesCounter++,
+                dependencyCreationInfo,
+                destinationNodeDependencyInfo,
+                false,
+                isPreviouslyExecutedBlockStatementDependency
+            );
             sourceNodeModelObject.maxCreatedDependencyIndex = edge.index;
 
             this._registerDependencyCallExpressionRelationship(edge);
@@ -220,26 +220,22 @@ FBL.ns(function() { with (FBL) {
         {
             var dataDependencies = sourceNode.graphNode.dataDependencies;
             this.importantConstructDependencyIndexMapping.push
-            (
-                {
-                    codeConstruct: sourceNode,
-                    dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
-                }
-            );
+            ({
+                codeConstruct: sourceNode,
+                dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1
+            });
         },
 
         handleBreakContinueReturnEventReached: function(sourceNode,  evaluationPosition, isCallbackReturn)
         {
             var dataDependencies = sourceNode.graphNode.dataDependencies;
             this.breakContinueReturnEventsMapping.push
-            (
-                {
-                    codeConstruct: sourceNode,
-                    dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1,
-                    executionContextId: this.executionContextId,
-                    isCallbackReturn: isCallbackReturn
-                }
-            );
+            ({
+                codeConstruct: sourceNode,
+                dependencyIndex: dataDependencies.length > 0 ? dataDependencies[dataDependencies.length - 1].index : -1,
+                executionContextId: this.executionContextId,
+                isCallbackReturn: isCallbackReturn
+            });
         },
 
         //This is so that i know which callback executions are related
@@ -399,8 +395,7 @@ FBL.ns(function() { with (FBL) {
 
                 if(!this.inclusionFinder.isIncludedElement(parent)) { continue; }
 
-                if(this._areAllIncluded(this.dependencyCallExpressionMapping[mapping.dependencyIndex])
-                    || this._contextHasIncludedDependencies(mapping.executionContextId))
+                if(this._areAllIncluded(this.dependencyCallExpressionMapping[mapping.dependencyIndex]) || this._contextHasIncludedDependencies(mapping.executionContextId))
                 {
                     addedDependencies += this._mainTraverseAndMark(codeConstruct, mapping.dependencyIndex, null);
                     ValueTypeHelper.removeFromArrayByIndex(this.breakContinueReturnEventsMapping, i--);
