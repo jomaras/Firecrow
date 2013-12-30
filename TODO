@@ -15,12 +15,11 @@
     - 03-ball_pool
     - 21-angelJump
     - 23-prism3D
-    - 06-fractalViewer (leaves not drawn, so lower coverage, not sure on improvements)
+    - 06-fractalViewer
+        - stops execution after a while (should study on laptop)
     - 08-pacman (minor improvements)
     - 20-3dMaker
         - two clicks have to be generated (at least two points, and then a key should be pressed), why isn't it working??
-
-
     - 07-homeostasis
         - reduced, but still breaking in phantomJs
 
@@ -32,9 +31,13 @@
     - 03-mtcdc
         - F1: NOK (type = (selector ? 0 : special != null ? special.bindType : type) || type;); F2: SAME; F3: NOK (other stuff nok);
     - 04-mailboxing
+        - F1: OK; F2: OK; F3: OK (CSS resources problematic)
     - 05-dunked
+        - F1: OK (CSS); F2: NOK, F3: OK
     - 06-hipstamatic
+        - F1: NOK; F2: OK (no animations)
     - 07-virtue
+        - F1: ; F2: ; F3: ;
     - 08-makalu
     - 09-nitrografix
     - 10-kennymeyers

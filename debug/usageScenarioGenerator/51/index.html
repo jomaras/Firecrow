@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <div id="dynamicContainer"></div>
+    <script>
+        var html = "<button onclick='someOtherFunction(); handleClick();'>Click me</button>";
+
+        function handleClick()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+            mainContainer.textContent += "Click";
+        }
+
+        function someOtherFunction()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+            mainContainer.textContent += "Click";
+        }
+
+        var dynamicContainer = document.getElementById("dynamicContainer");
+        dynamicContainer.innerHTML = html;
+    </script>
+</body>
+</html>

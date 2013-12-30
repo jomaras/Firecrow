@@ -183,7 +183,7 @@ $.fn.htmlbox=function(options){
 	    * @return this
 		* @access private
 	    */
-	var toolbar=function(){
+	var toolbar=function(element){
 	    var h = "";
 	    if(d.about&&!in_array(d.toolbars[0],"about")){d.toolbars[0][d.toolbars[0].length]="separator";d.toolbars[0][d.toolbars[0].length]="about";}
 		for(var k=0;k<d.toolbars.length;k++){
@@ -237,7 +237,13 @@ $.fn.htmlbox=function(options){
 		    }
 			h += "</table></td></tr>";
 		}
-		return h;
+
+		var newDiv = document.createElement("div");
+		newDiv.innerHTML = h;
+
+		element.prepend(newDiv);
+
+		var selectors = newDiv.querySelectorAll("*[onchange]");
 	};
     //=====================================================================//
     //  METHOD: toolbar                                                    //
@@ -281,7 +287,7 @@ $.fn.htmlbox=function(options){
 		d.ta_wrap_id = d.id+"_wrap";
 		var w=$(this).css("width");var h=$(this).css("height");$(this).wrap("<table id='"+d.id+"_wrap' width='"+w+"' style='height:"+h+";border:2px solid #E9EAEF;' cellspacing='0' cellpadding='0'><tr><td id='"+d.id+"_container'></td></tr></table>");
 		// START: Appending toolbar
-		$(this).parent().parent().parent().parent().prepend(toolbar());
+		toolbar($(this).parent().parent().parent().parent());
 		$("."+d.id+"_tb").height(d.toolbar_height);
 		
 		$("."+d.id+"_html_button").each(function(){

@@ -152,7 +152,11 @@ fcModel.HtmlElement.prototype.addJsProperty = function(propertyName, propertyVal
         this._createDependencies(propertyName, codeConstruct);
         this._logDynamicPropertyModification(propertyName, propertyValue, codeConstruct);
 
-        if(propertyName == "innerHTML") { this._createModelsForDynamicChildNodes(this.htmlElement, codeConstruct); }
+        if(propertyName == "innerHTML")
+        {
+            this._createModelsForDynamicChildNodes(this.htmlElement, codeConstruct);
+            this._registerEventsForDynamicChildNodes(this.htmlElement, codeConstruct);
+        }
         else if(fcModel.DOM_PROPERTIES.isElementEventProperty(propertyName)) { this._registerEventHandler(propertyName, propertyValue, codeConstruct); }
 
         this.addProperty(propertyName, propertyValue, codeConstruct, isEnumerable);
@@ -310,6 +314,30 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
 
         this.globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(childNode.modelElement);
         this._createModelsForDynamicChildNodes(childNode, codeConstruct);
+    }
+};
+
+
+fcModel.HtmlElement.prototype._registerEventsForDynamicChildNodes = function(htmlElement, codeConstruct)
+{
+    var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
+
+    for(var i = 0; i < htmlElement.childNodes.length; i++)
+    {
+        var childNode = htmlElement.childNodes[i];
+
+        for(var j = 0; j < childNode.attributes.length; j++)
+        {
+            var attribute = childNode.attributes[j];
+            if(fcModel.DOM_PROPERTIES.isElementEventProperty(attribute.name))
+            {
+                var sourceCode = "function (event) {"  + attribute.value + "}";
+                debugger;
+                this._registerEventHandler(attribute.name, propertyValue, codeConstruct);
+            }
+        }
+
+        this._registerEventsForDynamicChildNodes(childNode, codeConstruct);
     }
 };
 

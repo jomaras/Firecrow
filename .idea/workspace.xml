@@ -9,7 +9,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="When creating dependencies between css and html nodes, the matchesSelector function now ignores :hover, :active">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/esprima.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/usageScenarioGenerator/51/index.html" />
+      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\10-htmlEdit\#htmlbox.full.js#" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/achievedCoverage.txt" afterPath="$PROJECT_DIR$/evaluation/results/achievedCoverage.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/coverageSummary.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/coverageSummary.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugAllReuse.html" afterPath="$PROJECT_DIR$/debug/debugAllReuse.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDom.html" afterPath="$PROJECT_DIR$/debug/debugDom.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" afterPath="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugLibraries.html" afterPath="$PROJECT_DIR$/debug/debugLibraries.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugReuse.html" afterPath="$PROJECT_DIR$/debug/debugReuse.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugReuseCaseStudy.html" afterPath="$PROJECT_DIR$/debug/debugReuseCaseStudy.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicingPhantom.html" afterPath="$PROJECT_DIR$/debug/debugSlicingPhantom.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPageRecording.html" afterPath="$PROJECT_DIR$/debug/debugTestPageRecording.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js" afterPath="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" afterPath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -58,44 +86,7 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="TODO" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TODO">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="42" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="6358">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index-sliced2.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1140" column="7" selection-start="38220" selection-end="38220" vertical-scroll-proportion="0.0" vertical-offset="18832" max-vertical-offset="19482">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugTestPages.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="49" selection-start="249" selection-end="249" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="3196">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="browser.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="705" column="87" selection-start="27752" selection-end="27752" vertical-scroll-proportion="0.38991597" vertical-offset="11753" max-vertical-offset="24497">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -115,32 +106,16 @@
     <setting file="file://$PROJECT_DIR$/debug/debugSlicing.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/FcValue.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/array/Array.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/CSSStyleDeclaration.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ObjectConverter.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Event.js" />
-        <option value="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Scenario.js" />
-        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/jquery-1.3.2.min.js" />
-        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/test.html" />
-        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/demo_full.html" />
-        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/xhtml.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
-        <option value="$PROJECT_DIR$/evaluation/results/coverageComparator/coverageSummary.html" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorResultsAggregator.js" />
-        <option value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
         <option value="$PROJECT_DIR$/nodejs/reuserEvaluationExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js" />
@@ -154,15 +129,43 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/03-ball_pool/js/Main.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced3.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced2.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html" />
-        <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced3.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced3.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
+        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasis.js" />
+        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js" />
+        <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/51/index.html" />
+        <option value="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/esprima.js" />
+        <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
+        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/debug/debugTestPageRecording.html" />
+        <option value="$PROJECT_DIR$/debug/debugSlicingPhantom.html" />
+        <option value="$PROJECT_DIR$/debug/debugReuseCaseStudy.html" />
+        <option value="$PROJECT_DIR$/debug/debugReuse.html" />
+        <option value="$PROJECT_DIR$/debug/debugLibraries.html" />
+        <option value="$PROJECT_DIR$/debug/debugDopperlBrowser.html" />
+        <option value="$PROJECT_DIR$/debug/debugDom.html" />
+        <option value="$PROJECT_DIR$/debug/debugAllReuse.html" />
+        <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
+        <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
+        <option value="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
+        <option value="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" />
       </list>
     </option>
   </component>
@@ -227,7 +230,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -256,7 +258,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
+              <option name="myItemId" value="phantomJs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -270,11 +272,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
+              <option name="myItemId" value="phantomJs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fullPages" />
+              <option name="myItemId" value="helperPages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -288,20 +290,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fullPages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="02-salleedesign" />
+              <option name="myItemId" value="nodejs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -351,7 +346,7 @@
       <recent name="C:\GitWebStorm\Firecrow\debug\pages" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.runAllScenarioGenerator">
+  <component name="RunManager" selected="Node.js.scenarioGenerator">
     <configuration default="false" name="slicing.jstd" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver" temporary="true">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="$PROJECT_DIR$/tests/slicing.jstd" />
@@ -403,6 +398,14 @@
       <ConfigurationWrapper RunnerId="JstdDebugProgramRunner" />
       <method />
     </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -413,23 +416,15 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -516,21 +511,21 @@
       <method />
     </configuration>
     <list size="15">
-      <item index="0" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
-      <item index="1" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
-      <item index="2" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
-      <item index="3" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
-      <item index="4" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
-      <item index="5" class="java.lang.String" itemvalue="Node.js.runAllSlicer" />
-      <item index="6" class="java.lang.String" itemvalue="Node.js.runAllScenarioGenerator" />
-      <item index="7" class="java.lang.String" itemvalue="Node.js.scenarioGenerator" />
-      <item index="8" class="java.lang.String" itemvalue="Node.js.Tikz" />
-      <item index="9" class="java.lang.String" itemvalue="Node.js.debug scenarioGenerator" />
-      <item index="10" class="java.lang.String" itemvalue="Node.js.reuser" />
-      <item index="11" class="java.lang.String" itemvalue="Node.js.adjuster" />
-      <item index="12" class="java.lang.String" itemvalue="Node.js.reuseTestExecutor" />
-      <item index="13" class="java.lang.String" itemvalue="Node.js.scenarioGeneratorTests" />
-      <item index="14" class="java.lang.String" itemvalue="Node.js.scenarioGeneratorAggregator" />
+      <item index="0" class="java.lang.String" itemvalue="Node.js.runAllSlicer" />
+      <item index="1" class="java.lang.String" itemvalue="Node.js.runAllScenarioGenerator" />
+      <item index="2" class="java.lang.String" itemvalue="Node.js.scenarioGenerator" />
+      <item index="3" class="java.lang.String" itemvalue="Node.js.Tikz" />
+      <item index="4" class="java.lang.String" itemvalue="Node.js.debug scenarioGenerator" />
+      <item index="5" class="java.lang.String" itemvalue="Node.js.reuser" />
+      <item index="6" class="java.lang.String" itemvalue="Node.js.adjuster" />
+      <item index="7" class="java.lang.String" itemvalue="Node.js.reuseTestExecutor" />
+      <item index="8" class="java.lang.String" itemvalue="Node.js.scenarioGeneratorTests" />
+      <item index="9" class="java.lang.String" itemvalue="Node.js.scenarioGeneratorAggregator" />
+      <item index="10" class="java.lang.String" itemvalue="JsTestDriver.slicing.jstd" />
+      <item index="11" class="java.lang.String" itemvalue="JsTestDriver.reuser.jstd" />
+      <item index="12" class="java.lang.String" itemvalue="JsTestDriver.UriHelper.jstd" />
+      <item index="13" class="java.lang.String" itemvalue="JsTestDriver.cssSelectorCombiner.jstd" />
+      <item index="14" class="java.lang.String" itemvalue="JsTestDriver.constraintSolver.jstd" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -3384,7 +3379,11 @@
       <created>1388345821991</created>
       <updated>1388345821991</updated>
     </task>
-    <option name="localTasksCounter" value="705" />
+    <task id="LOCAL-00705" summary="When creating dependencies between css and html nodes, the matchesSelector function now ignores :hover, :active">
+      <created>1388345900377</created>
+      <updated>1388345900377</updated>
+    </task>
+    <option name="localTasksCounter" value="706" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3423,31 +3422,31 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33728448" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20642443" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20642443" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3890086" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32937366" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286638" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28235295" sideWeight="0.43331322" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289689" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -3510,359 +3509,321 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/js/ds22.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="11696">
-          <folding />
-        </state>
+        <state line="8147" column="37" selection-start="363699" selection-end="363699" vertical-scroll-proportion="0.5051546" vertical-offset="138205" max-vertical-offset="144534" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3145">
-          <folding />
-        </state>
+        <state line="13" column="7" selection-start="734" selection-end="734" vertical-scroll-proportion="0.3797251" vertical-offset="0" max-vertical-offset="4641" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3491" column="7" selection-start="110261" selection-end="110261" vertical-scroll-proportion="0.9415808" vertical-offset="58799" max-vertical-offset="59449" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1770" column="3" selection-start="59699" selection-end="59699" vertical-scroll-proportion="0.3281787" vertical-offset="29899" max-vertical-offset="30549" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1412" column="10" selection-start="51686" selection-end="51760" vertical-scroll-proportion="0.6546392" vertical-offset="23623" max-vertical-offset="46036" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="875" column="83" selection-start="34160" selection-end="34160" vertical-scroll-proportion="0.36254296" vertical-offset="14664" max-vertical-offset="28271" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3087" column="7" selection-start="97234" selection-end="97234" vertical-scroll-proportion="0.82474226" vertical-offset="51999" max-vertical-offset="52581" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="649" column="0" selection-start="20652" selection-end="20742" vertical-scroll-proportion="0.36254296" vertical-offset="10822" max-vertical-offset="54383" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1140" column="7" selection-start="38220" selection-end="38220" vertical-scroll-proportion="0.0" vertical-offset="18832" max-vertical-offset="19482" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1709" column="0" selection-start="59163" selection-end="59163" vertical-scroll-proportion="0.82474226" vertical-offset="28573" max-vertical-offset="29223" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="701" column="10" selection-start="27596" selection-end="27596" vertical-scroll-proportion="0.6184874" vertical-offset="11549" max-vertical-offset="24497" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2526" column="18" selection-start="75728" selection-end="75728" vertical-scroll-proportion="0.4742268" vertical-offset="42666" max-vertical-offset="43248" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2529" column="7" selection-start="78329" selection-end="78329" vertical-scroll-proportion="0.0" vertical-offset="42445" max-vertical-offset="43095" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2684" column="7" selection-start="81701" selection-end="81701" vertical-scroll-proportion="0.82474226" vertical-offset="45148" max-vertical-offset="45730" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="107" selection-start="3520" selection-end="3520" vertical-scroll-proportion="0.36254296" vertical-offset="486" max-vertical-offset="48739" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3927">
+        <state line="12" column="25" selection-start="580" selection-end="580" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3927" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="72" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="39593" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="37" selection-start="3145" selection-end="3145" vertical-scroll-proportion="0.45360824" vertical-offset="382" max-vertical-offset="47209" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="54" selection-start="6623" selection-end="6623" vertical-scroll-proportion="0.39518902" vertical-offset="943" max-vertical-offset="21488" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="54" selection-start="6438" selection-end="6438" vertical-scroll-proportion="0.0" vertical-offset="161" max-vertical-offset="21811" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/youdonotexist.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/flux.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6970">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="22253">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/sylvester.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2074">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-32.18958" vertical-offset="29035" max-vertical-offset="29937">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/13-daypack/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/math.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="24" selection-start="686" selection-end="686" vertical-scroll-proportion="0.31517962" vertical-offset="0" max-vertical-offset="4216">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.39578715" vertical-offset="357" max-vertical-offset="4080">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/12-idt/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasis.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4267">
+        <state line="332" column="33" selection-start="12638" selection-end="12638" vertical-scroll-proportion="-4.1463413" vertical-offset="9384" max-vertical-offset="26316">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/11-sipp/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3383">
+        <state line="24" column="25" selection-start="831" selection-end="831" vertical-scroll-proportion="0.45232815" vertical-offset="0" max-vertical-offset="902">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/linkage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5083">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7259">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4131">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioGeneratorCoverageComparator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="0" selection-start="0" selection-end="4632" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2482">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/automaticTestsAdjuster.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="838" selection-end="1194" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/results/coverage/pathCoverage/02-ajaxtabscontent.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1462">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/results/coverage/random/02-ajaxtabscontent.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/results/coverageComparator/coverageSummary.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="597">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorResultsAggregator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="43" selection-start="5927" selection-end="5927" vertical-scroll-proportion="0.82579565" vertical-offset="2601" max-vertical-offset="3808">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="277" column="68" selection-start="10140" selection-end="10140" vertical-scroll-proportion="0.42713568" vertical-offset="4454" max-vertical-offset="16524">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/xhtml.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="29" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0" vertical-offset="6067" max-vertical-offset="6664">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuserEvaluationExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="902">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuserTestExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="94" selection-end="94" vertical-scroll-proportion="0.05654102" vertical-offset="0" max-vertical-offset="1139">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/automaticTestExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="31" selection-start="2154" selection-end="2154" vertical-scroll-proportion="0.9046563" vertical-offset="0" max-vertical-offset="1394">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.3869863" vertical-offset="2091" max-vertical-offset="4522">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="59" selection-start="5061" selection-end="5061" vertical-scroll-proportion="0.0" vertical-offset="2324" max-vertical-offset="22032">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="28" selection-start="3357" selection-end="3357" vertical-scroll-proportion="0.0" vertical-offset="1457" max-vertical-offset="9503">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1324" column="4" selection-start="43558" selection-end="43558" vertical-scroll-proportion="0.0" vertical-offset="22312" max-vertical-offset="30991">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3548" column="7" selection-start="112246" selection-end="112246" vertical-scroll-proportion="0.8229167" vertical-offset="59842" max-vertical-offset="60418">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="86" selection-start="9478" selection-end="9478" vertical-scroll-proportion="0.30381945" vertical-offset="3633" max-vertical-offset="15215">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="40" selection-start="6438" selection-end="6438" vertical-scroll-proportion="0.5399306" vertical-offset="2409" max-vertical-offset="10421">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="44" selection-start="2007" selection-end="2007" vertical-scroll-proportion="0.5059423" vertical-offset="229" max-vertical-offset="1717">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="421" column="48" selection-start="18610" selection-end="18610" vertical-scroll-proportion="0.33333334" vertical-offset="6965" max-vertical-offset="16456">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3580" column="51" selection-start="113495" selection-end="113495" vertical-scroll-proportion="0.2621528" vertical-offset="60709" max-vertical-offset="61336">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="10" selection-start="10167" selection-end="10167" vertical-scroll-proportion="0.0" vertical-offset="3089" max-vertical-offset="15946">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3474" column="28" selection-start="109628" selection-end="109628" vertical-scroll-proportion="0.3628472" vertical-offset="58849" max-vertical-offset="61744">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/js/jQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8141" column="0" selection-start="316050" selection-end="316050" vertical-scroll-proportion="0.0" vertical-offset="138201" max-vertical-offset="166515">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/03-ball_pool/js/Main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="14" selection-start="2193" selection-end="2203" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="5780">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.18181819" vertical-offset="164" max-vertical-offset="1581">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="44" selection-start="2952" selection-end="2952" vertical-scroll-proportion="0.0" vertical-offset="964" max-vertical-offset="2312">
+        <state line="22" column="35" selection-start="1443" selection-end="1443" vertical-scroll-proportion="0.42069742" vertical-offset="0" max-vertical-offset="2227">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/03-ball_pool/index.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/demo_full.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="42" selection-start="324" selection-end="324" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/js/ds22.min.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8147" column="37" selection-start="363699" selection-end="363699" vertical-scroll-proportion="0.5051546" vertical-offset="138205" max-vertical-offset="144534">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="7" selection-start="734" selection-end="734" vertical-scroll-proportion="0.3797251" vertical-offset="0" max-vertical-offset="4641">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3491" column="7" selection-start="110261" selection-end="110261" vertical-scroll-proportion="0.9415808" vertical-offset="58799" max-vertical-offset="59449">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1683" column="1" selection-start="56720" selection-end="56720" vertical-scroll-proportion="0.5618557" vertical-offset="28284" max-vertical-offset="28866">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1770" column="3" selection-start="59699" selection-end="59699" vertical-scroll-proportion="0.3281787" vertical-offset="29899" max-vertical-offset="30549">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1412" column="10" selection-start="51686" selection-end="51760" vertical-scroll-proportion="0.6546392" vertical-offset="23623" max-vertical-offset="46036">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="875" column="83" selection-start="34160" selection-end="34160" vertical-scroll-proportion="0.36254296" vertical-offset="14664" max-vertical-offset="28271">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3087" column="7" selection-start="97234" selection-end="97234" vertical-scroll-proportion="0.82474226" vertical-offset="51999" max-vertical-offset="52581">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="649" column="0" selection-start="20652" selection-end="20742" vertical-scroll-proportion="0.36254296" vertical-offset="10822" max-vertical-offset="54383">
+        <state line="245" column="63" selection-start="14577" selection-end="14577" vertical-scroll-proportion="0.655793" vertical-offset="3582" max-vertical-offset="12019">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TODO">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="42" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="6358">
+        <state line="18" column="64" selection-start="783" selection-end="783" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6409">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html">
+    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/51/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1140" column="7" selection-start="38220" selection-end="38220" vertical-scroll-proportion="0.0" vertical-offset="18832" max-vertical-offset="19482">
+        <state line="7" column="37" selection-start="137" selection-end="137" vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="561">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="59" selection-start="561" selection-end="561" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1649">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="4" selection-start="1232" selection-end="1232" vertical-scroll-proportion="0.0" vertical-offset="413" max-vertical-offset="8772">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="334" column="25" selection-start="14339" selection-end="14339" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8177">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/esprima.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="12" selection-start="2680" selection-end="2680" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="65467">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="49" selection-start="249" selection-end="249" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="3196">
+        <state line="22" column="73" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.68" vertical-offset="0" max-vertical-offset="3213">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugTestPageRecording.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="705" column="87" selection-start="27752" selection-end="27752" vertical-scroll-proportion="0.38991597" vertical-offset="11753" max-vertical-offset="24497">
+        <state line="23" column="73" selection-start="1148" selection-end="1148" vertical-scroll-proportion="0.68476355" vertical-offset="0" max-vertical-offset="2720">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicingPhantom.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="73" selection-start="897" selection-end="897" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="4675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="73" selection-start="897" selection-end="897" vertical-scroll-proportion="0.4168126" vertical-offset="51" max-vertical-offset="4539">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugReuseCaseStudy.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="73" selection-start="2324" selection-end="2324" vertical-scroll-proportion="0.32749563" vertical-offset="663" max-vertical-offset="4369">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="73" selection-start="946" selection-end="946" vertical-scroll-proportion="0.5359019" vertical-offset="0" max-vertical-offset="3349">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugLibraries.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="73" selection-start="926" selection-end="926" vertical-scroll-proportion="0.51792115" vertical-offset="0" max-vertical-offset="5185">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="73" selection-start="994" selection-end="994" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="8806">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="73" selection-start="944" selection-end="944" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="4233">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugAllReuse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="73" selection-start="1049" selection-end="1049" vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="3179">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/createJavaScriptModel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="4" selection-start="777" selection-end="849" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="3349">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="76" selection-start="849" selection-end="849" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="3332">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="0" selection-start="825" selection-end="825" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="6392">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/slicer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="76" selection-start="849" selection-end="849" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="3162">
           <folding />
         </state>
       </provider>
