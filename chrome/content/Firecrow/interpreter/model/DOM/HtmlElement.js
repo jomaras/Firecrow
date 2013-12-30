@@ -250,6 +250,11 @@ fcModel.HtmlElement.prototype._expandWithDefaultProperties = function()
     var creationConstruct = this.htmlElement != null && this.htmlElement.modelElement != null ? this.htmlElement.modelElement : this.creationCodeConstruct;
 
     this.addProperty("ownerDocument", this.globalObject.jsFcDocument, creationConstruct);
+    if(this.htmlElement != null && this.htmlElement.nodeName != null && this.htmlElement.nodeName == "IFRAME")
+    {
+        this.addProperty("contentWindow", this.globalObject, creationConstruct);
+    }
+
     this.addProperty("__proto__", this.globalObject.fcHtmlElementPrototype, null, false);
     this._addMethods(creationConstruct);
 

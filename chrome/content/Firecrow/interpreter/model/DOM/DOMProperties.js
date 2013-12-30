@@ -32,7 +32,7 @@ fcModel.DOM_PROPERTIES =
             "getElementById", "getElementsByClassName", "getElementsByName", "getElementsByTagName",
             "hasAttributes", "hasChildNodes", "hasFocus", "importNode", "insertBefore", "isEqualNode", "isSameNode",
             "isSupported", "querySelector", "querySelectorAll", "removeChild", "releaseEvents", "removeEventListener",
-            "replaceChild", "routeEvent", "write", "writeln", "open", "close"
+            "replaceChild", "routeEvent", "write", "writeln", "open", "close", "execCommand"
         ],
         UNPREDICTED: {}
     },

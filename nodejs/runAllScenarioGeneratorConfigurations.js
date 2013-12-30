@@ -20,9 +20,9 @@ var applicationNames = ["10-htmlEdit", "02-ajaxtabscontent", "03-ball_pool", "04
                         "23-prism3D", "24-rentingAgency", "25-snake", "26-snowpar", "27-tinySlider", "28-floatwar"]; //01-3dModeller
 
 //applicationNames = ["02-ajaxtabscontent", "21-angelJump", "22-minesweeper", "23-prism3D", "25-snake", "05-dynamicArticles", "06-fractal_viewer", "24-rentingAgency", "27-tinySlider", "26-snowpar", "28-floatwar"];
-applicationNames = ["07-homeostasis"];
+applicationNames = ["10-htmlEdit"];
 
-var eventTypes = ["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
+var eventTypes = ["symbolicNewCoverage"];//["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 
