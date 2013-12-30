@@ -151,12 +151,41 @@ ScenarioCollection.prototype =
 
     _findFirstSymbolicOrNewEventScenario: function(scenarios)
     {
+        var symbolicNewScenarios = [];
+
         for(var i = 0; i < scenarios.length; i++)
         {
-            if(scenarios[i].isCreatedBySymbolic() || scenarios[i].isCreatedByNewEvent()) { return scenarios[i]; }
+            var scenario = scenarios[i];
+            if(scenario.isCreatedBySymbolic() || scenario.isCreatedByNewEvent())
+            {
+                symbolicNewScenarios.push(scenarios[i]);
+
+                if(scenario.isCreatedByNewEvent())
+                {
+                    var lastEvent = scenario.events[scenario.events.length - 1];
+                    if(lastEvent != null && lastEvent.handlerConstruct.body != null)
+                    {
+                        var body = lastEvent.handlerConstruct.body.body || lastEvent.handlerConstruct.body;
+
+                        var areAllUnExecuted = true;
+
+                        for(var j = 0; j < body.length; j++)
+                        {
+                            areAllUnExecuted = areAllUnExecuted && !body[j].hasBeenExecuted;
+                            if(!areAllUnExecuted) { break;}
+                        }
+
+                        if(areAllUnExecuted)
+                        {
+                            console.log("Found unexecuted construct");
+                            return scenario;
+                        }
+                    }
+                }
+            }
         }
 
-        return null;
+        return symbolicNewScenarios[0];
     },
 
     _findFirstNewEventScenario: function(scenarios)

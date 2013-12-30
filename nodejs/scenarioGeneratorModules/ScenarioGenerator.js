@@ -357,7 +357,7 @@ var ScenarioGenerator =
         {
             var now = new Date();
             console.log("****** Processing Scenario No. " + ScenarioGenerator.numberOfProcessedScenarios + " with id: " + scenario.id + " " + pageUrl, now.getHours() + ":" + now.getMinutes());
-            console.log(scenario.getEventsQuery());
+            console.log(scenario.creationType, scenario.getEventsQuery());
             //console.log("Input Constraint: " + scenario.inputConstraint);
             //console.log("Events: ");
             //console.log(scenario.getEventsInfo());
@@ -607,6 +607,11 @@ var ScenarioGenerator =
         if(newEvent.isMouseMoveEvent())
         {
             ScenarioGenerator._createAdditionalMouseMoveEvents(newParametrizedEvent, newScenario.events, newScenario.parametrizedEvents, null, newScenario);
+        }
+
+        if(eventRegistration.handlerConstruct.loc.start.line == 155)
+        {
+            console.log("Interval scenario: ", newScenario.id);
         }
 
         ScenarioGenerator._mapParametrizedEvents(newScenario, newScenario.parametrizedEvents);

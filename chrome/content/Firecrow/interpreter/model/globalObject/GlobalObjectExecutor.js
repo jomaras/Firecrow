@@ -15,6 +15,7 @@ fcModel.GlobalObjectExecutor =
             else if (fcFunction.jsValue.name == "setTimeout" || fcFunction.jsValue.name == "setInterval") { return this._setTimingEvents(fcFunction.jsValue.name, args[0], args[1] != null ? args[1].jsValue : 0, args.slice(2), globalObject, callExpression); }
             else if (fcFunction.jsValue.name == "clearTimeout" || fcFunction.jsValue.name == "clearInterval") { return this._clearTimingEvents(fcFunction.jsValue.name, args[0] != null ? args[0].jsValue : 0, globalObject, callExpression); }
             else if (fcFunction.jsValue.name == "getComputedStyle") { return this._getComputedStyle(args[0], globalObject.getJsValues(args), globalObject, callExpression) }
+            else if (fcFunction.jsValue.name == "alert") { return null; }
             else if (fcFunction.jsValue.name.indexOf("assert") != -1)
             {
                 globalObject.browser.callImportantConstructReachedCallbacks(callExpression);

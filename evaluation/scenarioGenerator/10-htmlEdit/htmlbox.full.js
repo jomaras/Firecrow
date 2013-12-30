@@ -60,8 +60,8 @@ $.fn.htmlbox=function(options){
 	       range = d.iframe.contentWindow.document.selection.createRange();
 		   if (range.htmlText && range.text){return range.htmlText;}
 	    }else{
-		   if (d.iframe.contentWindow.getSelection) {
-		       var selection = d.iframe.contentWindow.getSelection();
+		   if (d.iframe.contentWindow) {
+		       var selection = "";
 		       if (selection.rangeCount>0&&window.XMLSerializer){
                    range=selection.getRangeAt(0);
                    var html=new XMLSerializer().serializeToString(range.cloneContents());
@@ -134,7 +134,7 @@ $.fn.htmlbox=function(options){
 	    */
 	var keyup = function(e){
 	    // Updating the textarea component, so whenever it is posted it will send all the data
-		var html = $("#1"+d.id).is(":visible")?$("#"+d.id).val():html = d.iframe.contentWindow.document.body.innerHTML;
+		var html = $("#1"+d.id).is(":visible")?$("#"+d.id).val():html = "<div></div>";
 		if(urm){urm.add(html);} // Undo Redo
 	    html = (typeof getXHTML === 'function')?getXHTML(html):html;
 		$("#"+d.id).val(html);
@@ -242,8 +242,6 @@ $.fn.htmlbox=function(options){
 		newDiv.innerHTML = h;
 
 		element.prepend(newDiv);
-
-		var selectors = newDiv.querySelectorAll("*[onchange]");
 	};
     //=====================================================================//
     //  METHOD: toolbar                                                    //
@@ -279,33 +277,35 @@ $.fn.htmlbox=function(options){
 	  */
 	this._init = function(is_init){
 	    if(undefined===window.global_hb){global_hb=[];}
-        if(!$(this).attr("id")){$(this).attr("id","jqhb_"+global_hb.length);d.id="jqhb_"+global_hb.length;global_hb[d.id]=global_hb;}else{d.id=$(this).attr("id");}
+	    var jThis = $(this);
+        if(!jThis.attr("id")){jThis.attr("id","jqhb_"+global_hb.length);d.id="jqhb_"+global_hb.length;global_hb[d.id]=global_hb;}else{d.id=jThis.attr("id");}
 	    if(undefined === global_hb[d.id]){global_hb[d.id]=this;}
 	    // START: Timeout to allow creation of DesignMode
 	    //if(undefined===is_init){setTimeout("global_hb['"+d.id+"'].init(true)",250);return false;}
 		// END: Timeout to allow creation of DesignMode
 		d.ta_wrap_id = d.id+"_wrap";
-		var w=$(this).css("width");var h=$(this).css("height");$(this).wrap("<table id='"+d.id+"_wrap' width='"+w+"' style='height:"+h+";border:2px solid #E9EAEF;' cellspacing='0' cellpadding='0'><tr><td id='"+d.id+"_container'></td></tr></table>");
+		var w=jThis.css("width");var h=jThis.css("height");jThis.wrap("<table id='"+d.id+"_wrap' width='"+w+"' style='height:"+h+";border:2px solid #E9EAEF;' cellspacing='0' cellpadding='0'><tr><td id='"+d.id+"_container'></td></tr></table>");
 		// START: Appending toolbar
-		toolbar($(this).parent().parent().parent().parent());
+		toolbar(jThis.parent().parent().parent().parent());
 		$("."+d.id+"_tb").height(d.toolbar_height);
 		
 		$("."+d.id+"_html_button").each(function(){
 			// Set tool dimension
-		    $(this).width(d.tool_width).height(d.tool_height);
+		    jThis.width(d.tool_width).height(d.tool_height);
 		    // Set image dimension
-		    $(this).find("image").each(function(){$(this).width(d.tool_image_width).height(d.tool_image_height);});
+		    jThis.find("image").each(function(){jThis.width(d.tool_image_width).height(d.tool_image_height);});
 		    // Set borders
-		    $(this).css("border","1px solid transparent").css("background","transparent").css("margin","1px 1px 1px 1px").css("padding","1px");
-		    $(this).mouseover(function(){$(this).css("border","1px solid #BFCAFF").css("background","#EFF2FF");});
-			$(this).mouseout(function(){$(this).css("border","1px solid transparent").css("background","transparent");});
+		    jThis.css("border","1px solid transparent").css("background","transparent").css("margin","1px 1px 1px 1px").css("padding","1px");
+		    jThis.mouseover(function(){$(this).css("border","1px solid #BFCAFF").css("background","#EFF2FF");});
+			jThis.mouseout(function(){$(this).css("border","1px solid transparent").css("background","transparent");});
 			}
 		);
 		
 		// Selectors
 		$("."+d.id+"_tb").find("select").each(function(){
-		    $(this).css("border","1px solid #E9EAEF").css("background","transparent").css("margin","2px 2px 3px 2px");
-			if($.browser.mozilla){$(this).css("padding","0").css("position","relative").css("top","-2px");}
+		    var jThis = $(this);
+		    jThis.css("border","1px solid #E9EAEF").css("background","transparent").css("margin","2px 2px 3px 2px");
+			if($.browser.mozilla){jThis.css("padding","0").css("position","relative").css("top","-2px");}
 		    }
 		);		 
 		// END: Appending toolbar
@@ -335,9 +335,9 @@ $.fn.htmlbox=function(options){
 			hb_background = "#F4F4F3";
 			tb_border = "1px solid #DDDDDD";
 		}
-		
-		$("#"+d.id+"_wrap").css("border",hb_border);
-		$("#"+d.id+"_wrap").css("background",hb_background);
+		var jWrap = $("#"+d.id+"_wrap");
+		jWrap.css("border",hb_border);
+		jWrap.css("background",hb_background);
 		$("#"+d.id+"_container").css("background","white");
 		$("."+d.id+"_tb").css("border-bottom",tb_border);
 		
@@ -347,7 +347,7 @@ $.fn.htmlbox=function(options){
 		try {
 		   var iframe=document.createElement("IFRAME");// var doc=null;
 		   $(iframe).css("width",w).css("height",h).attr("id",d.id+"_html").css("border","0");
-		   $(this).parent().prepend(iframe);
+		   jThis.parent().prepend(iframe);
 		   // START: Shortcuts for less code
 		   d.iframe = iframe;
 		   d.idoc = document;
@@ -356,7 +356,7 @@ $.fn.htmlbox=function(options){
 		   d.idoc.designMode="on";
 		   // START: Insert text
 		      // Is there text in the textbox?
-		   var text = ($(this).val()==="")?"":$(this).val();
+		   var text = (jThis.val()==="")?"":jThis.val();
 		   if($.browser.mozilla||$.browser.safari){
 			   //if(text===""){text="&nbsp;";}
 			   d.idoc.open('text/html', 'replace'); d.idoc.write(text); d.idoc.close();
@@ -384,10 +384,10 @@ $.fn.htmlbox=function(options){
 		   }else{
 			   document.addEventListener("keyup",keyup,false);
 		   }
-		   $(this).hide();
+		   jThis.hide();
 	    }catch(e){
 	       alert("This rich text component is not supported by your browser.\n"+e);
-		   $(this).show();
+		   jThis.show();
 	    }
 		return this;
 	};
@@ -413,15 +413,16 @@ $.fn.htmlbox=function(options){
        // END: Prepare commands
 	   if(cmd==="code"){
 	       var text = this.get_html();
-	       if($("#"+d.id).is(":visible")){		       
-		       $("#"+d.id).hide();		   
+	       var elem = $("#"+d.id);
+	       if(elem.is(":visible")){
+		       elem.hide();
 		       $("#"+d.id+"_html").show();
 			   this.set_text(text);
 		   }else{
-		       $("#"+d.id).show();
+		       elem.show();
 		       $("#"+d.id+"_html").hide();
 			   this.set_text(text);
-			   $("#"+d.id).focus();
+			   elem.focus();
 		   }
 		   
 	   }else if(cmd==="link"){
@@ -502,22 +503,24 @@ $.fn.htmlbox=function(options){
 	       var w = 300;var h = 200;
 	       var top = ($(window).height()-200)/2+$(document).scrollTop();
 	       var left = ($(window).width()-300)/2;
-	       if ($("#"+d.id+"_about").length === 0){
+	       var aboutElement = $("#"+d.id+"_about");
+	       if (aboutElement.length === 0){
                $("body").append("<div id='"+d.id+"_about' style='display:none;position:absolute;background:red;width:"+w+"px;height:"+h+"px;top:"+top+"px;left:"+left+"px;'>about</div>");
 		       $("#"+d.id+"_about").html(html);
 		   }else{
-			   $("#"+d.id+"_about").css("top",top);
-			   $("#"+d.id+"_about").css("left",left);
+			   aboutElement.css("top",top);
+			   aboutElement.css("left",left);
 		   }
-	       $("#"+d.id+"_about").focus();
-	       $("#"+d.id+"_about").fadeIn(1000);
+	       aboutElement.focus();
+	       aboutElement.fadeIn();
 	   }else{
 	       var arg = (undefined===arg1)?null:arg1;
 	       d.idoc.execCommand(cmd, false, arg);
 	   }
 	   //Setting the changed text to textearea
-	   if($("#"+d.id).is(":visible")===false){
-	      $("#"+d.id).val(this.get_html());
+	   var elem = $("#"+d.id);
+	   if(elem.is(":visible")===false){
+	      elem.val(this.get_html());
 	      // Register change
 		  if(urm){urm.add(this.get_html());}
 		  if(undefined!==d.change){d.change();}
@@ -541,11 +544,9 @@ $.fn.htmlbox=function(options){
 	   // Iframe is visible
 	   var text;
 	   if($.browser.msie){
-	       text = d.iframe.contentWindow.document.body.innerText;
+	       text = "Hello world";
 	   }else{
-	       var html = d.iframe.contentWindow.document.body.ownerDocument.createRange();
-		   html.selectNodeContents(d.iframe.contentWindow.document.body);
-		   text = html;
+		   text = "Hello world";
 	   }
 	   return text;
 	};
@@ -597,10 +598,11 @@ $.fn.htmlbox=function(options){
 	    */
 	this.get_html = function(){
 	   var html;
-	   if($("#"+d.id).is(":visible")){
-	      html = $("#"+d.id).val();
+	   var jId = $("#"+d.id);
+	   if(jId.is(":visible")){
+	      html = jId.val();
 	   }else{
-	      html = d.iframe.contentWindow.document.body.innerHTML;
+	      html = "<div></div>";
 	   }
 	   if(typeof getXHTML === 'function'){ return getXHTML(html); }else{return html;}
 	};

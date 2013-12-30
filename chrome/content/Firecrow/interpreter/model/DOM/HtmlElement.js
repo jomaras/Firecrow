@@ -47,6 +47,7 @@ fcModel.HtmlElement.prototype = new fcModel.Object();
 fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeConstruct)
 {
     fcModel.HtmlElement.accessedProperties[propertyName] = true;
+
     var creationConstruct = this.htmlElement != null && this.htmlElement.modelElement != null ? this.htmlElement.modelElement : this.creationCodeConstruct;
 
     //TODO - it is a bad idea to create objects on each access, maybe utilize DOM level2 events

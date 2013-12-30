@@ -229,7 +229,7 @@ fcModel.StringExecutor =
                     }
                     else { this.notifyError("Unknown result type when executing string match or split!"); return null;}
                 case "replace":
-                    if(ValueTypeHelper.isString(argumentValues[1]) || ValueTypeHelper.isNumber(argumentValues[1]))
+                    if(ValueTypeHelper.isString(argumentValues[1]) || ValueTypeHelper.isNumber(argumentValues[1]) || argumentValues[1] == String)
                     {
                         var returnValue = thisObjectValue[functionName].apply(thisObjectValue, argumentValues);
                         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, returnValue);

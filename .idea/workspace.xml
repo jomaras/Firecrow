@@ -11,13 +11,21 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="First stand alone work on events specified as html attributes to html elements created over the innerHTML property">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasisB.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/achievedCoverage.txt" afterPath="$PROJECT_DIR$/evaluation/results/achievedCoverage.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js" afterPath="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/input.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" afterPath="$PROJECT_DIR$/constraintSolver/jsonFiles/output.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" afterPath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -68,64 +76,73 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HtmlElement.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
+      <file leaf-file-name="runAllScenarioGeneratorConfigurations.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="260" column="52" selection-start="11127" selection-end="11127" vertical-scroll-proportion="0.8006873" vertical-offset="3954" max-vertical-offset="8942">
+            <state line="43" column="44" selection-start="2141" selection-end="2141" vertical-scroll-proportion="0.0" vertical-offset="1632" max-vertical-offset="2227">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="the_bones.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/the_bones.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="111" column="78" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0" vertical-offset="2448" max-vertical-offset="3043">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="the_meat.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/the_meat.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="58" column="6" selection-start="1066" selection-end="1066" vertical-scroll-proportion="0.0" vertical-offset="771" max-vertical-offset="6392">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="the_ui.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/the_ui.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="165" column="146" selection-start="4041" selection-end="4041" vertical-scroll-proportion="0.0" vertical-offset="2370" max-vertical-offset="2958">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/51/index.html">
+        <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="30" selection-start="276" selection-end="276" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="561">
+            <state line="7" column="23" selection-start="407" selection-end="407" vertical-scroll-proportion="0.0" vertical-offset="12" max-vertical-offset="1683">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="runAllScenarioGeneratorConfigurations.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
+      <file leaf-file-name="ScenarioGenerator.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="26" selection-start="764" selection-end="764" vertical-scroll-proportion="0.0" vertical-offset="123" max-vertical-offset="2227">
+            <state line="582" column="6" selection-start="22991" selection-end="22991" vertical-scroll-proportion="0.75043935" vertical-offset="9467" max-vertical-offset="16660">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scenarioGenerator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
+      <file leaf-file-name="Scenario.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Scenario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="97" selection-start="1289" selection-end="1289" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1649">
+            <state line="28" column="4" selection-start="872" selection-end="872" vertical-scroll-proportion="0.0" vertical-offset="278" max-vertical-offset="5304">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Document.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/Document.js">
+      <file leaf-file-name="ScenarioCollection.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="42" selection-start="4791" selection-end="4791" vertical-scroll-proportion="0.0" vertical-offset="2216" max-vertical-offset="3842">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DOMProperties.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="91" selection-start="1921" selection-end="1921" vertical-scroll-proportion="0.0" vertical-offset="227" max-vertical-offset="2091">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DocumentExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="47" selection-start="1307" selection-end="1307" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1819">
+            <state line="156" column="9" selection-start="5076" selection-end="5076" vertical-scroll-proportion="0.0" vertical-offset="2592" max-vertical-offset="10319">
               <folding />
             </state>
           </provider>
@@ -160,19 +177,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/js/jQuery.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/03-ball_pool/js/Main.js" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced3.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html" />
@@ -184,13 +188,10 @@
         <option value="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced3.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasis.js" />
-        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js" />
         <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/51/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/esprima.js" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
         <option value="$PROJECT_DIR$/debug/debugTestPageRecording.html" />
         <option value="$PROJECT_DIR$/debug/debugSlicingPhantom.html" />
         <option value="$PROJECT_DIR$/debug/debugReuseCaseStudy.html" />
@@ -203,14 +204,30 @@
         <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Event.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-        <option value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DOMProperties.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/DocumentExecutor.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" />
+        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js" />
+        <option value="$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/css/bootstrap1.css" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/css/virtue.css" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/caouFredSel.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/plugins.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasisB.js" />
+        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasis.js" />
+        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
+        <option value="$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/the_bones.js" />
+        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
+        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js" />
       </list>
     </option>
   </component>
@@ -303,7 +320,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="phantomJs" />
+              <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -317,25 +334,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="phantomJs" />
+              <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="helperPages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodejs" />
+              <option name="myItemId" value="scenarioGenerator" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -349,7 +352,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
+              <option name="myItemId" value="evaluation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scenarioGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="06-fractal_viewer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -363,33 +374,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
+              <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="usageScenarioGenerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
+              <option name="myItemId" value="scenarioGenerator" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
+              <option name="myItemId" value="06-fractal_viewer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="usageScenarioGenerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="51" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -428,14 +425,15 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="options.searchVisible" value="true" />
     <property name="SearchEverywhereHistory" value="" />
+    <property name="LayoutCode.rearrangeEntriesJavaScript" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\07-homeostasis" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\10-htmlEdit" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\03-ball_pool\test" />
       <recent name="C:\GitWebStorm\Firecrow\phantomJs\dataFiles" />
       <recent name="C:\GitWebStorm\Firecrow\phantomJs\evaluationHelpers" />
-      <recent name="C:\GitWebStorm\Firecrow\phantomJs\helperPages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\10-htmlEdit" />
@@ -3490,7 +3488,11 @@
       <created>1388418154792</created>
       <updated>1388418154792</updated>
     </task>
-    <option name="localTasksCounter" value="708" />
+    <task id="LOCAL-00708" summary="First stand alone work on events specified as html attributes to html elements created over the innerHTML property">
+      <created>1388419565442</created>
+      <updated>1388419565442</updated>
+    </task>
+    <option name="localTasksCounter" value="709" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3535,6 +3537,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33693305" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14586625" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3890086" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
@@ -3547,7 +3550,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33728448" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3616,239 +3618,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1140" column="7" selection-start="38220" selection-end="38220" vertical-scroll-proportion="0.0" vertical-offset="18832" max-vertical-offset="19482" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1709" column="0" selection-start="59163" selection-end="59163" vertical-scroll-proportion="0.82474226" vertical-offset="28573" max-vertical-offset="29223" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="701" column="10" selection-start="27596" selection-end="27596" vertical-scroll-proportion="0.6184874" vertical-offset="11549" max-vertical-offset="24497" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2526" column="18" selection-start="75728" selection-end="75728" vertical-scroll-proportion="0.4742268" vertical-offset="42666" max-vertical-offset="43248" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2529" column="7" selection-start="78329" selection-end="78329" vertical-scroll-proportion="0.0" vertical-offset="42445" max-vertical-offset="43095" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2684" column="7" selection-start="81701" selection-end="81701" vertical-scroll-proportion="0.82474226" vertical-offset="45148" max-vertical-offset="45730" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="107" selection-start="3520" selection-end="3520" vertical-scroll-proportion="0.36254296" vertical-offset="486" max-vertical-offset="48739" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="25" selection-start="580" selection-end="580" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3927" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="72" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="39593" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="37" selection-start="3145" selection-end="3145" vertical-scroll-proportion="0.45360824" vertical-offset="382" max-vertical-offset="47209" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="54" selection-start="6623" selection-end="6623" vertical-scroll-proportion="0.39518902" vertical-offset="943" max-vertical-offset="21488" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="54" selection-start="6438" selection-end="6438" vertical-scroll-proportion="0.0" vertical-offset="161" max-vertical-offset="21811" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/youdonotexist.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/flux.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="22253" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/sylvester.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-32.18958" vertical-offset="29035" max-vertical-offset="29937" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/math.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.39578715" vertical-offset="357" max-vertical-offset="4080" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="332" column="33" selection-start="12638" selection-end="12638" vertical-scroll-proportion="-4.1463413" vertical-offset="9384" max-vertical-offset="26316" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="25" selection-start="831" selection-end="831" vertical-scroll-proportion="0.45232815" vertical-offset="0" max-vertical-offset="902" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/linkage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.18181819" vertical-offset="164" max-vertical-offset="1581" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/demo_full.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="63" selection-start="14577" selection-end="14577" vertical-scroll-proportion="0.655793" vertical-offset="3582" max-vertical-offset="12019" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="64" selection-start="783" selection-end="783" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6409" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="4" selection-start="1232" selection-end="1232" vertical-scroll-proportion="0.0" vertical-offset="413" max-vertical-offset="8772">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/esprima.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="12" selection-start="2680" selection-end="2680" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="65467" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="73" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.68" vertical-offset="0" max-vertical-offset="3213" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPageRecording.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="73" selection-start="1148" selection-end="1148" vertical-scroll-proportion="0.68476355" vertical-offset="0" max-vertical-offset="2720">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicingPhantom.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="73" selection-start="897" selection-end="897" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="4675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="73" selection-start="897" selection-end="897" vertical-scroll-proportion="0.4168126" vertical-offset="51" max-vertical-offset="4539">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugReuseCaseStudy.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="73" selection-start="2324" selection-end="2324" vertical-scroll-proportion="0.32749563" vertical-offset="663" max-vertical-offset="4369">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugReuse.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="73" selection-start="946" selection-end="946" vertical-scroll-proportion="0.5359019" vertical-offset="0" max-vertical-offset="3349">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugLibraries.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="73" selection-start="926" selection-end="926" vertical-scroll-proportion="0.51792115" vertical-offset="0" max-vertical-offset="5185">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugDopperlBrowser.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="73" selection-start="994" selection-end="994" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="8806" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugDom.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="73" selection-start="944" selection-end="944" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="4233">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugAllReuse.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="73" selection-start="1049" selection-end="1049" vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="3179" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/createJavaScriptModel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="4" selection-start="777" selection-end="849" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="3349">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="76" selection-start="849" selection-end="849" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="3332">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="825" selection-end="825" vertical-scroll-proportion="0.5061296" vertical-offset="0" max-vertical-offset="6392">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/slicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="76" selection-start="849" selection-end="849" vertical-scroll-proportion="0.47635728" vertical-offset="0" max-vertical-offset="3162">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="137" column="0" selection-start="5055" selection-end="5055" vertical-scroll-proportion="0.88907564" vertical-offset="1800" max-vertical-offset="31059">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="1" selection-start="934" selection-end="934" vertical-scroll-proportion="0.6857143" vertical-offset="0" max-vertical-offset="15946">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="910" column="5" selection-start="38246" selection-end="38246" vertical-scroll-proportion="0.2766323" vertical-offset="15309" max-vertical-offset="19091">
@@ -3856,37 +3625,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="123" selection-start="5026" selection-end="5026" vertical-scroll-proportion="0.3344538" vertical-offset="2436" max-vertical-offset="3961">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="89" selection-start="6334" selection-end="6334" vertical-scroll-proportion="0.36302522" vertical-offset="2589" max-vertical-offset="16575">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/51/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="30" selection-start="276" selection-end="276" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="561">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="26" selection-start="764" selection-end="764" vertical-scroll-proportion="0.0" vertical-offset="123" max-vertical-offset="2227">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="97" selection-start="1289" selection-end="1289" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1649">
           <folding />
         </state>
       </provider>
@@ -3912,9 +3653,324 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="0" selection-start="2685" selection-end="2685" vertical-scroll-proportion="0.7594502" vertical-offset="306" max-vertical-offset="1598">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="61" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.5042017" vertical-offset="618" max-vertical-offset="18428">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/HTMLElement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/demo_full.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="29" selection-start="685" selection-end="685" vertical-scroll-proportion="0.4" vertical-offset="0" max-vertical-offset="952">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/10-htmlEdit/htmlbox.full.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="521" selection-end="521" vertical-scroll-proportion="0.27517986" vertical-offset="0" max-vertical-offset="12053">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TODO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="64" selection-start="783" selection-end="783" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6409">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="822" selection-end="972" vertical-scroll-proportion="0.46735394" vertical-offset="102" max-vertical-offset="1802">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="0" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="52" selection-start="11127" selection-end="11127" vertical-scroll-proportion="0.8006873" vertical-offset="3954" max-vertical-offset="8942">
+        <state line="53" column="25" selection-start="2060" selection-end="2060" vertical-scroll-proportion="-0.6426117" vertical-offset="1275" max-vertical-offset="8959">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/css/captions.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-10.4" vertical-offset="6188" max-vertical-offset="6783">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/css/settings.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/css/bootstrap1.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="33" selection-start="22029" selection-end="22029" vertical-scroll-proportion="0.43814433" vertical-offset="0" max-vertical-offset="629">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/css/virtue.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1875" column="1" selection-start="104698" selection-end="104698" vertical-scroll-proportion="0.6786941" vertical-offset="31480" max-vertical-offset="32062">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/libraries/mooTools/test/original/String.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2788">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/jquery.validate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="85" selection-start="1301" selection-end="1301" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="21471">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/jquery.themepunch.revolution.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="582">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/plugins.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7074" column="18" selection-start="222749" selection-end="222749" vertical-scroll-proportion="1.1752577" vertical-offset="119574" max-vertical-offset="120360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1881" column="9" selection-start="66039" selection-end="66039" vertical-scroll-proportion="0.47938144" vertical-offset="31698" max-vertical-offset="74358">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="11" selection-start="229" selection-end="229" vertical-scroll-proportion="0.23367697" vertical-offset="0" max-vertical-offset="7242">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/internal/String.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="239" column="55" selection-start="9712" selection-end="9712" vertical-scroll-proportion="0.47563025" vertical-offset="3780" max-vertical-offset="5338">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasisB.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1542" column="2" selection-start="0" selection-end="53334" vertical-scroll-proportion="0.94285715" vertical-offset="25653" max-vertical-offset="26316">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioBrowserHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="9" selection-start="2600" selection-end="2600" vertical-scroll-proportion="0.4722689" vertical-offset="1147" max-vertical-offset="6001">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/canvastext.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="2" selection-start="12190" selection-end="12190" vertical-scroll-proportion="0.33333334" vertical-offset="1710" max-vertical-offset="3927">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/linkage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="2" selection-start="1892" selection-end="1892" vertical-scroll-proportion="0.82857144" vertical-offset="986" max-vertical-offset="1581">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/flux.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="15" selection-start="2561" selection-end="2561" vertical-scroll-proportion="0.33277312" vertical-offset="1706" max-vertical-offset="22253">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="220" column="77" selection-start="12160" selection-end="12160" vertical-scroll-proportion="0.41827768" vertical-offset="3502" max-vertical-offset="6392">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="365" selection-end="365" vertical-scroll-proportion="0.35852373" vertical-offset="0" max-vertical-offset="3213">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/enumerable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="27" selection-start="2665" selection-end="2665" vertical-scroll-proportion="0.33277312" vertical-offset="1706" max-vertical-offset="11645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/homeostasis.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="5" selection-start="5180" selection-end="5180" vertical-scroll-proportion="0.33277312" vertical-offset="1706" max-vertical-offset="26316">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/math.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="0" selection-start="2878" selection-end="2878" vertical-scroll-proportion="0.33277312" vertical-offset="1706" max-vertical-offset="4080">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/youdonotexist.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="27" selection-start="139" selection-end="139" vertical-scroll-proportion="0.114285715" vertical-offset="0" max-vertical-offset="595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/Branch.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="193" column="53" selection-start="4838" selection-end="4853" vertical-scroll-proportion="0.0" vertical-offset="3085" max-vertical-offset="7888">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/07-homeostasis/sylvester.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="1" selection-start="3183" selection-end="3183" vertical-scroll-proportion="0.33277312" vertical-offset="1706" max-vertical-offset="29937">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/the_bones.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="111" column="78" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0" vertical-offset="1657" max-vertical-offset="3043">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/the_meat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="6" selection-start="1066" selection-end="1066" vertical-scroll-proportion="0.0" vertical-offset="771" max-vertical-offset="6392">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/js/the_ui.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="165" column="146" selection-start="4041" selection-end="4041" vertical-scroll-proportion="0.0" vertical-offset="2370" max-vertical-offset="2958">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/06-fractal_viewer/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="23" selection-start="407" selection-end="407" vertical-scroll-proportion="0.0" vertical-offset="12" max-vertical-offset="1683">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="97" selection-start="1289" selection-end="1289" vertical-scroll-proportion="-0.3797251" vertical-offset="561" max-vertical-offset="1649">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="44" selection-start="2141" selection-end="2141" vertical-scroll-proportion="0.0" vertical-offset="1661" max-vertical-offset="2227">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Event.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="4" selection-start="452" selection-end="473" vertical-scroll-proportion="0.28911564" vertical-offset="0" max-vertical-offset="3961">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="9" selection-start="5076" selection-end="5076" vertical-scroll-proportion="0.0" vertical-offset="2592" max-vertical-offset="10319">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Scenario.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="4" selection-start="872" selection-end="872" vertical-scroll-proportion="0.0" vertical-offset="278" max-vertical-offset="5304">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="582" column="6" selection-start="22991" selection-end="22991" vertical-scroll-proportion="0.75043935" vertical-offset="9467" max-vertical-offset="16660">
           <folding />
         </state>
       </provider>

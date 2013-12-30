@@ -52,7 +52,7 @@ fcModel.GlobalObject.CONST =
             "encodeURIComponent", "eval", "isFinite", "isNaN",
             "parseFloat", "parseInt", "addEventListener", "removeEventListener",
             "setTimeout", "clearTimeout", "setInterval", "clearInterval",
-            "getComputedStyle", "unescape", "escape",
+            "getComputedStyle", "unescape", "escape", "alert",
             //Testing methods
             "assert", "assertEquals", "assertMatch", "assertNull", "assertNotNull", "assertEqual", "assertNotEquals"
         ],
