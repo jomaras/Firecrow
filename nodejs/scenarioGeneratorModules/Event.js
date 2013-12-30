@@ -49,12 +49,14 @@ Event.prototype =
 {
     generateFingerprint: function()
     {
-        return this.thisObjectDescriptor + this.eventType + this.handlerConstruct.nodeId + JSON.stringify(this.sizeProperties || {});
+        return this.thisObjectDescriptor + this.eventType
+             + (this.handlerConstruct != null ? this.handlerConstruct.nodeId : "Dynamic")
+             + JSON.stringify(this.sizeProperties || {});
     },
 
     generateTypeHandlerFingerprint: function()
     {
-        return this.eventType + this.handlerConstruct.nodeId;
+        return this.eventType + + (this.handlerConstruct != null ? this.handlerConstruct.nodeId : "Dynamic");
     },
 
     isTimingEvent: function()
@@ -151,7 +153,7 @@ ParametrizedEvent.prototype =
             thisObjectModelNodeId: this.baseEvent.thisObjectModelNodeId,
             thisObjectCssSelector: this.baseEvent.thisObjectCssSelector,
             eventType: this.baseEvent.eventType,
-            handlerConstructId: this.baseEvent.handlerConstruct.nodeId,
+            handlerConstructId: this.baseEvent.handlerConstruct != null ? this.baseEvent.handlerConstruct.nodeId : "Dynamic",
             registrationConstructId: this.baseEvent.registrationConstruct.nodeId,
             parameters: this.parameters,
             sizeProperties: this.sizeProperties

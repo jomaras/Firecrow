@@ -162,6 +162,9 @@ var ScenarioGenerator =
         for(var i = 0; i < executedConstructIds.length; i++)
         {
             var currentConstruct = this._pageModelMapping[executedConstructIds[i]];
+
+            if(currentConstruct == null) { continue; } //a dynamically created construct?
+
             if(!currentConstruct.hasBeenExecuted)
             {
                 var statement = ASTHelper.getParentStatement(currentConstruct);

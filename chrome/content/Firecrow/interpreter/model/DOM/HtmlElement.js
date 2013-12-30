@@ -2,6 +2,7 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 
 fcModel.HtmlElement = function fcModelHtmlElement(htmlElement, globalObject, codeConstruct)
 {
@@ -35,6 +36,7 @@ fcModel.HtmlElement = function fcModelHtmlElement(htmlElement, globalObject, cod
 
 //<editor-fold desc="'Static' Methods">
 fcModel.HtmlElement.accessedProperties = {};
+fcModel.HtmlElement.dynamicConstructId = 0;
 fcModel.HtmlElement.notifyError = function(message) { debugger; alert("HtmlElement - " + message); }
 //</editor-fold>
 
@@ -317,7 +319,6 @@ fcModel.HtmlElement.prototype._createModelsForDynamicChildNodes = function(htmlE
     }
 };
 
-
 fcModel.HtmlElement.prototype._registerEventsForDynamicChildNodes = function(htmlElement, codeConstruct)
 {
     var evaluationPosition = this.globalObject.getPreciseEvaluationPositionId();
@@ -326,19 +327,58 @@ fcModel.HtmlElement.prototype._registerEventsForDynamicChildNodes = function(htm
     {
         var childNode = htmlElement.childNodes[i];
 
+        if(childNode.attributes == null) { continue; }
+
         for(var j = 0; j < childNode.attributes.length; j++)
         {
             var attribute = childNode.attributes[j];
+
             if(fcModel.DOM_PROPERTIES.isElementEventProperty(attribute.name))
             {
-                var sourceCode = "function (event) {"  + attribute.value + "}";
-                debugger;
-                this._registerEventHandler(attribute.name, propertyValue, codeConstruct);
+                this._registerEventForDynamicNode(childNode, attribute.name, attribute.value, codeConstruct, evaluationPosition);
             }
         }
 
         this._registerEventsForDynamicChildNodes(childNode, codeConstruct);
     }
+};
+
+fcModel.HtmlElement.prototype._registerEventForDynamicNode = function(htmlElement, event, sourceCode, codeConstruct, evaluationPosition)
+{
+    try
+    {
+        var ast = esprima.parse("(function (event) {"  + sourceCode + "})");
+
+        ASTHelper.setParentsChildRelationships(ast);
+        ASTHelper.traverseAst(ast, function(node)
+        {
+             node.nodeId = "D" + fcModel.HtmlElement.dynamicConstructId++;
+        });
+
+        var commands = CommandGenerator.generateCommands(ast);
+
+        for(var i = 0; i < commands.length; i++)
+        {
+            this.globalObject.executionContextStack.executeCommand(commands[i]);
+        }
+
+        this.globalObject.registerHtmlElementEventHandler
+        (
+            new fcModel.HtmlElement(htmlElement, this.globalObject, codeConstruct),
+            event,
+            this.globalObject.executionContextStack.getExpressionValue(ast.children[0].children[0]),//to reach the function expression, program -> expression statement -> function expression
+            {
+                codeConstruct: codeConstruct,
+                evaluationPositionId: evaluationPosition
+            }
+        );
+    }
+    catch(e)
+    {
+        debugger;
+        alert("Error when registering event in dynamically created node:" + e);
+    }
+
 };
 
 fcModel.HtmlElement.prototype._addMethods = function(codeConstruct)

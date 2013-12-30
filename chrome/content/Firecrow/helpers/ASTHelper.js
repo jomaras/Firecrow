@@ -273,52 +273,56 @@ Firecrow.ASTHelper = ASTHelper =
         var totalNumberOfBranches = 0;
         var executedNumberOfBranches = 0;
 
-        this.traverseAstWhileIgnoring(functionConstruct.body, function(astElement)
+        if(functionConstruct != null)
         {
-            if(ASTHelper.isExpression(astElement))
+            this.traverseAstWhileIgnoring(functionConstruct.body, function(astElement)
             {
-                totalNumberOfExpressions++;
-                if(ASTHelper._hasBeenExecutedByEvent(astElement, executionId))
+                if(ASTHelper.isExpression(astElement))
                 {
-                    executedNumberOfExpressions++;
+                    totalNumberOfExpressions++;
+                    if(ASTHelper._hasBeenExecutedByEvent(astElement, executionId))
+                    {
+                        executedNumberOfExpressions++;
+                    }
                 }
-            }
 
-            if(ASTHelper.isStatement(astElement) && !ASTHelper.isBlockStatement(astElement))
-            {
-                totalNumberOfStatements++;
-
-                if(ASTHelper._hasBeenExecutedByEvent(astElement, executionId))
+                if(ASTHelper.isStatement(astElement) && !ASTHelper.isBlockStatement(astElement))
                 {
-                    executedNumberOfStatements++;
+                    totalNumberOfStatements++;
+
+                    if(ASTHelper._hasBeenExecutedByEvent(astElement, executionId))
+                    {
+                        executedNumberOfStatements++;
+                    }
                 }
-            }
 
-            if(ASTHelper.isBranchExpression(astElement))
-            {
-                if((ASTHelper.isIfStatement(astElement) && ASTHelper._isIfStatementBodyEventExecuted(astElement, executionId))
-                || (ASTHelper.isSwitchCase(astElement) && ASTHelper._isSwitchCaseEventExecuted(astElement, executionId))
-                || (ASTHelper.isLoopStatement(astElement) && ASTHelper._isLoopStatementEventExecuted(astElement, executionId)))
+                if(ASTHelper.isBranchExpression(astElement))
                 {
-                    executedNumberOfBranches++;
-                }
-                else if (ASTHelper.isConditionalExpression(astElement))
-                {
-                    //has two alternatives - so maybe count it as two branches
+                    if((ASTHelper.isIfStatement(astElement) && ASTHelper._isIfStatementBodyEventExecuted(astElement, executionId))
+                    || (ASTHelper.isSwitchCase(astElement) && ASTHelper._isSwitchCaseEventExecuted(astElement, executionId))
+                    || (ASTHelper.isLoopStatement(astElement) && ASTHelper._isLoopStatementEventExecuted(astElement, executionId)))
+                    {
+                        executedNumberOfBranches++;
+                    }
+                    else if (ASTHelper.isConditionalExpression(astElement))
+                    {
+                        //has two alternatives - so maybe count it as two branches
+                        totalNumberOfBranches++;
+
+                        if(ASTHelper._hasBeenExecutedByEvent(astElement.consequent, executionId)) { executedNumberOfBranches++; }
+                        if(ASTHelper._hasBeenExecutedByEvent(astElement.alternate, executionId)) { executedNumberOfBranches++; }
+                    }
+
+                    if(ASTHelper.isSwitchCase(astElement) && astElement.consequent.length == 0)
+                    {
+                        return;
+                    }
+
                     totalNumberOfBranches++;
-
-                    if(ASTHelper._hasBeenExecutedByEvent(astElement.consequent, executionId)) { executedNumberOfBranches++; }
-                    if(ASTHelper._hasBeenExecutedByEvent(astElement.alternate, executionId)) { executedNumberOfBranches++; }
                 }
+            }, ["FunctionExpression", "FunctionDeclaration"]);
+        }
 
-                if(ASTHelper.isSwitchCase(astElement) && astElement.consequent.length == 0)
-                {
-                    return;
-                }
-
-                totalNumberOfBranches++;
-            }
-        }, ["FunctionExpression", "FunctionDeclaration"]);
 
         var branchCoverage = totalNumberOfBranches != 0 ? executedNumberOfBranches/totalNumberOfBranches
                                                         : 1;
