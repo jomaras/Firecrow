@@ -130,6 +130,8 @@ fcScenarioGenerator.ScenarioBrowserHelper =
             case "ontouchcancel":
             case "onselectstart":
             case "selectstart":
+            case "onmousewheel":
+            case "mousewheel":
                 return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
             case "onkeyup":
@@ -166,6 +168,7 @@ fcScenarioGenerator.ScenarioBrowserHelper =
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerX", elementPosition.x, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "layerY", elementPosition.y, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "which", 1, browser, eventIndex);
+        this._addEventObjectProperty(eventInfo, eventInfoFcObject, "wheelDelta", 120, browser, eventIndex);
         this._addEventObjectProperty(eventInfo, eventInfoFcObject, "type", eventRegistration.eventType, browser, eventIndex, true);
 
         this._addTouchesEventObjectArrayProperty(eventInfo, eventInfoFcObject, "touches", browser, eventIndex, eventRegistration.eventType);

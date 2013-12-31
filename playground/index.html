@@ -1,28 +1,41 @@
-<html><head>
-    <style>
-        .c{ width: 100px; height: 100px;}
-        #fc{background:rgb(255,0,0);}
-        #sc{background:rgb(0,0,255);}
-    </style></head>
-<body>
-    <div id="fc" class="c"></div>
-    <div id="sc" class="c"></div>
-<script>
-    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+<head>
+    <script type="text/javascript">
+        function MouseScroll (event) {
+            var rolled = 0;
+            if ('wheelDelta' in event) {
+                rolled = event.wheelDelta;
+            }
+            else {  // Firefox
+                // The measurement units of the detail and wheelDelta properties are different.
+                rolled = -40 * event.detail;
+            }
 
-    var start = null;
-
-    var d = document.getElementById("fc");
-
-    function step(timestamp) {
-        var progress;
-        if (start === null) start = timestamp;
-        progress = timestamp - start;
-        d.style.left = Math.min(progress/10, 200) + "px";
-        if (progress < 2000) {
-            requestAnimationFrame(step);
+            var info = document.getElementById ("info");
+            info.innerHTML = rolled;
         }
-    }
 
-    requestAnimationFrame(step);
-</script></body></html>
+        function Init () {
+            // for mouse scrolling in Firefox
+            var elem = document.getElementById ("myDiv");
+            if (elem.addEventListener) {    // all browsers except IE before version 9
+                // Internet Explorer, Opera, Google Chrome and Safari
+                elem.addEventListener ("mousewheel", MouseScroll, false);
+                // Firefox
+                elem.addEventListener ("DOMMouseScroll", MouseScroll, false);
+            }
+            else {
+                if (elem.attachEvent) { // IE before version 9
+                    elem.attachEvent ("onmousewheel", MouseScroll);
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="Init ();">
+Use the mouse wheel on the field below.
+<div id="myDiv" style="width:200px; height:200px; overflow:auto;">
+    <div style="height:2000px; background-color:#a08080;"></div>
+</div>
+<br />
+The last roll amount: <span id="info" style="background-color:#e0e0d0;"></span>
+</body>

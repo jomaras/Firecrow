@@ -80,7 +80,7 @@ fcModel.DOM_PROPERTIES =
             "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onresize",
             "onscroll", "onwheel", "click", "keydown", "keyup", "keypress", "touchstart", "touchend",
             "touchcancel", "touchleave", "touchmove", "ontouchstart", "ontouchend",
-            "ontouchcancel", "ontouchleave", "ontouchmove", "selectstart", "onselectstart"
+            "ontouchcancel", "ontouchleave", "ontouchmove", "selectstart", "onselectstart", "onmousewheel", "mousewheel"
         ],
         OTHER: ["dataset", "style", "classList", "files", "valueAsDate"]
     },

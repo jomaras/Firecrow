@@ -63,7 +63,7 @@ fcModel.GlobalObject.CONST =
             "onerror", "onfocus", "onhaschange", "onkeydown", "onkeypress", "onkeyup",
             "onload", "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup",
             "onmozbeforepaint", "onpaint", "onpopstate", "onreset", "onresize", "onscroll",
-            "onselect", "onsubmit", "onunload", "onpageshow", "onpagehide"
+            "onselect", "onsubmit", "onunload", "onpageshow", "onpagehide", "onmousewheel "
         ],
         SIZE_PROPERTIES: ["screenX", "screenY", "innerWidth", "innerHeight"]
     },
