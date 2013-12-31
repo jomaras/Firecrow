@@ -286,6 +286,8 @@ fcScenarioGenerator.ScenarioBrowserHelper =
 
         for(var propName in parameters)
         {
+            if(!parameters.hasOwnProperty(propName)) { continue; }
+
             var propValue = parameters[propName];
 
             eventInfo[propName] = browser.globalObject.internalExecutor.createInternalPrimitiveObject(null, propValue, new fcSymbolic.Identifier(this.addSuffix(propName, eventIndex)));
