@@ -66,7 +66,7 @@ var CONST =
                 case CONST.BINARY_OP.NEQ: return CONST.BINARY_OP.EQ;
                 case CONST.BINARY_OP.TEQ: return CONST.BINARY_OP.TNEQ;
                 case CONST.BINARY_OP.TNEQ: return CONST.BINARY_OP.TEQ;
-                default: debugger; alert("Opposite Binary - should not be here"); return null;
+                default: debugger; console.log("Opposite Binary - should not be here:" + operator); return null;
             }
         },
 
@@ -82,7 +82,7 @@ var CONST =
                 case CONST.BINARY_OP.NEQ: return CONST.BINARY_OP.NEQ;
                 case CONST.BINARY_OP.TEQ: return CONST.BINARY_OP.TEQ;
                 case CONST.BINARY_OP.TNEQ: return CONST.BINARY_OP.TNEQ;
-                default: debugger; alert("Swap Binary - should not be here"); return null;
+                default: debugger; console.log("Swap Binary - should not be here", operator ); return null;
             }
         },
 
@@ -118,7 +118,7 @@ Expression.fromObjectLiteral = function(objectLiteral)
     else if(type == CONST.BINARY) { expression = new Binary(Expression.fromObjectLiteral(objectLiteral.left), Expression.fromObjectLiteral(objectLiteral.right), objectLiteral.operator); }
     else if(type == CONST.UPDATE) { expression = new Update(Expression.fromObjectLiteral(objectLiteral.argument), objectLiteral.operator, objectLiteral.prefix);}
     else if(type == CONST.LOGICAL) { expression = new Logical(Expression.fromObjectLiteral(objectLiteral.left), Expression.fromObjectLiteral(objectLiteral.right), objectLiteral.operator); }
-    else { alert("UNKNOWN EXPRESSION!") ;}
+    else { console.log("UNKNOWN EXPRESSION!", type) ;}
 
     expression.isIrreversible = objectLiteral.isIrreversible;
 

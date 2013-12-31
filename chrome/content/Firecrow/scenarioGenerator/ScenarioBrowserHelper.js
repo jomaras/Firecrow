@@ -132,6 +132,7 @@ fcScenarioGenerator.ScenarioBrowserHelper =
             case "selectstart":
             case "onmousewheel":
             case "mousewheel":
+            case "DOMMouseScroll":
                 return this._generateMouseHandlerArguments(eventRegistration, browser, parameters, eventIndex);
             case "onkeydown":
             case "onkeyup":
