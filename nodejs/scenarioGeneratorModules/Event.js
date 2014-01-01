@@ -51,7 +51,7 @@ Event.prototype =
     {
         return this.thisObjectDescriptor + this.eventType
              + (this.handlerConstruct != null ? this.handlerConstruct.nodeId : "Dynamic")
-             + JSON.stringify(this.sizeProperties || {});
+             + (this.sizeProperties != null ? JSON.stringify(this.sizeProperties) : "");
     },
 
     generateTypeHandlerFingerprint: function()

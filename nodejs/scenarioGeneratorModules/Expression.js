@@ -54,6 +54,10 @@ var CONST =
         NEQ: "!=",
         TEQ: "===",
         TNEQ: "!==",
+        MUL: "*",
+        DIV: "/",
+        ADD: "+",
+        SUB: "-",
         getInverse: function(operator)
         {
             switch(operator)
@@ -66,6 +70,10 @@ var CONST =
                 case CONST.BINARY_OP.NEQ: return CONST.BINARY_OP.EQ;
                 case CONST.BINARY_OP.TEQ: return CONST.BINARY_OP.TNEQ;
                 case CONST.BINARY_OP.TNEQ: return CONST.BINARY_OP.TEQ;
+                case CONST.BINARY_OP.DIV: return CONST.BINARY_OP.MUL;
+                case CONST.BINARY_OP.MUL: return CONST.BINARY_OP.DIV;
+                case CONST.BINARY_OP.ADD: return CONST.BINARY_OP.SUB;
+                case CONST.BINARY_OP.SUB: return CONST.BINARY_OP.ADD;
                 default: debugger; console.log("Opposite Binary - should not be here:" + operator); return null;
             }
         },
@@ -83,6 +91,20 @@ var CONST =
                 case CONST.BINARY_OP.TEQ: return CONST.BINARY_OP.TEQ;
                 case CONST.BINARY_OP.TNEQ: return CONST.BINARY_OP.TNEQ;
                 default: debugger; console.log("Swap Binary - should not be here", operator ); return null;
+            }
+        },
+
+        isArithmeticOperator: function(operator)
+        {
+            switch(operator)
+            {
+                case CONST.BINARY_OP.ADD:
+                case CONST.BINARY_OP.SUB:
+                case CONST.BINARY_OP.MUL:
+                case CONST.BINARY_OP.DIV:
+                    return true;
+                default:
+                    return false;
             }
         },
 

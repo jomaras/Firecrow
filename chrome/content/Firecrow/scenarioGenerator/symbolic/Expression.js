@@ -55,6 +55,11 @@ fcSymbolic.CONST =
         NEQ: "!=",
         TEQ: "===",
         TNEQ: "!==",
+        MUL: "*",
+        DIV: "/",
+        ADD: "+",
+        SUB: "-",
+
         getInverse: function(operator)
         {
             switch(operator)
@@ -67,7 +72,12 @@ fcSymbolic.CONST =
                 case fcSymbolic.CONST.BINARY_OP.NEQ: return fcSymbolic.CONST.BINARY_OP.EQ;
                 case fcSymbolic.CONST.BINARY_OP.TEQ: return fcSymbolic.CONST.BINARY_OP.TNEQ;
                 case fcSymbolic.CONST.BINARY_OP.TNEQ: return fcSymbolic.CONST.BINARY_OP.TEQ;
-                default: debugger; alert("Opposite Binary - should not be here"); return null;
+                case fcSymbolic.CONST.BINARY_OP.DIV: return fcSymbolic.CONST.BINARY_OP.MUL;
+                case fcSymbolic.CONST.BINARY_OP.MUL: return fcSymbolic.CONST.BINARY_OP.DIV;
+                case fcSymbolic.CONST.BINARY_OP.ADD: return fcSymbolic.CONST.BINARY_OP.SUB;
+                case fcSymbolic.CONST.BINARY_OP.SUB: return fcSymbolic.CONST.BINARY_OP.ADD;
+                default:
+                    debugger; alert("Opposite Binary - should not be here: " + operator); return null;
             }
         },
 
@@ -83,7 +93,21 @@ fcSymbolic.CONST =
                 case fcSymbolic.CONST.BINARY_OP.NEQ: return fcSymbolic.CONST.BINARY_OP.NEQ;
                 case fcSymbolic.CONST.BINARY_OP.TEQ: return fcSymbolic.CONST.BINARY_OP.TEQ;
                 case fcSymbolic.CONST.BINARY_OP.TNEQ: return fcSymbolic.CONST.BINARY_OP.TNEQ;
-                default: debugger; alert("Swap Binary - should not be here"); return null;
+                default: debugger; alert("Swap Binary - should not be here: " + operator); return null;
+            }
+        },
+
+        isArithmeticOperator: function(operator)
+        {
+            switch(operator)
+            {
+                case fcSymbolic.CONST.BINARY_OP.ADD:
+                case fcSymbolic.CONST.BINARY_OP.SUB:
+                case fcSymbolic.CONST.BINARY_OP.MUL:
+                case fcSymbolic.CONST.BINARY_OP.DIV:
+                    return true;
+                default:
+                    return false;
             }
         },
 

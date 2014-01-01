@@ -1,5 +1,6 @@
 - implement the situation in which the first event carries browser information (i.e. browser version, browser size...)
 - maybe it would be an ok idea to put a flag in the execution summary (i.e. attempting to read ActiveXObject, document height, document width)
+- solve binary arithmetic constraints, e.g. test 52. (if is binary math constraint u PathConstraint addConstraint then )
 
 ******************   0. Programming  ******************
 - Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests

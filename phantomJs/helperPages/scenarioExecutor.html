@@ -218,10 +218,17 @@
                 {
                     var eventDescriptor = eventDescriptors[i];
 
+                    var thisObjectModel = pageModelMapping[eventDescriptor.thisObjectModelNodeId];
+
+                    if(thisObjectModel == null && eventDescriptor.thisObjectCssSelector != "window" && eventDescriptor.thisObjectCssSelector != "document")
+                    {
+                        thisObjectModel = sgBrowserHelper.getModelFromCssSelector(browser, eventDescriptor.thisObjectCssSelector);
+                    }
+
                     var eventRegistration = sgBrowserHelper.getMatchingEventRegistration
                     (
                         browser,
-                        pageModelMapping[eventDescriptor.thisObjectModelNodeId] || sgBrowserHelper.getModelFromCssSelector(browser, eventDescriptor.thisObjectCssSelector),
+                        thisObjectModel,
                         pageModelMapping[eventDescriptor.registrationConstructId]
                     );
 

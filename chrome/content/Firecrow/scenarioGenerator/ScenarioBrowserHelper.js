@@ -35,7 +35,8 @@ fcScenarioGenerator.ScenarioBrowserHelper =
             || propertyName.indexOf("range") == 0
             || propertyName.indexOf("keyCode") == 0
             || propertyName.indexOf("screen") == 0
-            || propertyName.indexOf("which") == 0;
+            || propertyName.indexOf("which") == 0
+            || propertyName.indexOf("wheelDelta") == 0;
     },
 
     getModelFromCssSelector: function(browser, cssSelector)

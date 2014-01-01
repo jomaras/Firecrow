@@ -567,7 +567,7 @@ var ScenarioGenerator =
 
             if(!ASTHelper.isFunction(eventRegistration.handlerConstruct)) { return; }
 
-            var eventRegistrationFingerprint = eventRegistration.thisObjectDescriptor + eventRegistration.eventType + eventRegistration.handlerConstruct.nodeId
+            var eventRegistrationFingerprint = eventRegistration.thisObjectDescriptor + eventRegistration.eventType + eventRegistration.handlerConstruct.nodeId;
 
             //has not been executed so far
             if(ScenarioGenerator._parametrizedEventsMap[eventRegistrationFingerprint] == null)

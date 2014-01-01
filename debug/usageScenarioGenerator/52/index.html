@@ -8,11 +8,12 @@
         document.onmousewheel = function(e)
         {
             var a = 0;
-            if(e.wheelDelta < 100)
+
+            if(e.wheelDelta > 100)
             {
                 a++;
             }
-            else
+            else if (e.wheelDelta / 120)
             {
                 a--;
             }

@@ -245,6 +245,11 @@ fcSymbolic.PathConstraint.prototype =
 
     _createConstraint: function(codeConstruct, constraint, inverse)
     {
+        if(constraint != null && constraint.isBinary() && fcSymbolic.CONST.BINARY_OP.isArithmeticOperator(constraint.operator))
+        {
+            constraint = new fcSymbolic.Binary(constraint, new fcSymbolic.Literal(0), "!=");
+        }
+
         if(inverse)
         {
             constraint = fcSymbolic.ConstraintResolver.getInverseConstraint(constraint);

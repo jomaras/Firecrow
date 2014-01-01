@@ -13,6 +13,7 @@ var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phan
 var scenarioGenerationLogRootFolder = path.resolve(__dirname, "../evaluation/results/coverageComparator/generatorLogs/") + path.sep;
 var applicationModelsRootFolder = path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator") + path.sep;
 var scenarioGeneratorCoverageComparatorPath = path.resolve(__dirname, "../phantomJs/evaluationHelpers/scenarioGeneratorCoverageComparator.js");
+var outputFilePath = path.resolve(__dirname, "../phantomJs/dataFiles/output.txt");
 var scenarioGeneratorPath = path.resolve(__dirname, "scenarioGenerator.js");
 
 var applicationNames = ["10-htmlEdit", "02-ajaxtabscontent", "03-ball_pool", "04-dragable-boxes", "05-dynamicArticles",
@@ -81,6 +82,7 @@ var processOutput = "";
         {
             if(error != null)
             {
+                fs.writeFileSync(outputFilePath, error);
                 console.log("Error:", error);
             }
         }
