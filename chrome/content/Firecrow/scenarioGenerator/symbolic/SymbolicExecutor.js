@@ -82,6 +82,8 @@ FBL.ns(function() { with (FBL) {
             return this._simplifyExpression(new fcSymbolic.Binary(switchDiscriminantValue.symbolicValue, caseSymbolic, "=="));
         },
 
+        simplifyExpression: function(symbolicExpression) { return this._simplifyExpression(symbolicExpression); },
+
         _simplifyExpression: function(symbolicExpression)
         {
             this._simplifyOrder(symbolicExpression);
@@ -104,6 +106,12 @@ FBL.ns(function() { with (FBL) {
                     {
                         symbolicExpression.left = leftBinary.left;
                         symbolicExpression.right.value = symbolicExpression.right.value + (leftBinary.operator == "+" ? -1 * leftBinary.right.value : leftBinary.right.value);
+                    }
+                    else if (leftBinary.operator == "*" || leftBinary.operator == "/")
+                    {
+                        symbolicExpression.left = leftBinary.left;
+                        symbolicExpression.right.value = leftBinary.operator == "/" ? symbolicExpression.right.value * leftBinary.right.value
+                                                                                    : symbolicExpression.right.value / leftBinary.right.value;
                     }
                 }
                 else if(leftBinary.left.isIdentifier() && leftBinary.right.isIdentifier())

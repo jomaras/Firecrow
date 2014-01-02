@@ -103,6 +103,7 @@ var ConstraintResolver =
                 }
                 catch(e)
                 {
+                    var expressions = "";
                     numericExpressions.forEach(function(numericExpression)
                     {
                         expressions += numericExpression.toString() + ";";
@@ -356,14 +357,16 @@ var ConstraintResolver =
 
     _getSolution: function(json)
     {
+        console.log("Resolving constraint:", json);
         fs.writeFileSync(constraintInputDataFile, json);
 
         sh.run("cd " + constraintSolverRootFolder + chainCommandSeparator + " java -jar constraintSolver.jar");
 
-        return {
-            isSuccessful: true,
-            response: fs.readFileSync(constraintSolutionDataFile, {encoding:"utf8"})
-        };
+        var result = fs.readFileSync(constraintSolutionDataFile, {encoding:"utf8"});
+
+        console.log("Constraint result:", result);
+
+        return { isSuccessful: true, response: result };
     }
 };
 

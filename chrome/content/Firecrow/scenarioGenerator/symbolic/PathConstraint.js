@@ -248,6 +248,8 @@ fcSymbolic.PathConstraint.prototype =
         if(constraint != null && constraint.isBinary() && fcSymbolic.CONST.BINARY_OP.isArithmeticOperator(constraint.operator))
         {
             constraint = new fcSymbolic.Binary(constraint, new fcSymbolic.Literal(0), "!=");
+            debugger;
+            constraint = fcSymbolic.SymbolicExecutor.simplifyExpression(constraint);
         }
 
         if(inverse)

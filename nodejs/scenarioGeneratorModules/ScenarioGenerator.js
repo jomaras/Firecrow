@@ -840,6 +840,7 @@ var ScenarioGenerator =
 
     _isBodyExecuted: function (branchingConditionConstruct)
     {
+        if(branchingConditionConstruct == null) { return false; }
         //can be if, loop, conditionalExpression
         var parent = branchingConditionConstruct.parent;
 

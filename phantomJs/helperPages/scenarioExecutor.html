@@ -279,6 +279,13 @@
                         executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
                         executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 0);
                     }
+                    else if(identifierName == "wheelDelta")
+                    {
+                        var pathConstraintItem = new fcSymbolic.PathConstraintItem(null, fcSymbolic.Binary.createIrreversibleIdentifierGreaterEqualsThanLiteral(identifierName, -240));
+
+                        executionInfo.addPathConstraintItemToBeginning(pathConstraintItem);
+                        executionInfo.pathConstraint.addSolutionIfNotExistent(identifierName, 0);
+                    }
                     else if(identifierName.indexOf("DOM_") == 0)
                     {
                         var id = fcSymbolic.ConstraintResolver.getHtmlElementIdFromSymbolicParameter(identifierName);
