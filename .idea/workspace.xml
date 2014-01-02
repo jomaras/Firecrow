@@ -11,12 +11,7 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="If a pathConstraint x is a binary arithmetic expression then expand it to x != 0, and solve that. Add default parameter values to wheelDelta property">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioBrowserHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioBrowserHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -114,7 +109,7 @@
       <file leaf-file-name="PathConstraint.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="251" column="54" selection-start="7236" selection-end="7236" vertical-scroll-proportion="0.73315364" vertical-offset="3995" max-vertical-offset="7548">
+            <state line="250" column="9" selection-start="7217" selection-end="7217" vertical-scroll-proportion="0.6314363" vertical-offset="4017" max-vertical-offset="7514">
               <folding />
             </state>
           </provider>
@@ -3413,7 +3408,11 @@
       <created>1388583495292</created>
       <updated>1388583495292</updated>
     </task>
-    <option name="localTasksCounter" value="714" />
+    <task id="LOCAL-00714" summary="If a pathConstraint x is a binary arithmetic expression then expand it to x != 0, and solve that. Add default parameter values to wheelDelta property">
+      <created>1388644578151</created>
+      <updated>1388644578152</updated>
+    </task>
+    <option name="localTasksCounter" value="715" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3454,10 +3453,11 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33441558" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3355049" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18438661" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38798702" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
@@ -3470,7 +3470,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -3821,7 +3820,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="54" selection-start="7236" selection-end="7236" vertical-scroll-proportion="0.73315364" vertical-offset="3995" max-vertical-offset="7548">
+        <state line="250" column="9" selection-start="7217" selection-end="7217" vertical-scroll-proportion="0.6314363" vertical-offset="4017" max-vertical-offset="7514">
           <folding />
         </state>
       </provider>
