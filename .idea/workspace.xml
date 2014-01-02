@@ -11,7 +11,7 @@
     <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="If a pathConstraint x is a binary arithmetic expression then expand it to x != 0, and solve that. Add default parameter values to wheelDelta property">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -61,10 +61,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ConstraintResolver.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ConstraintResolver.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="334" column="0" selection-start="11618" selection-end="11618" vertical-scroll-proportion="0.0" vertical-offset="5661" max-vertical-offset="6596">
+            <state line="365" column="0" selection-start="12721" selection-end="12721" vertical-scroll-proportion="0.65582657" vertical-offset="5963" max-vertical-offset="6545">
               <folding />
             </state>
           </provider>
@@ -106,10 +106,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PathConstraint.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PathConstraint.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="250" column="9" selection-start="7217" selection-end="7217" vertical-scroll-proportion="0.6314363" vertical-offset="4017" max-vertical-offset="7514">
+            <state line="250" column="9" selection-start="7217" selection-end="7217" vertical-scroll-proportion="0.0" vertical-offset="4017" max-vertical-offset="7514">
               <folding />
             </state>
           </provider>
@@ -199,11 +199,11 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/52/index.html" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/ScenarioBrowserHelper.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js" />
+        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js" />
       </list>
     </option>
   </component>
@@ -3412,7 +3412,11 @@
       <created>1388644578151</created>
       <updated>1388644578152</updated>
     </task>
-    <option name="localTasksCounter" value="715" />
+    <task id="LOCAL-00715" summary="If a pathConstraint x is a binary arithmetic expression then expand it to x != 0, and solve that. Add default parameter values to wheelDelta property">
+      <created>1388644637091</created>
+      <updated>1388644637092</updated>
+    </task>
+    <option name="localTasksCounter" value="716" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3804,13 +3808,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="334" column="0" selection-start="11618" selection-end="11618" vertical-scroll-proportion="0.0" vertical-offset="5661" max-vertical-offset="6596">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="31" selection-start="219" selection-end="235" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2686">
@@ -3820,7 +3817,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/PathConstraint.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="250" column="9" selection-start="7217" selection-end="7217" vertical-scroll-proportion="0.6314363" vertical-offset="4017" max-vertical-offset="7514">
+        <state line="250" column="9" selection-start="7217" selection-end="7217" vertical-scroll-proportion="0.0" vertical-offset="4017" max-vertical-offset="7514">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ConstraintResolver.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="365" column="0" selection-start="12721" selection-end="12721" vertical-scroll-proportion="0.65582657" vertical-offset="5963" max-vertical-offset="6545">
           <folding />
         </state>
       </provider>
