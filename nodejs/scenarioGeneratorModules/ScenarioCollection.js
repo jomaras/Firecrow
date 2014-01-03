@@ -163,7 +163,7 @@ ScenarioCollection.prototype =
                 if(scenario.isCreatedByNewEvent())
                 {
                     var lastEvent = scenario.events[scenario.events.length - 1];
-                    if(lastEvent != null && lastEvent.handlerConstruct.body != null)
+                    if(lastEvent != null && lastEvent.handlerConstruct != null && lastEvent.handlerConstruct.body != null)
                     {
                         var body = lastEvent.handlerConstruct.body.body || lastEvent.handlerConstruct.body;
 

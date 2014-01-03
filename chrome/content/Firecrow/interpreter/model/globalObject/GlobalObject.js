@@ -93,11 +93,45 @@ fcModel.GlobalObject.prototype.addJsProperty = function(propertyName, value, cod
     if(fcModel.GlobalObject.CONST.isEventProperty(propertyName))
     {
         this.eventHandlerPropertiesMap[propertyName] = codeConstruct;
+
+        if(propertyName == "onresize")
+        {
+            this._registerResizeHandler(value, codeConstruct);
+        }
     }
 };
 //</editor-fold>
 
 //<editor-fold desc="Event Handling">
+fcModel.GlobalObject.prototype._registerResizeHandler = function(value, codeConstruct)
+{
+    this.browser.executionInfo.logEventRegistered
+    (
+        "window",
+        "window",
+        "onresize",
+        codeConstruct,
+        value.codeConstruct,
+        this.browser.loadingEventsExecuted
+    );
+
+    this.resizeHandlers.push
+    ({
+        handler: value,
+        registrationPoint:
+        {
+            codeConstruct: codeConstruct,
+            evaluationPositionId: this.getPreciseEvaluationPositionId()
+        },
+        registrationConstruct: codeConstruct,
+        handlerConstruct: value.codeConstruct,
+        thisObject: this,
+        eventType: "onresize",
+        thisObjectDescriptor: "window",
+        thisObjectModel: "window"
+    });
+};
+
 fcModel.GlobalObject.prototype.registerTimeout = function(timeoutId, handler, timePeriod, callArguments, registrationPoint)
 {
     this.timeoutHandlers.push
@@ -1029,6 +1063,7 @@ fcModel.GlobalObject.prototype._createHandlerMaps = function()
 
     this.timeoutHandlers = [];
     this.intervalHandlers = [];
+    this.resizeHandlers = [];
 };
 fcModel.GlobalObject.prototype._deleteHandlerMaps = function()
 {
@@ -1039,6 +1074,7 @@ fcModel.GlobalObject.prototype._deleteHandlerMaps = function()
 
     delete this.timeoutHandlers;
     delete this.intervalHandlers;
+    delete this.resizeHandlers;
 };
 
 fcModel.GlobalObject.prototype.setBrowserVersion = function(browserVersion)

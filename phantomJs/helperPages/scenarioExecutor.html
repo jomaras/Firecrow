@@ -232,7 +232,7 @@
                         pageModelMapping[eventDescriptor.registrationConstructId]
                     );
 
-                    if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); continue;}
+                    if(eventRegistration == null) { debugger; alert("Can not find matching event registration"); console.log("Can not find matching event registration");continue;}
 
                     updateDomWithConstraintInfo(eventRegistration, eventDescriptor.parameters);
                     updateSize(browser, eventDescriptor.sizeProperties);
