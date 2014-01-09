@@ -35,6 +35,10 @@ var JsConflictFixer =
             var declarationConstruct = conflictedProperty.declarationConstruct;
             var changedConstructs = [];
 
+            this.logConstructs = false;
+
+            if(conflictedProperty.name == "match") { this.logConstructs = true; debugger; }
+
             if(ASTHelper.isAssignmentExpression(declarationConstruct))
             {
                 if(ASTHelper.isIdentifier(declarationConstruct.left))
@@ -95,6 +99,25 @@ var JsConflictFixer =
 
             this._changePropertyAccessPositions(declarationConstruct, conflictedProperty.name, newName);
 
+            var dependentEdges = declarationConstruct.reverseDependencies.concat(declarationConstruct.dependencies);
+
+            for(var i = 0, length = dependentEdges.length; i < length; i++)
+            {
+                this._changePropertyAccessPositions(dependentEdges[i].sourceNode, conflictedProperty.name, newName);
+            }
+
+            changedConstructs.forEach(function(changedConstruct)
+            {
+                ConflictFixerCommon.addCommentToParentStatement(changedConstruct, "Firecrow - Rename global property");
+
+                var dependentEdges = changedConstruct.reverseDependencies.concat(changedConstruct.dependencies);
+
+                for(var i = 0, length = dependentEdges.length; i < length; i++)
+                {
+                    this._changePropertyAccessPositions(dependentEdges[i].sourceNode, conflictedProperty.name, newName);
+                }
+            }, this);
+
             if(!conflictedProperty.isGlobalVariable) { return; }
 
             var undefinedGlobalPropertiesMap = pageAExecutionSummary.undefinedGlobalProperties;
@@ -122,22 +145,35 @@ var JsConflictFixer =
     },
 
     _traversedDependencies: {},
+
     _changePropertyAccessPositions: function(codeConstruct, oldName, newName)
     {
-        if(codeConstruct == null || this._traversedDependencies[codeConstruct.nodeId]) { return; }
+        if(codeConstruct == null) { return; }
+
+        if(this._traversedDependencies[oldName] == null) { this._traversedDependencies[oldName] = {}; }
+        if(this._traversedDependencies[oldName][codeConstruct.nodeId]) { return; }
 
         ConflictFixerCommon.addCommentToParentStatement(codeConstruct, "Firecrow - Rename global property");
 
         if(ASTHelper.isIdentifier(codeConstruct) && codeConstruct.name == oldName)
         {
+            if(this.logConstructs)
+            {
+                console.log(CodeTextGenerator.generateStandAloneCode(codeConstruct), "\n******");
+            }
             codeConstruct.name = newName;
         }
         else if (ASTHelper.isMemberExpression(codeConstruct) && codeConstruct.property.name == oldName)
         {
+            if(this.logConstructs)
+            {
+                console.log(CodeTextGenerator.generateStandAloneCode(codeConstruct), "\n******");
+            }
+
             codeConstruct.property.name = newName;
         }
 
-        this._traversedDependencies[codeConstruct.nodeId] = true;
+        this._traversedDependencies[oldName][codeConstruct.nodeId] = true;
 
         var dependencies = codeConstruct.reverseDependencies;
 
@@ -490,6 +526,9 @@ var JsConflictFixer =
                 }
             }
         }
+
+        //console.log("pageANames", namesA.join(" "));
+        //console.log("pageBNames", namesB.join(" "));
 
         var pageAUserDocumentProperties = pageAExecutionSummary.userSetDocumentProperties;
         var pageBUserDocumentProperties = pageBExecutionSummary.userSetDocumentProperties;

@@ -162,7 +162,7 @@ var HtmlConflictFixer =
 
                 if(pageBAttribute.name != "class" && pageBAttribute.name != "name" && pageBAttribute.name != "id") { continue; }
 
-                if(pageAAttribute.value == pageBAttribute.value)
+                if(pageAAttribute.value == pageBAttribute.value && pageAAttribute.name == pageBAttribute.name)
                 {
                     var uniqueName = pageAAttribute.name + pageAAttribute.value;
                     uniqueName += pageAAttribute.setConstruct != null ? pageAAttribute.setConstruct.nodeId : "";

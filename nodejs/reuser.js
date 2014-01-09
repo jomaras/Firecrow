@@ -4,20 +4,20 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageB.html-codeModel.txt");
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/expectedResult.html");
+//var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageA.html-codeModel.txt");
+//var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageB.html-codeModel.txt");
+//var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/expectedResult.html");
 
 var reuseFolder = "09_05_06";
-//var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageA.html-codeModel.txt");
-//var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageB.html-codeModel.txt");
-//var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/expectedResult.html");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageB.html-codeModel.txt");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/expectedResult.html");
 
 var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "resultNew.html");
 
 var expectedResult = fs.existsSync(expectedResultPath) ? fs.readFileSync(expectedResultPath, {encoding:"utf8"})
                                                        : "";
-var allReadyComputed = false;
+var allReadyComputed = true;
 
 var scenarioModelForReuserSlicerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserSlicer.txt");
 var scenarioModelForReuserAnalyzerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt");
