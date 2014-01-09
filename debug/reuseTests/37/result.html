@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="testContainer"></div>
+<script>
+    function implement(object, properties)
+    {
+        for(var propName in properties)
+        {
+            object[propName] = function()
+            {
+                var mainContainer = document.getElementById("testContainer");
+                mainContainer.textContent += "from reuse into app ";
+            }
+        }
+    }
+
+    implement(window, { testMethod: true });
+
+    window.testMethod();
+</script>
+
+<div id="mainContainer" o="r"></div>
+<script o="r">
+    function _RU_implement(object, properties)
+    {
+        for(var propName in properties)
+        {
+            object[propName] = function()
+            {
+                var mainContainer = document.getElementById('mainContainer');
+                mainContainer.textContent += 'from reuse app ';
+            };
+        }
+    }
+    _RU_implement(window, {_RU_testMethod: true});
+    /*Firecrow - Rename global property; */  window._RU_testMethod();
+    </script>
+</body>
+</html>

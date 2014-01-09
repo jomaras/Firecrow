@@ -19,9 +19,10 @@ console.log("Starting scenario generator: ", pageName ,  ScenarioGenerator.prior
 
 var coverageFolder = process.argv[5] || path.resolve(__dirname, "../evaluation/results/coverage") + path.sep + ScenarioGenerator.prioritization + path.sep;
 var generatedScenariosFolder = process.argv[5] || path.resolve(__dirname, "../evaluation/results/generatedScenarios") + path.sep + ScenarioGenerator.prioritization + path.sep;
-var scenarioModelPath = process.argv[6] || "C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\54.json"//path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json"); //"C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\40.json";
+var scenarioModelPath = process.argv[6] || path.resolve(__dirname, "../../CodeModels/evaluation/scenarioGenerator/" + pageName + "/index.json"); //"C:\\GitWebStorm\\CodeModels\\evaluation\\scenarioGeneratorTests\\40.json";
 var eventExecutionsFolder = path.resolve(__dirname, "../phantomJs/dataFiles/eventExecutions/");
 var achievedCoverageFile = path.resolve(__dirname, "../evaluation/results/achievedCoverage.txt");
+var timeFolder = process.argv[5] || path.resolve(__dirname, "../evaluation/results/time") + path.sep + ScenarioGenerator.prioritization + path.sep;
 
 fs.writeFileSync(achievedCoverageFile, "");
 
@@ -32,15 +33,21 @@ function deleteEventExecutionFiles()
         fs.unlinkSync(eventExecutionsFolder + path.sep + file);
     });
 }
+var startTime = Date.now();
 
 ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenarios, message, coverage)
 {
     console.log("ScenarioGenerator", message);
+
     console.log("The process has achieved statement coverage: " + (coverage != null ? coverage.statementCoverage : 0));
+
     fs.writeFileSync(achievedCoverageFile, (coverage != null ? coverage.statementCoverage : 0));
 
     var coverageFile = coverageFolder + pageName + ".txt";
+    var timeFile = timeFolder + pageName + ".txt";
     var generatedScenariosFile = generatedScenariosFolder + pageName + ".txt";
+
+    fs.writeFileSync(timeFile,  Math.round((new Date() - startTime)/1000));
 
     if(!fs.existsSync(coverageFolder))
     {

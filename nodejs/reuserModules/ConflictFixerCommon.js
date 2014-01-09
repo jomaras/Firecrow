@@ -13,6 +13,11 @@ var ConflictFixerCommon =
         var renameMessage = "Firecrow - Rename:" + change.oldValue + " -> " + change.newValue;
         this.replacementsMap[change.oldValue] = change.newValue;
 
+        if(change.oldValue == "window")
+        {
+            debugger;
+        }
+
         if(ASTHelper.isLiteral(codeConstruct))
         {
             codeConstruct.value = codeConstruct.value.replace(change.oldValue, change.newValue);

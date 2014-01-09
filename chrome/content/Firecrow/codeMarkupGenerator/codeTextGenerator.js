@@ -1,7 +1,7 @@
 var usesModule = typeof module !== 'undefined' && module.exports;
 if(usesModule)
 {
-    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+    FBL =  { Firecrow: { includeNode: function(node) { if(node) { node.shouldBeIncluded = true; } }}, ns:  function(namespaceFunction){ namespaceFunction(); }};
     atob = require("atob");
 }
 var CodeTextGenerator;
@@ -103,7 +103,7 @@ Firecrow.CodeTextGenerator.prototype =
         try
         {
             return this.generateDocumentType(model.docType) + this.newLine
-                 + this.generateCodeFromHtmlElement(model.htmlElement);
+                 + this.generateCodeFromHtmlElement(model.htmlElement, "root");
         }
         catch(e)
         {
@@ -135,7 +135,7 @@ Firecrow.CodeTextGenerator.prototype =
         return this.emptyElementTypes.indexOf(type) != -1;
     },
 
-    generateCodeFromHtmlElement: function(htmlElement)
+    generateCodeFromHtmlElement: function(htmlElement, origin)
     {
         try
         {
@@ -180,7 +180,7 @@ Firecrow.CodeTextGenerator.prototype =
                 {
                     for(var i = 0, length = children.length; i < length; i++)
                     {
-                        htmlElementContent += this.generateCodeFromHtmlElement(children[i]);
+                        htmlElementContent += this.generateCodeFromHtmlElement(children[i], "parent");
                     }
                 }
             }
@@ -189,6 +189,7 @@ Firecrow.CodeTextGenerator.prototype =
         }
         catch(e)
         {
+            console.log("HTMLElement", htmlElement, "origin", origin, "Stack", e.stack);
             this.notifyError("Error when generating htmlElement: " + e);
         }
     },
@@ -250,7 +251,9 @@ Firecrow.CodeTextGenerator.prototype =
         else if (ASTHelper.isLiteral(element)) { return this.generateFromLiteral(element); }
         else if (ASTHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
         else if (ASTHelper.isObjectExpressionPropertyValue(element)) { return this.generateFromObjectExpressionProperty(element); }
-        else  { return this.generateCodeFromHtmlElement(element); }
+        else if (element != null) { return this.generateCodeFromHtmlElement(element, "standalone"); }
+
+        return "";
     },
 
     generateJsCode: function(element)
@@ -376,8 +379,8 @@ Firecrow.CodeTextGenerator.prototype =
             else if (ASTHelper.isForStatement(statement)) { return this.generateFromForStatement(statement); }
             else if (ASTHelper.isForInStatement(statement)) { return this.generateFromForInStatement(statement); }
             else if (ASTHelper.isLabeledStatement(statement)) { return this.generateFromLabeledStatement(statement); }
-            else if (ASTHelper.isBreakStatement(statement)) { return this.generateFromBreakStatement(statement)  + this._SEMI_COLON ; }
-            else if (ASTHelper.isContinueStatement(statement)) { return this.generateFromContinueStatement(statement)  + this._SEMI_COLON ; }
+            else if (ASTHelper.isBreakStatement(statement)) { return this.generateFromBreakStatement(statement) + this._SEMI_COLON ; }
+            else if (ASTHelper.isContinueStatement(statement)) { return this.generateFromContinueStatement(statement) + this._SEMI_COLON ; }
             else if (ASTHelper.isReturnStatement(statement)) { return this.generateFromReturnStatement(statement)  + this._SEMI_COLON ; }
             else if (ASTHelper.isWithStatement(statement)) { return this.generateFromWithStatement(statement); }
             else if (ASTHelper.isTryStatement(statement)) { return this.generateFromTryStatement(statement); }
@@ -424,8 +427,9 @@ Firecrow.CodeTextGenerator.prototype =
         if(functionDecExp == null || (this.isSlicing && !functionDecExp.shouldBeIncluded)) { return "";}
 
         var functionBodyCode = this.generateFromFunctionBody(functionDecExp);
-
+        if(functionBodyCode.trim() == "") { return ""; }
         var isFunctionBodyNotEmpty = functionBodyCode.trim() != "{}";
+
 
         var shouldBeInParentheses = ASTHelper.isFunctionExpression(functionDecExp)
                                  && ASTHelper.isCallExpressionCallee(functionDecExp);
@@ -1029,7 +1033,7 @@ Firecrow.CodeTextGenerator.prototype =
         var declarators = variableDeclaration.declarations;
         var generatedDeclarators = 0;
 
-        if(declarators == null || declarators.length == 0) { debugger; return ""; }
+        if(declarators == null || declarators.length == 0) { return ""; }
 
         for (var i = 0, length = declarators.length; i < length; i++)
         {

@@ -195,7 +195,7 @@ fcSimulator.Evaluator.prototype =
         //if(identifierConstruct.nodeId == 99071)debugger
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
-        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 8154 && identifierConstruct.name == "i")debugger
+        if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 690 && identifierConstruct.name == "e")debugger
         this.executionContextStack.setExpressionValue
         (
             identifierConstruct,
@@ -216,7 +216,7 @@ fcSimulator.Evaluator.prototype =
         var memberExpression = memberCommand.codeConstruct;
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
-        //if(memberExpression.loc != null && memberExpression.loc.start.line >= 5072 && memberExpression.loc.start.line <= 5074)debugger;
+        //if(memberExpression.loc != null && memberExpression.loc.start.line == 690)debugger;
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
         this.globalObject.browser.callExpressionEvaluatedCallbacks(memberExpression.object);
@@ -456,7 +456,28 @@ fcSimulator.Evaluator.prototype =
 
         if(!propertyValue) { return; }
 
-        var nextPropertyName = this.globalObject.internalExecutor.createInternalPrimitiveObject(forInWhereConstruct.left, nextPropertyNameString);
+        var propertyNameCodeConstruct = null;
+
+        var property = whereObject.iValue.getProperty(nextPropertyNameString);
+
+        if(property != null && property.declarationPosition != null && property.declarationPosition.codeConstruct != null)
+        {
+            var declarationConstruct = property.declarationPosition.codeConstruct;
+            if(declarationConstruct.key != null) //Object literal
+            {
+                propertyNameCodeConstruct = declarationConstruct.key;
+            }
+            else if(ASTHelper.isAssignmentExpression()) //Assignment
+            {
+                propertyNameCodeConstruct = declarationConstruct.left;
+            }
+        }
+        else
+        {
+            propertyNameCodeConstruct = forInWhereConstruct.left;
+        }
+
+        var nextPropertyName = this.globalObject.internalExecutor.createInternalPrimitiveObject(propertyNameCodeConstruct, nextPropertyNameString);
 
         this.dependencyCreator.createDependenciesInForInWhereCommand(forInWhereConstruct, whereObject, nextPropertyName, isFirstIteration);
 

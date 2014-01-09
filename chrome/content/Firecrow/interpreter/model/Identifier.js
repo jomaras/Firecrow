@@ -55,6 +55,12 @@ fcModel.Identifier.prototype =
                 this.lastModificationPosition = { codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
                 //this.modificationPositions.push({ codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()});
             }
+
+            if(this.declarationPosition == null) //internal property that is being overridden
+            {
+                this.declarationPosition = { codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
+            }
+
         }
         catch(e) { Firecrow.Interpreter.Model.Identifier.notifyError("Error when setting value: " + e); }
     }

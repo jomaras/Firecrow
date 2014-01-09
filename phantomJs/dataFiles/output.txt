@@ -1,1 +1,21 @@
-Error: stderr maxBuffer exceeded.
+Error: Command failed: 
+child_process.js:699
+  args = args ? args.slice(0) : [];
+                     ^
+TypeError: Object function (error)
+            {
+                if(error != null)
+                {
+                    console.log("ScenarioGenerator error: ", error );
+                }
+            } has no method 'slice'
+    at exports.spawn (child_process.js:699:22)
+    at spawnPhantomJsProcess (C:\GitWebStorm\Firecrow\nodejs\scenarioGeneratorModules\ScenarioGenerator.js:968:15)
+    at Object.ScenarioGenerator._generateInitialScenarios (C:\GitWebStorm\Firecrow\nodejs\scenarioGeneratorModules\ScenarioGenerator.js:248:9)
+    at Object.ScenarioGenerator._generateScenarios (C:\GitWebStorm\Firecrow\nodejs\scenarioGeneratorModules\ScenarioGenerator.js:237:14)
+    at Object.ScenarioGenerator._getPageModelContent (C:\GitWebStorm\Firecrow\nodejs\scenarioGeneratorModules\ScenarioGenerator.js:114:27)
+    at Object.ScenarioGenerator.generateScenarios (C:\GitWebStorm\Firecrow\nodejs\scenarioGeneratorModules\ScenarioGenerator.js:84:14)
+    at Object.<anonymous> (C:\GitWebStorm\Firecrow\nodejs\scenarioGenerator.js:38:19)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)

@@ -965,7 +965,7 @@ var ScenarioGenerator =
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction, onErrorFunction)
 {
     var command = phantomJsPath + " " + pathToFile + " " + args.join(" ");
-    var prc = exec( command, onErrorFunction);
+    var prc = exec( command, { maxBuffer: 100000*1024}, onErrorFunction);
 
     prc.stdout.setEncoding('utf8');
 

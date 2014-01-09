@@ -5,6 +5,7 @@ var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Fire
 var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
 var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Firecrow/parsers/CssSelectorParser.js")).CssSelectorParser;
 var ReuserTemplates = require(path.resolve(__dirname, "../../chrome/content/Firecrow/templates/reuserTemplates.js")).ReuserTemplates;
+var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
 
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
 
@@ -26,62 +27,44 @@ var JsConflictFixer =
 
         conflictedProperties.forEach(function(conflictedProperty)
         {
-            if(conflictedProperty == null || conflictedProperty.declarationConstruct == null) { return; }
+            if(conflictedProperty == null) { return; }
+            if(conflictedProperty.declarationConstruct == null) { return; }
 
             var newName = ConflictFixerCommon.generateReusePrefix() + conflictedProperty.name;
 
             var declarationConstruct = conflictedProperty.declarationConstruct;
-            var hasDeclarationBeenChanged = false;
+            var changedConstructs = [];
 
             if(ASTHelper.isAssignmentExpression(declarationConstruct))
             {
                 if(ASTHelper.isIdentifier(declarationConstruct.left))
                 {
                     declarationConstruct.left.name = newName;
-                    hasDeclarationBeenChanged = true;
+                    changedConstructs.push(declarationConstruct.left);
                 }
                 else if (ASTHelper.isMemberExpression(declarationConstruct.left))
                 {
-                    if(!declarationConstruct.left.computed || conflictedProperty.name == declarationConstruct.left.property.name)
+                    var memberExpression = declarationConstruct.left;
+
+                    if(!memberExpression.computed || conflictedProperty.name == memberExpression.property.name)
                     {
-                        declarationConstruct.left.property.name = newName;
-                        hasDeclarationBeenChanged = true;
+                        memberExpression.property.name = newName;
+                        changedConstructs.push(memberExpression.property);
                     }
-                    else if (ASTHelper.isMemberExpression(declarationConstruct.right)
-                        ||  (ASTHelper.isAssignmentExpression(declarationConstruct.right)
-                        && (ASTHelper.isMemberExpression(declarationConstruct.right.right)
-                        || ASTHelper.isIdentifier(declarationConstruct.right.right)))
-                        || (declarationConstruct.left.computed && ASTHelper.isIdentifier(declarationConstruct.right)))
+                    else if(memberExpression.computed)
                     {
-                        //TODO - consider improving (problem when the conflicting property is assigned over for-in object extension)
-                        console.log("Trying to replace computed member expression");
+                        var property = memberExpression.property;
 
-                        var memberPropertyDeclaration = null;
+                        var propertyDeclarations = this._getPropertyDeclarations(property, conflictedProperty.name);
 
-                        if(ASTHelper.isMemberExpression(declarationConstruct.right) || ASTHelper.isIdentifier(declarationConstruct.right))
+                        propertyDeclarations.forEach(function(propertyDeclaration)
                         {
-                            memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right, conflictedProperty.name);
-                        }
-                        else if (ASTHelper.isAssignmentExpression(declarationConstruct.right))
-                        {
-                            if(ASTHelper.isMemberExpression(declarationConstruct.right.right) || ASTHelper.isIdentifier(declarationConstruct.right.right))
+                            if(ASTHelper.isIdentifier(propertyDeclaration))
                             {
-                                memberPropertyDeclaration = this._getPropertyDeclaration(declarationConstruct.right.right, conflictedProperty.name);
+                                changedConstructs.push(propertyDeclaration);
+                                propertyDeclaration.name = newName;
                             }
-                        }
-
-                        if(memberPropertyDeclaration != null)
-                        {
-                            ConflictFixerCommon.addCommentToParentStatement(memberPropertyDeclaration, "Firecrow - Rename global property");
-                            memberPropertyDeclaration.name = newName;
-                            hasDeclarationBeenChanged = true;
-                        }
-                        else
-                        {
-                            //In MooTools multiple objects can be extended with the same property, so it could have been fixed before
-                            //console.log("Can not find property declarator when fixing property conflicts");
-                            debugger;
-                        }
+                        });
                     }
                     else
                     {
@@ -98,7 +81,7 @@ var JsConflictFixer =
             else if (ASTHelper.isVariableDeclarator(declarationConstruct) || ASTHelper.isFunctionDeclaration(declarationConstruct))
             {
                 declarationConstruct.id.name = newName;
-                hasDeclarationBeenChanged = true;
+                changedConstructs.push(declarationConstruct);
             }
             else
             {
@@ -106,29 +89,13 @@ var JsConflictFixer =
                 console.log("Unhandled expression when fixing global properties conflicts");
             }
 
-            if(!hasDeclarationBeenChanged) { return; }
+            if(changedConstructs.length == 0) { return; }
 
             ConflictFixerCommon.addCommentToParentStatement(declarationConstruct, "Firecrow - Rename global property");
 
-            var dependentEdges = declarationConstruct.reverseDependencies;
+            this._changePropertyAccessPositions(declarationConstruct, conflictedProperty.name, newName);
 
-            for(var i = 0, length = dependentEdges.length; i < length; i++)
-            {
-                var edge = dependentEdges[i];
-
-                var sourceConstruct = edge.sourceNode;
-
-                ConflictFixerCommon.addCommentToParentStatement(sourceConstruct, "Firecrow - Rename global property");
-
-                if(ASTHelper.isIdentifier(sourceConstruct) && sourceConstruct.name == conflictedProperty.name)
-                {
-                    sourceConstruct.name = ConflictFixerCommon.generateReusePrefix() + sourceConstruct.name;
-                }
-                else if (ASTHelper.isMemberExpression(sourceConstruct) && sourceConstruct.property.name == conflictedProperty.name)
-                {
-                    sourceConstruct.property.name = ConflictFixerCommon.generateReusePrefix() + sourceConstruct.property.name;
-                }
-            }
+            if(!conflictedProperty.isGlobalVariable) { return; }
 
             var undefinedGlobalPropertiesMap = pageAExecutionSummary.undefinedGlobalProperties;
 
@@ -151,8 +118,33 @@ var JsConflictFixer =
                     }, this);
                 }
             }
-
         }, this);
+    },
+
+    _traversedDependencies: {},
+    _changePropertyAccessPositions: function(codeConstruct, oldName, newName)
+    {
+        if(codeConstruct == null || this._traversedDependencies[codeConstruct.nodeId]) { return; }
+
+        ConflictFixerCommon.addCommentToParentStatement(codeConstruct, "Firecrow - Rename global property");
+
+        if(ASTHelper.isIdentifier(codeConstruct) && codeConstruct.name == oldName)
+        {
+            codeConstruct.name = newName;
+        }
+        else if (ASTHelper.isMemberExpression(codeConstruct) && codeConstruct.property.name == oldName)
+        {
+            codeConstruct.property.name = newName;
+        }
+
+        this._traversedDependencies[codeConstruct.nodeId] = true;
+
+        var dependencies = codeConstruct.reverseDependencies;
+
+        for(var i = 0; i < dependencies.length; i++)
+        {
+            this._changePropertyAccessPositions(dependencies[i].sourceNode, oldName, newName);
+        }
     },
 
     _fixPrototypeConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
@@ -213,21 +205,22 @@ var JsConflictFixer =
         }
     },
 
-    _getPropertyDeclaration: function(codeConstruct, propertyName)
+    _getPropertyDeclarations: function(codeConstruct, propertyName)
     {
         var dependencies = codeConstruct.dependencies;
+        var propertyDeclarations = [];
 
         for(var i = 0; i < dependencies.length; i++)
         {
             var destinationConstruct = dependencies[i].destinationNode;
 
-            if(ASTHelper.isProperty(destinationConstruct.parent) && destinationConstruct.parent.key.name == propertyName)
+            if(ASTHelper.isProperty(destinationConstruct.parent) && (destinationConstruct.name == propertyName))
             {
-                return destinationConstruct.parent.key;
+                propertyDeclarations.push(destinationConstruct.parent.key);
             }
         }
 
-        return null;
+        return propertyDeclarations;
     },
 
     _getPrototypeExtensions: function(executionSummary)
@@ -405,7 +398,15 @@ var JsConflictFixer =
             }
             else
             {
-                console.log("Unhandled expression when replacing handlers");
+                var message = "Null";
+                if(codeConstruct != null)
+                {
+                    message = codeConstruct.type + " " + codeConstruct.loc.start.line
+                            + " " + CodeTextGenerator.generateJsCode(codeConstruct)
+                            + " " + CodeTextGenerator.generateJsCode(codeConstruct.parent);
+                }
+
+                console.log("Unhandled expression when replacing handlers:", message);
             }
         }
 
@@ -465,21 +466,26 @@ var JsConflictFixer =
     {
         if(pageAExecutionSummary == null || pageBExecutionSummary == null) { return []; }
 
+        var conflictedProperties = [];
+
         var pageAGlobalProperties = pageAExecutionSummary.userSetGlobalProperties;
         var pageBGlobalProperties = pageBExecutionSummary.userSetGlobalProperties;
 
-        var conflictedProperties = [];
+        var namesA = [], namesB = [];
 
         for(var i = 0; i < pageBGlobalProperties.length; i++)
         {
             var pageBProperty = pageBGlobalProperties[i];
+            namesB.push(pageBProperty.name);
 
             for(var j = 0; j < pageAGlobalProperties.length; j++)
             {
                 var pageAGlobalProperty = pageAGlobalProperties[j];
+                namesA.push(pageAGlobalProperty.name);
 
                 if(pageAGlobalProperty.name == pageBProperty.name && !pageAGlobalProperty.isEventProperty)
                 {
+                    pageAGlobalProperty.isGlobalVariable = true;
                     conflictedProperties.push(pageAGlobalProperty);
                 }
             }
@@ -498,6 +504,7 @@ var JsConflictFixer =
 
                 if(pageAProperty.name == pageBProperty.name)
                 {
+                    pageAProperty.isInternalObjectVariable = true;
                     conflictedProperties.push(pageAProperty);
                 }
             }
@@ -519,6 +526,7 @@ var JsConflictFixer =
                     {
                         if(pageAPrototypeExtension[i].name == pageBPrototypeExtension[j].name)
                         {
+                            pageAPrototypeExtension.isInternalObjectVariable = true;
                             conflictedProperties.push(pageAPrototypeExtension[i]);
                         }
                     }

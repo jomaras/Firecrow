@@ -37,12 +37,15 @@ var Reuser =
         this._createChildren(mergedBodyNode, pageBBodyNode, null);
         this._createChildren(mergedBodyNode, pageABodyNode, "r");
 
-        if(!this._areSelectorsSupported(pageAModel.trackedElementsSelectors.concat(pageBModel.reuseIntoDestinationSelectors)))
+        var reuseIntoDestinationSelectors = pageBModel.reuseIntoDestinationSelectors || pageBModel.trackedElementsSelectors;
+
+        if(!this._areSelectorsSupported(pageAModel.trackedElementsSelectors.concat(reuseIntoDestinationSelectors)))
         {
-            console.warn("Used selectors are not supported in Reuser - only simple selectors by class and id!");
+            var selectors = pageAModel.trackedElementsSelectors.concat(reuseIntoDestinationSelectors);
+            console.warn("Used selectors are not supported in Reuser - only simple selectors by class and id:", selectors.join("; "));
         }
 
-        this._moveNodesTo(mergedModel, pageAModel.trackedElementsSelectors, pageBModel.reuseIntoDestinationSelectors);
+        this._moveNodesTo(mergedModel, pageAModel.trackedElementsSelectors, reuseIntoDestinationSelectors);
 
         ASTHelper.setParentsChildRelationships(mergedModel);
 

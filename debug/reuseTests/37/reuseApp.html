@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        function implement(object, properties)
+        {
+            for(var propName in properties)
+            {
+                object[propName] = function()
+                {
+                    var mainContainer = document.getElementById("mainContainer");
+                    mainContainer.textContent += "from reuse app ";
+                }
+            }
+        }
+
+        implement(window, { testMethod: true });
+
+        window.testMethod();
+    </script>
+</body>
+</html>

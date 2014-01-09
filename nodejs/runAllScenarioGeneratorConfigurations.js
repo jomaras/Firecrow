@@ -21,9 +21,9 @@ var applicationNames = ["10-htmlEdit", "02-ajaxtabscontent", "03-ball_pool", "04
                         "23-prism3D", "24-rentingAgency", "25-snake", "26-snowpar", "27-tinySlider", "28-floatwar"]; //01-3dModeller
 
 //applicationNames = ["02-ajaxtabscontent", "21-angelJump", "22-minesweeper", "23-prism3D", "25-snake", "05-dynamicArticles", "06-fractal_viewer", "24-rentingAgency", "27-tinySlider", "26-snowpar", "28-floatwar"];
-applicationNames = ["06-fractal_viewer"];
+applicationNames = ["25-snake"];
 
-var eventTypes = ["eventLength", "fifo", "pathCoverageSequential", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
+var eventTypes = ["eventLength", "fifo", "pathCoverageSequential", "pathCoverage", "random", "symbolicNewCoverageSequential", "symbolicNewCoverage"];
 
 var allCombinations = getAllCombinations(applicationNames, eventTypes);
 
@@ -61,7 +61,7 @@ var processOutput = "";
     spawnNodeJsProcess
     (
         scenarioGeneratorPath,
-        [applicationName, eventType, "100"],
+        [applicationName, eventType, "20"],
         function (data)
         {
             var str = data.toString()
@@ -91,7 +91,12 @@ var processOutput = "";
 
 function spawnNodeJsProcess(pathToFile, args, onDataFunction, onCloseFunction, onError)
 {
-    var prc = exec( 'node ' + pathToFile + " " + args.join(" "), onError);
+    var prc = exec
+    (
+        'node ' + pathToFile + " " + args.join(" "),
+        { maxBuffer: 100*1024},
+        onError
+    );
     prc.stdout.setEncoding('utf8');
 
     prc.stdout.on('data', onDataFunction);

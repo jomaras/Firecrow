@@ -4,14 +4,20 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
-var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/pageA.html-codeModel.txt");
-var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/pageB.html-codeModel.txt");
+var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageA.html-codeModel.txt");
+var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageB.html-codeModel.txt");
+var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/expectedResult.html");
 
-var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/23/expectedResult.html");
-var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "result.html");
+var reuseFolder = "09_05_06";
+//var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageA.html-codeModel.txt");
+//var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageB.html-codeModel.txt");
+//var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/expectedResult.html");
+
+var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "resultNew.html");
 
 var expectedResult = fs.existsSync(expectedResultPath) ? fs.readFileSync(expectedResultPath, {encoding:"utf8"})
                                                        : "";
+var allReadyComputed = false;
 
 var scenarioModelForReuserSlicerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserSlicer.txt");
 var scenarioModelForReuserAnalyzerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt");
@@ -33,8 +39,10 @@ var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe' : "/home/jomaras/phan
 /**************************************************************************************************************/
 var HtmlModelMapping = []; //for the files
 
-var pageAModel = (eval(fs.readFileSync(pageAModelPath, {encoding:"utf8"})), HtmlModelMapping[0].model); //HtmlModelMapping contained within the file
-var pageBModel = (eval(fs.readFileSync(pageBModelPath, {encoding:"utf8"})), HtmlModelMapping[0].model); //HtmlModelMapping contained within the file
+var pageAModelText = fs.readFileSync(pageAModelPath, {encoding:"utf8"});
+var pageBModelText = fs.readFileSync(pageBModelPath, {encoding:"utf8"});
+var pageAModel = (eval(pageAModelText), HtmlModelMapping[0].model); //HtmlModelMapping contained within the file
+var pageBModel = (eval(pageBModelText), (HtmlModelMapping[1] || HtmlModelMapping[0]).model); //HtmlModelMapping contained within the file [1] - if we use reuse case studies, and [0] if not
 
 var pageAModelMapping = createModelMapping(pageAModel);
 var pageBModelMapping = createModelMapping(pageBModel);
@@ -50,6 +58,18 @@ ASTHelper.setParentsChildRelationships(pageBModel);
 
 copyFileContent(pageAModelPath, scenarioModelForReuserSlicerPath);
 console.log("reuser:", "Slicing", pageAModelPath);
+
+if(allReadyComputed)
+{
+    pageAExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionSlicerSummaryFile, {encoding: "utf8"}));
+
+    updatePageModel(pageAExecutionSummary, pageAModelMapping, pageAModel);
+
+    pageBExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionAnalyzerSummaryFile, {encoding: "utf8"}));
+    updatePageModel(pageBExecutionSummary, pageBModelMapping, pageBModel);
+    performReuse(pageAExecutionSummary, pageBExecutionSummary);
+}
+else
 spawnPhantomJsProcess
 (
     phantomReuseSlicerScript, [],
@@ -89,8 +109,8 @@ function performReuse(pageAExecutionSummary, pageBExecutionSummary)
 
     if(expectedResult != null && expectedResult != "")
     {
-        var expectedWithoutWhitespace = expectedResult.replace(/\s/g, "");
-        var resultWithoutWhitespace = result.replace(/\s/g, "");
+        var expectedWithoutWhitespace = expectedResult.replace(/\s/g, "").replace(/\*([^*]|[\r\n])*\*/g,"").replace(/\/\//g,"");
+        var resultWithoutWhitespace = result.replace(/\s/g, "").replace(/\*([^*]|[\r\n])*\*/g, "").replace(/\/\//g,"");
         if(expectedWithoutWhitespace != resultWithoutWhitespace)
         {
             console.log("Result and expected result differ!");

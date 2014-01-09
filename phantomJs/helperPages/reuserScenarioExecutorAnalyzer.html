@@ -124,68 +124,65 @@
 <textarea id="noEvaluatedExpressionsTextArea"></textarea>
 <textarea id="executionInfo"></textarea>
 <script>
-    (function()
+    var dateNow = Date.now;
+
+    var slicingResultTextArea = document.getElementById("slicingResultTextArea");
+    var loadingTimeTextArea = document.getElementById("loadingTimeTextArea");
+    var astNodesTextArea = document.getElementById("astNodesTextArea");
+    var slicingCriteriaCountTextArea = document.getElementById("slicingCriteriaCountTextArea");
+    var noEvaluatedExpressionsTextArea = document.getElementById("noEvaluatedExpressionsTextArea");
+    var executionInfoTextArea = document.getElementById("executionInfo");
+    var wholeCodeTextArea = document.getElementById("wholeCodeTextArea");
+
+    var pageModel = HtmlModelMapping[0].model;
+
+    var Firecrow = FBL.Firecrow;
+
+    pageModel.trackedElementsSelectors = ["*"];
+
+    var slicingCriteria = pageModel.trackedElementsSelectors.map(function(selector)
     {
-        var dateNow = Date.now;
+        return Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector);
+    });
 
-        var slicingResultTextArea = document.getElementById("slicingResultTextArea");
-        var loadingTimeTextArea = document.getElementById("loadingTimeTextArea");
-        var astNodesTextArea = document.getElementById("astNodesTextArea");
-        var slicingCriteriaCountTextArea = document.getElementById("slicingCriteriaCountTextArea");
-        var noEvaluatedExpressionsTextArea = document.getElementById("noEvaluatedExpressionsTextArea");
-        var executionInfoTextArea = document.getElementById("executionInfo");
-        var wholeCodeTextArea = document.getElementById("wholeCodeTextArea");
+    var startTime = dateNow();
+    var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
+    var browser = result.browser;
+    var executionInfo = browser.getExecutionInfo();
 
-        var pageModel = HtmlModelMapping[0].model;
+    slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+    wholeCodeTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateStandAloneCode(pageModel.htmlElement);
 
-        var Firecrow = FBL.Firecrow;
+    loadingTimeTextArea.textContent = dateNow() - startTime;
+    slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
+    noEvaluatedExpressionsTextArea.textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
 
-        pageModel.trackedElementsSelectors = ["*"];
-
-        var slicingCriteria = pageModel.trackedElementsSelectors.map(function(selector)
+    executionInfo.setSerializeToReuseJson();
+    executionInfo.dependencyGraph = result.dependencyGraph.getSimplified();
+    var includedNodeIdMap = {};
+    var includedNodeIds = [];
+    Firecrow.ASTHelper.traverseAst(pageModel, function(element)
+    {
+        if(!includedNodeIdMap[element.nodeId] && element.shouldBeIncluded)
         {
-            return Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector);
-        });
+            includedNodeIds.push(element.nodeId);
+            includedNodeIdMap[element.nodeId] = true;
+        }
+    });
 
-        var startTime = dateNow();
-        var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
-        var browser = result.browser;
-        var executionInfo = browser.getExecutionInfo();
+    executionInfo.includedNodeIds = includedNodeIds;
+    executionInfo.domQueriesMap = browser.domQueriesMap;
+    executionInfo.dynamicIdMap = browser.dynamicIdMap;
+    executionInfo.dynamicClassMap = browser.dynamicClassMap;
+    executionInfo.userSetGlobalProperties = browser.globalObject.getSimplifiedUserSetGlobalProperties();
+    executionInfo.userSetDocumentProperties = browser.globalObject.getSimplifiedUserSetDocumentProperties();
+    executionInfo.undefinedGlobalProperties = browser.getSimplifiedUndefinedGlobalPropertiesAccessMap();
+    executionInfo.eventHandlerPropertiesMap = browser.globalObject.getSimplifiedEventHandlerPropertiesMap();
+    executionInfo.resourceSetterMap = browser.getSimplifiedResourceSetterMap();
+    executionInfo.prototypeExtensions = browser.getInternalPrototypeExtensions();
+    executionInfo.forInIterations = browser.getSimplifiedForInIterations();
 
-        slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
-        wholeCodeTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateStandAloneCode(pageModel.htmlElement);
-
-        loadingTimeTextArea.textContent = dateNow() - startTime;
-        slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
-        noEvaluatedExpressionsTextArea.textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
-
-        executionInfo.setSerializeToReuseJson();
-        executionInfo.dependencyGraph = result.dependencyGraph.getSimplified();
-        var includedNodeIdMap = {};
-        var includedNodeIds = [];
-        Firecrow.ASTHelper.traverseAst(pageModel, function(element)
-        {
-            if(!includedNodeIdMap[element.nodeId] && element.shouldBeIncluded)
-            {
-                includedNodeIds.push(element.nodeId);
-                includedNodeIdMap[element.nodeId] = true;
-            }
-        });
-
-        executionInfo.includedNodeIds = includedNodeIds;
-        executionInfo.domQueriesMap = browser.domQueriesMap;
-        executionInfo.dynamicIdMap = browser.dynamicIdMap;
-        executionInfo.dynamicClassMap = browser.dynamicClassMap;
-        executionInfo.userSetGlobalProperties = browser.globalObject.getSimplifiedUserSetGlobalProperties();
-        executionInfo.userSetDocumentProperties = browser.globalObject.getSimplifiedUserSetDocumentProperties();
-        executionInfo.undefinedGlobalProperties = browser.getSimplifiedUndefinedGlobalPropertiesAccessMap();
-        executionInfo.eventHandlerPropertiesMap = browser.globalObject.getSimplifiedEventHandlerPropertiesMap();
-        executionInfo.resourceSetterMap = browser.getSimplifiedResourceSetterMap();
-        executionInfo.prototypeExtensions = browser.getInternalPrototypeExtensions();
-        executionInfo.forInIterations = browser.getSimplifiedForInIterations();
-
-        executionInfoTextArea.textContent = JSON.stringify(executionInfo);
-    })();
+    executionInfoTextArea.textContent = JSON.stringify(executionInfo);
 </script>
 
 </body>
