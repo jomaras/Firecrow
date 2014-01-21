@@ -108,7 +108,7 @@ var JsConflictFixer =
 
                 this._changePropertyAccessPositions(changedConstruct, conflictedProperty.name, newName);
 
-                if(ASTHelper.isProperty(changedConstruct.parent) && conflictedProperty.name == "match")
+                if(ASTHelper.isProperty(changedConstruct.parent))
                 {
                     this._changePropertyAccessPositions(changedConstruct.parent, conflictedProperty.name, newName);
                 }
@@ -152,7 +152,6 @@ var JsConflictFixer =
     _changePropertyAccessPositions: function(codeConstruct, oldName, newName)
     {
         if(codeConstruct == null) { return; }
-        if(codeConstruct.nodeId == 378) debugger;
 
         if(this._traversedDependencies[oldName] == null) { this._traversedDependencies[oldName] = {}; }
         if(this._traversedDependencies[oldName][codeConstruct.nodeId]) { return; }
@@ -174,8 +173,12 @@ var JsConflictFixer =
 
         for(var i = 0; i < dependencies.length; i++)
         {
-            this._changePropertyAccessPositions(dependencies[i].sourceNode, oldName, newName);
+            var sourceNode = dependencies[i].sourceNode;
+
+            this._changePropertyAccessPositions(sourceNode, oldName, newName);
         }
+
+        this._changePropertyAccessPositions(ASTHelper.getParentAssignmentExpression(codeConstruct), oldName, newName);
     },
 
     _fixPrototypeConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)

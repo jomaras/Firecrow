@@ -8,24 +8,17 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="HtmlConflictFixer - conflicts only between attributes of same type">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Backup before trying a different approach with fixing JavaScript conflicts">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/38/reuseApp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/reuseTests/38/reuseIntoApp.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/Reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/Reuser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/coverageSummary.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/coverageSummary.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/scenarioGeneratorResultsAggregator.js" afterPath="$PROJECT_DIR$/nodejs/scenarioGeneratorResultsAggregator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -75,37 +68,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TODO" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TODO">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="0" selection-start="3336" selection-end="3336" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5712">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reuser.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="reuser.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="28" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7327">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reuser.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/Reuser.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="98" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7446">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsConflictFixer.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="0" selection-start="2045" selection-end="2045" vertical-scroll-proportion="0.30619267" vertical-offset="362" max-vertical-offset="10115">
+            <state line="15" column="69" selection-start="1038" selection-end="1038" vertical-scroll-proportion="0.5769231" vertical-offset="0" max-vertical-offset="7327">
               <folding />
             </state>
           </provider>
@@ -140,8 +106,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Event.js" />
-        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Expression.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/Expression.js" />
         <option value="$PROJECT_DIR$/debug/usageScenarioGenerator/52/index.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/scenarioGenerator/symbolic/SymbolicExecutor.js" />
@@ -159,7 +123,6 @@
         <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/13-daypack/test.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/parsers/CssSelectorParser.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGenerator.js" />
         <option value="$PROJECT_DIR$/evaluation/reuse/04_03_02/resultNew.html" />
         <option value="$PROJECT_DIR$/evaluation/reuse/06_03_06/resultNew.html" />
@@ -178,19 +141,22 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
         <option value="$PROJECT_DIR$/evaluation/reuse/09_05_06/featureCode.html" />
         <option value="$PROJECT_DIR$/nodejs/reuserModules/Reuser.js" />
-        <option value="$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/mootools-1.2.4-core.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
         <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorResultsAggregator.js" />
         <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/38/reuseIntoApp.html" />
+        <option value="$PROJECT_DIR$/debug/reuseTests/38/reuseApp.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/evaluation/reuse/09_05_06/resultNew.html" />
-        <option value="$PROJECT_DIR$/nodejs/reuser.js" />
         <option value="$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js" />
+        <option value="$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/mootools-1.2.4-core.js" />
+        <option value="$PROJECT_DIR$/nodejs/reuser.js" />
       </list>
     </option>
   </component>
@@ -283,6 +249,52 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phantomJs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helperPages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nodejs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -324,20 +336,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="09_05_06" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3487,7 +3485,11 @@
       <created>1389274919433</created>
       <updated>1389274919434</updated>
     </task>
-    <option name="localTasksCounter" value="720" />
+    <task id="LOCAL-00720" summary="Backup before trying a different approach with fixing JavaScript conflicts">
+      <created>1390291910914</created>
+      <updated>1390291910915</updated>
+    </task>
+    <option name="localTasksCounter" value="721" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3528,23 +3530,23 @@
     <frame x="1358" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2700893" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26943943" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38418707" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38392857" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46325168" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46316963" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2711039" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3594,7 +3596,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Almost finished with adjusting reuser to nodejs" />
     <MESSAGE value="All reuse tests running successfully in nodejs" />
     <MESSAGE value="Refactoring" />
     <MESSAGE value="Minor bug fix: atob definition in case it was loaded by a module, was a variable declaration which would override the original atob when included normally" />
@@ -3619,7 +3620,8 @@
     <MESSAGE value="Simple handling of onresize events" />
     <MESSAGE value="IMPORTANT UPDATE TO EVALUATOR - when evaluating forIn the string is not created on the right-hand side (but on the construct which has created the property key) -  MIGHT cause problems in slicing! (FURTHER TESTING NEEDED).&#10;&#10;Changed the way how property names are replaced in reuser" />
     <MESSAGE value="HtmlConflictFixer - conflicts only between attributes of same type" />
-    <option name="LAST_COMMIT_MESSAGE" value="HtmlConflictFixer - conflicts only between attributes of same type" />
+    <MESSAGE value="Backup before trying a different approach with fixing JavaScript conflicts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Backup before trying a different approach with fixing JavaScript conflicts" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3634,60 +3636,10 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="174" />
+      <option name="time" value="175" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="250" column="0" selection-start="7352" selection-end="7352" vertical-scroll-proportion="0.0" vertical-offset="3960" max-vertical-offset="8993" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/featureCode.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1024" column="7" selection-start="28975" selection-end="28975" vertical-scroll-proportion="0.8232236" vertical-offset="16933" max-vertical-offset="17510" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/TabPane.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="95" selection-start="2245" selection-end="2245" vertical-scroll-proportion="0.0" vertical-offset="800" max-vertical-offset="1428" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="30" selection-start="461" selection-end="461" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/mootools-1.2.4-more.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="8" selection-start="836" selection-end="836" vertical-scroll-proportion="-3.6153846" vertical-offset="416" max-vertical-offset="2023" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="27" selection-start="1052" selection-end="1052" vertical-scroll-proportion="1.0016835" vertical-offset="0" max-vertical-offset="22100" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/slicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="12" selection-start="8940" selection-end="9028" vertical-scroll-proportion="-13.730769" vertical-offset="1887" max-vertical-offset="3179" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="63" selection-start="595" selection-end="595" vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="1717" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/mootools-1.2.4-core.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="2529" selection-end="2529" vertical-scroll-proportion="0.0" vertical-offset="1155" max-vertical-offset="81039" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/scenarioExecutor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="58" selection-start="10968" selection-end="10968" vertical-scroll-proportion="38.807693" vertical-offset="4205" max-vertical-offset="6630" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/edge.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.1837398" vertical-offset="728" max-vertical-offset="1343" />
@@ -3696,11 +3648,6 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="633" column="64" selection-start="28492" selection-end="28492" vertical-scroll-proportion="0.0" vertical-offset="10352" max-vertical-offset="16456" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="227" column="55" selection-start="11663" selection-end="11663" vertical-scroll-proportion="0.0" vertical-offset="3525" max-vertical-offset="16320" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
@@ -3874,9 +3821,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/resultNew.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/result.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5865" column="9" selection-start="156382" selection-end="156382" vertical-scroll-proportion="0.0" vertical-offset="99455" max-vertical-offset="102986">
+        <state line="5144" column="85" selection-start="132374" selection-end="132385" vertical-scroll-proportion="0.33173078" vertical-offset="87310" max-vertical-offset="106862">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/resultNewO.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="455">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/Reuser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="98" selection-start="765" selection-end="765" vertical-scroll-proportion="0.37362638" vertical-offset="0" max-vertical-offset="7446">
           <folding />
         </state>
       </provider>
@@ -3888,23 +3849,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/37/reuseApp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="28" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7327">
+        <state line="0" column="0" selection-start="0" selection-end="593" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/Reuser.js">
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/38/reuseIntoApp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="98" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7446">
+        <state line="1" column="6" selection-start="22" selection-end="22" vertical-scroll-proportion="-0.65384614" vertical-offset="0" max-vertical-offset="238">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/reuseTests/38/reuseApp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="6" selection-start="29" selection-end="29" vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="885" column="4" selection-start="35534" selection-end="36446" vertical-scroll-proportion="0.37104073" vertical-offset="14881" max-vertical-offset="16677">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="198" column="23" selection-start="10350" selection-end="10350" vertical-scroll-proportion="0.8710407" vertical-offset="2981" max-vertical-offset="16337">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/mootools-1.2.4-more.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="17" selection-start="1602" selection-end="1602" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="2023">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1418" column="57" selection-start="46907" selection-end="46907" vertical-scroll-proportion="0.7017544" vertical-offset="23746" max-vertical-offset="31280">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/resultNew.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5468" column="77" selection-start="140970" selection-end="140970" vertical-scroll-proportion="0.37104073" vertical-offset="92792" max-vertical-offset="102986">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/pageAScripts/mootools-1.2.4-core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1664" column="54" selection-start="41552" selection-end="41552" vertical-scroll-proportion="0.3932322" vertical-offset="27951" max-vertical-offset="81039">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="0" selection-start="2045" selection-end="2045" vertical-scroll-proportion="0.30619267" vertical-offset="362" max-vertical-offset="10115">
+        <state line="161" column="25" selection-start="7600" selection-end="7600" vertical-scroll-proportion="0.43563217" vertical-offset="2358" max-vertical-offset="10166">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/09_05_06/pageA.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="35" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="2227">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="69" selection-start="1038" selection-end="1038" vertical-scroll-proportion="0.5769231" vertical-offset="0" max-vertical-offset="7327">
           <folding />
         </state>
       </provider>

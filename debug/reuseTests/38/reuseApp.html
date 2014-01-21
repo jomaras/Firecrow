@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="mainContainer"></div>
+<script>
+    Element.prototype = {
+        sayHello: function()
+        {
+            this.textContent = "Hello :)";
+        }
+    }
+
+    var mainContainer = document.getElementById("mainContainer");
+    mainContainer.sayHello();
+</script>
+</body>
+</html>

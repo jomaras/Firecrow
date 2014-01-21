@@ -1411,6 +1411,15 @@ Firecrow.ASTHelper = ASTHelper =
         );
     },
 
+    getParentAssignmentExpression: function(codeConstruct)
+    {
+        return this.getParentOfTypes
+        (
+            codeConstruct,
+            [ this.CONST.EXPRESSION.AssignmentExpression ]
+        );
+    },
+
     getFunctionParent: function(codeConstruct)
     {
         return this.getParentOfTypes

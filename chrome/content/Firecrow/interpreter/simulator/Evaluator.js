@@ -195,7 +195,8 @@ fcSimulator.Evaluator.prototype =
         //if(identifierConstruct.nodeId == 99071)debugger
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
-        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 82 && identifierConstruct.name == "property" && identifierValue.jsValue == "match")debugger
+        /*if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 82 && identifierConstruct.name == "property" && identifierValue.jsValue == "match")
+            debugger;*/
         this.executionContextStack.setExpressionValue
         (
             identifierConstruct,
