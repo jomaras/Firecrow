@@ -39,6 +39,7 @@ FBL.ns(function() { with (FBL) {
 
         getSimplified: function()
         {
+            //if(this.model.nodeId == 378) debugger;
             return {
                 modelId : this.model != null ? this.model.nodeId : -1,
                 type: this.type,
@@ -48,7 +49,7 @@ FBL.ns(function() { with (FBL) {
             };
         },
 
-        _getSimplifiedDependencies: function(dependencies)
+        _getSimplifiedDependencies: function(dependencies, isReverseDependencies)
         {
             var simplifiedDependencies = [];
             var simplifiedDependenciesMap = {};

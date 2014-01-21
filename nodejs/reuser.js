@@ -47,6 +47,9 @@ var pageBModel = (eval(pageBModelText), (HtmlModelMapping[1] || HtmlModelMapping
 var pageAModelMapping = createModelMapping(pageAModel);
 var pageBModelMapping = createModelMapping(pageBModel);
 
+pageAModelMapping.createdDependencies = {};
+pageBModelMapping.createdDependencies = {};
+
 pageAModel.parentChildRelationshipsHaveBeenSet = false;
 pageBModel.parentChildRelationshipsHaveBeenSet = false;
 
@@ -158,6 +161,8 @@ function updatePageModel(executionSummary, pageModelMapping, pageModel)
     updateResourceSetterMap(executionSummary.resourceSetterMap, pageModelMapping);
     updatePrototypeExtensions(executionSummary.prototypeExtensions, pageModelMapping);
     updateForInIterations(executionSummary.forInIterations, pageModelMapping);
+
+    updateAdditionalDependencies(executionSummary.dataDependencies, pageModelMapping);
 }
 
 function updateIncludedNodes(includedNodeIds, pageModelMapping)
@@ -194,24 +199,38 @@ function updatePageModelNodes(nodes, pageModelMapping, pageModel)
             if(nodeModel != null)
             {
                 nodeModel.dependencies = getUpdatedDependencies(node.dataDependencies, pageModelMapping);
-                nodeModel.reverseDependencies = getUpdatedDependencies(node.reverseDependencies, pageModelMapping);
+                nodeModel.reverseDependencies = getUpdatedDependencies(node.reverseDependencies, pageModelMapping, true);
             }
         }
     }
 }
 
-function getUpdatedDependencies(dependencies, pageModelMapping)
+function getUpdatedDependencies(dependencies, pageModelMapping, areReverseDependencies)
 {
     var updatedDependencies = [];
 
     for(var i = 0; i < dependencies.length; i++)
     {
         var dependency = dependencies[i];
+        var sourceNodeId = dependency.sourceNodeId;
+        var destinationNodeId = dependency.destinationNodeId;
+
+        if(pageModelMapping.createdDependencies[sourceNodeId] == null) { pageModelMapping.createdDependencies[sourceNodeId] = {}; }
+        if(pageModelMapping.createdDependencies[destinationNodeId] == null) { pageModelMapping.createdDependencies[destinationNodeId] = {}; }
+
+        if(areReverseDependencies)
+        {
+            pageModelMapping.createdDependencies[destinationNodeId][sourceNodeId] = true;
+        }
+        else
+        {
+            pageModelMapping.createdDependencies[sourceNodeId][destinationNodeId] = true;
+        }
 
         updatedDependencies.push
         ({
-            sourceNode: pageModelMapping[dependency.sourceNodeId],
-            destinationNode: pageModelMapping[dependency.destinationNodeId]
+            sourceNode: pageModelMapping[sourceNodeId],
+            destinationNode: pageModelMapping[destinationNodeId]
         });
     }
 
@@ -340,6 +359,38 @@ function updateForInIterations(forInIterations, pageModelMapping)
     for(var nodeId in forInIterations)
     {
         forInIterations[nodeId].codeConstruct = pageModelMapping[nodeId];
+    }
+}
+
+function updateAdditionalDependencies(dataDependencies, pageModelMapping)
+{
+    if(dataDependencies == null) { return; }
+
+    for(var fromId in dataDependencies)
+    {
+        var fromDependencies = dataDependencies[fromId];
+
+        for(var toId in fromDependencies)
+        {
+            var fromNode = pageModelMapping[fromId];
+            var toNode = pageModelMapping[toId];
+
+            if(pageModelMapping.createdDependencies[fromId] == null)
+            {
+                pageModelMapping.createdDependencies[fromId] = {};
+            }
+
+            if(!pageModelMapping.createdDependencies[fromId][toId])
+            {
+                var edge = { sourceNode: fromNode, destinationNode: toNode };
+
+                fromNode.dependencies.push(edge);
+                toNode.reverseDependencies.push(edge);
+
+                pageModelMapping.createdDependencies[fromId][toId];
+                console.log("Added");
+            }
+        }
     }
 }
 

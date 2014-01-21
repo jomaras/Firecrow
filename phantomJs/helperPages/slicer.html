@@ -130,6 +130,7 @@
             var pageModel = { doctype:"", htmlElement: JSON.parse(window.getSource(window.queryString["url"]))};
 
             var Firecrow = FBL.Firecrow;
+            Firecrow.Interpreter.Simulator.DependencyCreator.shouldCreateSimpleDependencies = false;
 
             var nodeId = 0;
             Firecrow.ASTHelper.traverseAst(pageModel, function(astElement)

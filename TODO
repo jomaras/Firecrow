@@ -6,23 +6,23 @@
 - Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests
                               add scenario filtering
 
-    Can't get any better:
-    - 01-3dModeller
-    - 02-ajaxtabsconent
-    - 04-dragable-boxes
-    - 05-dynamicArticles
-    - 25-snake
-    - 26-snowpar
-    - 03-ball_pool
-    - 21-angelJump
-    - 23-prism3D
-    - 06-fractalViewer
-        - stops execution after a while (should study on laptop)
-    - 08-pacman (minor improvements)
-    - 20-3dMaker
-        - two clicks have to be generated (at least two points, and then a key should be pressed), why isn't it working??
-    - 07-homeostasis
-        - reduced, but still breaking in phantomJs
+Can't get any better:
+- 01-3dModeller
+- 02-ajaxtabsconent
+- 04-dragable-boxes
+- 05-dynamicArticles
+- 25-snake
+- 26-snowpar
+- 03-ball_pool
+- 21-angelJump
+- 23-prism3D
+- 06-fractalViewer
+    - stops execution after a while (should study on laptop)
+- 08-pacman (minor improvements)
+- 20-3dMaker
+    - two clicks have to be generated (at least two points, and then a key should be pressed), why isn't it working??
+- 07-homeostasis
+    - reduced, but still breaking in phantomJs
 
 - Go Through all big slicing examples
     - 01-ds22
@@ -48,53 +48,6 @@
 - Reuse
     - 01 - OK, 02 - NOK (phantom crash), 03 - OK; 04 - slicing in generating jquery code, rest OK
     - 05 - NOK (phantom crash), 06 - (same as 04); 07 - OK; 08 - NOK (phantom crash); 09 -
-******************    1. Writing    ******************
-Chapter 1 - DONE
-Chapter 2 - DONE
-Chapter 3
-    - Implement Jan comments about redundancy, maybe explain basic concepts such as feature manifestations here
-Chapter 4 - DONE (needs review)
-Chapter 5
-    - Think more about the final prioritization function
-    - Write evaluation
-Chapter 6
-    - Update evaluation
-
-Chapter 7
-    - Update in accordance with ICSE paper
-
-Chapter 8
-    - Tool section
-
-Chapter 9
-    - Overall evaluation
-
-Chapter 10
-    - Related work
-
-Chapter 11
-    - Conclusions and Future work
-
-*****************   2. Evaluation   ******************
-Chapter 5
-    - Compare scenario selection functions
-    - Evaluate Specific features (pilot study)
-    - Add More applications when testing generating whole page scenarios
-
-Chapter 6
-    - Run scenarios for feature extraction
-
-Chapter 7
-    - Perform evaluation on more pages
-
-
-
-
-
-
-
-
-
 
 
 

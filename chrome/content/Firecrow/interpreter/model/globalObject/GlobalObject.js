@@ -788,8 +788,8 @@ fcModel.GlobalObject.prototype._createInternalPrototypes = function ()
         this.objectPrototype, this.functionPrototype, this.booleanPrototype,
         this.arrayPrototype, this.regExPrototype, this.stringPrototype,
         this.numberPrototype, this.datePrototype, this.htmlImageElementPrototype,
-        this.elementPrototype, this.canvasPrototype, this.xmlHttpRequestPrototype,
-        this.eventPrototype, this.errorPrototype
+        this.canvasPrototype, this.xmlHttpRequestPrototype,
+        this.eventPrototype, this.errorPrototype, this.elementPrototype
     ];
 };
 

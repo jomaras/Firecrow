@@ -35,10 +35,6 @@ var JsConflictFixer =
             var declarationConstruct = conflictedProperty.declarationConstruct;
             var changedConstructs = [];
 
-            this.logConstructs = false;
-
-            if(conflictedProperty.name == "match") { this.logConstructs = true; debugger; }
-
             if(ASTHelper.isAssignmentExpression(declarationConstruct))
             {
                 if(ASTHelper.isIdentifier(declarationConstruct.left))
@@ -110,6 +106,13 @@ var JsConflictFixer =
             {
                 ConflictFixerCommon.addCommentToParentStatement(changedConstruct, "Firecrow - Rename global property");
 
+                this._changePropertyAccessPositions(changedConstruct, conflictedProperty.name, newName);
+
+                if(ASTHelper.isProperty(changedConstruct.parent) && conflictedProperty.name == "match")
+                {
+                    this._changePropertyAccessPositions(changedConstruct.parent, conflictedProperty.name, newName);
+                }
+
                 var dependentEdges = changedConstruct.reverseDependencies.concat(changedConstruct.dependencies);
 
                 for(var i = 0, length = dependentEdges.length; i < length; i++)
@@ -149,27 +152,19 @@ var JsConflictFixer =
     _changePropertyAccessPositions: function(codeConstruct, oldName, newName)
     {
         if(codeConstruct == null) { return; }
+        if(codeConstruct.nodeId == 378) debugger;
 
         if(this._traversedDependencies[oldName] == null) { this._traversedDependencies[oldName] = {}; }
         if(this._traversedDependencies[oldName][codeConstruct.nodeId]) { return; }
 
-        ConflictFixerCommon.addCommentToParentStatement(codeConstruct, "Firecrow - Rename global property");
-
         if(ASTHelper.isIdentifier(codeConstruct) && codeConstruct.name == oldName)
         {
-            if(this.logConstructs)
-            {
-                console.log(CodeTextGenerator.generateStandAloneCode(codeConstruct), "\n******");
-            }
+            ConflictFixerCommon.addCommentToParentStatement(codeConstruct, "Firecrow - Rename global property");
             codeConstruct.name = newName;
         }
         else if (ASTHelper.isMemberExpression(codeConstruct) && codeConstruct.property.name == oldName)
         {
-            if(this.logConstructs)
-            {
-                console.log(CodeTextGenerator.generateStandAloneCode(codeConstruct), "\n******");
-            }
-
+            ConflictFixerCommon.addCommentToParentStatement(codeConstruct, "Firecrow - Rename global property");
             codeConstruct.property.name = newName;
         }
 
@@ -507,17 +502,13 @@ var JsConflictFixer =
         var pageAGlobalProperties = pageAExecutionSummary.userSetGlobalProperties;
         var pageBGlobalProperties = pageBExecutionSummary.userSetGlobalProperties;
 
-        var namesA = [], namesB = [];
-
         for(var i = 0; i < pageBGlobalProperties.length; i++)
         {
             var pageBProperty = pageBGlobalProperties[i];
-            namesB.push(pageBProperty.name);
 
             for(var j = 0; j < pageAGlobalProperties.length; j++)
             {
                 var pageAGlobalProperty = pageAGlobalProperties[j];
-                namesA.push(pageAGlobalProperty.name);
 
                 if(pageAGlobalProperty.name == pageBProperty.name && !pageAGlobalProperty.isEventProperty)
                 {
@@ -526,9 +517,6 @@ var JsConflictFixer =
                 }
             }
         }
-
-        //console.log("pageANames", namesA.join(" "));
-        //console.log("pageBNames", namesB.join(" "));
 
         var pageAUserDocumentProperties = pageAExecutionSummary.userSetDocumentProperties;
         var pageBUserDocumentProperties = pageBExecutionSummary.userSetDocumentProperties;
@@ -561,12 +549,15 @@ var JsConflictFixer =
             {
                 for(var i = 0; i < pageAPrototypeExtension.length; i++)
                 {
+                    var pageAExtension = pageAPrototypeExtension[i];
                     for(var j = 0; j < pageBPrototypeExtension.length; j++)
                     {
-                        if(pageAPrototypeExtension[i].name == pageBPrototypeExtension[j].name)
+                        if(pageAExtension.name == pageBPrototypeExtension[j].name)
                         {
                             pageAPrototypeExtension.isInternalObjectVariable = true;
-                            conflictedProperties.push(pageAPrototypeExtension[i]);
+                            pageAPrototypeExtension.isInternalPrototypeVariable = true;
+
+                            conflictedProperties.push(pageAExtension);
                         }
                     }
                 }

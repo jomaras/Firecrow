@@ -41,6 +41,8 @@ fcBrowser.ExecutionInfo = function()
     this.sizePropertiesAccessMap = {};
 };
 
+fcBrowser.ExecutionInfo.shouldKeepAllSimpleDependencies = false;
+
 fcBrowser.ExecutionInfo.prototype =
 {
     setSerializeToReuseJson: function()
@@ -62,7 +64,8 @@ fcBrowser.ExecutionInfo.prototype =
             eventHandlerPropertiesMap: this.eventHandlerPropertiesMap,
             resourceSetterMap: this.resourceSetterMap,
             prototypeExtensions: this.prototypeExtensions,
-            forInIterations: this.forInIterations
+            forInIterations: this.forInIterations,
+            dataDependencies: Firecrow.DATA_DEPENDENCIES
         };
     },
 
@@ -404,11 +407,14 @@ fcBrowser.ExecutionInfo.prototype =
     {
         if(fromConstruct == null || toConstruct == null || fromConstruct.nodeId == null || toConstruct.nodeId == null) { return; }
 
-        //MEMORY//if(this.dataDependencies[fromConstruct.nodeId] == null) { this.dataDependencies[fromConstruct.nodeId] = {}; }
-        //MEMORY//if(Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] == null) { Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] = {}; }
+        if(fcBrowser.ExecutionInfo.shouldKeepAllSimpleDependencies)
+        {
+            //if(this.dataDependencies[fromConstruct.nodeId] == null) { this.dataDependencies[fromConstruct.nodeId] = {}; }
+            if(Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] == null) { Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId] = {}; }
 
-        //MEMORY//this.dataDependencies[fromConstruct.nodeId][toConstruct.nodeId] = true;
-        //MEMORY//Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId][toConstruct.nodeId] = true;
+            //this.dataDependencies[fromConstruct.nodeId][toConstruct.nodeId] = true;
+            Firecrow.DATA_DEPENDENCIES[fromConstruct.nodeId][toConstruct.nodeId] = true;
+        }
 
         if(this.currentEventExecutionInfo != null)
         {

@@ -22,6 +22,7 @@ var ignoredCoverageTypes = ["empirical"];
 var ignoredApplications = ["30-test.txt", "testApplication.txt"];
 
 var coverageData = {};
+var timeData = {};
 coverageTypeFolderNames.forEach(function(coverageType)
 {
     coverageData[coverageType] = {};
@@ -51,6 +52,14 @@ coverageTypeFolderNames.forEach(function(coverageType)
         });
         coverageData[coverageType][fileName] = dataItems;
     });
+
+    var fullTimeFolderPath = timeFolder + coverageType + path.sep;
+
+    fileNames.forEach(function(fileName)
+    {
+        if(timeData[coverageType] == null) { timeData[coverageType] = {}; }
+        timeData[coverageType][fileName] = Math.round(parseInt(fs.readFileSync(fullTimeFolderPath + fileName, { encoding: "utf8"})) / 60);
+    });
 });
 
 var applicationCoverage = {};
@@ -64,8 +73,8 @@ for(var coverageType in coverageData)
         var lastValue = null;
         applicationCoverage[applicationName][coverageType] = coverage.map(function(dataItem, index)
         {
-            lastValue = dataItem.statementCoverage;
-            return [index, dataItem.statementCoverage];
+            lastValue = Math.round(dataItem.statementCoverage * 100);
+            return [index, lastValue];
         });
 
         for(var i = applicationCoverage[applicationName][coverageType].length; i <= 100; i++)
@@ -124,7 +133,7 @@ catch(e)
 console.log("!!!!!!!!!!! View graphs at: " + scenarioGraphFilePath);
 
 var coverageSummary = {};
-
+var coverageTypeScenariosMap = {};
 for(var applicationName in applicationCoverage)
 {
     var applicationInfo = applicationCoverage[applicationName];
@@ -167,6 +176,10 @@ for(var applicationName in applicationCoverage)
         if(fs.existsSync(applicationFile))
         {
             generatedScenariosMap[coverageType] = fs.readFileSync(applicationFile, {encoding:"utf-8"});
+
+            if(coverageTypeScenariosMap[coverageType] == null) { coverageTypeScenariosMap[coverageType] = {}; }
+
+            coverageTypeScenariosMap[coverageType][applicationName] = generatedScenariosMap[coverageType];
         }
     }
 
@@ -176,7 +189,8 @@ for(var applicationName in applicationCoverage)
     {
         if(ignoredCoverageTypes.indexOf(coverage) != -1) { continue; }
 
-        var parsed = parseFloat(coverage);
+        var parsed = coverage;
+
         if(parsed > maxAchievedCoverage)
         {
             maxAchievedCoverage = parsed;
@@ -275,7 +289,7 @@ for(var applicationName in coverageSummary)
     var maxCoverage = coverageSummary[applicationName].maxCoverage.type.join(", ");
     maxCoverage = maxCoverage.replace("eventLength", "EL").replace("fifo", "F").replace("symbolicNewCoverageSequential", "CU").replace("pathCoverageSequential", "COV").replace("random", "R");
 
-    summaryHtml += name + "\t\t&" + Math.round(coverageSummary[applicationName].maxCoverage.value * 100) + "\\%"
+    summaryHtml += name + "\t\t&" + Math.round(coverageSummary[applicationName].maxCoverage.value) + "\\%"
                 + "\t\t&" + maxCoverage
                 + "\\\\\r\n";
 }
@@ -292,17 +306,17 @@ for(var applicationName in coverageSummary)
     var isEventLengthMax = coverageSummary[applicationName].maxCoverage.type.indexOf("eventLength") != -1;
     var isFifoMax = coverageSummary[applicationName].maxCoverage.type.indexOf("fifo") != -1;
     var isRandomMax = coverageSummary[applicationName].maxCoverage.type.indexOf("random") != -1;
-    var isPathCoverageSequentialMax = coverageSummary[applicationName].maxCoverage.type.indexOf("pathCoverageSequential") != -1;
-    var isSymbolicNewCoverageSequentialMax = coverageSummary[applicationName].maxCoverage.type.indexOf("symbolicNewCoverageSequential") != -1;
+    var isPathCoverageSequentialMax = coverageSummary[applicationName].maxCoverage.type.indexOf("pathCoverage") != -1;
+    var isSymbolicNewCoverageSequentialMax = coverageSummary[applicationName].maxCoverage.type.indexOf("symbolicNewCoverage") != -1;
 
     var bold = "\\textbf{";
 
-    summaryHtml += name + "\t\t\t&" + (isEventLengthMax ? bold : "") + (coverageSummary[applicationName].eventLength * 100 + "").substring(0, 4) + (isEventLengthMax ? "}" : "")
-                        + "\t\t\t&" + (isFifoMax ? bold : "") + (coverageSummary[applicationName].fifo * 100 + "").substring(0, 4) + (isFifoMax ? "}" : "")
-                        + "\t\t\t&" + (isRandomMax ? bold : "") + (coverageSummary[applicationName].random * 100 + "").substring(0, 4) + (isRandomMax ? "}" : "")
-                        + "\t\t\t&" + (isPathCoverageSequentialMax ? bold : "") + (coverageSummary[applicationName].pathCoverageSequential * 100 + "").substring(0, 4) + (isPathCoverageSequentialMax ? "}" : "")
-                        + "\t\t\t&" + (isSymbolicNewCoverageSequentialMax ? bold : "") + (coverageSummary[applicationName].symbolicNewCoverageSequential * 100 + "").substring(0, 4) + (isSymbolicNewCoverageSequentialMax ? "}" : "")
-                        + "\\\\\r\n";
+    summaryHtml += name + "\t\t\t&" + (isEventLengthMax ? bold : "") + Math.round(coverageSummary[applicationName].eventLength) + "\\%" + (isEventLengthMax ? "}" : "")
+                        + "\t\t\t&" + (isFifoMax ? bold : "") + Math.round(coverageSummary[applicationName].fifo)  + "\\%" + (isFifoMax ? "}" : "")
+                        + "\t\t\t&" + (isRandomMax ? bold : "") + Math.round(coverageSummary[applicationName].random)  + "\\%" + (isRandomMax ? "}" : "")
+                        + "\t\t\t&" + (isPathCoverageSequentialMax ? bold : "") + Math.round(coverageSummary[applicationName].pathCoverage)  + "\\%" + (isPathCoverageSequentialMax ? "}" : "")
+                        + "\t\t\t&" + (isSymbolicNewCoverageSequentialMax ? bold : "") + Math.round(coverageSummary[applicationName].symbolicNewCoverage)  + "\\%" + (isSymbolicNewCoverageSequentialMax ? "}" : "")
+                        + "\\\\ \\hline \r\n";
 }
 
 summaryHtml += "</textarea>";
@@ -325,10 +339,45 @@ for(var applicationName in coverageSummary)
 
 summaryHtml += "</textarea>";
 
+
+
 summaryHtml += "</body></html>";
 
 fs.writeFileSync(scenarioCoverageSummaryFilePath, summaryHtml);
 console.log("Summary written to", scenarioCoverageSummaryFilePath);
+
+console.log("***Average time in minutes:");
+for(var coverageType in timeData)
+{
+    var aggregatedTime = 0;
+    var counter = 0;
+
+    for(var applicationName in timeData[coverageType])
+    {
+        aggregatedTime += timeData[coverageType][applicationName];
+        counter++;
+    }
+
+    console.log(coverageType, ":", Math.round(aggregatedTime/counter));
+}
+
+console.log("***Average number of scenarios");
+for(var coverageType in coverageTypeScenariosMap)
+{
+    var aggregatedScenarios = 0;
+    var aggregatedEvents = 0;
+    var counter = 0;
+    for(var applicationName in coverageTypeScenariosMap[coverageType])
+    {
+        var splitted = coverageTypeScenariosMap[coverageType][applicationName].split(" - ");
+
+        aggregatedScenarios += parseInt(splitted[0]);
+        aggregatedEvents += parseInt(splitted[1]);
+        counter++;
+    }
+
+    console.log(coverageType, ":", Math.round(aggregatedScenarios/counter), Math.round(aggregatedEvents/counter));
+}
 
 function getFileNames(folder)
 {

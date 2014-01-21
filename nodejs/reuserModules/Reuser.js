@@ -12,6 +12,14 @@ var Reuser =
     {
         ConflictFixer.fixConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
 
+        var reuseIntoDestinationSelectors = pageBModel.reuseIntoDestinationSelectors || pageBModel.trackedElementsSelectors;
+
+        if(!this._areSelectorsSupported(pageAModel.trackedElementsSelectors.concat(reuseIntoDestinationSelectors)))
+        {
+            var selectors = pageAModel.trackedElementsSelectors.concat(reuseIntoDestinationSelectors);
+            console.warn("Used selectors are not supported in Reuser - only simple selectors by class and id:", selectors.join("; "));
+        }
+
         var mergedModel = this._createMergedModelWithDocType(pageAModel, pageBModel);
 
         var mergedHtmlElement = this._cloneShallowMarkConflicts(pageBModel.htmlElement, pageAModel.htmlElement);
@@ -35,21 +43,72 @@ var Reuser =
         mergedHtmlElement.childNodes.push(mergedBodyNode);
 
         this._createChildren(mergedBodyNode, pageBBodyNode, null);
+
+        //this._removeNonMatchingNodes(pageABodyNode, pageAModel.trackedElementsSelectors);
+
         this._createChildren(mergedBodyNode, pageABodyNode, "r");
-
-        var reuseIntoDestinationSelectors = pageBModel.reuseIntoDestinationSelectors || pageBModel.trackedElementsSelectors;
-
-        if(!this._areSelectorsSupported(pageAModel.trackedElementsSelectors.concat(reuseIntoDestinationSelectors)))
-        {
-            var selectors = pageAModel.trackedElementsSelectors.concat(reuseIntoDestinationSelectors);
-            console.warn("Used selectors are not supported in Reuser - only simple selectors by class and id:", selectors.join("; "));
-        }
 
         this._moveNodesTo(mergedModel, pageAModel.trackedElementsSelectors, reuseIntoDestinationSelectors);
 
         ASTHelper.setParentsChildRelationships(mergedModel);
 
         return mergedModel;
+    },
+
+    _removeNonMatchingNodes: function(bodyNode, selectors)
+    {
+        var nodesToKeep = this._getNodesBySelectors(bodyNode, selectors);
+
+        nodesToKeep.forEach(function(nodeToKeep)
+        {
+            nodeToKeep.doNotRemove = true;
+
+            this._markAllDescendentsAsNotRemoved(nodeToKeep);
+
+            var parent = nodeToKeep.parent;
+
+            while(parent != null)
+            {
+                parent.doNotRemove = true;
+                parent = parent.parent;
+            }
+        }, this);
+
+        this._removeAllNonMarkedNodes(bodyNode);
+    },
+
+    _markAllDescendentsAsNotRemoved: function(node)
+    {
+        if(node == null || node.childNodes == null) { return; }
+
+        var childNodes = node.childNodes;
+
+        for(var i = 0; i < childNodes.length; i++)
+        {
+            childNodes[i].doNotRemove = true;
+
+            this._markAllDescendentsAsNotRemoved(childNodes[i]);
+        }
+    },
+
+    _removeAllNonMarkedNodes: function(node)
+    {
+        if(node == null || node.childNodes == null) { return; }
+
+        var childNodes = node.childNodes;
+
+        for(var i = 0; i < childNodes.length; i++)
+        {
+            var childNode = childNodes[i];
+
+            this._removeAllNonMarkedNodes(childNode);
+
+            if(!childNode.doNotRemove)
+            {
+                ValueTypeHelper.removeFromArrayByIndex(childNodes, i);
+                i--;
+            }
+        }
     },
 
     _moveNodesTo: function(mergedModel, reuseSelectors, reuseIntoDestinationSelectors)
