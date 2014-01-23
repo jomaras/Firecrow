@@ -8,39 +8,13 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Fix to how properties are renamed. The dependencies of parent assignement expressions, where the property was defined is taken care of..">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Event registration over addEventListener is now treated as structure modification (as it should have been from the beginning).">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/featureCode.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/05_03_04/pageA.html-codeModel.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/CssConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/CssConflictFixer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/ExecutionInfo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/HtmlConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/HtmlConflictFixer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/ResourceConflictFixer.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/ResourceConflictFixer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuserModules/Reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuserModules/Reuser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground/index.html" afterPath="$PROJECT_DIR$/playground/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/reuser.js" afterPath="$PROJECT_DIR$/nodejs/reuser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" afterPath="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorAnalyzer.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioModelForReuserSlicer.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -90,82 +64,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dependencyGraph.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
+      <file leaf-file-name="TODO" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/TODO">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="507" column="18" selection-start="20349" selection-end="20349" vertical-scroll-proportion="0.0" vertical-offset="8367" max-vertical-offset="9554">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index-sliced1.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="890" column="19" selection-start="34510" selection-end="34510" vertical-scroll-proportion="0.25378346" vertical-offset="14912" max-vertical-offset="28271">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Evaluator.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="82" selection-start="11240" selection-end="11240" vertical-scroll-proportion="0.0" vertical-offset="2403" max-vertical-offset="16337">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HtmlElementExecutor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="445" column="0" selection-start="18319" selection-end="18319" vertical-scroll-proportion="0.0" vertical-offset="7070" max-vertical-offset="8942">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HtmlElement.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="425" column="4" selection-start="17793" selection-end="17948" vertical-scroll-proportion="0.0" vertical-offset="6905" max-vertical-offset="8959">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jQuery-src.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/scripts/jQuery-src.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4816" column="49" selection-start="188532" selection-end="188548" vertical-scroll-proportion="0.0" vertical-offset="81289" max-vertical-offset="166515">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="browser.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="804" column="24" selection-start="32028" selection-end="32028" vertical-scroll-proportion="0.0" vertical-offset="12991" max-vertical-offset="24531">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="node.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="170" column="8" selection-start="6307" selection-end="6307" vertical-scroll-proportion="0.0" vertical-offset="2604" max-vertical-offset="4097">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debugTestPages.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="363" selection-end="363" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="3196">
+            <state line="12" column="58" selection-start="1020" selection-end="1020" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="5542">
               <folding />
             </state>
           </provider>
@@ -200,11 +102,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/debug/reuseTests/37/result.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/object/Object.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
-        <option value="$PROJECT_DIR$/evaluation/reuse/09_05_06/featureCode.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/slicer.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/node.js" />
         <option value="$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorAnalyzer.html" />
@@ -241,16 +138,21 @@
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced3.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/scripts/jQuery-src.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced3.html" />
       </list>
     </option>
   </component>
@@ -397,7 +299,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="03-mtcdc" />
+              <option name="myItemId" value="04-mailboxing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -419,11 +321,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="03-mtcdc" />
+              <option name="myItemId" value="04-mailboxing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scripts" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3581,7 +3483,11 @@
       <created>1390317009028</created>
       <updated>1390317009028</updated>
     </task>
-    <option name="localTasksCounter" value="722" />
+    <task id="LOCAL-00722" summary="Event registration over addEventListener is now treated as structure modification (as it should have been from the beginning).">
+      <created>1390482483313</created>
+      <updated>1390482483314</updated>
+    </task>
+    <option name="localTasksCounter" value="723" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3622,14 +3528,16 @@
     <frame x="1358" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26785713" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21820374" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21820374" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38392857" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5656402" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56473213" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6726058" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
@@ -3637,8 +3545,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26837417" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.80814576" order="3" side_tool="false" content_ui="combo" />
@@ -3688,7 +3594,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Refactoring" />
     <MESSAGE value="Minor bug fix: atob definition in case it was loaded by a module, was a variable declaration which would override the original atob when included normally" />
     <MESSAGE value="Minor bug fix in code text generator, wasn't properly generating code" />
     <MESSAGE value="Logging to event execution log" />
@@ -3713,7 +3618,8 @@
     <MESSAGE value="HtmlConflictFixer - conflicts only between attributes of same type" />
     <MESSAGE value="Backup before trying a different approach with fixing JavaScript conflicts" />
     <MESSAGE value="Fix to how properties are renamed. The dependencies of parent assignement expressions, where the property was defined is taken care of.." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix to how properties are renamed. The dependencies of parent assignement expressions, where the property was defined is taken care of.." />
+    <MESSAGE value="Event registration over addEventListener is now treated as structure modification (as it should have been from the beginning)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Event registration over addEventListener is now treated as structure modification (as it should have been from the beginning)." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3732,43 +3638,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorSlicer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="1217" selection-end="1217" vertical-scroll-proportion="0.55798686" vertical-offset="306" max-vertical-offset="782" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="34" selection-start="2822" selection-end="2822" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="1717">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/inclusionFinder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="70" selection-start="3796" selection-end="3796" vertical-scroll-proportion="0.0" vertical-offset="1446" max-vertical-offset="8517" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="633" column="153" selection-start="27047" selection-end="27072" vertical-scroll-proportion="0.0" vertical-offset="10596" max-vertical-offset="22100" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutorSlicer.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="444" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="4" selection-start="243" selection-end="255" vertical-scroll-proportion="-0.5207878" vertical-offset="408" max-vertical-offset="2193" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/reuserScenarioExecutorSlicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="100" selection-start="11300" selection-end="11300" vertical-scroll-proportion="1.9535962" vertical-offset="2201" max-vertical-offset="3315" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/reuse/04_03_02/pageA.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="28" selection-start="1711" selection-end="1711" vertical-scroll-proportion="0.7274775" vertical-offset="510" max-vertical-offset="17051" />
@@ -3791,7 +3660,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/reuse/05_03_04/pageA.html-codeModel.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="444" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="444">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
@@ -3806,7 +3677,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/resultNew.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10559" column="34" selection-start="320875" selection-end="320875" vertical-scroll-proportion="0.49579832" vertical-offset="179090" max-vertical-offset="180421" />
+        <state line="10559" column="34" selection-start="320875" selection-end="320875" vertical-scroll-proportion="0.49579832" vertical-offset="179090" max-vertical-offset="180421">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/reuse/03_01_06/resultNew.html">
@@ -3816,7 +3689,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/reuse/05_03_04/resultNew.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1576" column="45" selection-start="58555" selection-end="58555" vertical-scroll-proportion="0.6298021" vertical-offset="26251" max-vertical-offset="201892" />
+        <state line="1576" column="45" selection-start="58555" selection-end="58555" vertical-scroll-proportion="0.6298021" vertical-offset="26251" max-vertical-offset="201892">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/reuse/04_03_02/resultNew.html">
@@ -3826,22 +3701,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixerCommon.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4590" />
+        <state line="9" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4590">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/CssConflictFixer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="20" selection-start="4494" selection-end="4494" vertical-scroll-proportion="0.0" vertical-offset="1783" max-vertical-offset="2975" />
+        <state line="108" column="20" selection-start="4494" selection-end="4494" vertical-scroll-proportion="0.0" vertical-offset="1783" max-vertical-offset="2975">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/JsConflictFixer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="617" column="36" selection-start="25021" selection-end="25021" vertical-scroll-proportion="0.0" vertical-offset="10110" max-vertical-offset="10982" />
+        <state line="617" column="36" selection-start="25021" selection-end="25021" vertical-scroll-proportion="0.0" vertical-offset="10110" max-vertical-offset="10982">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/HtmlConflictFixer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="723" selection-end="723" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3400" />
+        <state line="16" column="0" selection-start="723" selection-end="723" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3400">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ResourceConflictFixer.js">
@@ -3853,7 +3736,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/ConflictFixer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="8" selection-start="1151" selection-end="1165" vertical-scroll-proportion="0.0" vertical-offset="46" max-vertical-offset="918" />
+        <state line="30" column="8" selection-start="1151" selection-end="1165" vertical-scroll-proportion="0.0" vertical-offset="46" max-vertical-offset="918">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuserModules/Reuser.js">
@@ -3968,30 +3853,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="363" selection-end="363" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="3196">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="804" column="24" selection-start="32028" selection-end="32028" vertical-scroll-proportion="0.0" vertical-offset="12991" max-vertical-offset="24531">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/scripts/jquery.hoverIntent.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="46" selection-start="1025" selection-end="1025" vertical-scroll-proportion="0.250591" vertical-offset="230" max-vertical-offset="2040">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="24" selection-start="1402" selection-end="1402" vertical-scroll-proportion="0.43539" vertical-offset="0" max-vertical-offset="5542">
           <folding />
         </state>
       </provider>
@@ -4010,9 +3874,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="883" column="53" selection-start="34400" selection-end="34400" vertical-scroll-proportion="-14.472579" vertical-offset="27414" max-vertical-offset="28271">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="507" column="18" selection-start="20349" selection-end="20349" vertical-scroll-proportion="0.0" vertical-offset="8367" max-vertical-offset="9554">
+        <state line="522" column="17" selection-start="21321" selection-end="21321" vertical-scroll-proportion="0.0" vertical-offset="8367" max-vertical-offset="9554">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2671" column="34" selection-start="85160" selection-end="85160" vertical-scroll-proportion="0.0" vertical-offset="45230" max-vertical-offset="46155">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3094" column="7" selection-start="98065" selection-end="98065" vertical-scroll-proportion="0.0" vertical-offset="51775" max-vertical-offset="52700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="121" selection-start="4361" selection-end="4361" vertical-scroll-proportion="-48.730453" vertical-offset="42391" max-vertical-offset="43248">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2507" column="30" selection-start="77695" selection-end="77695" vertical-scroll-proportion="0.0" vertical-offset="42238" max-vertical-offset="43095">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="103" selection-start="353" selection-end="353" vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="3196">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/js/js.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="20" selection-start="1709" selection-end="1712" vertical-scroll-proportion="-10.807693" vertical-offset="909" max-vertical-offset="2142">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/js/jquery.cycle.all.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="510" column="39" selection-start="20175" selection-end="20175" vertical-scroll-proportion="0.29265404" vertical-offset="8423" max-vertical-offset="28067">
           <folding />
         </state>
       </provider>
@@ -4024,23 +3944,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="681" column="41" selection-start="26908" selection-end="26908" vertical-scroll-proportion="0.0" vertical-offset="11457" max-vertical-offset="24531">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElement.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="425" column="4" selection-start="17793" selection-end="17948" vertical-scroll-proportion="0.0" vertical-offset="6905" max-vertical-offset="8959">
+        <state line="290" column="4" selection-start="12054" selection-end="12114" vertical-scroll-proportion="0.0" vertical-offset="4861" max-vertical-offset="8959">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="64" selection-start="2159" selection-end="2159" vertical-scroll-proportion="0.5235008" vertical-offset="0" max-vertical-offset="45781">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/HtmlElementExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="445" column="0" selection-start="18319" selection-end="18319" vertical-scroll-proportion="0.0" vertical-offset="7070" max-vertical-offset="8942">
+        <state line="419" column="62" selection-start="17213" selection-end="17213" vertical-scroll-proportion="0.5761905" vertical-offset="6760" max-vertical-offset="9367">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced1.html">
+    <entry file="file://$PROJECT_DIR$/TODO">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="890" column="19" selection-start="34510" selection-end="34510" vertical-scroll-proportion="0.25378346" vertical-offset="14912" max-vertical-offset="28271">
+        <state line="12" column="58" selection-start="1020" selection-end="1020" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="5542">
           <folding />
         </state>
       </provider>

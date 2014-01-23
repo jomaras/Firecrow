@@ -16,13 +16,13 @@
 
 - check experiments on slicing
     - 01-ds22
-        - F1: OK; F2: OK; F3: NOK(3492 e - due to timing differences; animateToBearing i < n); F4: OK;
+        - F1: OK; F2: OK; F3: NOK(but possibly leave); F4: OK;
     - 02-salleedesign
         - F1: OK; F2: OK; F3: OK;
     - 03-mtcdc
-        - F1: NOK (type = (selector ? 0 : special != null ? special.bindType : type) || type;); F2: SAME; F3: NOK (other stuff nok);
+        - F1: OK;  F2: OK; F3: NO idea what this is about.., will have to go deeper!;
     - 04-mailboxing
-        - F1: OK; F2: OK; F3: OK (CSS resources problematic)
+        - F1: OK; F2: OK; F3: OK
     - 05-dunked
         - F1: OK (CSS); F2: NOK, F3: OK
     - 06-hipstamatic

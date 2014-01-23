@@ -686,7 +686,7 @@ FBL.ns(function() { with (FBL) {
 
         createDependenciesBetweenHtmlNodeAndCssNodes: function(htmlModelNode)
         {
-            if(htmlModelNode.type == "textNode") { return; }
+            if(htmlModelNode == null || htmlModelNode.type == "textNode") { return; }
 
             var cssRules = this.cssRules;
 

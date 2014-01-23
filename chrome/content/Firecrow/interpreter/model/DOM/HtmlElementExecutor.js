@@ -386,6 +386,12 @@ fcModel.HtmlElementExecutor =
         thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
         thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+
+        if(functionName == "appendChild" || functionName == "insertBefore")
+        {
+            this._createCssDependencies(thisObjectValue, globalObject);
+        }
+
         for(var i = 0; i < args.length; i++)
         {
             var manipulatedElement = args[i].iValue;
@@ -397,13 +403,32 @@ fcModel.HtmlElementExecutor =
                     manipulatedElement.notifyElementInsertedIntoDom(callExpression);
                 }
                 catch(e) { debugger;}
-
             }
         }
 
         if(functionName == "replaceChild") { return args[args.length - 1]; }
 
         return args[0];
+    },
+
+    _createCssDependencies: function(htmlElement, globalObject)
+    {
+        if(htmlElement == null) { return; }
+
+        if(htmlElement.modelElement)
+        {
+            htmlElement.modelElement.domElement = htmlElement;
+        }
+
+        globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(htmlElement.modelElement);
+
+        var children = htmlElement.childNodes;
+        if(children == null || children.length == 0) { return; }
+
+        for(var i = 0; i < children.length; i++)
+        {
+            this._createCssDependencies(children[i], globalObject)
+        }
     },
 
     _cloneNode: function(functionName, thisObjectValue, jsArguments, globalObject, callExpression)
