@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        
+        
+        <style>
+    * { margin: 0px; padding: 0px; }
+    body { font: 12px Verdana,Arial; color: rgb(85, 85, 85); background: none repeat scroll 0% 0% rgb(221, 221, 221); }
+    #wrapper { width: 673px; margin: 50px auto; }
+    #container { position: relative; background: none repeat scroll 0% 0% rgb(255, 255, 255); padding: 32px; height: 235px; border-right: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204); }
+    .sliderbutton { float: left; width: 25px; height: 235px; cursor: pointer; }
+    #slideleft { background: url("pageAImages/icons.gif") no-repeat scroll -50px -265px transparent; }
+    #slideleft:hover { background-position: 0px -265px; }
+    #slideright { background: url("pageAImages/icons.gif") no-repeat scroll 0px 90px transparent; }
+    #slideright:hover { background-position: -50px 90px; }
+    #slider { float: left; position: relative; overflow: auto; width: 558px; height: 235px; }
+    #slider ul { position: absolute; list-style: none outside none; top: 0px; left: 0px; }
+    #slider li { float: left; width: 558px; height: 235px; }
+    .pagination { position: absolute; top: 40px; right: 61px; list-style: none outside none; height: 25px; }
+    .pagination li { float: left; cursor: pointer; height: 8px; width: 8px; background: none repeat scroll 0% 0% rgb(204, 204, 204); margin: 0px 4px 0px 0px; border: 1px solid rgb(255, 255, 255); }
+    .pagination li:hover, li.current { background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+</style>
+        <script type="text/javascript">
+  var TINY = {};
+  function T$(i)
+  {
+    return document.getElementById(i);
+  }
+  function T$$(e, p)
+  {
+    return p.getElementsByTagName(e);
+  }
+  TINY.slider = (function()
+  {
+    function slide(n, p)
+    {
+      this.init(p);
+    }
+    (slide.prototype.init = function(p)
+    {
+      var s = this.x = T$(p.id), u = this.u = T$$('ul', s)[0], c = this.m = T$$('li', u), l = c.length, i = this.l = this.c = 0;
+      this.b = 1;
+      if(p.navid && p.activeclass)
+      {
+        this.g = T$$('li', T$(p.navid));
+        this.s = p.activeclass;
+      }
+
+      this.a = p.auto;
+      this.r = p.rewind || 0;
+      this.e = p.elastic || false;
+      this.v = p.vertical || 0;
+      s.style.overflow = 'hidden';
+      for(;i < l;i++)
+      {
+        if(c[i].parentNode == u)
+        {
+          this.l++;
+        }
+      }
+
+      if(this.v);
+      else 
+      {
+        u.style.left = 0;
+        this.w = p.width || c[0].offsetWidth;
+        u.style.width = (this.l * this.w) + 'px';
+      }
+
+      this.nav(p.position || 0);
+      if(p.position);
+      else if(this.a)
+      {
+        this.auto();
+      }
+
+
+      if(p.left)
+      {
+        this.sel(p.left);
+      }
+
+      if(p.right)
+      {
+        this.sel(p.right);
+      }
+    }, slide.prototype.auto = function()
+    {
+      this.x.ai = setInterval(function(){}, this.a * 1000);
+    }, slide.prototype.move = function(d, a)
+    {
+      var n = this.c + d;
+      this.pos(n, a, 1);
+    }, slide.prototype.pos = function(p, a, m)
+    {
+      var v = p;
+      clearInterval(this.x.ai);
+      clearInterval(this.x.si);
+      if(!(this.r))
+      {
+        if(m)
+        {
+          if(p == -1 || (p != 0 && (Math.abs(p) % this.l) == 0))
+          {
+            this.b++;
+            for(var i = 0;i < this.l;i++)
+            {
+              this.u.appendChild(this.m[i].cloneNode(1));
+            }
+
+            this.v ? 0 : this.u.style.width = ((this.l * this.w) * this.b) + 'px';
+          }
+
+          if(p == -1 || p < 0)
+          {
+            this.v ? 0 : this.u.style.left = ((this.l * this.w) * -1) + 'px';
+            v = this.l - 1;
+          }
+        }
+      }
+
+      var t = this.v ? 0 : (v * this.w) * -1, d = p < this.c ? -1 : 1;
+      this.c = v;
+      var n = this.c % this.l;
+      this.nav(n);
+      var that = this;
+      this.x.si = setInterval(function()
+      {
+        that.slide(t, d, 1, a);
+      }, 10);
+    }, slide.prototype.nav = function(n)
+    {
+      if(this.g)
+      {
+        for(var i = 0;i < this.l;i++)
+        {
+          this.g[i].className = i == n ? this.s : '';
+        }
+      }
+    }, slide.prototype.slide = function(t, d, i, a)
+    {
+      var o = this.v ? 0 : parseInt(this.u.style.left);
+      if(o == t)
+      {
+        clearInterval(this.x.si);
+        if(this.e);
+        else 
+        {
+          if(this.b > 1 && (this.c % this.l) == 0)
+          {
+            this.clear();
+          }
+        }
+      }
+      else 
+      {
+        var v = (o - (Math.ceil(Math.abs(t - o) * 0.1) * d)) + 'px';
+        this.v ? 0 : this.u.style.left = v;
+      }
+    }, slide.prototype.clear = function()
+    {
+      var c = T$$('li', this.u), t = i = c.length;
+      this.v ? 0 : this.u.style.left = 0;
+      this.b = 1;
+      this.c = 0;
+      for(;i > 0;i--)
+      {
+        var e = c[i - 1];
+        if(t > this.l && e.parentNode == this.u)
+        {
+          this.u.removeChild(e);
+          t--;
+        }
+      }
+    }, slide.prototype.sel = function(i)
+    {
+      var e = T$(i);
+      e.onselectstart = e.onmousedown = function()
+      {
+        return false;
+      };
+    });
+    return {
+      slide: slide
+    };
+  })();
+</script>
+    </head>
+    
+    <body>
+        <div id="wrapper">
+            <div id="container">
+                <div id="slideleft" class="sliderbutton"></div>
+                <div id="slider">
+                    <ul>
+                        <li>
+                            <img width="558" height="235" alt="Image One" src="pageAImages/1.jpg"/>
+                        </li>
+                        <li>
+                            <img width="558" height="235" alt="Image Two" src="pageAImages/2.jpg"/>
+                        </li>
+                        <li>
+                            <img width="558" height="235" alt="Image Three" src="pageAImages/3.jpg"/>
+                        </li>
+                        <li>
+                            <img width="558" height="235" alt="Image Four" src="pageAImages/4.jpg"/>
+                        </li>
+                    </ul>
+                </div>
+                <div id="slideright" class="sliderbutton"></div>
+                <ul class="pagination" id="pagination">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+  window.onload = function()
+  {
+    var slideshow = new TINY.slider.slide('slideshow', {id: 'slider', auto: 10, vertical: false, navid: 'pagination', activeclass: 'current', position: 0, rewind: false, elastic: false, left: 'slideleft', right: 'slideright'});
+    document.getElementById('slideleft').onclick = function()
+    {
+      slideshow.move(-1);
+    };
+    document.getElementById('slideright').onclick = function()
+    {
+      slideshow.move(1);
+    };
+    var pages = document.querySelectorAll('#pagination li');
+    for(var i = 0;i < pages.length;i++)
+    {
+      (function(index)
+      {
+        pages[index].onclick = function()
+        {
+          slideshow.pos(index);
+        };
+      })(i);
+    }
+  };
+</script>
+    
+
+</body>
+</html>

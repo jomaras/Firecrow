@@ -765,6 +765,8 @@ FBL.ns(function() { with (FBL) {
         {
             try
             {
+                console.log("Started handling events");
+
                 if(this.pageModel.eventTraces == null) { return; }
 
                 this.globalObject.document.addProperty("readyState", new fcModel.fcValue("complete", null, null));

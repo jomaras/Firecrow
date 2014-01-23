@@ -1,10 +1,43 @@
-- implement the situation in which the first event carries browser information (i.e. browser version, browser size...)
-- maybe it would be an ok idea to put a flag in the execution summary (i.e. attempting to read ActiveXObject, document height, document width)
-- solve binary arithmetic constraints, e.g. test 52. (if is binary math constraint u PathConstraint addConstraint then )
-
 ******************   0. Programming  ******************
-- Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests
-                              add scenario filtering
+- Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests add scenario filtering
+
++ run all reuse experiments, make sure they work
+ + 01-01_02 -> OK     [jsA:1, cssA:3, jsB:1, cssB: 5, jsF: 2; T: 15]
+ + 02-01_04 -> OK     [htmlA: 1, jsA:0, cssA: 4, htmlB: 0, jsB: 1, cssB: 11, jsF: 0, T:55]
+ + 03_01_06 -> OK     [htmlA: 1, jsA:0, cssA: 4, htmlB: 0, jsB: 0, cssB: 4, jsF: 0, T:42]
+ + 04_03_02 -> OK     [htmlA: 1, jsA:0, cssA: 8, htmlB: 0, jsB: 0, cssB: 5, jsF: 0, T:14]
+ + 05_03_04 -> OK     [htmlA: 10, jsA: 19, cssA: 150, htmlB: 0, jsB: 1, cssB: 11, jsF: 0, T: 54]
+ + 06_03_06 -> OK     [htmlA: 0, jsA: 22, cssA: 6, htmlB: 0, jsB: 0, cssB: 4, jsF: 0, T: 41]
+ + 07_05_02 -> OK     [htmlA: 0, jsA: 0, cssA: 7, htmlB: 0, jsB: 0, cssB: 5, jsF: 0, T: 50]
+ + 08_05_04 -> OK     [htmlA: 0, jsA: 4, cssA: 7, htmlB: 0, jsB: 13, cssB: 11, jsF: 0, T: 90]
+ + 09_05_06 -> OK     [htmlA: 0, jsA:578, cssA: 7, htmlB: 0, jsB: 0, cssB: 4, jsF: 0, T: 77]
+
++ check and update numbers on the reuse experiment, add comments to the experiment text in the thesis
+
+- check experiments on slicing
+    - 01-ds22
+        - F1: OK; F2: OK; F3: NOK(3492 e - due to timing differences; animateToBearing i < n); F4: OK;
+    - 02-salleedesign
+        - F1: OK; F2: OK; F3: OK;
+    - 03-mtcdc
+        - F1: NOK (type = (selector ? 0 : special != null ? special.bindType : type) || type;); F2: SAME; F3: NOK (other stuff nok);
+    - 04-mailboxing
+        - F1: OK; F2: OK; F3: OK (CSS resources problematic)
+    - 05-dunked
+        - F1: OK (CSS); F2: NOK, F3: OK
+    - 06-hipstamatic
+        - F1: NOK; F2: OK (no animations)
+    - 07-virtue
+        - F1: NOK; F2: NOK; F3: NOK;
+    - 08-makalu
+        - F1: NOK, F2: NOK :(
+    - 09-nitrografix
+    - 10-kennymeyers
+    - 11-sipp
+
+- create tests
+- implement plugin
+
 
 Can't get any better:
 - 01-3dModeller
@@ -24,50 +57,7 @@ Can't get any better:
 - 07-homeostasis
     - reduced, but still breaking in phantomJs
 
-- Go Through all big slicing examples
-    - 01-ds22
-        - F1: OK; F2: OK; F3: NOK(3492 e - due to timing differences; animateToBearing i < n); F4: OK;
-    - 02-salleedesign
-        - F1: OK; F2: (CSS hover style not picking up); F3: OK;
-    - 03-mtcdc
-        - F1: NOK (type = (selector ? 0 : special != null ? special.bindType : type) || type;); F2: SAME; F3: NOK (other stuff nok);
-    - 04-mailboxing
-        - F1: OK; F2: OK; F3: OK (CSS resources problematic)
-    - 05-dunked
-        - F1: OK (CSS); F2: NOK, F3: OK
-    - 06-hipstamatic
-        - F1: NOK; F2: OK (no animations)
-    - 07-virtue
-        - F1: NOK; F2: NOK; F3: NOK;
-    - 08-makalu
-        - F1: NOK, F2: NOK :(
-    - 09-nitrografix
-    - 10-kennymeyers
-    - 11-sipp
-
-- Reuse
-    - 01 - OK, 02 - NOK (phantom crash), 03 - OK; 04 - slicing in generating jquery code, rest OK
-    - 05 - NOK (phantom crash), 06 - (same as 04); 07 - OK; 08 - NOK (phantom crash); 09 -
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 - Make it work for other pages!!
    - problem with
         - nodeID: 46899 ("opts.animIn") - does not include the definition of animIn for some reason !?

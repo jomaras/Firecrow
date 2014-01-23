@@ -22,7 +22,8 @@ var ConflictFixerCommon =
         {
             codeConstruct.value = codeConstruct.value.replace(change.oldValue, change.newValue);
             this.addCommentToParentStatement(codeConstruct, renameMessage);
-            return;
+
+            return codeConstruct.shouldBeIncluded;
         }
         else if (ASTHelper.isIdentifier(codeConstruct))
         {
@@ -32,7 +33,7 @@ var ConflictFixerCommon =
             {
                 identifierDeclarator.init.value = identifierDeclarator.init.value.replace(change.oldValue, change.newValue);
                 this.addCommentToParentStatement(identifierDeclarator, renameMessage);
-                return;
+                return identifierDeclarator.init.shouldBeIncluded;
             }
 
             //Declarator was not find, maybe it's a literal sent as an argument to a call expression
@@ -42,13 +43,15 @@ var ConflictFixerCommon =
             {
                 identifierSource.value = this._getReplacedCssSelector(identifierSource.value, change.oldValue, change.newValue);
                 this.addCommentToParentStatement(identifierSource, renameMessage);
-                return;
+
+                return identifierSource.shouldBeIncluded;
             }
         }
         else if(ASTHelper.isMemberExpression(codeConstruct))
         {
             var dependencies = codeConstruct.dependencies.concat(codeConstruct.property.dependencies);
             var hasReplaced = false;
+            var replacedElement = null;
 
             for(var i = 0; i < dependencies.length; i++)
             {
@@ -58,14 +61,17 @@ var ConflictFixerCommon =
                 {
                     dependency.destinationNode.value = dependency.destinationNode.value.replace(change.oldValue, change.newValue);
                     this.addCommentToParentStatement(dependency.destinationNode, renameMessage);
+
                     hasReplaced = true;
+                    replacedElement = dependency.destinationNode;
                 }
             }
 
-            if(hasReplaced) { return; }
+            if(hasReplaced) { return replacedElement && replacedElement.shouldBeIncluded; }
         }
 
         this.addCommentToParentStatement(codeConstruct, "Could not rename");
+        return false;
     },
 
     addCommentToParentStatement: function(codeConstruct, comment)

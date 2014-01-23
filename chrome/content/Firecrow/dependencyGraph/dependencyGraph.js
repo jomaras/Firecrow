@@ -419,6 +419,7 @@ FBL.ns(function() { with (FBL) {
 
                 var codeConstruct = traceItem.codeConstruct;
                 //if(codeConstruct.nodeId == 99164) debugger;
+                //if(codeConstruct.loc != null && codeConstruct.loc.start.line == 4791) debugger;
                 if(!codeConstruct.shouldBeIncluded || !this._contextHasIncludedDependencies(traceItem.executionContextId)) { continue; }
                 var dependencies = codeConstruct.graphNode.getUntraversedValueDependenciesFromContext(traceItem.executionContextId);
 
@@ -503,6 +504,8 @@ FBL.ns(function() { with (FBL) {
             {
                 var dependencyEdge = potentialDependencyEdges[i];
                 if(dependencyEdge.hasBeenTraversed) { continue; }
+
+                //if(dependencyEdge.index >= 85346 && dependencyEdge.index <= 85396) debugger;
 
                 dependencyEdge.hasBeenTraversed = true;
                 this.traversedEdgesMap[dependencyEdge.index] = true;

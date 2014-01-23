@@ -65,7 +65,8 @@ fcBrowser.ExecutionInfo.prototype =
             resourceSetterMap: this.resourceSetterMap,
             prototypeExtensions: this.prototypeExtensions,
             forInIterations: this.forInIterations,
-            dataDependencies: Firecrow.DATA_DEPENDENCIES
+            dataDependencies: Firecrow.DATA_DEPENDENCIES,
+            postProcessorInclusions: this.postProcessorInclusions
         };
     },
 
@@ -115,6 +116,7 @@ fcBrowser.ExecutionInfo.prototype =
             achievedCoverage: this.achievedCoverage,
             hasImportantModifications: ValueTypeHelper.objectHasProperties(this.importantModifications),
             undefinedGlobalProperties: this.undefinedGlobalProperties,
+            postProcessorInclusions: this.postProcessorInclusions,
             cookie: this.cookie
         };
     },
@@ -591,6 +593,7 @@ fcBrowser.ExecutionInfo.prototype =
     logModifyingExternalContextIdentifier: function(identifier)
     {
         if(identifier.declarationPosition == null) { return; }
+        if(identifier.declarationPosition.codeConstruct == null) { return; }
         //START TEST
         if(this.currentEventExecutionInfo != null)
         {
@@ -599,6 +602,7 @@ fcBrowser.ExecutionInfo.prototype =
         }
 
         this.globalModifiedIdentifiers[identifier.declarationPosition.codeConstruct.nodeId] = identifier.declarationPosition.codeConstruct;
+
         return;
         //END TEST
 

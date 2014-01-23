@@ -181,6 +181,7 @@
     executionInfo.resourceSetterMap = browser.getSimplifiedResourceSetterMap();
     executionInfo.prototypeExtensions = browser.getInternalPrototypeExtensions();
     executionInfo.forInIterations = browser.getSimplifiedForInIterations();
+    executionInfo.postProcessorInclusions = FBL.Firecrow.postProcessorInclusions;
 
     executionInfoTextArea.textContent = JSON.stringify(executionInfo);
 </script>

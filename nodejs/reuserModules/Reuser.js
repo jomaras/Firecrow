@@ -6,11 +6,16 @@ var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Fire
 var ConflictFixer = require(path.resolve(__dirname, "ConflictFixer.js")).ConflictFixer;
 var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
 
+var Changes =
+{
+    html: 0
+};
+
 var Reuser =
 {
     getMergedModel: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
     {
-        ConflictFixer.fixConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
+        var changes = ConflictFixer.fixConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
 
         var reuseIntoDestinationSelectors = pageBModel.reuseIntoDestinationSelectors || pageBModel.trackedElementsSelectors;
 
@@ -51,6 +56,10 @@ var Reuser =
         this._moveNodesTo(mergedModel, pageAModel.trackedElementsSelectors, reuseIntoDestinationSelectors);
 
         ASTHelper.setParentsChildRelationships(mergedModel);
+
+        mergedModel.changes = changes;
+
+        changes.A.html += Changes.html;
 
         return mergedModel;
     },
@@ -287,6 +296,7 @@ var Reuser =
             if(origin != null && mergedChild.attributes != null && mergedChild.type != "textNode" && this._getAttribute(mergedChild, "o") == null)
             {
                 mergedChild.attributes.push({name:"o", value: origin});
+                Changes.html++;
             }
 
             mergedNode.childNodes.push(mergedChild);

@@ -4,11 +4,13 @@ var spawn = require('child_process').spawn;
 
 console.log("reuser started");
 
+var startTime = new Date();
+
 //var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageA.html-codeModel.txt");
 //var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageB.html-codeModel.txt");
 //var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/expectedResult.html");
 
-var reuseFolder = "09_05_06";
+var reuseFolder = "01-01_02";
 var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageA.html-codeModel.txt");
 var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageB.html-codeModel.txt");
 var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/expectedResult.html");
@@ -17,7 +19,7 @@ var resultPath = expectedResultPath.replace(/\w+\.\w+$/, "resultNew.html");
 
 var expectedResult = fs.existsSync(expectedResultPath) ? fs.readFileSync(expectedResultPath, {encoding:"utf8"})
                                                        : "";
-var allReadyComputed = true;
+var allReadyComputed = false;
 
 var scenarioModelForReuserSlicerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserSlicer.txt");
 var scenarioModelForReuserAnalyzerPath = path.resolve(__dirname, "../phantomJs/dataFiles/scenarioModelForReuserAnalyzer.txt");
@@ -95,6 +97,9 @@ spawnPhantomJsProcess
                 pageBExecutionSummary = JSON.parse(fs.readFileSync(scenarioExecutionAnalyzerSummaryFile, {encoding: "utf8"}));
                 updatePageModel(pageBExecutionSummary, pageBModelMapping, pageBModel);
                 performReuse(pageAExecutionSummary, pageBExecutionSummary);
+                var endTime = new Date();
+                var diff = endTime - startTime;
+                console.log("Time: ", diff/1000, "sec");
             }
         );
     }
@@ -108,6 +113,7 @@ function performReuse(pageAExecutionSummary, pageBExecutionSummary)
     var result = CodeTextGenerator.generateCode(mergedModel);
 
     console.log("Result written to:", resultPath);
+    console.log("Changes:", JSON.stringify(mergedModel.changes));
     fs.writeFileSync(resultPath, result);
 
     if(expectedResult != null && expectedResult != "")
@@ -163,6 +169,8 @@ function updatePageModel(executionSummary, pageModelMapping, pageModel)
     updateForInIterations(executionSummary.forInIterations, pageModelMapping);
 
     updateAdditionalDependencies(executionSummary.dataDependencies, pageModelMapping);
+
+    updatePostProcessorInclusions(executionSummary.postProcessorInclusions, pageModelMapping);
 }
 
 function updateIncludedNodes(includedNodeIds, pageModelMapping)
@@ -390,6 +398,19 @@ function updateAdditionalDependencies(dataDependencies, pageModelMapping)
                 pageModelMapping.createdDependencies[fromId][toId];
                 console.log("Added");
             }
+        }
+    }
+}
+
+function updatePostProcessorInclusions(postProcessorInclusions, pageModelMapping)
+{
+    for(var nodeId in postProcessorInclusions)
+    {
+        var node = pageModelMapping[nodeId];
+
+        if(node)
+        {
+            node.isIncludedByPostprocessor = true;
         }
     }
 }

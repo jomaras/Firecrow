@@ -9,6 +9,8 @@ var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Fi
 
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
 
+var Changes = { jsA: 0, jsB: 0, jsF: 0};
+
 var JsConflictFixer =
 {
     _CONFLICT_COUNTER: 0,
@@ -19,6 +21,8 @@ var JsConflictFixer =
         this._fixPrototypeConflicts(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
         this._fixTypeOnlyDomSelectors(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
         this._fixEventHandlerProperties(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
+
+        return Changes;
     },
 
     _fixGlobalPropertyConflicts: function(pageAExecutionSummary, pageBExecutionSummary)
@@ -41,6 +45,10 @@ var JsConflictFixer =
                 {
                     declarationConstruct.left.name = newName;
                     changedConstructs.push(declarationConstruct.left);
+                    if(declarationConstruct.shouldBeIncluded)
+                    {
+                        Changes.jsA++;
+                    }
                 }
                 else if (ASTHelper.isMemberExpression(declarationConstruct.left))
                 {
@@ -50,6 +58,10 @@ var JsConflictFixer =
                     {
                         memberExpression.property.name = newName;
                         changedConstructs.push(memberExpression.property);
+                        if(memberExpression.shouldBeIncluded)
+                        {
+                            Changes.jsA++;
+                        }
                     }
                     else if(memberExpression.computed)
                     {
@@ -63,6 +75,10 @@ var JsConflictFixer =
                             {
                                 changedConstructs.push(propertyDeclaration);
                                 propertyDeclaration.name = newName;
+                                if(propertyDeclaration.shouldBeIncluded)
+                                {
+                                    Changes.jsA++;
+                                }
                             }
                         });
                     }
@@ -82,6 +98,10 @@ var JsConflictFixer =
             {
                 declarationConstruct.id.name = newName;
                 changedConstructs.push(declarationConstruct);
+                if(declarationConstruct.shouldBeIncluded)
+                {
+                    Changes.jsA++;
+                }
             }
             else
             {
@@ -140,6 +160,11 @@ var JsConflictFixer =
                             identifier.name = newName;
 
                             ConflictFixerCommon.addCommentToParentStatement(identifier, "Firecrow - Rename global property");
+
+                            if(identifier.shouldBeIncluded)
+                            {
+                                Changes.jsA++;
+                            }
                         }
                     }, this);
                 }
@@ -160,11 +185,20 @@ var JsConflictFixer =
         {
             ConflictFixerCommon.addCommentToParentStatement(codeConstruct, "Firecrow - Rename global property");
             codeConstruct.name = newName;
+            if(codeConstruct.shouldBeIncluded)
+            {
+                Changes.jsA++;
+            }
         }
         else if (ASTHelper.isMemberExpression(codeConstruct) && codeConstruct.property.name == oldName)
         {
             ConflictFixerCommon.addCommentToParentStatement(codeConstruct, "Firecrow - Rename global property");
             codeConstruct.property.name = newName;
+
+            if(codeConstruct.shouldBeIncluded)
+            {
+                Changes.jsA++;
+            }
         }
 
         this._traversedDependencies[oldName][codeConstruct.nodeId] = true;
@@ -183,7 +217,7 @@ var JsConflictFixer =
 
     _fixPrototypeConflicts: function(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary)
     {
-        this._fixPrototypeSpilling(pageAModel, pageAExecutionSummary, pageBExecutionSummary.prototypeExtensions);
+        this._fixPrototypeSpilling(pageAModel, pageAExecutionSummary, pageBExecutionSummary.prototypeExtensions, "r");
         this._fixPrototypeSpilling(pageBModel, pageBExecutionSummary, pageAExecutionSummary.prototypeExtensions);
     },
 
@@ -203,6 +237,10 @@ var JsConflictFixer =
         {
             this._replaceWithFirecrowHandler(conflictedHandler.pageAConflictConstruct);
             this._replaceWithFirecrowHandler(conflictedHandler.pageBConflictConstruct);
+
+            Changes.jsA++;
+            Changes.jsB++;
+            Changes.jsF++;
         }, this);
 
         this._insertFirecrowHandleConflictsCode(pageAModel, pageBModel);
@@ -226,14 +264,17 @@ var JsConflictFixer =
                 //TODO - selector warning, possible problems with getElementsByTagName
                 if(CssSelectorParser.containsTypeSelector(selector) && (domQuery.methodName == "querySelector" || domQuery.methodName == "querySelectorAll"))
                 {
-                    ConflictFixerCommon.replaceLiteralOrDirectIdentifierValue
+                    var hasBeenReplaced = ConflictFixerCommon.replaceLiteralOrDirectIdentifierValue
                     (
-                        {
-                            oldValue: selector,
-                            newValue: selector + attributeSelector
-                        },
+                        { oldValue: selector, newValue: selector + attributeSelector },
                         callExpressionFirstArgument
                     );
+
+                    if(hasBeenReplaced)
+                    {
+                        origin == "r" ? Changes.jsA++
+                                      : Changes.jsB++;
+                    }
                 }
             }
         }
@@ -278,13 +319,13 @@ var JsConflictFixer =
         return extensions;
     },
 
-    _fixPrototypeSpilling: function(pageModel, pageExecutionSummary, prototypeExtensions)
+    _fixPrototypeSpilling: function(pageModel, pageExecutionSummary, prototypeExtensions, origin)
     {
         for(var prototype in prototypeExtensions)
         {
             var prototypeExtension = prototypeExtensions[prototype];
             var forInIterations = this._getIterationsOverPrototype(pageExecutionSummary.forInIterations, prototype);
-            this._fixIterationConstructs(forInIterations, prototypeExtension);
+            this._fixIterationConstructs(forInIterations, prototypeExtension, origin);
         }
     },
 
@@ -305,15 +346,15 @@ var JsConflictFixer =
         return iterations;
     },
 
-    _fixIterationConstructs: function(forInIterations, prototypeExtension)
+    _fixIterationConstructs: function(forInIterations, prototypeExtension, origin)
     {
         for(var i = 0; i < forInIterations.length; i++)
         {
-            this._extendForInBody(forInIterations[i], prototypeExtension);
+            this._extendForInBody(forInIterations[i], prototypeExtension, origin);
         }
     },
 
-    _extendForInBody: function(forInStatement, extendedProperties)
+    _extendForInBody: function(forInStatement, extendedProperties, origin)
     {
         var propertyName = ASTHelper.getPropertyNameFromForInStatement(forInStatement);
 
@@ -328,6 +369,12 @@ var JsConflictFixer =
                 this._prependToForInBody(forInStatement, this._getSkipIterationConstruct(propertyName, extendedProperty.name));
 
                 forInStatement.handledForInExtensions.push(extendedProperty.name);
+
+                if(forInStatement.shouldBeIncluded)
+                {
+                    origin == "r" ? Changes.jsA++
+                                  : Changes.jsB++;
+                }
             }
         }
     },
@@ -469,6 +516,7 @@ var JsConflictFixer =
         };
 
         bodyElement.childNodes.push(scriptInvokerScriptElement);
+        Changes.jsF++;
     },
 
     _getConflictedHandlers: function(pageAExecutionSummary, pageBExecutionSummary)

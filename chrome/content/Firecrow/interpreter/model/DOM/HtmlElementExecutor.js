@@ -434,6 +434,16 @@ fcModel.HtmlElementExecutor =
 
     _registerEventHandler: function(fcThisValue, jsArguments, handler, globalObject, callExpression)
     {
+        if(fcThisValue && fcThisValue.implementationObject && fcThisValue.implementationObject.modelElement)
+        {
+            globalObject.dependencyCreator.createDataDependency
+            (
+                fcThisValue.implementationObject.modelElement,
+                callExpression,
+                globalObject.getPreciseEvaluationPositionId()
+            );
+        }
+
         globalObject.registerHtmlElementEventHandler
         (
             fcThisValue,

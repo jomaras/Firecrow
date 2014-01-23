@@ -12,6 +12,7 @@ fs.changeWorkingDirectory(currentDirectoryPath);
 
 var scenarioExecutorUrl = fs.absolute("../helperPages/reuserScenarioExecutorSlicer.html");
 var scenarioExecutorDataFile = fs.absolute("../dataFiles/scenarioExecutorSlicer.txt");
+var featureCodeFile = fs.absolute("../dataFiles/featureCode.txt");
 
 fs.write(scenarioExecutorDataFile, "");
 
@@ -26,5 +27,15 @@ page.open(encodeURI(scenarioExecutorUrl), function(status)
     });
 
     fs.write(scenarioExecutorDataFile, executionInfoString);
+
+    var slicedCode = page.evaluate(function()
+    {
+        var slicedCodeElement = document.querySelector("#slicingResultTextArea");
+
+        return slicedCodeElement != null ? slicedCodeElement.value || "" : "";
+    });
+
+    fs.write(featureCodeFile, slicedCode);
+
     phantom.exit();
 });

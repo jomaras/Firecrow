@@ -6,6 +6,8 @@ var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Fi
 
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
 
+var Changes = { html: 0, js: 0, cssA: 0, cssB: 0};
+
 var CssConflictFixer =
 {
     fixCssConflicts: function(pageAModel, pageBModel)
@@ -14,6 +16,8 @@ var CssConflictFixer =
 
         this._expandAllSelectors(pageAModel.cssNodes, "r");
         this._expandAllSelectors(pageBModel.cssNodes, null);
+
+        return Changes;
     },
 
     _migrateNonMovableNodeAttributes: function(cssNodes, selectors, appModel)
@@ -78,6 +82,7 @@ var CssConflictFixer =
             var simpleSelectors = CssSelectorParser.getSimpleSelectors(cssNode.selector);
             var updatedSelectors = [];
             var newSelectorValue = "";
+            var hasTypeSelectorBeenModified = false;
 
             for(var j = 0; j < simpleSelectors.length; j++)
             {
@@ -94,6 +99,7 @@ var CssConflictFixer =
                     continue;
                 }
 
+                //Type only selectors arrive here
                 if(CssSelectorParser.endsWithPseudoSelector(cleansedSelector))
                 {
                     var modifiedSelector = CssSelectorParser.appendBeforeLastPseudoSelector(cleansedSelector, attributeSelector);
@@ -105,13 +111,19 @@ var CssConflictFixer =
                     updatedSelectors.push(cleansedSelector + attributeSelector);
                     newSelectorValue += cleansedSelector + attributeSelector;
                 }
+
+                hasTypeSelectorBeenModified = true;
             }
 
             if(newSelectorValue.trim() == "") { continue; }
 
             cssNode.selector = newSelectorValue;
 
-            if(cssNode.selector.trim() == "[o=r], body") { debugger; }
+            if(hasTypeSelectorBeenModified && cssNode.shouldBeIncluded)
+            {
+                origin == "r" ? Changes.cssA++
+                              : Changes.cssB++;
+            }
 
             cssNode.cssText = cssNode.cssText.replace(ConflictFixerCommon.getSelectorPartFromCssText(cssNode.cssText), cssNode.selector + "{ ");
         }

@@ -4,6 +4,8 @@ var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Fire
 var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
 
+var Changes = { html: 0, js: 0, css: 0};
+
 var HtmlConflictFixer =
 {
     replacementsMap: {},
@@ -24,11 +26,18 @@ var HtmlConflictFixer =
                 if(cssNode.selector == null || cssNode.selector.indexOf(change.oldValue) == -1) { continue; }
 
                 ConflictFixerCommon.replaceSelectorInCssNode(cssNode, change.oldValue, change.newValue);
+
+                if(cssNode.shouldBeIncluded)
+                {
+                    Changes.css++;
+                }
             }
 
             this._fixDynamicallySetAttributes(change);
             this._fixHtmlAttributeConflictsDomQueries(change, pageAExecutionSummary);
         }
+
+        return Changes;
     },
 
     _getHtmlConflictChanges: function(pageAModel, pageBModel, reuseSelectors)
@@ -59,7 +68,10 @@ var HtmlConflictFixer =
         {
             if(ASTHelper.isAssignmentExpression(change.setConstruct))
             {
-                ConflictFixerCommon.replaceLiteralOrDirectIdentifierValue(change, change.setConstruct.right);
+                var hasReplaced = ConflictFixerCommon.replaceLiteralOrDirectIdentifierValue(change, change.setConstruct.right)
+
+                if(hasReplaced) { Changes.js++; }
+
                 return;
             }
 
@@ -81,7 +93,11 @@ var HtmlConflictFixer =
             {
                 if(this._containsCssFragment(selector, change.oldValue))
                 {
-                    ConflictFixerCommon.replaceLiteralOrDirectIdentifierValue(change, callExpressionFirstArgument);
+                    var hasChanged = ConflictFixerCommon.replaceLiteralOrDirectIdentifierValue(change, callExpressionFirstArgument);
+                    if(hasChanged)
+                    {
+                        Changes.js++;
+                    }
                 }
             }
         }
@@ -115,6 +131,7 @@ var HtmlConflictFixer =
             this._handleSelectorChange(reuseSelectors, change);
 
             conflictingAttribute.value = change.newValue;
+            Changes.html++;
         }
     },
 

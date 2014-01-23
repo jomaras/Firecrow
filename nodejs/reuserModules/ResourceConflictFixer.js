@@ -4,6 +4,12 @@ var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/h
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
 var UriHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/UriHelper.js")).UriHelper;
 
+var Change = {
+    html: 0,
+    css: 0,
+    js: 0
+};
+
 var ResourceConflictFixer =
 {
     fixResourceConflicts: function(pageAModel, pageAExecutionSummary)
@@ -11,6 +17,8 @@ var ResourceConflictFixer =
         this._fixResourceConflictsInCss(pageAModel);
         this._fixResourceConflictsInHtml(pageAModel);
         this._fixResourceConflictsInJs(pageAModel, pageAExecutionSummary);
+
+        return Change;
     },
 
     _fixResourceConflictsInCss: function(pageModel)

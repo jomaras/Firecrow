@@ -39,12 +39,14 @@ FBL.ns(function () { with (FBL)
 
         getWindow: function() { return frames[0] || window;},
         getDocument: function() { return this.getWindow().document; },
+        postProcessorInclusions: {},
 
         includeNode: function(node, isIncludedByPostprocessor, dependencyIndex, dependencyConstraint)
         {
             if(isIncludedByPostprocessor && !node.shouldBeIncluded)
             {
                 node.isIncludedByPostprocessor = isIncludedByPostprocessor;
+                this.postProcessorInclusions[node.nodeId] = 1;
             }
             //if(node != null && node.loc != null && node.loc.start.line == 8152) debugger;
             //if(node.nodeId == 99070) debugger;
