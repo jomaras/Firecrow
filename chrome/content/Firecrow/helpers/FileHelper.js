@@ -1,37 +1,57 @@
 Components.utils.import("resource://gre/modules/NetUtil.jsm");
 Components.utils.import("resource://gre/modules/FileUtils.jsm");
 
+const CC = Components.classes;
+const CI = Components.interfaces;
+const CU = Components.utils;
+
+var FileHelper;
+if(typeof FBL == "undefined")
+{
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+}
+
 FBL.ns(function () { with (FBL) {
 /******/
-var CC = Components.classes;
-var CI = Components.interfaces;
-var CU = Components.utils;
 
-var recordingsFolderPath = ["Firecrow", "recordings"]
+var recordingsFolderPath = ["Firecrow", "profiles"]
 
-Firecrow.FileHelper = 
+Firecrow.FileHelper = FileHelper =
 {
     createFirecrowDirs: function()
     {
         FileUtils.getDir("ProfD", recordingsFolderPath, true);
     },
 
-    createRecordingFile: function(siteName, recordingId, recordingContent)
+    createEventProfilingFile: function(siteName, recordingId, eventProfilingInfo)
     {
-        recordingId += ".json";
+        this._createProfilingFile(siteName, "event", recordingId, eventProfilingInfo);
+    },
+
+    createAllExecutionsProfilingFile: function(siteName, recordingId, executionProfilingInfo)
+    {
+        this._createProfilingFile(siteName, "allExecutions", recordingId, executionProfilingInfo);
+    },
+
+    _createProfilingFile: function(siteName, profilingType, recordingId, info)
+    {
         //Create directory if not exists
         FileUtils.getDir("ProfD", recordingsFolderPath.concat(siteName), true);
 
+        recordingId += "-" + profilingType + ".json";
+
         var file = FileUtils.getFile("ProfD", recordingsFolderPath.concat([siteName, recordingId]));
-        file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+        file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
 
         var ostream = FileUtils.openSafeFileOutputStream(file)
 
         var converter = CC["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(CI.nsIScriptableUnicodeConverter);
         converter.charset = "UTF-8";
-        var istream = converter.convertToInputStream(recordingContent);
+        var istream = converter.convertToInputStream(info);
 
         NetUtil.asyncCopy(istream, ostream);
+
+        CU.reportError("Profiling file written to:" + file.path);
     },
 
     getRecordingsFiles: function(siteName)
@@ -301,3 +321,5 @@ Firecrow.FileHelper =
 }
 /******/
 }});
+
+var EXPORTED_SYMBOLS = ["FileHelper"];

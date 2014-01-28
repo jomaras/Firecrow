@@ -1,11 +1,12 @@
 var EXPORTED_SYMBOLS = ["SlicerPanelController"];
 
-var Cu = Components.utils;
-var Ci = Components.interfaces;
+const Cu = Components.utils;
+const Ci = Components.interfaces;
 
 Cu.import("resource:///modules/source-editor.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 Cu.import("chrome://Firecrow/content/frontend/JsRecorder.jsm");
+Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 
 var SlicerPanelController = function(extensionWindow, extensionDocument, getCurrentPageWindowFunction, getCurrentPageDocumentFunction)
 {
@@ -76,42 +77,43 @@ SlicerPanelController.prototype =
         if(e.target == this._recordButton
         && e.currentTarget == this._recordButton && e.originalTarget != this._recordButton)
         {
+            this._profileEventExecutions = this._recordOptionsElement.value == "All";
+
             if(!this._recordButton.checked)
             {
                 var currentLocation = this._getCurrentPageDocument().location;
-                this._startRecording();
+                this._startProfiling();
                 currentLocation.reload();
             }
             else
             {
-                this._stopRecording();
+                this._stopProfiling();
             }
 
             this._recordButton.checked = !this._recordButton.checked;
         }
     },
 
-    _startRecording: function()
+    _startProfiling: function()
     {
         this._jsRecorder = new JsRecorder();
 
-        this._jsRecorder.window = this._extensionWindow;
-
-        this._jsRecorder.startProfiling();
-
-        /*if(this._recordOptionsElement.value == "All")
-        {
-            this._jsRecorder.startProfilingEachExecution(scriptNamesAndPaths);
-        }
-        else
-        {
-            this._jsRecorder.start(scriptNamesAndPaths);
-        }*/
+        this._jsRecorder.startProfiling(this._profileEventExecutions);
     },
 
-    _stopRecording: function()
+    _stopProfiling: function()
     {
+        this._jsRecorder.stopProfiling();
 
+        var siteName = encodeURIComponent(this._getCurrentPageDocument().baseURI);
+        var currentTime = Date.now();
+
+        if(this._profileEventExecutions)
+        {
+            FileHelper.createAllExecutionsProfilingFile(siteName, currentTime, JSON.stringify(this._jsRecorder.executionTrace));
+        }
+
+        FileHelper.createEventProfilingFile(siteName, currentTime, JSON.stringify(this._jsRecorder.eventTrace));
     },
 
     _createSourceCodeViewer: function()
@@ -352,7 +354,7 @@ SlicerPanelController.prototype =
         titleContainer.appendChild(checkbox);
 
         var timeLabel = doc.createElement("label");
-        timeLabel.textContent = this._getRecordingTime(recordingInfo.name);
+        timeLabel.textContent = this._getProfilingTime(recordingInfo.name);
 
         titleContainer.appendChild(timeLabel);
 
@@ -391,7 +393,7 @@ SlicerPanelController.prototype =
         this._existingRecordingsList.appendChild(container);
     },
 
-    _getRecordingTime: function(recordingName)
+    _getProfilingTime: function(recordingName)
     {
         var date = new Date(parseInt(this._removeFileExtension(recordingName)));
 

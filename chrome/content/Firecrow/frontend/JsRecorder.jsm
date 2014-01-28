@@ -22,28 +22,32 @@ var JsRecorder = function()
 
     this.executionTrace = [];
     this.eventTrace = [];
+    this.singleStepEnabledScripts = [];
 
     var that = this;
 
-    this.startProfiling = function()
+    this.startProfiling = function(profileAllExecutions)
     {
         if(this.jsDebugger == null) { Cu.reportError("Error: jsDebugger is null when trying to start"); return; }
 
+        this.executionTrace = [];
+        this.eventTrace = [];
+
         this.setFilters();
 
-        this.profileAllExecutions();
+        if(profileAllExecutions)
+        {
+            this.profileAllExecutions();
+            this.trackScriptCreation();
+        }
 
         this.profileEventExecutions();
-
-        this.trackScriptCreation();
 
         this._profile();
     }
 
     this.profileAllExecutions = function()
     {
-        this.executionTrace = [];
-
         var returnContinue = Ci.jsdIExecutionHook.RETURN_CONTINUE;
 
         this.jsDebugger.interruptHook =
@@ -59,7 +63,7 @@ var JsRecorder = function()
 
     this.profileEventExecutions = function()
     {
-        this.eventTrace = [];
+        var returnContinue = Ci.jsdIExecutionHook.RETURN_CONTINUE;
 
         this.jsDebugger.functionHook =
         {
@@ -136,6 +140,7 @@ var JsRecorder = function()
                 if(!found)
                 {
                     script.enableSingleStepInterrupts(true);
+                    this.singleStepEnabledScripts.push(script);
                 }
             }
         };
@@ -164,7 +169,7 @@ var JsRecorder = function()
         return stackDepth;
     };
 
-    this.stop = function()
+    this.stopProfiling = function()
     {
         try
         {
@@ -175,6 +180,13 @@ var JsRecorder = function()
             this.jsDebugger.functionHook = {};
             this.jsDebugger.interruptHook = {};
             this.jsDebugger.scriptHook = {};
+
+            this.singleStepEnabledScripts.forEach(function(script)
+            {
+                script.enableSingleStepInterrupts(false);
+            });
+
+            this.singleStepEnabledScripts = [];
         }
         catch(e) { Cu.reportError("Error when stopping jsDebugger " + e); }
     };
