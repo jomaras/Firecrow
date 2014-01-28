@@ -25,12 +25,12 @@ Firecrow.FileHelper = FileHelper =
 
     createEventProfilingFile: function(siteName, recordingId, eventProfilingInfo)
     {
-        this._createProfilingFile(siteName, "event", recordingId, eventProfilingInfo);
+        this._createProfilingFile(siteName, "events", recordingId, eventProfilingInfo);
     },
 
     createAllExecutionsProfilingFile: function(siteName, recordingId, executionProfilingInfo)
     {
-        this._createProfilingFile(siteName, "allExecutions", recordingId, executionProfilingInfo);
+        this._createProfilingFile(siteName, "executions", recordingId, executionProfilingInfo);
     },
 
     _createProfilingFile: function(siteName, profilingType, recordingId, info)

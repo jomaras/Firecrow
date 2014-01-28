@@ -216,6 +216,7 @@ fcSimulator.Evaluator.prototype =
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
         //if(memberExpression.nodeId == 376) debugger;
+        //if(memberCommand.id > 79217 && memberExpression.loc != null && memberExpression.loc.start.line == 1702) debugger;
 
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 

@@ -945,14 +945,51 @@ FBL.ns(function() { with (FBL) {
                 thisElement = this.globalObject.document.implementationObject;
             }
 
-            for(var j = 0, htmlEventsLength = htmlElementEvents.length; j < htmlEventsLength; j++)
+            var event = this._getMatchingEventTrace(htmlElementEvents, eventTrace, targetElement, thisElement);
+
+            if(event == null)
             {
-                var event = htmlElementEvents[j];
+                event = this._getMatchingEventTrace(htmlElementEvents, eventTrace, targetElement, thisElement, true);
+            }
+
+            if(event != null)
+            {
+                var eventThisObject = new fcModel.fcValue(event.fcHtmlElement.htmlElement, event.fcHtmlElement, null);
+                var handlerConstruct = event.handler.codeConstruct;
+
+                this._interpretJsCode
+                (
+                    handlerConstruct.body,
+                    {
+                        functionHandler: event.handler,
+                        thisObject: eventThisObject,
+                        argumentValues: this._getArguments(eventTrace.args, eventThisObject),
+                        registrationPoint: event.registrationPoint
+                    }
+                );
+
+                eventTrace.hasBeenHandled = true;
+            }
+        },
+
+        _getMatchingEventTrace: function(htmlElementEvents, eventTrace, targetElement, thisElement, allowAncestors)
+        {
+            for(var i = 0, htmlEventsLength = htmlElementEvents.length; i < htmlEventsLength; i++)
+            {
+                var event = htmlElementEvents[i];
                 var fcHtmlElement = event.fcHtmlElement;
 
                 //if the xPath matches or if the event raising element is within the event handling element
-                if(!this._isElementOrAncestor(fcHtmlElement.htmlElement, targetElement)
-                && !this._isElementOrAncestor(fcHtmlElement.htmlElement, thisElement)) { continue; }
+                if(allowAncestors)
+                {
+                    if(!this._isElementOrAncestor(fcHtmlElement.htmlElement, targetElement)
+                    && !this._isElementOrAncestor(fcHtmlElement.htmlElement, thisElement)) { continue; }
+                }
+                else
+                {
+                    if(fcHtmlElement.htmlElement != targetElement
+                    && fcHtmlElement.htmlElement != thisElement) { continue; }
+                }
 
                 if(this._isElementEvent(eventTrace, event.eventType))
                 {
@@ -960,20 +997,7 @@ FBL.ns(function() { with (FBL) {
 
                     if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
                     {
-                        var eventThisObject = new fcModel.fcValue(fcHtmlElement.htmlElement, fcHtmlElement, null);
-                        this._interpretJsCode
-                        (
-                            handlerConstruct.body,
-                            {
-                                functionHandler: event.handler,
-                                thisObject: eventThisObject,
-                                argumentValues: this._getArguments(eventTrace.args, eventThisObject),
-                                registrationPoint: event.registrationPoint
-                            }
-                        );
-
-                        eventTrace.hasBeenHandled = true;
-                        break;
+                        return event;
                     }
                 }
             }

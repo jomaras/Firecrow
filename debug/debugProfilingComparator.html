@@ -9,8 +9,7 @@
 
     <script src="pages/modelMapping.js"></script>
     <script src="http://localhost/CodeModels/evaluation/fullPages/11-sipp/codeModel/featureModelDebug.js"></script>
-    <script src="http://localhost/Firecrow/evaluation/fullPages/11-sipp/index.html-eventLocations.txt"></script>
-    <script src="http://localhost/Firecrow/evaluation/fullPages/11-sipp/index.html-executionTrace.txt"></script>
+    <script src="http://localhost/Firecrow/evaluation/fullPages/11-sipp/allExecutions.txt"></script>
 
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -378,27 +377,58 @@ Eval Expr:<span id="noEvaluatedExpressions"></span><br>
     document.getElementById("profiledCodeContainer").innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
 
     var executedLines = {};
+    var encounteredLines = {};
 
-    for(var i = 0; i < executionTrace.length; i++)
+    for(var i = 0; i < allExecutions.length; i++)
     {
-        executedLines[executionTrace[i].line] = true;
+        var execution = allExecutions[i];
+        if(executedLines[execution.file] == null)
+        {
+            executedLines[execution.file] = {};
+            encounteredLines[execution.file] = {};
+        }
+
+        if(executedLines[execution.file][execution.line] == null)
+        {
+            encounteredLines[execution.file][execution.line] = 0
+        }
+
+        encounteredLines[execution.file][execution.line]++;
+        executedLines[execution.file][execution.line] = true;
     }
 
+    var baseUrl = htmlModel.url;
+    var currentFilePath = baseUrl;
     Firecrow.ASTHelper.traverseAst(htmlModel.model, function(node)
     {
-        var previousValue = node.hasBeenExecuted;
+        var previousValue = node.hasBeenExecuted || false;
         node.hasBeenExecuted = false;
 
-        if(node.loc != null && executedLines[node.loc.start.line])
+        if(node.path != null && node.path != "") //the program node has node.path attribute, set it
+        {
+            currentFilePath = node.path;
+        }
+
+        if(node.type == "script" || node.type == "SCRIPT") //if we return to main page, reset the path to the base page path
+        {
+            currentFilePath = baseUrl;
+        }
+
+        if(node.loc != null && executedLines[currentFilePath] != null && executedLines[currentFilePath][node.loc.start.line])
         {
             node.hasBeenExecuted = true;
         }
 
-        if(previousValue != node.hasBeenExecuted && node.type != "BlockStatement")
+        if(previousValue != node.hasBeenExecuted && node.type != "BlockStatement" && node.loc != null
+        && node.domElement == null && node.rules == null && node.path == null
+        && node.cssText == null && node.type != "Program" && !ASTHelper.isFunctionParameter(node)
+        && !ASTHelper.isVariableDeclarator(node) && !ASTHelper.isVariableDeclarator(node.parent))
         {
             node.differsInExecution = true;
         }
     });
+
+
 
     document.getElementById("recordedCodeContainer").innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
 
