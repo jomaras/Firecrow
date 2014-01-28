@@ -249,8 +249,14 @@ Firecrow.Interpreter.Commands.Command.prototype =
     isIfStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.IfStatement; },
     isEndIfCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.EndIf; },
 
-    isLoopStatementCommand: function() { return this.isWhileStatementCommand() || this.isDoWhileStatementCommand() || this.isForStatementCommand() || this.isEvalForInWhereCommand();},
+    isLoopStatementCommand: function()
+    {
+        return this.isWhileStatementCommand() || this.isDoWhileStatementCommand()
+            || this.isForStatementCommand() || this.isEvalForInWhereCommand()
+            || this.isStartDoWhileCommand();
+    },
 
+    isStartDoWhileCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartDoWhileStatement; },
     isWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.WhileStatement; },
     isDoWhileStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.DoWhileStatement; },
     isForStatementCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ForStatement; },
@@ -346,6 +352,7 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     IfStatement: "IfStatement",
     EndIf: "EndIf",
+    StartDoWhileStatement: "StartDoWhileStatement",
     WhileStatement: "WhileStatement",
     DoWhileStatement: "DoWhileStatement",
 

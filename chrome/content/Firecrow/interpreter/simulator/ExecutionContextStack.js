@@ -185,6 +185,10 @@ FBL.ns(function() { with (FBL) {
                     this._addToBlockCommandStack(command);
                     this._evalStartWithCommand(command);
                 }
+                else if(command.isStartDoWhileCommand())
+                {
+                    this._addToBlockCommandStack(command);
+                }
                 else if (command.isEndWithStatementCommand()) { this._tryPopCommand(command); this._evalEndWithCommand(command); }
                 else if (command.isForStatementCommand() || command.isWhileStatementCommand() ||  command.isDoWhileStatementCommand())
                 {
@@ -205,6 +209,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalBreakCommand() || command.isEvalContinueCommand())
                 {
                     this.evaluator.evalBreakContinueCommand(command );
+                    //if(command.id == 293413) debugger;
                     this._popTillBreakContinue(command.codeConstruct);
                 }
                 else if (command.isStartSwitchStatementCommand()) { this._addToBlockCommandStack(command); }
@@ -633,7 +638,11 @@ FBL.ns(function() { with (FBL) {
             {
                 var command = blockCommandStack[i];
 
-                if(command.isLoopStatementCommand() || command.isStartSwitchStatementCommand()) { break; }
+                if(command.isLoopStatementCommand() || command.isStartSwitchStatementCommand())
+                {
+                    if(command.isStartDoWhileCommand()) { blockCommandStack.pop(); }
+                    break;
+                }
 
                 blockCommandStack.pop();
             }
@@ -647,7 +656,12 @@ FBL.ns(function() { with (FBL) {
             {
                 var command = blockCommandStack[i];
 
-                if(command.isLoopStatementCommand()) { break; }
+                if(command.isLoopStatementCommand())
+                {
+                    if(command.isStartDoWhileCommand()) { blockCommandStack.pop(); }
+
+                    break;
+                }
 
                 blockCommandStack.pop();
             }
@@ -701,10 +715,10 @@ FBL.ns(function() { with (FBL) {
             if(topFunctionContextCommand == null) { return; }
 
             topFunctionContextCommand.functionContextBlockCommandsEvalPositions.push(
-                {
-                    command: command,
-                    evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
-                });
+            {
+                command: command,
+                evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()
+            });
         },
 
         _reevaluateEvaluationPositionId: function()

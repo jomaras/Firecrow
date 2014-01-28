@@ -1,6 +1,6 @@
 var usesModule = typeof module !== 'undefined' && module.exports;
 var UriHelper;
-if(usesModule)
+if(usesModule || typeof FBL == "undefined")
 {
     FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
 }
@@ -1721,3 +1721,5 @@ if(usesModule)
 {
     exports.UriHelper = FBL.Firecrow.UriHelper;
 }
+
+var EXPORTED_SYMBOLS = ["UriHelper"];

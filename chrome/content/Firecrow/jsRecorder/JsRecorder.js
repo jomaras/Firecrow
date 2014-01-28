@@ -37,7 +37,7 @@ Firecrow.JsRecorder = function ()
         if(this.jsDebugger.pauseDepth == 1) { this.jsDebugger.unPause(); }
 
         this.jsDebugger.asyncOn(function(){});
-        this.isRecording = true;
+        this.isProfiling = true;
     }
 
     this.start = function(scriptsToTrack)
@@ -71,7 +71,7 @@ Firecrow.JsRecorder = function ()
                     //function - ignore the exiting calls (pc != 0)
                     try
                     {
-                        if(!that.isRecording || frame.pc != 0) { return; }
+                        if(!that.isProfiling || frame.pc != 0) { return; }
 
                         //is event handler
                         if(this.getStackDepth(frame) == 0)
@@ -155,7 +155,7 @@ Firecrow.JsRecorder = function ()
             if(this.jsDebugger.pauseDepth == 1) { this.jsDebugger.unPause(); }
 
             this.jsDebugger.asyncOn(function(){});
-            this.isRecording = true;
+            this.isProfiling = true;
         }
         catch(e) { CU.reportError("Error while starting jsDebugger:" + e); }
     };
@@ -167,7 +167,7 @@ Firecrow.JsRecorder = function ()
             if(this.jsDebugger == null) { CU.reportError("Error: jsDebugger is null when trying to stop"); return; }
 
             this.jsDebugger.off();
-            this.isRecording = false;
+            this.isProfiling = false;
             this.jsDebugger.functionHook = {};
             this.resultExecutionTrace = this.executionTrace;
             this.executionTrace = [];

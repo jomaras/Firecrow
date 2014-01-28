@@ -487,6 +487,8 @@ FBL.ns(function() { with (FBL) {
 
         _generateCommandsAfterLoopCommand: function(loopCommand)
         {
+            if(loopCommand == null || loopCommand.isStartDoWhileCommand()) { return; }
+
             ValueTypeHelper.insertElementsIntoArrayAtIndex
             (
                 this.commands,

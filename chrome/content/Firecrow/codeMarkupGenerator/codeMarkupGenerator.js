@@ -1171,8 +1171,8 @@ FBL.ns(function () { with (FBL) {
         {
             if(expression == null) { return ""; }
 
-            return expression.hasBeenExecuted ? " hasBeenExecuted "
-                                              : " hasNotBeenExecuted ";
+            return (expression.hasBeenExecuted ? " hasBeenExecuted "
+                                              : " hasNotBeenExecuted ") + (expression.differsInExecution ? " differs " : "");
         },
 
         formatId: function(currentId)

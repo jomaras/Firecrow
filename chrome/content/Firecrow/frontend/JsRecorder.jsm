@@ -4,156 +4,164 @@ var Cu = Components.utils;
 var Ci = Components.interfaces;
 var Cc = Components.classes;
 
+const jsdIFilter = Components.interfaces.jsdIFilter;
+const IGNORE_SCRIPTS_REGEXS =
+[
+    "*/firefox/components/*",
+    "*/firefox/modules/*",
+    "XStringBundle",
+    "chrome://*",
+    "resource://*",
+    "x-jsd:ppbuffer*",
+    "XPCSafeJSObjectWrapper.cpp"
+];
+
 var JsRecorder = function()
 {
     this.jsDebugger = Cc["@mozilla.org/js/jsd/debugger-service;1"].getService(Ci.jsdIDebuggerService);
 
     this.executionTrace = [];
+    this.eventTrace = [];
 
     var that = this;
 
-    this.startProfiling = function(scriptsToTrack)
+    this.startProfiling = function()
     {
         if(this.jsDebugger == null) { Cu.reportError("Error: jsDebugger is null when trying to start"); return; }
 
-        this.setScriptsToTrack(scriptsToTrack);
+        this.setFilters();
+
+        this.profileAllExecutions();
+
+        this.profileEventExecutions();
+
+        this.trackScriptCreation();
+
+        this._profile();
+    }
+
+    this.profileAllExecutions = function()
+    {
+        this.executionTrace = [];
 
         var returnContinue = Ci.jsdIExecutionHook.RETURN_CONTINUE;
-        this.executionTrace = [];
 
         this.jsDebugger.interruptHook =
         {
-            onExecute: function(frame, type, val)
+            onExecute: function(frame)
             {
-                that.executionTrace.push({file: frame.script.fileName, pc: frame.pc, line: frame.line});
+                that.executionTrace.push({file: frame.script.fileName, line: frame.line});
 
                 return returnContinue;
             }
         }
+    };
 
+    this.profileEventExecutions = function()
+    {
+        this.eventTrace = [];
+
+        this.jsDebugger.functionHook =
+        {
+            onCall: function(frame)
+            {
+                //onCall hook is called when entering and when exiting the
+                //function - ignore the exiting calls (pc != 0)
+                if(!that.isProfiling || frame.pc != 0) { return; }
+
+                if(that.getStackDepth(frame) == 0)
+                {
+                    var trace = { fileName: frame.script.fileName, line: frame.line};
+
+                    var thisElement = frame.thisValue.getWrappedValue();
+
+                    trace.currentTime = (new Date()).getTime();
+
+                    trace.thisValue = { xPath: that.getElementXPath(thisElement)};
+
+                    var args = frame.scope.getWrappedValue().arguments;
+                    var firstArgument = args[0];
+
+                    trace.args =
+                    {
+                        targetXPath: firstArgument!= null ? that.getElementXPath(firstArgument.target) : "",
+                        originalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.originalTarget) : "",
+                        currentTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.currentTarget) : "",
+                        explicitOriginalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.explicitOriginalTarget) : "",
+                        rangeParentXPath : firstArgument != null ? that.getElementXPath(firstArgument.rangeParent) : "",
+                        relatedTargetXPath : firstArgument != null ? that.getElementXPath(firstArgument.relatedTarget) : "",
+                        clientX: firstArgument != null ? firstArgument.clientX : 0,
+                        clientY: firstArgument != null ? firstArgument.clientY : 0,
+                        screenX: firstArgument != null ? firstArgument.screenX : 0,
+                        screenY: firstArgument != null ?  firstArgument.screenY : 0,
+                        pageX: firstArgument != null ?  firstArgument.pageX : 0,
+                        pageY: firstArgument != null ?  firstArgument.pageY : 0,
+                        type: firstArgument != null ? firstArgument.type
+                                                    : trace.thisValue.xPath !== "" ? "elementEvent" : "",
+                        keyCode: firstArgument != null ?  firstArgument.keyCode : 0,
+                        currentInputStates: that.getCurrentInputStates(thisElement)
+                    };
+
+                    that.eventTrace.push(trace);
+                }
+
+                return returnContinue;
+            }
+        };
+    };
+
+    this.trackScriptCreation = function()
+    {
+        this.jsDebugger.scriptHook =
+        {
+            onScriptCreated: function(script)
+            {
+                var found = IGNORE_SCRIPTS_REGEXS.find(function(regEx)
+                {
+                    //TODO - Not the best way to deal with this, but:
+                    if(regEx[0] == "*" && regEx[regEx.length-1] == "*")
+                    {
+                        return script.fileName.indexOf(regEx.substring(1, regEx.length-1)) != -1;
+                    }
+                    else if(regEx[0] == "*")
+                    {
+                        return script.fileName.indexOf(regEx.substring(1, regEx.length)) == regEx.length-1;
+                    }
+                    else if(regEx[regEx.length-1] == "*")
+                    {
+                        return script.fileName.indexOf(regEx.substring(0, regEx.length-1)) == 0;
+                    }
+                });
+
+                if(!found)
+                {
+                    script.enableSingleStepInterrupts(true);
+                }
+            }
+        };
+    };
+
+    this._profile = function()
+    {
         if(this.jsDebugger.pauseDepth == 1) { this.jsDebugger.unPause(); }
 
-        this.jsDebugger.asyncOn(function(){});
-        this.isRecording = true;
+        this.jsDebugger.asyncOn({});
+
+        this.isProfiling = true;
     }
 
-    this.start = function(scriptsToTrack)
+    this.getStackDepth = function(frame)
     {
-        try
+        var frameHelper = frame.callingFrame;
+        var stackDepth = 0;
+
+        while(frameHelper != null)
         {
-            if(this.jsDebugger == null) { Cu.reportError("Error: jsDebugger is null when trying to start"); return; }
-
-            this.setScriptsToTrack(scriptsToTrack);
-
-            var returnContinue = Ci.jsdIExecutionHook.RETURN_CONTINUE;
-
-            this.jsDebugger.functionHook =
-            {
-                getStackDepth: function(frame)
-                {
-                    var frameHelper = frame.callingFrame;
-                    var stackDepth = 0;
-
-                    while(frameHelper != null)
-                    {
-                        frameHelper = frameHelper.callingFrame;
-                        stackDepth++;
-                    }
-
-                    return stackDepth;
-                },
-                onCall: function(frame, type, val)
-                {
-                    //onCall hook is called when entering and when exiting the
-                    //function - ignore the exiting calls (pc != 0)
-                    try
-                    {
-                        if(!that.isRecording || frame.pc != 0) { return; }
-
-                        //is event handler
-                        if(this.getStackDepth(frame) == 0)
-                        {
-                            var trace = { filePath: frame.script.fileName, line: frame.line };
-
-                            var thisElement = frame.thisValue.getWrappedValue();
-
-                            trace.currentTime = (new Date()).getTime();
-
-                            trace.thisValue =
-                            {
-                                xPath: that.getElementXPath(thisElement)
-                            };
-
-                            var propArray = {}, length = {};
-
-                            var args = null;
-
-                            if(frame.callee != null)
-                            {
-                                args = frame.callee.getProperty("arguments").value.getWrappedValue();
-                            }
-
-                            var firstArgument = args != null ? args[0] : null;
-
-
-                            if(firstArgument == null)
-                            {
-                                propArray = {}, length = {};
-                                frame.callee.getProperties(propArray, length);
-                                var calleeProperties = propArray.value;
-
-                                for(var i = 0; i < calleeProperties != null && i < calleeProperties.length; i++)
-                                {
-                                    var value = calleeProperties[i].value.getWrappedValue();
-
-                                    if(value instanceof Event)
-                                    {
-                                        firstArgument = value;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            trace.args =
-                            {
-                                targetXPath: firstArgument!= null ? that.getElementXPath(firstArgument.target) : "",
-                                originalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.originalTarget) : "",
-                                currentTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.currentTarget) : "",
-                                explicitOriginalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.explicitOriginalTarget) : "",
-                                rangeParentXPath : firstArgument != null ? that.getElementXPath(firstArgument.rangeParent) : "",
-                                relatedTargetXPath : firstArgument != null ? that.getElementXPath(firstArgument.relatedTarget) : "",
-                                clientX: firstArgument != null ? firstArgument.clientX : 0,
-                                clientY: firstArgument != null ? firstArgument.clientY : 0,
-                                screenX: firstArgument != null ? firstArgument.screenX : 0,
-                                screenY: firstArgument != null ?  firstArgument.screenY : 0,
-                                pageX: firstArgument != null ?  firstArgument.pageX : 0,
-                                pageY: firstArgument != null ?  firstArgument.pageY : 0,
-                                type: firstArgument != null ? firstArgument.type
-                                    : trace.thisValue.xPath !== "" ? "elementEvent" : "",
-                                keyCode: firstArgument != null ?  firstArgument.keyCode : 0,
-                                currentInputStates: that.getCurrentInputStates(thisElement)
-                            };
-
-                            if(trace.args.type == "elementEvent")
-                            {
-                                Cu.reportError("Shit - elementEvent: " + trace.thisValue.xPath + " " + trace.line);
-                            }
-
-                            that.executionTrace.push(trace);
-                        }
-                    }
-                    catch(e) { Cu.reportError("Error when recording: " + e); }
-
-                    return returnContinue;
-                }
-            };
-
-            if(this.jsDebugger.pauseDepth == 1) { this.jsDebugger.unPause(); }
-
-            this.jsDebugger.asyncOn(function(){});
-            this.isRecording = true;
+            frameHelper = frameHelper.callingFrame;
+            stackDepth++;
         }
-        catch(e) { Cu.reportError("Error while starting jsDebugger:" + e); }
+
+        return stackDepth;
     };
 
     this.stop = function()
@@ -163,52 +171,34 @@ var JsRecorder = function()
             if(this.jsDebugger == null) { Cu.reportError("Error: jsDebugger is null when trying to stop"); return; }
 
             this.jsDebugger.off();
-            this.isRecording = false;
+            this.isProfiling = false;
             this.jsDebugger.functionHook = {};
-            this.resultExecutionTrace = this.executionTrace;
-            this.executionTrace = [];
+            this.jsDebugger.interruptHook = {};
+            this.jsDebugger.scriptHook = {};
         }
         catch(e) { Cu.reportError("Error when stopping jsDebugger " + e); }
     };
 
-    this.setScriptsToTrack = function(scriptsToTrack)
-    {
-        this.jsDebugger.clearFilters();
-
-        scriptsToTrack.forEach(function(scriptToTrack)
-        {
-            this.jsDebugger.appendFilter(this.getFilterForFile(scriptToTrack.path));
-        }, this);
-
-        this.jsDebugger.appendFilter
-        (
-            {
-                globalObject: null,
-                flags: Ci.jsdIFilter.FLAG_ENABLED,
-                urlPattern: "*",
-                startLine: 0,
-                endLine: 0
-            }
-        );
-    };
-
-    this.getFilterForFile = function(file)
+    this.createFilter = function(pattern, pass)
     {
         return {
             globalObject: null,
-            flags: Ci.jsdIFilter.FLAG_ENABLED | Ci.jsdIFilter.FLAG_PASS,
-            urlPattern: this.denormalizeUrl(file),
+            flags: pass ? (jsdIFilter.FLAG_ENABLED | jsdIFilter.FLAG_PASS) : jsdIFilter.FLAG_ENABLED,
+            urlPattern: pattern,
             startLine: 0,
             endLine: 0
         };
-    };
+    },
 
-    this.denormalizeUrl = function(url)
+    this.setFilters = function()
     {
-        return url != null ? url.replace(/file:\/\/\//, "file:/") : "";
-    };
+        this.jsDebugger.clearFilters();
 
-    this.getExecutionTrace = function() { return this.resultExecutionTrace; };
+        IGNORE_SCRIPTS_REGEXS.forEach(function(regEx)
+        {
+            that.jsDebugger.appendFilter(that.createFilter(regEx));
+        });
+    };
 
     this.getCurrentInputStates = function(element)
     {

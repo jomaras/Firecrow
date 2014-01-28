@@ -95,16 +95,18 @@ SlicerPanelController.prototype =
     {
         this._jsRecorder = new JsRecorder();
 
-        var scriptNamesAndPaths = FireDataAccess.getContentScriptNameAndPaths(this._getCurrentPageDocument());
+        this._jsRecorder.window = this._extensionWindow;
 
-        if(this._recordOptionsElement.value == "All")
+        this._jsRecorder.startProfiling();
+
+        /*if(this._recordOptionsElement.value == "All")
         {
-            this._jsRecorder.startProfiling(scriptNamesAndPaths);
+            this._jsRecorder.startProfilingEachExecution(scriptNamesAndPaths);
         }
         else
         {
             this._jsRecorder.start(scriptNamesAndPaths);
-        }
+        }*/
     },
 
     _stopRecording: function()
@@ -323,7 +325,7 @@ SlicerPanelController.prototype =
     {
         this._clearRecordingInfoDisplay();
 
-        var recordingsFiles = FileHelper.getRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
+        var recordingsFiles = []//;FireDataAccess.getRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
 
         for(var i = 0; i < recordingsFiles.length; i++)
         {

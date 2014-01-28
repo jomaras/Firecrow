@@ -274,13 +274,11 @@ var FireDataAccess =
                 var result = this._getStyleDeclarationsAndUpdatedCssText(cssRule, path);
 
                 model.rules.push
-                (
-                    {
-                        selector: cssRule.selectorText,
-                        cssText: result.cssText,
-                        declarations: result.declarations
-                    }
-                );
+                ({
+                    selector: cssRule.selectorText,
+                    cssText: result.cssText,
+                    declarations: result.declarations
+                });
             }
         }
     },

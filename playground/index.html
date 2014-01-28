@@ -1,43 +1,45 @@
-<head>
-    <script type="text/javascript">
-        function MouseScroll (event) {
-            var rolled = 0;
-            if ('wheelDelta' in event) {
-                rolled = event.wheelDelta;
+<html>
+    <head>
+        <style>
+            #mainContainer
+            {
+                width: 100px;
+                height: 100px;
+                background-color: red;
             }
-            else {  // Firefox
-                // The measurement units of the detail and wheelDelta properties are different.
-                rolled = -40 * event.detail;
+        </style>
+    </head>
+    <body>
+        <div id="mainContainer"></div>
+        <script src="external.js"></script>
+        <script>
+            var mainContainer = document.getElementById("mainContainer");
+
+            mainContainer.onclick = function(e)
+            {
+                var goal = getGoal();
+
+                mainContainer.textContent += goal;
+
+                setTimeout(function()
+                {
+                    var message = "";
+
+                    message += " timeout ";
+
+                    mainContainer.textContent += message;
+                }, 1000);
+            };
+
+            function getGoal()
+            {
+                var goal = 5;
+
+                goal += 1;
+                goal += 1;
+
+                return goal;
             }
-
-            var info = document.getElementById ("info");
-            info.innerHTML = rolled;
-        }
-
-        function Init () {
-            // for mouse scrolling in Firefox
-            var elem = document.getElementById ("myDiv");
-            if (elem.addEventListener) {    // all browsers except IE before version 9
-                // Internet Explorer, Opera, Google Chrome and Safari
-                elem.addEventListener ("mousewheel", MouseScroll, false);
-                // Firefox
-                elem.addEventListener ("DOMMouseScroll", MouseScroll, false);
-            }
-            else {
-                if (elem.attachEvent) { // IE before version 9
-                    elem.attachEvent ("onmousewheel", MouseScroll);
-                }
-            }
-        }
-
-
-    </script>
-</head>
-<body onload="Init ();">
-Use the mouse wheel on the field below.
-<div id="myDiv" style="width:200px; height:200px; overflow:auto;">
-    <div style="height:2000px; background-color:#a08080;"></div>
-</div>
-<br />
-The last roll amount: <span id="info" style="background-color:#e0e0d0;"></span>
-</body>
+        </script>
+    </body>
+</html>

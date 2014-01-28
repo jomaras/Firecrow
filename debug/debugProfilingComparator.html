@@ -8,12 +8,10 @@
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
 
     <script src="pages/modelMapping.js"></script>
-    <script src="http://localhost/CodeModels/evaluation/fullPages/11-sipp/codeModel/featureModel.js"></script>
+    <script src="http://localhost/CodeModels/evaluation/fullPages/11-sipp/codeModel/featureModelDebug.js"></script>
+    <script src="http://localhost/Firecrow/evaluation/fullPages/11-sipp/index.html-eventLocations.txt"></script>
+    <script src="http://localhost/Firecrow/evaluation/fullPages/11-sipp/index.html-executionTrace.txt"></script>
 
-    <script>
-        var profile = false;
-    </script>
-    <!--<script src="file:///C:/GitWebStorm/Firecrow/evaluation/libraries/jQuery/adjusted_models/core26camelCase.json"></script>-->
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/ASTHelper.js"></script>
@@ -119,6 +117,218 @@
         }
 
     </style>
+
+    <style>
+    @CHARSET "UTF-8";
+
+    .script > *
+    {
+        color: black;
+    }
+    .style > *
+    {
+        color: black;
+    }
+    .html
+    {
+        color: #00008b;
+    }
+    .htmlTag
+    {
+        color: blue;
+    }
+    .htmlAttributeName
+    {
+        color: #00008b;
+    }
+    .htmlAttributeValue
+    {
+        color: red;
+    }
+    .htmlContent
+    {
+        color: black;
+    }
+    .cssSelector
+    {
+        color: #00008b;
+    }
+    .cssCharset
+    {
+        color: #5f9ea0;
+        padding-left: 10px;
+    }
+    .cssRule
+    {
+        color: black;
+    }
+
+    .BlockStatement > *
+    {
+        margin-left: 10px;
+    }
+    .BlockStatement > .Bracket
+    {
+        margin-left: 0px;
+    }
+
+    .Keyword, .keyword { color: #00008b;}
+
+    .identifier { font-weight: normal;}
+
+    .literal, .String, .RegExp { color: red; }
+
+    .String { color: red; }
+    .Number { color: #ff4500; }
+    .RegExp { color: red; }
+
+    .lineContainer {
+        padding: 0 4px 0 6px;
+        border-right: 2px solid #6CE26C;
+        text-align: right;
+        clear: both;
+        float: left;
+    }
+    #codeHtmlContainer {
+        padding-left: 10px;
+        float: left;
+    }
+    .jsContainer
+    {
+        padding-left: 10px;
+    }
+    .documentType
+    {
+        color: #c3c4c2;
+    }
+    .cssContainer
+    {
+        padding-left: 10px;
+    }
+    .cssRule
+    {
+        padding-left: 10px;
+    }
+    #lineNumberContainer
+    {
+        border-right: 2px solid #6CE26C;
+        padding: 0 4px 0 6px;
+        text-align: right;
+        float: left;
+        width: 20px;
+    }
+    body
+    {
+        font-family: Consolas;
+        font-size: 14px;
+    }
+
+    .Selected
+    {
+        background-color: #c6ff61;
+    }
+
+    .active
+    {
+        background-color: #c6ff61;
+    }
+
+    .dataDependency
+    {
+        background-color: #5f9ea0;
+    }
+
+    .structuralDependency
+    {
+        background-color: orange;
+    }
+
+    .hoverMenu
+    {
+        position: fixed;
+        right: 50px;
+        top: 50px;
+        z-index: 100;
+
+        border: 1px solid black;
+        background: #b8ff3f;
+        font-size: 75%;
+        padding: 8px;
+        width: 230px;
+    }
+    #button1
+    {
+        background: blue;
+    }
+    #button2
+    {
+        background: orange;
+    }
+    #button3
+    {
+        background: red;
+    }
+    #button4
+    {
+        background: yellow;
+    }
+    .buttons
+    {
+        width: 150px;
+        height: 150px;
+        background: #f5f5f5;
+    }
+    .hoverMenuButton
+    {
+        margin: 10px;
+        background: #f5f5f5;
+        width: 50px;
+        height: 50px;
+    }
+    .collapseButton
+    {
+        float: left;
+        position: relative;
+        left: -8px;
+        top: 2px;
+        width: 12px;
+        height: 12px;
+        background-color: #5f9ea0;
+    }
+
+    .label
+    {
+        color: black;
+    }
+
+    .indented
+    {
+        padding-left: 10px;
+    }
+
+    .BlockStatement > *, .IfStatement > .BlockStatement
+    {
+        margin-left: 10px;
+    }
+    .clearer { clear: both;}
+
+    .hasBeenExecuted
+    {
+        font-weight: 900;
+    }
+
+    .hasNotBeenExecuted
+    {
+        font-weight: 100;
+    }
+
+    .unexecuted { color: gray;}
+    .executed { color: black; }
+
+    .differs {
+        background-color: red;
+    }
+    </style>
 </head>
 <body>
 <h1>Firecrow - Debugging Test pages</h1>
@@ -133,9 +343,13 @@ Time: <span id="timeContainer"></span><br/>
 SC: <span id="slicingCriteriaCount"></span><br>
 Eval Expr:<span id="noEvaluatedExpressions"></span><br>
 <br/>
-<div id="slicedCodeContainer">
-    <textarea id="slicedSourceTextContainer"></textarea>
-</div>
+<table>
+    <tr>
+        <td><div id="profiledCodeContainer"></div></td>
+        <td><div id="recordedCodeContainer"></div></td>
+    </tr>
+</table>
+
 <div style="clear:both"/>
 
 <script>
@@ -160,24 +374,38 @@ Eval Expr:<span id="noEvaluatedExpressions"></span><br>
         });
     }
 
-    var timer = Firecrow.TimerHelper.createTimer();
+    var browser = Firecrow.Slicer.profile(htmlModel.model, url).browser;
+    document.getElementById("profiledCodeContainer").innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
 
-    if(!profile)
-    {
-        var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, url).browser;
+    var executedLines = {};
 
-        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-    }
-    else
+    for(var i = 0; i < executionTrace.length; i++)
     {
-        var browser = Firecrow.Slicer.profile(htmlModel.model, url).browser;
-        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
+        executedLines[executionTrace[i].line] = true;
     }
+
+    Firecrow.ASTHelper.traverseAst(htmlModel.model, function(node)
+    {
+        var previousValue = node.hasBeenExecuted;
+        node.hasBeenExecuted = false;
+
+        if(node.loc != null && executedLines[node.loc.start.line])
+        {
+            node.hasBeenExecuted = true;
+        }
+
+        if(previousValue != node.hasBeenExecuted && node.type != "BlockStatement")
+        {
+            node.differsInExecution = true;
+        }
+    });
+
+    document.getElementById("recordedCodeContainer").innerHTML = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlModel.model);
+
 
     document.getElementById("slicingCriteriaCount").textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
     document.getElementById("noEvaluatedExpressions").textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
 
-    timeContainer.textContent = timer.getElapsedTimeInSeconds();
 </script>
 </body>
 </html>

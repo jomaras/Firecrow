@@ -24,16 +24,19 @@
     - 04-mailboxing
         - F1: OK; F2: OK; F3: OK
     - 05-dunked
-        - F1: OK (CSS); F2: NOK, F3: OK
+        - F1: OK; F2: NOK, F3: NOK (no errors but nothing happens on event)
     - 06-hipstamatic
-        - F1: NOK; F2: OK (no animations)
+        - F1: NOK (no errors, but nothing happens); F2: OK (no animations)
     - 07-virtue
         - F1: NOK; F2: NOK; F3: NOK;
     - 08-makalu
         - F1: NOK, F2: NOK :(
     - 09-nitrografix
     - 10-kennymeyers
+        - F1: OK, F2: ?
     - 11-sipp
+        - F1: NOK, line 746, Cannot read property 'props' of undefined
+
 
 - create tests
 - implement plugin

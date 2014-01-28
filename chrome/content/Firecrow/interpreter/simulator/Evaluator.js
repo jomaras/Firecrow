@@ -195,7 +195,6 @@ fcSimulator.Evaluator.prototype =
         //if(identifierConstruct.nodeId == 99071)debugger
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
-        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 4788 && identifierConstruct.name == "type") debugger;
         this.executionContextStack.setExpressionValue
         (
             identifierConstruct,
@@ -217,7 +216,6 @@ fcSimulator.Evaluator.prototype =
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
         //if(memberExpression.nodeId == 376) debugger;
-        if(memberExpression.loc != null && memberExpression.loc.start.line == 4809) debugger;
 
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 
@@ -409,7 +407,9 @@ fcSimulator.Evaluator.prototype =
         var propertyCodeConstruct = objectPropertyCreationCommand.codeConstruct;
 
         var propertyValue = this.executionContextStack.getExpressionValue(propertyCodeConstruct.value);
+
         propertyValue = propertyValue.isPrimitive() ? propertyValue.createCopy(propertyCodeConstruct) : propertyValue;
+
         var propertyKey = ASTHelper.isLiteral(propertyCodeConstruct.key) ? propertyCodeConstruct.key.value
                                                                          : propertyCodeConstruct.key.name;
 

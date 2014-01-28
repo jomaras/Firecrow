@@ -161,6 +161,9 @@ Firecrow.Interpreter.Commands.CommandGenerator =
     {
         var commands = [];
 
+        //This command is required so that we no up to which point we remove commands if break, continue occur in do while..
+        commands.push(new fcCommands.Command(sourceElement, fcCommands.Command.COMMAND_TYPE.StartDoWhileStatement, parentFunctionCommand))
+
         ValueTypeHelper.pushAll(commands, fcCommands.CommandGenerator.generateExecutionCommands(sourceElement.body, parentFunctionCommand));
         ValueTypeHelper.pushAll(commands, this.generateExpressionCommands(sourceElement.test, parentFunctionCommand));
 
