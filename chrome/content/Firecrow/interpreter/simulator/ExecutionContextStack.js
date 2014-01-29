@@ -162,7 +162,6 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 //console.log("Executing command " + command.type + " @" + (command.codeConstruct != null && command.codeConstruct.loc != null ? command.codeConstruct.loc.start.line : -1));
-
                 if(!command.isEnterFunctionContextCommand()) { this.activeContext.lastCommand = command; }
                 this.globalObject.browser.logConstructExecuted(command.codeConstruct);
 
@@ -208,6 +207,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEvalConditionalExpressionCommand()) { this._addToBlockCommandStack(command); }
                 else if (command.isEvalBreakCommand() || command.isEvalContinueCommand())
                 {
+                    if(this.activeContext.id == 4582) {debugger; }
                     this.evaluator.evalBreakContinueCommand(command );
                     //if(command.id == 293413) debugger;
                     this._popTillBreakContinue(command.codeConstruct);
@@ -623,22 +623,24 @@ FBL.ns(function() { with (FBL) {
         {
             if(this.blockCommandStack.length == 0) { this.notifyError("Error when popping break/continue commands from block stack - empty stack @" + codeConstruct.loc.source); return; }
 
-            if(ASTHelper.isBreakStatement(codeConstruct)) { this._popTillBreak(); }
-            else if (ASTHelper.isContinueStatement(codeConstruct)) { this._popTillContinue(); }
+            if(ASTHelper.isBreakStatement(codeConstruct)) { this._popTillBreak(codeConstruct); }
+            else if (ASTHelper.isContinueStatement(codeConstruct)) { this._popTillContinue(codeConstruct); }
             else { this.notifyError("When popping break continue, codeConstruct should be break or continue!"); }
 
             this._reevaluateEvaluationPositionId();
         },
 
-        _popTillBreak: function()
+        _popTillBreak: function(codeConstruct)
         {
             var blockCommandStack = this.blockCommandStack;
+            var parentLoopOrSwitch = ASTHelper.getLoopOrSwitchParent(codeConstruct);
 
             for(var i = blockCommandStack.length - 1; i >= 0; i = blockCommandStack.length - 1)
             {
                 var command = blockCommandStack[i];
 
-                if(command.isLoopStatementCommand() || command.isStartSwitchStatementCommand())
+                if((command.isLoopStatementCommand() || command.isStartSwitchStatementCommand())
+                 && command.codeConstruct == parentLoopOrSwitch)
                 {
                     if(command.isStartDoWhileCommand()) { blockCommandStack.pop(); }
                     break;
@@ -648,15 +650,16 @@ FBL.ns(function() { with (FBL) {
             }
         },
 
-        _popTillContinue: function()
+        _popTillContinue: function(codeConstruct)
         {
             var blockCommandStack = this.blockCommandStack;
+            var loopParent = ASTHelper.getLoopParent(codeConstruct)
 
             for(var i = blockCommandStack.length - 1; i >= 0; i = blockCommandStack.length - 1)
             {
                 var command = blockCommandStack[i];
 
-                if(command.isLoopStatementCommand())
+                if(command.isLoopStatementCommand() && command.codeConstruct == loopParent)
                 {
                     if(command.isStartDoWhileCommand()) { blockCommandStack.pop(); }
 

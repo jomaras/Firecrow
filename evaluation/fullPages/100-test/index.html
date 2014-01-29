@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        .container
+        {
+            width: 200px;
+            height: 400px;
+            background-color: yellow;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mainContainer">
+
+    </div>
+    <script>
+        window.addEventListener("load", function()
+        {
+            var mainContainer = document.getElementById("mainContainer");
+            mainContainer.textContent += "loaded";
+        });
+    </script>
+</body>
+</html>

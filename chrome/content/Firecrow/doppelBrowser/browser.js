@@ -807,6 +807,8 @@ FBL.ns(function() { with (FBL) {
                         console.log(eventTrace.args.type + "@" + eventTrace.line + " handled!");
                     }
                 }
+
+                console.log("Events handled");
             }
             catch(e)
             {
@@ -847,10 +849,10 @@ FBL.ns(function() { with (FBL) {
 
         _handleOnLoadMethod: function(onLoadFunctions, eventTrace)
         {
-            var onLoadInfo = onLoadFunctions[0];
-
-            if(onLoadInfo != null)
+            for(var i = 0; i < onLoadFunctions.length; i++)
             {
+                var onLoadInfo = onLoadFunctions[i];
+
                 var handlerConstruct = onLoadInfo.handler.codeConstruct;
 
                 if(this._isExecutionWithinHandler(eventTrace, handlerConstruct))
@@ -868,7 +870,7 @@ FBL.ns(function() { with (FBL) {
 
                     eventTrace.hasBeenHandled = true;
 
-                    onLoadFunctions.shift();
+                    ValueTypeHelper.removeFromArrayByIndex(onLoadFunctions, i);
                     return true;
                 }
             }
@@ -979,16 +981,19 @@ FBL.ns(function() { with (FBL) {
                 var event = htmlElementEvents[i];
                 var fcHtmlElement = event.fcHtmlElement;
 
-                //if the xPath matches or if the event raising element is within the event handling element
-                if(allowAncestors)
+                if(!fcHtmlElement.isGlobalObject)
                 {
-                    if(!this._isElementOrAncestor(fcHtmlElement.htmlElement, targetElement)
-                    && !this._isElementOrAncestor(fcHtmlElement.htmlElement, thisElement)) { continue; }
-                }
-                else
-                {
-                    if(fcHtmlElement.htmlElement != targetElement
-                    && fcHtmlElement.htmlElement != thisElement) { continue; }
+                    //if the xPath matches or if the event raising element is within the event handling element
+                    if(allowAncestors)
+                    {
+                        if(!this._isElementOrAncestor(fcHtmlElement.htmlElement, targetElement)
+                        && !this._isElementOrAncestor(fcHtmlElement.htmlElement, thisElement)) { continue; }
+                    }
+                    else
+                    {
+                        if(fcHtmlElement.htmlElement != targetElement
+                        && fcHtmlElement.htmlElement != thisElement) { continue; }
+                    }
                 }
 
                 if(this._isElementEvent(eventTrace, event.eventType))

@@ -6,6 +6,7 @@
     
     
     <style href="css/style.css" type="text/css" rel="stylesheet">
+    html { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/bg.png") repeat scroll 0% 0% rgb(45, 47, 50); color: rgb(204, 204, 204); text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.15); }
     body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; text-align: center; line-height: 26px; margin: 0px; padding: 0px; }
     #container { width: 960px; margin: 0px auto; text-align: left; color: rgb(204, 204, 204); text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.15); }
     #footer { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/hr.png") repeat-x scroll 0% 0% rgba(0, 0, 0, 0.1); text-align: left; color: rgb(255, 255, 255); }
@@ -3256,7 +3257,7 @@
       maxOpacity: 1, 
       minScale: 0.4, 
       maxScale: 1, 
-      duration: 50, 
+      duration: 400, 
       btnNext: null, 
       btnNextCallback: function(){}, 
       btnPrev: null, 
@@ -3457,7 +3458,7 @@
             var e;
             if(d.isChildBackDegreesBetween.apply(a(this), [b, i]))
             {
-              e = i > b ? 'Clockwise' : 'Counterclockwise';
+              e = i > b ? 'Clockwise' : 0;
               a(this).trigger(('move' + e) + 'ThroughBack');
             }
           });
@@ -3476,8 +3477,7 @@
 
         this.each(function()
         {
-          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration,
-          o = (e ? e : m.easing) || "swing"; // ; e ? 0 : m.easing
+          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration, o = e ? 0 : m.easing;
           f || (f = {
             timerStart: h, 
             start: m.bearing, 
@@ -3563,7 +3563,7 @@
       isChildBackDegreesBetween: function(b, c)
       {
         var d = a(this).data('roundabout').backDegrees;
-        return b > c ? d >= c && d < b : d < c && d >= b;
+        return b > c ? 0 : d < c && d >= b;
       }, 
       degToRad: function(a)
       {

@@ -256,7 +256,7 @@ FBL.ns(function() { with (FBL) {
 
         _removeCommandsAfterLabeledBreak: function(breakCommand)
         {
-            var continueParent = ASTHelper.getLoopOrSwitchParent(breakCommand.codeConstruct);
+            var breakParent = ASTHelper.getLoopOrSwitchParent(breakCommand.codeConstruct);
 
             var labelName = breakCommand.codeConstruct.label.name;
             var label = ASTHelper.getParentLabelStatement(breakCommand.codeConstruct, labelName);
@@ -273,7 +273,8 @@ FBL.ns(function() { with (FBL) {
                 if(command.isEndSwitchStatementCommand() || command.isEndLoopStatementCommand() ){ i++; }
                 else { ValueTypeHelper.removeFromArrayByIndex(this.commands, i); }
 
-                if((command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) && isThisLabel) { break;}
+                if((command.isLoopStatementCommand() || command.isEndSwitchStatementCommand())
+                 && isThisLabel && command.codeConstruct == breakParent) { break;}
             }
         },
 
@@ -294,7 +295,8 @@ FBL.ns(function() { with (FBL) {
                     i++;
                 }
 
-                if(command.isLoopStatementCommand() || command.isEndSwitchStatementCommand()) { break;}
+                if((command.isLoopStatementCommand() || command.isEndSwitchStatementCommand())
+                && command.codeConstruct == breakParent) { break;}
             }
         },
 
@@ -323,7 +325,11 @@ FBL.ns(function() { with (FBL) {
                     i++;
                 }
 
-                if(command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) { break; }
+                if((command.isLoopStatementCommand() || command.isForUpdateStatementCommand())
+                && command.codeConstruct == continueParent)
+                {
+                    break;
+                }
             }
         },
 
@@ -352,7 +358,11 @@ FBL.ns(function() { with (FBL) {
                 }
                 else { ValueTypeHelper.removeFromArrayByIndex(this.commands, i);}
 
-                if((command.isLoopStatementCommand() || command.isForUpdateStatementCommand()) && isThisLabel) { break; }
+                if((command.isLoopStatementCommand() || command.isForUpdateStatementCommand())
+                && isThisLabel && command.codeConstruct == continueParent)
+                {
+                    break;
+                }
             }
         },
 

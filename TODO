@@ -1,7 +1,7 @@
 ******************   0. Programming  ******************
 - Go Through automatic tests, compare them with Artemis, add more standard applications, the ones from slicing tests add scenario filtering
 
-+ run all reuse experiments, make sure they work
++ run all reuse experiments
  + 01-01_02 -> OK     [jsA:1, cssA:3, jsB:1, cssB: 5, jsF: 2; T: 15]
  + 02-01_04 -> OK     [htmlA: 1, jsA:0, cssA: 4, htmlB: 0, jsB: 1, cssB: 11, jsF: 0, T:55]
  + 03_01_06 -> OK     [htmlA: 1, jsA:0, cssA: 4, htmlB: 0, jsB: 0, cssB: 4, jsF: 0, T:42]
@@ -16,27 +16,23 @@
 
 - check experiments on slicing
     - 01-ds22
-        - F1: OK; F2: OK; F3: NOK(but possibly leave); F4: OK;
+        - F1: OK; F2: OK; F3: NOK (P OK); F4: OK;
     - 02-salleedesign
         - F1: OK; F2: OK; F3: OK;
     - 03-mtcdc
-        - F1: OK;  F2: OK; F3: NO idea what this is about.., will have to go deeper!;
+        - F1: OK;  F2: OK; F3: NOK (P OK)
     - 04-mailboxing
         - F1: OK; F2: OK; F3: OK
     - 05-dunked
-        - F1: OK; F2: NOK, F3: NOK (no errors but nothing happens on event)
+        - F1: OK; F2: NOK (P OK), F3: OK
     - 06-hipstamatic
-        - F1: NOK (no errors, but nothing happens); F2: OK (no animations)
+        - F1: NOK (P OK); F2: OK
     - 07-virtue
-        - F1: NOK; F2: NOK; F3: NOK;
+        - F1: NOK (P NOK); F2: NOK (P OK); F3: NOK (P NOK);
     - 08-makalu
-        - F1: NOK, F2: NOK :(
-    - 09-nitrografix
+        - F1: OK, F2: OK
     - 10-kennymeyers
-        - F1: OK, F2: ?
-    - 11-sipp
-        - F1: NOK, line 746, Cannot read property 'props' of undefined
-
+        - F1: OK, F2: NOK (P OK)
 
 - create tests
 - implement plugin

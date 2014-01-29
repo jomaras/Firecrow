@@ -33,6 +33,8 @@ fcModel.GlobalObject = function(browser)
         this._EXECUTION_COMMAND_COUNTER = 0;
         this.TIMEOUT_ID_COUNTER = 0;
         this.DYNAMIC_NODE_COUNTER = 0;
+
+        this.isGlobalObject = true;
     }
     catch(e)
     {

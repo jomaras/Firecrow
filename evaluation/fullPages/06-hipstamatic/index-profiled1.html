@@ -11,7 +11,7 @@
         <meta content="http://disposable.hipstamatic.com/" property="og:url"/>
         <meta content="Hipstamatic D-Series" property="og:site_name"/>
         <meta content="Bring the story together with one communal camera" property="og:description"/>
-        <link href="css/glisse.css" rel="stylesheet"/>
+        <style href="css/glisse.css" rel="stylesheet">
     html { height: 100%; }
     #glisse-overlay, #glisse-close, #glisse-controls, #glisse-spinner { opacity: 0; }
     #glisse-overlay { position: fixed; top: 0px; bottom: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.75); }
@@ -34,8 +34,8 @@
 10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
 20%, 40%, 60%, 80% { transform: translateX(10px); }
 }
-
-        <link href="css/style.css" rel="stylesheet"/>
+</style>
+        <style href="css/style.css" rel="stylesheet">
     article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
     audio, canvas, video { display: inline-block; }
     audio:not([controls]) { display: none; }
@@ -350,7 +350,7 @@
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3 { page-break-after: avoid; }
 }
-
+</style>
         
     </head>
     
@@ -2137,9 +2137,10 @@
             matches.call(document.documentElement, '[test!=\'\']:sizzle');
           }
           catch(pseudoError)
-          {
+                    {
             pseudoWorks = true;
           }
+
           Sizzle.matchesSelector = function(node, expr){};
         }
       })();
@@ -2578,10 +2579,10 @@
         <script charset="utf-8" type="text/javascript">
   (function(a)
   {
-    a.glisse = function(b, c)
+    (a.glisse = function(b, c)
     {
       var d = this;
-      d.settings = {}, d.els = {};
+      (d.settings = {}, d.els = {});
       var e = a(b), f = {
         dataName: 'data-glisse-big', 
         speed: 300, 
@@ -2593,7 +2594,7 @@
       }, g, h, i = !1, j = {}, k = [];
       d.init = function()
       {
-        d.settings = a.extend({}, f, c), a.MobileDevice = navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/Android/i), a.Tablet = navigator.userAgent.match(/iPad/i), g = a(e).attr(d.settings.dataName), h = e.attr('rel'), d.settings.mobile = a.Tablet || a.MobileDevice ? 0 : !1, e.on('click', function(){});
+        (d.settings = a.extend({}, f, c), a.MobileDevice = navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/Android/i), a.Tablet = navigator.userAgent.match(/iPad/i), g = a(e).attr(d.settings.dataName), h = e.attr('rel'), d.settings.mobile = a.Tablet || a.MobileDevice ? 0 : !1, e.on('click', function(){}));
       };
       var l = function(){}, m = function(){}, n = function(){}, o = function(c){}, p = function(c){}, q = function(){}, r = function(){}, s = function(){}, t = function(b){}, u = function(b){}, v = (function()
       {
@@ -2601,7 +2602,7 @@
           observe: function(a, b){}
         };
       })(), w = function(b){}, x = function(b){};
-      d.changeEffect = function(a){}, d.init();
+      (d.changeEffect = function(a){}, d.init());
     }, a.fn.glisse = function(b)
     {
       return this.each(function()
@@ -2612,30 +2613,30 @@
           a(this).data('glisse', c);
         }
       });
-    };
+    });
   })(jQuery);
 </script>
         <script>
   $(document).ready(function()
   {
-    $('a.c-blackeyes').click(function(){}), $('a.c-dreamy').click(function(){}), $('a.c-foxy').click(function(){}), $('a.c-rodney').click(function(){}), $('li.if').click(function()
+    ($('a.c-blackeyes').click(function(){}), $('a.c-dreamy').click(function(){}), $('a.c-foxy').click(function(){}), $('a.c-rodney').click(function(){}), $('li.if').click(function()
     {
-      $('ul#fl').attr('class', 'f-if'), $('ul#fl li').removeClass('active cl-i es-i if-i us-i'), $('li.if').addClass('if-i active'), $('#t_jakobs').attr('class', 'invite');
+      ($('ul#fl').attr('class', 'f-if'), $('ul#fl li').removeClass('active cl-i es-i if-i us-i'), $('li.if').addClass('if-i active'), $('#t_jakobs').attr('class', 'invite'));
     }), $('li.us').click(function()
     {
-      $('ul#fl').attr('class', 'f-us'), $('ul#fl li').removeClass('active cl-i es-i if-i us-i'), $('li.us').addClass('us-i active'), $('#t_jakobs').attr('class', 'camera');
+      ($('ul#fl').attr('class', 'f-us'), $('ul#fl li').removeClass('active cl-i es-i if-i us-i'), $('li.us').addClass('us-i active'), $('#t_jakobs').attr('class', 'camera'));
     }), $('li.cl').click(function()
     {
-      $('ul#fl').attr('class', 'f-cl'), $('ul#fl li').removeClass('active us-i es-i if-i'), $('li.cl').addClass('active cl-i'), $('#t_jakobs').attr('class', 'label');
+      ($('ul#fl').attr('class', 'f-cl'), $('ul#fl li').removeClass('active us-i es-i if-i'), $('li.cl').addClass('active cl-i'), $('#t_jakobs').attr('class', 'label'));
     }), $('li.es').click(function()
     {
-      $('ul#fl').attr('class', 'f-es'), $('ul#fl li').removeClass('active cl-i es-i if-i'), $('li.es').addClass('es-i active'), $('#t_jakobs').attr('class', 'share');
+      ($('ul#fl').attr('class', 'f-es'), $('ul#fl li').removeClass('active cl-i es-i if-i'), $('li.es').addClass('es-i active'), $('#t_jakobs').attr('class', 'share'));
     }), $('.play').click(function(){}), $('a.synthetic').hover(function(){}), $('.feature,#product-nav').hover(function(){}), $('.dreamy-set img,.bk-set img,.foxy-set img,.rodney-set img').glisse({
       changeSpeed: 350, 
       speed: 300, 
       effect: 'bounce', 
       fullscreen: !1
-    });
+    }));
   });
 </script>
     

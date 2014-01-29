@@ -87,11 +87,6 @@ fcSimulator.Evaluator.prototype =
 
             this.globalObject.browser.logConstructExecuted(breakContinueCommand.codeConstruct);
             this.dependencyCreator.createBreakContinueDependencies(breakContinueCommand.codeConstruct);
-
-            if(breakContinueCommand.codeConstruct.loc.start.line >= 630 && breakContinueCommand.codeConstruct.loc.start.line <= 675)
-            {
-                debugger;
-            }
         }
         catch(e) { this.notifyError(breakContinueCommand, "Error when evaluating break or continue command: " + e);}
     },
@@ -216,7 +211,7 @@ fcSimulator.Evaluator.prototype =
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
         //if(memberExpression.nodeId == 376) debugger;
-        //if(memberCommand.id > 79217 && memberExpression.loc != null && memberExpression.loc.start.line == 1702) debugger;
+        if(memberExpression.loc != null && memberExpression.loc.start.line == 1943) debugger;
 
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 

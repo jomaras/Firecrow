@@ -668,7 +668,8 @@ Firecrow.CodeTextGenerator.prototype =
 
         if(!isInBrackets)
         {
-            if(propertyCode.indexOf(' ') != -1 || propertyCode == ":" || propertyCode.indexOf("-") != -1 || propertyCode.indexOf("*") != -1)
+            if(propertyCode.indexOf(' ') != -1 || propertyCode.indexOf("-") != -1
+            || propertyCode.indexOf("*") != -1 || propertyCode.indexOf(":") != -1)
             {
                 propertyCode = "'" + propertyCode + "'";
                 isInBrackets = true;
