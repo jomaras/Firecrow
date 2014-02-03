@@ -8,10 +8,11 @@
     
     
 
-    <link media="all" rel="stylesheet" type="text/css" href="css/style.css"/>
-    <!--<style>article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
+    <style media="all" rel="stylesheet" type="text/css" href="css/style.css">
+    article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
     html { font-family: sans-serif; }
     body { margin: 0px; }
+    a:active, a:hover { outline: 0px none; }
     img { border: 0px none; }
     button, input, select, textarea { font-family: inherit; font-size: 100%; margin: 0px; }
     button, input { line-height: normal; }
@@ -21,10 +22,12 @@
     h1, h2, h3, h4, h5, h6 { font-family: "ubunturegular",Arial,Helvetica,FreeSans,sans-serif; color: rgb(255, 255, 255); text-rendering: optimizelegibility; }
     h2 { font-size: 32px; color: rgb(75, 92, 102); }
     h3 { font-size: 22px; color: rgb(109, 114, 135); }
-    h6 { font-size: 10px; }
+    h4 { font-size: 20px; color: rgb(75, 92, 102); }
+    p { font-size: 15px; }
     .wrapper { width: 1170px; margin: 0px auto; }
     .small-wrapper { width: 1050px; margin: 0px auto; }
     .title { margin: 0px; padding: 20px 0px 0px; text-align: center; }
+    .subtitle { text-align: center; line-height: 24px; color: rgb(100, 122, 135); }
     .grey-spacer { border-bottom: 10px solid rgb(249, 249, 249); }
     header { border-top: 5px solid rgb(117, 121, 138); padding: 20px 0px 0px; }
     header nav { display: block; float: left; text-align: right; width: 75%; }
@@ -59,46 +62,58 @@
     .overlay-color { z-index: 2; opacity: 0; }
     #team { position: relative; background-color: rgb(65, 157, 234); padding-top: 30px; width: 100%; overflow: hidden; }
     #team h2 { color: rgb(255, 255, 255); }
+    #team .subtitle { color: rgb(239, 239, 239); }
+    #ground { height: 88px; width: 100%; background: url("http://localhost/Firecrow/evaluation/fullPages/09-nitrografix/graphix/ground.png") repeat-x scroll left top transparent; position: absolute; bottom: 0px; }
+    #fox-blue { height: 156px; width: 154px; background: url("http://localhost/Firecrow/evaluation/fullPages/09-nitrografix/graphix/transparent-fox.png") no-repeat scroll left top transparent; position: absolute; left: 240px; bottom: 40px; }
+    #owl-blue { height: 146px; width: 83px; background: url("http://localhost/Firecrow/evaluation/fullPages/09-nitrografix/graphix/transparent-owl.png") no-repeat scroll left top transparent; position: absolute; right: 240px; bottom: 40px; }
+    #tree { height: 444px; width: 429px; background: url("http://localhost/Firecrow/evaluation/fullPages/09-nitrografix/graphix/tree.png") no-repeat scroll left top transparent; position: absolute; left: 370px; bottom: 30px; }
     #team-area-content { position: relative; height: 480px; }
+    #webdev h4, #webdesign h4 { line-height: 45px; margin: 0px; color: rgb(255, 255, 255); vertical-align: top; }
+    #team-area-content h3 { font-size: 50px; color: rgb(255, 255, 255); font-weight: normal; margin: 0px 0px 10px; }
     #webdesign, #webdev { float: left; width: 50%; margin-top: 80px; }
     #webdev { text-align: right; }
+    #webdesign div { float: left; }
+    #webdev div { float: right; }
     #go-webdesign, #go-webdev { display: block; width: 75px; height: 75px; background: url("http://localhost/Firecrow/evaluation/fullPages/09-nitrografix/graphix/nav-button.png") no-repeat scroll left top transparent; float: left; margin-right: 30px; margin-top: 25px; text-indent: -9999px; position: relative; }
     #go-webdev { background-position: right top; margin-right: 0px; margin-left: 30px; text-align: left; float: right; }
+    #go-webdesign:hover { background-position: left bottom; }
+    #go-webdev:hover { background-position: right bottom; }
     #profil-owl { position: absolute; right: -500px; text-align: right; bottom: -410px; width: 100%; }
     .profil-description { width: 384px; float: left; margin-right: 20px; }
     .profil-description h2 { font-size: 46px; font-weight: normal; margin: 4px 0px 0px; }
     .profil-description h2 img { cursor: pointer; position: relative; top: 5px; }
+    .profil-description h4 { font-size: 20px; font-weight: normal; font-style: italic; color: rgb(255, 207, 64); margin: 0px; }
+    .profil-description p { color: rgb(255, 255, 255); font-size: 13px; line-height: 24px; }
+    #owl-window, #fox-window { float: left; width: 766px; }
     #profil-fox { position: absolute; left: -500px; text-align: left; bottom: -410px; width: 100%; }
+    .resume-position { margin-top: 30px; vertical-align: top; }
+    .button-resume { font-size: 11px; font-weight: bold; color: rgb(255, 255, 255); padding: 10px; margin-top: 10px; text-decoration: none; background-color: rgb(65, 157, 234); border: 1px solid rgb(255, 255, 255); line-height: 35px; vertical-align: top; border-radius: 4px 4px 4px 4px; }
+    .plus { color: rgb(255, 255, 255); font-size: 22px; vertical-align: top; line-height: 35px; margin: 0px 10px; }
+    .button-resume:hover { background-color: rgb(255, 255, 255); color: rgb(65, 157, 234); }
+    .socials { padding: 0px 10px; }
     #our-work { padding: 30px 0px 50px; background: url("http://localhost/Firecrow/evaluation/fullPages/09-nitrografix/graphix/dot.png") repeat-x scroll left bottom transparent; }
     #work-grid { float: left; width: 615px; margin-top: 20px; height: 430px; position: relative; }
     #work-grid ul { padding: 0px; margin: 0px; }
     #work-grid li { position: absolute; list-style-type: none; overflow: hidden; }
-    #work-grid img { display: block; }
-    #work-grid div { position: absolute; background: none repeat scroll 0% 0% rgba(255, 207, 64, 0.97); width: 100%; height: 100%; top: 0px; left: -100%; }
-    #work-grid h6 { text-align: center; padding: 118px 20px 20px; color: rgb(255, 255, 255); font-size: 30px; font-weight: bold; margin: 0px; cursor: default; }
     #vector-art { top: 0px; left: 309px; }
-    #vector-art h6 { padding-top: 96px; }
     #composition { left: 0px; top: 284px; }
-    #composition h6 { padding-top: 56px; }
     #ui { left: 309px; top: 232px; }
-    #ui h6 { padding-top: 83px; }
     #work-description { float: left; width: 390px; margin-left: 45px; margin-top: 20px; }
     #work-zone { background-color: rgb(250, 250, 250); margin: 0px auto; width: 90%; padding: 30px 0px; text-align: center; border-radius: 3px 3px 3px 3px; }
     .social-seemore { vertical-align: top; display: inline-block; cursor: pointer; margin-left: 13px; position: relative; height: 32px; width: 32px; font-size: 10px; font-weight: bold; text-decoration: none; }
     #contact { background-color: rgb(176, 211, 85); position: relative; padding: 30px 0px 45px; }
     #contact .wrapper { position: relative; z-index: 2; }
-    #contact h2 { color: white; }
     #contact form { display: block; float: left; padding: 40px 60px 0px 40px; width: 695px; }
     .box-js { position: fixed; z-index: 9999; top: 0px; left: 0px; width: 100%; padding: 10px; text-align: center; background-color: rgb(88, 92, 110); }
     footer { height: 56px; background-color: rgb(57, 60, 73); }
     footer ul { width: 70%; text-align: right; margin: 0px; padding: 0px; line-height: 52px; list-style-type: none; float: left; }
     .parallax-layer { position: absolute; }
-     </style>-->
+</style>
 
     <script type="text/javascript">
   +((function(window, undefined)
   {
-    var readyList, rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = '1.10.2', core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_trim = core_version.trim, jQuery = function(selector, context)
+    var readyList, rootjQuery, core_strundefined = typeof undefined, document = window.document, class2type = {}, core_deletedIds = [], core_version = '1.10.2', core_concat = core_deletedIds.concat, core_push = core_deletedIds.push, core_slice = core_deletedIds.slice, core_toString = class2type.toString, core_hasOwn = class2type.hasOwnProperty, core_trim = core_version.trim, jQuery = function(selector, context)
     {
       return new jQuery.fn.init(selector, context, rootjQuery);
     }, core_pnum = (/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/).source, core_rnotwhite = /\S+/g, rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, rmsPrefix = /^-ms-/, rdashAlpha = /-([\da-z])/gi, fcamelCase = function(all, letter){}, completed = function(event)
@@ -177,6 +192,10 @@
         jQuery.ready.promise().done(fn);
         return this;
       }, 
+      first: function()
+      {
+        return this.eq(0);
+      }, 
       eq: function(i)
       {
         var len = this.length, j = +i + (i < 0 ? 0 : 0);
@@ -193,7 +212,7 @@
     jQuery.fn.init.prototype = jQuery.fn;
     jQuery.extend = jQuery.fn.extend = function()
     {
-      var copyIsArray, copy, name, options, target = arguments[0], i = 1, length = arguments.length, deep = false;
+      var src, copyIsArray, copy, name, options, clone, target = arguments[0], i = 1, length = arguments.length, deep = false;
       if(typeof target === 'boolean')
       {
         deep = target;
@@ -213,8 +232,18 @@
         {
           for(name in options)
           {
+            src = target[name];
             copy = options[name];
-            if(deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))));
+            if(deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))
+            {
+              if(copyIsArray);
+              else 
+              {
+                clone = src && jQuery.isPlainObject(src) ? src : 0;
+              }
+
+              jQuery.extend(deep, clone, copy);
+            }
             else if(copy !== undefined)
             {
               target[name] = copy;
@@ -236,7 +265,7 @@
         readyList.resolveWith(document, [jQuery]);
         if(jQuery.fn.trigger)
         {
-          jQuery(document);
+          jQuery(document).trigger('ready').off('ready');
         }
       }, 
       isFunction: function(obj)
@@ -266,10 +295,15 @@
       }, 
       isPlainObject: function(obj)
       {
-        if(!obj || jQuery.type(obj) !== 'object')
+        var key;
+        if(!obj || jQuery.type(obj) !== 'object' || obj.nodeType || jQuery.isWindow(obj))
         {
           return false;
         }
+
+        for(key in obj)
+;
+        return key === undefined || core_hasOwn.call(obj, key);
       }, 
       isEmptyObject: function(obj)
       {
@@ -277,8 +311,6 @@
         {
           return false;
         }
-
-        return true;
       }, 
       error: function(msg){}, 
       parseHTML: function(data, context, keepScripts){}, 
@@ -395,13 +427,7 @@
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var i = 0, length = elems.length, bulk = key == null;
-        if(jQuery.type(key) === 'object')
-        {
-          for(i in key)
-          {
-            jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
-          }
-        }
+        if(jQuery.type(key) === 'object');
         else if(value !== undefined)
         {
           chainable = true;
@@ -529,6 +555,7 @@
                 groups[i] = nid + toSelector(groups[i]);
               }
 
+              newContext = rsibling.test(selector) || context;
               newSelector = groups.join(',');
             }
 
@@ -1007,6 +1034,7 @@
       var firing, memory, fired, firingLength, firingIndex, firingStart, list = [], stack = !(options.once) && [], fire = function(data)
       {
         memory = options.memory && data;
+        fired = true;
         firingIndex = firingStart || 0;
         firingLength = list.length;
         firing = true;
@@ -1016,14 +1044,6 @@
         }
 
         firing = false;
-        if(list)
-        {
-          if(stack);
-          else if(memory)
-          {
-            list = [];
-          }
-        }
       }, self = {
         add: function()
         {
@@ -1063,7 +1083,6 @@
         }, 
         disable: function()
         {
-          list = stack = memory = undefined;
           return this;
         }, 
         lock: function()
@@ -1072,7 +1091,7 @@
         }, 
         fireWith: function(context, args)
         {
-          if(list && !fired)
+          if(list && (!fired || stack))
           {
             args = args;
             args = [context, args.slice ? args.slice() : args];
@@ -1134,6 +1153,7 @@
       a = div.getElementsByTagName('a')[0];
       input = div.getElementsByTagName('input')[0];
       a.style.cssText = 'top:1px;float:left;opacity:.5';
+      support.deleteExpando = true;
       input.checked = true;
       for(i in {submit: true, change: true, focusin: true})
       {
@@ -1337,9 +1357,13 @@
           queue = jQuery._data(elem, type);
           if(data)
           {
-            if(!queue)
+            if(!queue || jQuery.isArray(data))
             {
               queue = jQuery._data(elem, type, jQuery.makeArray(data));
+            }
+            else 
+            {
+              queue.push(data);
             }
           }
 
@@ -1348,7 +1372,7 @@
       }, 
       dequeue: function(elem, type)
       {
-        type = type || 'fx';
+        type = type;
         var queue = jQuery.queue(elem, type), startLength = queue.length, fn = queue.shift(), hooks = jQuery._queueHooks(elem, type), next = function(){};
         if(fn === 'inprogress')
         {
@@ -1496,7 +1520,7 @@
     jQuery.event = {
       add: function(elem, types, handler, data, selector)
       {
-        var tmp, events, t, handleObjIn, special, eventHandle, handleObj, handlers, type, origType, elemData = jQuery._data(elem);
+        var tmp, events, t, handleObjIn, special, eventHandle, handleObj, handlers, type, namespaces, origType, elemData = jQuery._data(elem);
         if(!(handler.guid))
         {
           handler.guid = jQuery.guid++;
@@ -1522,6 +1546,7 @@
         {
           tmp = rtypenamespace.exec(types[t]);
           type = origType = tmp[1];
+          namespaces = (tmp[2] || '').split('.').sort();
           special = jQuery.event.special[type] || {};
           type = (selector ? special.delegateType : special.bindType) || type;
           special = jQuery.event.special[type] || {};
@@ -1533,7 +1558,7 @@
           {
             handlers = events[type] = [];
             handlers.delegateCount = 0;
-            if(!(special.setup))
+            if(!(special.setup) || special.setup.call(elem, data, namespaces, eventHandle) === false)
             {
               if(elem.addEventListener)
               {
@@ -1549,10 +1574,20 @@
           }
         }
       }, 
+      remove: function(elem, types, handler, selector, mappedTypes)
+      {
+        var t;
+        types = (types).match(core_rnotwhite);
+        t = types.length;
+        while(t--)
+        {
+          rtypenamespace.exec(types[t]);
+        }
+      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
-        var i, handleObj, matched, j, handlerQueue, args = core_slice.call(arguments), handlers = (jQuery._data(this, 'events'))[event.type];
+        var i, ret, handleObj, matched, j, handlerQueue, args = core_slice.call(arguments), handlers = (jQuery._data(this, 'events'))[event.type];
         args[0] = event;
         handlerQueue = jQuery.event.handlers.call(this, event, handlers);
         i = 0;
@@ -1564,7 +1599,15 @@
             if(!(event.namespace_re))
             {
               event.handleObj = handleObj;
-              ((jQuery.event.special[handleObj.origType]).handle).apply(matched.elem, args);
+              ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+              if(ret !== undefined)
+              {
+                if((event.result = ret) === false)
+                {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              }
             }
           }
         }
@@ -1609,16 +1652,6 @@
         props: ('button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement').split(' '), 
         filter: function(event, original)
         {
-          var body, eventDoc, doc;
-          if(event.pageX == null && original.clientX != null)
-          {
-            eventDoc = event.target.ownerDocument;
-            doc = eventDoc.documentElement;
-            body = eventDoc.body;
-            event.pageX = (original.clientX + ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0)) - ((doc && doc.clientLeft) || (body && body.clientLeft) || 0);
-            event.pageY = (original.clientY + ((doc && doc.scrollTop) || (body && body.scrollTop) || 0)) - ((doc && doc.clientTop) || (body && body.clientTop) || 0);
-          }
-
           return event;
         }
       }, 
@@ -1630,12 +1663,29 @@
     {
       if(src && src.type)
       {
+        this.originalEvent = src;
         this.type = src.type;
       }
     };
     jQuery.Event.prototype = {
       isPropagationStopped: returnFalse, 
-      isImmediatePropagationStopped: returnFalse
+      isImmediatePropagationStopped: returnFalse, 
+      preventDefault: function()
+      {
+        var e = this.originalEvent;
+        if(e.preventDefault)
+        {
+          e.preventDefault();
+        }
+      }, 
+      stopPropagation: function()
+      {
+        var e = this.originalEvent;
+        if(e.stopPropagation)
+        {
+          e.stopPropagation();
+        }
+      }
     };
     jQuery.each({mouseenter: 'mouseover', mouseleave: 'mouseout'}, function(orig, fix)
     {
@@ -1646,7 +1696,6 @@
           var ret, target = this, related = event.relatedTarget, handleObj = event.handleObj;
           if(!related || (related !== target && !(jQuery.contains(target, related))))
           {
-            event.type = handleObj.origType;
             ret = handleObj.handler.apply(this, arguments);
           }
 
@@ -1684,8 +1733,17 @@
         });
       }, 
       one: function(types, selector, data, fn){}, 
-      off: function(types, selector, fn){}, 
-      trigger: function(type, data){}, 
+      off: function(types, selector, fn)
+      {
+        return this.each(function()
+        {
+          jQuery.event.remove(this, types, fn, selector);
+        });
+      }, 
+      trigger: function(type, data)
+      {
+        return this.each(function(){});
+      }, 
       triggerHandler: function(type, data){}
     });
     var isSimple = /^.[^:#\[\.,]*$/;
@@ -1709,7 +1767,13 @@
       filter: function(selector){}, 
       is: function(selector){}, 
       closest: function(selectors, context){}, 
-      index: function(elem){}, 
+      index: function(elem)
+      {
+        if(!elem)
+        {
+          return this[0] && this[0].parentNode ? this.first().prevAll().length : 0;
+        }
+      }, 
       add: function(selector, context){}, 
       addBack: function(selector){}
     });
@@ -1731,6 +1795,10 @@
       next: function(elem)
       {
         return sibling(elem, 'nextSibling');
+      }, 
+      prevAll: function(elem)
+      {
+        return jQuery.dir(elem, 'previousSibling');
       }, 
       children: function(elem)
       {
@@ -1768,7 +1836,21 @@
           return elem.nodeType === 1;
         }));
       }, 
-      dir: function(elem, dir, until){}, 
+      dir: function(elem, dir, until)
+      {
+        var matched = [], cur = elem[dir];
+        while(cur && cur.nodeType !== 9 && until === undefined)
+        {
+          if(cur.nodeType === 1)
+          {
+            matched.push(cur);
+          }
+
+          cur = cur[dir];
+        }
+
+        return matched;
+      }, 
       sibling: function(n, elem)
       {
         var r = [];
@@ -1793,12 +1875,26 @@
         }
       }
     }
+    jQuery.fn.extend({
+      text: function(value){}, 
+      append: function(){}, 
+      prepend: function(){}, 
+      before: function(){}, 
+      after: function(){}, 
+      remove: function(selector, keepData){}, 
+      empty: function(){}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
+      html: function(value){}, 
+      replaceWith: function(){}, 
+      detach: function(selector){}, 
+      domManip: function(args, callback, allowIntersection){}
+    });
     jQuery.extend({
       clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
       buildFragment: function(elems, context, scripts, selection){}, 
       cleanData: function(elems, acceptData)
       {
-        var elem, id, data, i = 0, internalKey = jQuery.expando, cache = jQuery.cache;
+        var elem, id, data, i = 0, internalKey = jQuery.expando, cache = jQuery.cache, deleteExpando = jQuery.support.deleteExpando;
         for(;(elem = elems[i]) != null;i++)
         {
           if(acceptData)
@@ -1810,6 +1906,11 @@
               if(cache[id])
               {
                 delete (cache[id]);
+                if(deleteExpando)
+                {
+                  delete (elem[internalKey]);
+                }
+
                 core_deletedIds.push(id);
               }
             }
@@ -1817,6 +1918,12 @@
         }
       }, 
       _evalUrl: function(url){}
+    });
+    jQuery.fn.extend({
+      wrapAll: function(html){}, 
+      wrapInner: function(html){}, 
+      wrap: function(html){}, 
+      unwrap: function(){}
     });
     var getStyles, curCSS, rdisplayswap = /^(none|table(?!-c[ea]).+)/, rnumsplit = new RegExp(('^(' + core_pnum) + ')(.*)$', 'i'), cssExpand = ['Top', 'Right', 'Bottom', 'Left'];
     function vendorPropName(style, name)
@@ -1831,39 +1938,6 @@
       elem = el || elem;
       return jQuery.css(elem, 'display') === 'none' || !(jQuery.contains(elem.ownerDocument, elem));
     }
-    function showHide(elements, show)
-    {
-      var display, elem, hidden, values = [], index = 0, length = elements.length;
-      for(;index < length;index++)
-      {
-        elem = elements[index];
-        values[index] = jQuery._data(elem, 'olddisplay');
-        display = elem.style.display;
-        if(show);
-        else 
-        {
-          if(!(values[index]))
-          {
-            hidden = isHidden(elem);
-            if(display || !hidden)
-            {
-              jQuery._data(elem, 'olddisplay', hidden ? 0 : jQuery.css(elem, 'display'));
-            }
-          }
-        }
-      }
-
-      for(index = 0;index < length;index++)
-      {
-        elem = elements[index];
-        if(!show || elem.style.display === 'none')
-        {
-          elem.style.display = show ? values[index] : 'none';
-        }
-      }
-
-      return elements;
-    }
     jQuery.fn.extend({
       css: function(name, value)
       {
@@ -1872,14 +1946,8 @@
           return value !== undefined ? jQuery.style(elem, name, value) : 0;
         }, name, value, arguments.length > 1);
       }, 
-      show: function()
-      {
-        return showHide(this, true);
-      }, 
-      hide: function()
-      {
-        return showHide(this);
-      }, 
+      show: function(){}, 
+      hide: function(){}, 
       toggle: function(state){}
     });
     jQuery.extend({
@@ -1913,10 +1981,6 @@
             catch(e){}
           }
         }
-        else 
-        {
-          return style[name];
-        }
       }, 
       css: function(elem, name, extra, styles)
       {
@@ -1936,7 +2000,7 @@
         if(extra === '' || extra)
         {
           num = parseFloat(val);
-          return extra === true || jQuery.isNumeric(num) ? num || 0 : 0;
+          return extra === true || jQuery.isNumeric(num) ? num || 0 : val;
         }
 
         return val;
@@ -1958,7 +2022,7 @@
     function setPositiveNumber(elem, value, subtract)
     {
       var matches = rnumsplit.exec(value);
-      return matches ? Math.max(0, matches[1] - (subtract || 0)) + matches[2] : value;
+      return matches ? Math.max(0, matches[1] - (subtract || 0)) + matches[2] : 0;
     }
     function augmentWidthOrHeight(elem, name, extra, isBorderBox, styles)
     {
@@ -2018,6 +2082,10 @@
       };
     });
     jQuery(function(){});
+    jQuery.fn.extend({
+      serialize: function(){}, 
+      serializeArray: function(){}
+    });
     jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function(i, name)
     {
       jQuery.fn[name] = function(data, fn)
@@ -2038,7 +2106,67 @@
       delegate: function(selector, types, data, fn){}, 
       undelegate: function(selector, types, fn){}
     });
-    var fxNow, timerId, rfxtypes = /^(?:toggle|show|hide)$/, rfxnum = new RegExp(('^(?:([+-])=|)(' + core_pnum) + ')([a-z%]*)$', 'i'), animationPrefilters = [defaultPrefilter], tweeners = {
+    var prefilters = {}, transports = {}, allTypes = ('*/').concat('*');
+    function addToPrefiltersOrTransports(structure)
+    {
+      return function(dataTypeExpression, func){};
+    }
+    function ajaxExtend(target, src)
+    {
+      var deep, key, flatOptions = jQuery.ajaxSettings.flatOptions;
+      for(key in src)
+      {
+        if(src[key] !== undefined)
+        {
+          (flatOptions[key] ? 0 : deep || (deep = {}))[key] = src[key];
+        }
+      }
+
+      if(deep)
+      {
+        jQuery.extend(true, target, deep);
+      }
+
+      return target;
+    }
+    jQuery.extend({
+      active: 0, 
+      lastModified: {}, 
+      etag: {}, 
+      ajaxSettings: {
+        accepts: {
+          '*': allTypes, 
+          json: 'application/json, text/javascript'
+        }, 
+        contents: {xml: /xml/, json: /json/}, 
+        converters: {
+          '* text': String, 
+          'text xml': jQuery.parseXML
+        }, 
+        flatOptions: {}
+      }, 
+      ajaxSetup: function(target, settings)
+      {
+        return settings ? 0 : ajaxExtend(jQuery.ajaxSettings, target);
+      }, 
+      ajaxPrefilter: addToPrefiltersOrTransports(prefilters), 
+      ajaxTransport: addToPrefiltersOrTransports(transports), 
+      ajax: function(url, options){}, 
+      getJSON: function(url, data, callback){}, 
+      getScript: function(url, callback){}
+    });
+    jQuery.ajaxSetup({
+      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
+      contents: {script: /(?:java|ecma)script/}, 
+      converters: {
+        'text script': function(text){}
+      }
+    });
+    jQuery.ajaxSetup({
+      jsonp: 'callback', 
+      jsonpCallback: function(){}
+    });
+    var fxNow, timerId, rfxnum = new RegExp(('^(?:([+-])=|)(' + core_pnum) + ')([a-z%]*)$', 'i'), animationPrefilters = [defaultPrefilter], tweeners = {
       '*': [function(prop, value)
       {
         var tween = this.createTween(prop, value), target = tween.cur(), parts = rfxnum.exec(value), unit = (parts && parts[3]) || (jQuery.cssNumber[prop] ? '' : 'px'), start = (jQuery.cssNumber[prop] || unit !== 'px') && rfxnum.exec(jQuery.css(tween.elem, prop));
@@ -2135,9 +2263,13 @@
         }
       }
     }
+    jQuery.extend(Animation, {
+      tweener: function(props, callback){}, 
+      prefilter: function(callback, prepend){}
+    });
     function defaultPrefilter(elem, props, opts)
     {
-      var prop, value, tween, hooks, oldfire, anim = this, orig = {}, style = elem.style, hidden = elem.nodeType && isHidden(elem), dataShow = jQuery._data(elem, 'fxshow');
+      var hooks, oldfire, anim = this, style = elem.style, hidden = isHidden(elem);
       if(!(opts.queue))
       {
         hooks = jQuery._queueHooks(elem, 'fx');
@@ -2171,7 +2303,6 @@
       if(elem.nodeType === 1 && ('height' in props || 'width' in props))
       {
         opts.overflow = [style.overflow, style.overflowX, style.overflowY];
-        if(jQuery.css(elem, 'display') === 'inline');
       }
 
       if(opts.overflow)
@@ -2187,50 +2318,6 @@
           });
         }
       }
-
-      for(prop in props)
-      {
-        value = props[prop];
-        if(rfxtypes.exec(value))
-        {
-          orig[prop] = dataShow || jQuery.style(elem, prop);
-        }
-      }
-
-      if(!(jQuery.isEmptyObject(orig)))
-      {
-        if(dataShow);
-        else 
-        {
-          dataShow = jQuery._data(elem, 'fxshow', {});
-        }
-
-        if(hidden)
-        {
-          jQuery(elem).show();
-        }
-
-        anim.done(function()
-        {
-          var prop;
-          for(prop in orig)
-          {
-            jQuery.style(elem, prop, orig[prop]);
-          }
-        });
-        for(prop in orig)
-        {
-          tween = createTween(hidden ? dataShow[prop] : 0, prop, anim);
-          if(!(prop in dataShow))
-          {
-            if(hidden)
-            {
-              tween.end = tween.start;
-              tween.start = prop === 'width' || prop === 'height' ? 1 : 0;
-            }
-          }
-        }
-      }
     }
     function Tween(elem, options, prop, end, easing)
     {
@@ -2244,8 +2331,7 @@
         this.prop = prop;
         this.easing = easing || 'swing';
         this.options = options;
-        this.start = this.now = this.cur();
-        this.unit = unit || (jQuery.cssNumber[prop] ? '' : 'px');
+        this.cur();
       }, 
       cur: function()
       {
@@ -2258,10 +2344,6 @@
         if(this.options.duration)
         {
           eased = jQuery.easing[this.easing](percent, this.options.duration * percent, 0, 1, this.options.duration);
-        }
-        else 
-        {
-          eased = percent;
         }
 
         this.now = ((this.end - this.start) * eased) + this.start;
@@ -2293,14 +2375,6 @@
         }
       }
     };
-    jQuery.each(['toggle', 'show', 'hide'], function(i, name)
-    {
-      var cssFn = jQuery.fn[name];
-      jQuery.fn[name] = function(speed, easing, callback)
-      {
-        return speed == null || typeof speed === 'boolean' ? cssFn.apply(this, arguments) : this.animate(genFx(name, true), speed, easing, callback);
-      };
-    });
     jQuery.fn.extend({
       fadeTo: function(speed, to, easing, callback){}, 
       animate: function(prop, speed, easing, callback)
@@ -2311,49 +2385,15 @@
         };
         return empty || optall.queue === false ? this.each(doAnimation) : this.queue(optall.queue, doAnimation);
       }, 
-      stop: function(type, clearQueue, gotoEnd)
-      {
-        if(typeof type !== 'string')
-        {
-          type = undefined;
-        }
-
-        return this.each(function()
-        {
-          var dequeue = true;
-          if(dequeue)
-          {
-            jQuery.dequeue(this, type);
-          }
-        });
-      }, 
+      stop: function(type, clearQueue, gotoEnd){}, 
       finish: function(type){}
     });
-    function genFx(type, includeWidth)
-    {
-      var which, attrs = {
-        height: type
-      }, i = 0;
-      includeWidth = includeWidth ? 1 : 0;
-      for(;i < 4;i += 2 - includeWidth)
-      {
-        which = cssExpand[i];
-        attrs['margin' + which] = attrs['padding' + which] = type;
-      }
-
-      if(includeWidth)
-      {
-        attrs.opacity = attrs.width = type;
-      }
-
-      return attrs;
-    }
     jQuery.speed = function(speed, easing, fn)
     {
       var opt = speed && typeof speed === 'object' ? jQuery.extend({}, speed) : {
-        complete: fn || (!fn && easing), 
+        complete: fn || (!fn && easing) || jQuery.isFunction(speed), 
         duration: speed, 
-        easing: fn || easing && !(jQuery.isFunction(easing))
+        easing: fn || easing
       };
       opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : opt.duration in jQuery.fx.speeds ? 0 : jQuery.fx.speeds._default;
       if(opt.queue == null || opt.queue === true)
@@ -2527,7 +2567,7 @@
   })(window));
 </script>
     <script type="text/javascript">
-  window.Modernizr = (function(a, b, c)
+  ((function(a, b, c)
   {
     function x(a)
     {
@@ -2556,15 +2596,21 @@
       return z(b, 'string') || z(b, 'undefined') ? B(e, b) : 0;
     }
     var e = {}, f = !0, g = b.documentElement, h = 'modernizr', i = b.createElement(h), j = i.style, m = 'Webkit Moz O ms', n = m.split(' '), p = {}, s = [], u;
-    null, null, p.csstransitions = function()
+    (null, null, p.csstransitions = function()
     {
       return D('transition');
-    };
+    });
     for(var E in p)
-    u = E.toLowerCase(), e[u] = p[E](), s.push((e[u] ? '' : 0) + u);
+    (u = E.toLowerCase(), e[u] = p[E](), s.push((e[u] ? '' : 0) + u));
 
-    return null, x(''), null, null, null, null, null, null, null, g.className = g.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') + (f ? ' js ' + s.join(' ') : 0), e;
-  })(this, this.document), null, null;
+    return (null, x(''), null, null, null, null, null, null, null, g.className = g.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') + (f ? ' js ' + s.join(' ') : 0), e);
+  })(this, this.document), null, null);
+  (function(a, g)
+  {
+    a.event.special.frame || (a.event.special.frame = {
+      setup: function(c){}
+    });
+  })(jQuery);
   (function(h, q)
   {
     function m(c)
@@ -2595,23 +2641,23 @@
         c = [c, n || a.yparallax];
         f = [f, d];
         for(d = 2;d--;)
-        h[d] = w.px.test(c[d]), 'string' === typeof (f[d]) && (f[d] = f[d] === q ? 0 : C[f[d]]), h[d] ? 0 : b[d] = !0 === c[d] ? 0 : t(c[d]), e[d] = b[d] ? f[d] * (1 - b[d]) : 0;
+        (h[d] = w.px.test(c[d]), 'string' === typeof (f[d]) && (f[d] = f[d] === q ? 0 : C[f[d]]), h[d] ? 0 : (b[d] = !0 === c[d] ? 0 : t(c[d]), e[d] = b[d] ? f[d] * (1 - b[d]) : 0));
       };
       this.getPointer = function()
       {
         for(var a = c.offsetParent(), k = c.position(), f = [], d = [], g = 2;g--;)
-        f[g] = h[g] ? 0 : k[0 === g ? 'left' : 'top'] / (a[0 === g ? 'outerWidth' : 'outerHeight']() - this.size[g]), d[g] = (f[g] - e[g]) / b[g];
+        (f[g] = h[g] ? 0 : k[0 === g ? 'left' : 'top'] / (a[0 === g ? 'outerWidth' : 'outerHeight']() - this.size[g]), d[g] = (f[g] - e[g]) / b[g]);
 
         return d;
       };
       this.setSize = function(a, b)
       {
-        this.size = [a, b || c.outerHeight()];
+        this.size = [a || c.outerWidth(), b || c.outerHeight()];
       };
       this.setSize(a.width, a.height);
       this.setParallax(a.xparallax, a.yparallax, a.xorigin, a.yorigin);
     }
-    var l = 'parallax', z = {
+    function v(c){}    var l = 'parallax', z = {
       mouseport: 'body', 
       xparallax: !0, 
       yparallax: !0, 
@@ -2620,14 +2666,19 @@
       decay: 0.66, 
       frameDuration: 30, 
       freezeClass: 'freeze'
-    }, C = {middle: 0.5, bottom: 1}, w = {px: /^\d+\s?px$/, percent: /^\d+\s?%$/};
+    }, C = {middle: 0.5, bottom: 1}, w = {px: /^\d+\s?px$/, percent: /^\d+\s?%$/}, s = 'frame.' + l;
     h.fn[l] = function(c)
     {
       var a = h.extend({}, h.fn[l].options, c), j = arguments, b = this;
       a.mouseport instanceof h || (a.mouseport = h(a.mouseport));
       a.port = new A(a.mouseport, a);
       a.mouse = new u(m(a.xparallax), m(a.yparallax), a.decay);
-      a.mouseport.bind('mouseenter', function(){});
+      a.mouseport.bind('mouseenter', function()
+      {
+        var c = b.length;
+        for(;c--;)
+        (null, h.event.add(this, s, v, {}));
+      });
       return b.each(function(b)
       {
         var c = h(this);
@@ -2658,75 +2709,12 @@
     $.HoverDir.prototype = {
       _init: function(options)
       {
-        this.options = $.extend(true, {}, $.HoverDir.defaults, options);
-        this.transitionProp = (('all ' + this.options.speed) + 'ms ') + this.options.easing;
-        this.support = Modernizr.csstransitions;
+        $.extend(true, {}, $.HoverDir.defaults, options);
         this._loadEvents();
       }, 
       _loadEvents: function()
       {
-        var self = this;
-        this.$el.on('mouseenter.hoverdir, mouseleave.hoverdir', function(event)
-        {
-          var $el = $(this), $hoverElem = $el.find('div'), direction = self._getDir($el, {
-            x: event.pageX, 
-            y: event.pageY
-          }), styleCSS = self._getStyle(direction);
-          if(event.type === 'mouseenter')
-          {
-            $hoverElem.hide().css(styleCSS.from);
-            setTimeout(function()
-            {
-              $hoverElem.show(0, function()
-              {
-                var $el = $(this);
-                if(self.support)
-                {
-                  $el.css('transition', self.transitionProp);
-                }
-
-                self._applyAnimation($el, styleCSS.to, self.options.speed);
-              });
-            }, self.options.hoverDelay);
-          }
-          else 
-          {
-            if(self.support)
-            {
-              $hoverElem.css('transition', self.transitionProp);
-            }
-
-            self._applyAnimation($hoverElem, styleCSS.from, self.options.speed);
-          }
-        });
-      }, 
-      _getDir: function($el, coordinates)
-      {
-        var w = $el.width(), h = $el.height(), x = ((coordinates.x - $el.offset().left) - (w / 2)) * (w > h ? 0 : 1), y = ((coordinates.y - $el.offset().top) - (h / 2)) * (h > w ? 0 : 1), direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
-        return direction;
-      }, 
-      _getStyle: function(direction)
-      {
-        var fromStyle, toStyle, slideFromTop = {left: '0px', top: '-100%'}, slideTop = {top: '0px'};
-        switch(direction)
-        {
-          case 0:
-            fromStyle = !(this.options.inverse) ? slideFromTop : 0;
-            toStyle = slideTop;
-            break;
-        }
-        return {
-          from: fromStyle, 
-          to: toStyle
-        };
-      }, 
-      _applyAnimation: function(el, styleCSS, speed)
-      {
-        $.fn.applyStyle = this.support ? $.fn.css : 0;
-        el.stop().applyStyle(styleCSS, $.extend(true, [], {
-          duration: speed + 'ms', 
-          easing: this.options.easing
-        }));
+        this.$el.on('mouseenter.hoverdir, mouseleave.hoverdir', function(event){});
       }
     };
     $.fn.hoverdir = function(options)
@@ -2752,7 +2740,7 @@
     <script type="text/javascript">
   $(function()
   {
-    var p = $('#definitions span:first').children(), c = function(a, b)
+    var p = $('#definitions span:first').children().length, c = function(a, b)
     {
       b || (b = a.next());
       b.parent().animate({
@@ -2768,6 +2756,10 @@
         duration: 300, 
         queue: !1
       });
+      setTimeout(function()
+      {
+        b.index() < (p - 1) ? c(b) : 0;
+      }, 5000);
     };
     setTimeout(function()
     {
@@ -2780,23 +2772,23 @@
       a.each(function()
       {
         var a = $(this), e = a.attr('class').split(' ')[1].split('-'), d = {};
-        b ? d[e[0]] = d[e[1]] = 10, a.children('.discover-logo').children().animate(d, {
+        b ? (d[e[0]] = d[e[1]] = 10, a.children('.discover-logo').children().animate(d, {
           queue: !1, 
           easing: 'linear'
         }).eq(0).animate({opacity: 1}, {
           queue: !1
-        }), $title = a.find('h3:eq(0)'), $title.css('color', $title.attr('data-color')) : d[e[0]] = d[e[1]] = 2, a.removeClass('discover-hover').children('.discover-logo').children().animate(d, {
+        }), $title = a.find('h3:eq(0)'), $title.css('color', $title.attr('data-color'))) : (d[e[0]] = d[e[1]] = 2, a.removeClass('discover-hover').children('.discover-logo').children().animate(d, {
           queue: !1, 
           easing: 'linear'
         }).eq(0).animate({opacity: 0}, {
           queue: !1
-        }), $('h3', a).removeAttr('style');
+        }), $('h3', a).removeAttr('style'));
       });
     }, g = $('#discover').offset().top, h = $('#discover').height(), j = $(window).height(), k = $('.discover-position'), l = [375, 250, 125, 0], m = function()
     {
       var a = $(this).scrollTop() + j;
       if((a - g) >= (h / 2) && (a - j) <= (g + (h / 2)))
-      for(var a = a - (g + (h / 2)), b = 0, c = l.length - 1;b < l.length;++, --)
+      for(var a = a - (g + (h / 2)), b = 0, c = l.length - 1;b < l.length;)
       {
         if(a > l[b])
         {
@@ -2808,13 +2800,98 @@
         }
       }
     };
-    $(document).on('scroll', function(){});
     m.call(this);
     $('header nav ul, footer ul, #one-page-description').on('click', 'a', function(a){});
-    $('#go-webdev').on('click', function(){});
-    $('#go-webdesign').on('click', function(){});
-    $('#profil-fox h2 img').on('click', function(){});
-    $('#profil-owl h2 img').on('click', function(){});
+    $('#go-webdev').on('click', function()
+    {
+      $('#go-webdesign').animate({opacity: 0});
+      $('#team-area-content h3').animate({opacity: 0}, {
+        duration: 300, 
+        complete: function()
+        {
+          $('#tree').animate({left: 0});
+          $('#owl-blue').animate({right: 640});
+          $('#profil-owl').animate({bottom: 0});
+        }
+      });
+      $('#webdev h4, #webdesign h4').animate({opacity: 0}, {
+        duration: 200, 
+        complete: function()
+        {
+          $('#fox-blue').animate({
+            bottom: -20, 
+            opacity: 0
+          }, {duration: 200});
+        }
+      });
+      $('#go-webdev').animate({
+        right: -200, 
+        opacity: 0
+      }, {duration: 100});
+      return !1;
+    });
+    $('#go-webdesign').on('click', function()
+    {
+      $('#go-webdev').animate({opacity: 0});
+      $('#team-area-content h3').animate({opacity: 0}, {
+        duration: 300, 
+        complete: function()
+        {
+          $('#tree').animate({left: 730});
+          $('#fox-blue').animate({left: 640});
+          $('#profil-fox').animate({bottom: 0});
+        }
+      });
+      $('#webdev h4, #webdesign h4').animate({opacity: 0}, {
+        duration: 200, 
+        complete: function()
+        {
+          $('#owl-blue').animate({
+            bottom: -20, 
+            opacity: 0
+          }, {duration: 200});
+        }
+      });
+      $('#go-webdesign').animate({
+        left: -200, 
+        opacity: 0
+      }, {duration: 100});
+      return !1;
+    });
+    $('#profil-fox h2 img').on('click', function()
+    {
+      $('#tree').animate({left: 370});
+      $('#fox-blue').animate({left: 240});
+      $('#profil-fox').animate({
+        bottom: -410
+      }, {
+        complete: function()
+        {
+          $('#owl-blue').animate({bottom: 40, opacity: 1}, {duration: 200});
+          $('#go-webdev').animate({opacity: 1});
+          $('#go-webdesign').animate({left: 0, opacity: 1}, {duration: 100});
+          $('#team-area-content h3').animate({opacity: 1}, {duration: 300});
+          $('#webdev h4, #webdesign h4').animate({opacity: 1}, {duration: 200});
+        }
+      });
+    });
+    $('#profil-owl h2 img').on('click', function()
+    {
+      $('#tree').animate({left: 370});
+      $('#owl-blue').animate({right: 240});
+      $('#profil-owl').animate({
+        bottom: -410
+      }, {
+        complete: function()
+        {
+          $('#fox-blue').animate({bottom: 40, opacity: 1}, {duration: 200});
+          $('#go-webdev').animate({right: 0, opacity: 1});
+          $('#go-webdesign').animate({opacity: 1}, {duration: 100});
+          $('#team-area-content h3').animate({opacity: 1}, {duration: 300});
+          $('#webdev h4, #webdesign h4').animate({opacity: 1}, {duration: 200});
+        }
+      });
+    });
     $('#work-grid li').each(function()
     {
       $(this).hoverdir();
@@ -2925,41 +3002,64 @@
 </section>
 <section class="grey-spacer" id="team">
     <div class="wrapper">
-        
-        
+        <h2 class="title">The Team</h2>
+        <p class="subtitle">Who are we ? a fox and an owl but what else ?<br/>
+            Some informations about us.</p>
         <div class="clearfix" id="team-area-content">
             <div id="webdesign">
                 <a id="go-webdesign" href="">Go</a>
-                
+                <div>
+                    <h3>Web Design</h3>
+                    <h4><img alt="Photoshop" src="graphix/picto-ps.png"/>
+                        <img alt="Colors" src="graphix/picto-gradient.png"/>
+                        <img alt="Games" src="graphix/picto-game.png"/>
+                        with Alessandro
+                    </h4>
+                </div>
             </div>
             <div id="webdev">
                 <a id="go-webdev" href="">Go</a>
-                
+                <div>
+                    <h3>Development</h3>
+                    <h4>with Yassine
+                        <img alt="Code" src="graphix/picto-code.png"/>
+                        <img alt="Magic" src="graphix/picto-magic.png"/>
+                        <img alt="Music" src="graphix/picto-music.png"/>
+                    </h4>
+                </div>
             </div>
             <div id="profil-owl">
                 <div class="profil-description">
                     <h2><img alt="Back" src="graphix/back.png"/> Yassine</h2>
-                    
-                    
-                    
+                    <h4>Web Engineer & music enthusiast</h4>
+                    <p>Yassine is always looking for new challenges, to raise a project to a higher level. Next to his development work on both front-end and back-end, he loves to contribute to concept development and design challenges. He keeps the ideas rushing  by doing a lot of sports, watching movies and listening good music.</p>
+                    <div class="resume-position">
+                        <a target="_blank" class="button-resume" href="http://www.nitrografix.fr/resume/Resume-Yassine-EN.pdf">Online Resume</a>
+                    </div>
                 </div>
-                
+                <img id="owl-window" alt="" src="graphix/owl-window.png"/>
             </div>
             <div id="profil-fox">
-                
+                <img id="fox-window" alt="" src="graphix/fox-window.png"/>
                 <div class="profil-description">
                     <h2>Alessandro <img alt="Back" src="graphix/back-reverse.png"/></h2>
-                    
-                    
-                    
+                    <h4>Ui / Ux Designer & pasta lover</h4>
+                    <p>Alessandro is the Ui/Ux designer of the team. As interactive designer he aims to create smart, clean and aesthetic interfaces, and to continually improve himself in doing so every day on a practical and theoretical level. Pixel perfection and a clean psd are part of his second nature. Beside his professional activities he is a proud gamer, and he often listen to these so called robot music.</p>
+                    <div class="resume-position">
+                        <a target="_blank" class="button-resume" href="http://www.nitrografix.fr/resume/Resume-Alessandro-EN.pdf">Online Resume</a>
+                        <span class="plus">+</span>
+                        <a target="_blank" class="socials" href="https://twitter.com/NxAlessandro"><img alt="Twitter" src="graphix/twitter-white.png"/></a>
+                        <a target="_blank" class="socials" href="http://dribbble.com/nxalessandro"><img alt="Dribbble" src="graphix/dribbble-white.png"/></a>
+                        <a target="_blank" class="socials" href="http://forrst.com/people/nxalessandro"><img alt="Forrst" src="graphix/forrst-white.png"/></a>
+                    </div>
                 </div>
             </div>
-            
-            
-            
+            <div id="fox-blue"></div>
+            <div id="owl-blue"></div>
+            <div id="tree"></div>
         </div>
     </div>
-    
+    <div id="ground"></div>
 </section>
 <section id="our-work">
     <div class="small-wrapper clearfix">
@@ -2968,20 +3068,20 @@
         <div id="work-grid">
             <ul>
                 <li>
-                    <img alt="Wordpress Theme Post Exemple" src="graphix/wordpress-theme.png"/>
-                    <div><h6>Wordpress Theme</h6></div>
+                    
+                    
                 </li>
                 <li id="vector-art">
-                    <img alt="Vector Art Real Time Bidding" src="graphix/vertor-art.png"/>
-                    <div><h6>Vector Art</h6></div>
+                    
+                    
                 </li>
                 <li id="composition">
-                    <img alt="Advertising Composition" src="graphix/composition.png"/>
-                    <div><h6>Advertising</h6></div>
+                    
+                    
                 </li>
                 <li id="ui">
-                    <img alt="Login User Interface" src="graphix/user-interface.png"/>
-                    <div><h6>User Interface</h6></div>
+                    
+                    
                 </li>
             </ul>
         </div>
@@ -3008,7 +3108,7 @@
 </section>
 <section id="contact">
     <div class="wrapper clearfix">
-        <h2 class="title">Contact us</h2>
+        
         
         
         <form method="post" action="index.php#contact">

@@ -8,36 +8,41 @@
     <bookmark url="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Fixed a bug when finding the correct event handler. It would use to pick the first one of the type and matching code construct that is in the hierarchy of the event raising event. Now it first searches for the exact object the event was raised on, and if it wasn't able to find it, than it moves onto the parent elements">
+    <list default="true" id="589486df-f252-4c1b-bdc6-ca84c26fa51b" name="Default" comment="Added support for window scroll, fixed a bug when handling loading events">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/100-test/index-sliced.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/100-test/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/100-test/js/jQuery-src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirefoxHelper.jsm" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/playground/modifyDomExample.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\06-hipstamatic\index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/index-profiled1.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\06-hipstamatic\index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/index-profiled2.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\07-virtue\index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled1.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\07-virtue\index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled2.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\07-virtue\index-profiled3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled3.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\07-virtue\index.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index.html" />
+      <change type="MOVED" beforePath="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\09-ajaxPool\ajax-poller.php" afterPath="$PROJECT_DIR$/evaluation/scenarioGenerator/09-ajaxPool/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/achievedCoverage.txt" afterPath="$PROJECT_DIR$/evaluation/results/achievedCoverage.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-profiled1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-profiled3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-profiled3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-profiled3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-profiled3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-profiled1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-profiled2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-sliced1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-sliced1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-sliced2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-sliced2.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/100-test/index.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/100-test/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/output.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" afterPath="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" afterPath="$PROJECT_DIR$/phantomJs/dataFiles/scenarioExecutor.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" afterPath="$PROJECT_DIR$/evaluation/results/coverageComparator/viewCoverageComparationGraphs.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -87,28 +92,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="browser.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
+      <file leaf-file-name="TODO" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TODO">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="787" column="80" selection-start="31253" selection-end="31253" vertical-scroll-proportion="0.3329453" vertical-offset="13093" max-vertical-offset="25024">
+            <state line="2" column="40" selection-start="161" selection-end="161" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evaluation/fullPages/100-test/index.html">
+      <file leaf-file-name="FireDataAccess.jsm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="12" selection-start="299" selection-end="299" vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="544">
+            <state line="80" column="62" selection-start="2476" selection-end="2494" vertical-scroll-proportion="0.0" vertical-offset="1051" max-vertical-offset="7463">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debugTestPages.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
+      <file leaf-file-name="Firecrow.jsm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="364" selection-end="364" vertical-scroll-proportion="-5.230769" vertical-offset="51" max-vertical-offset="3196">
+            <state line="844" column="39" selection-start="27947" selection-end="27947" vertical-scroll-proportion="0.0" vertical-offset="12867" max-vertical-offset="18734">
+              <folding>
+                <marker date="1391430788318" expanded="false" signature="17369:17384" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="panel.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="108" column="5" selection-start="3821" selection-end="3821" vertical-scroll-proportion="0.0" vertical-offset="1561" max-vertical-offset="2601">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SlicerPanelController.jsm" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="62" column="21" selection-start="2817" selection-end="2817" vertical-scroll-proportion="0.41324922" vertical-offset="792" max-vertical-offset="7956">
               <folding />
             </state>
           </provider>
@@ -143,30 +168,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm" />
-        <option value="$PROJECT_DIR$/playground/external.js" />
-        <option value="$PROJECT_DIR$/playground/index.html" />
-        <option value="$PROJECT_DIR$/install.rdf" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/JsRecorder.jsm" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" />
-        <option value="$PROJECT_DIR$/debug/debugProfilingComparator.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/11-sipp/index-sliced.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/12-idt/index.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/12-idt/index-sliced.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced1.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced2.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced1.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-sliced1.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-sliced2.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" />
@@ -180,20 +181,44 @@
         <option value="$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-profiled2.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-profiled3.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled1.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled2.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled2.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled3.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-        <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/jQuery-src.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/100-test/index1.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/100-test/index-sliced.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/100-test/index.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled2.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled3.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/plugins.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced3.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/js/nx.min.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-profiled1.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-profiled3.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-profiled2.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-sliced1.html" />
+        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index-sliced2.html" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/jquery.themepunch.revolution.min.js" />
+        <option value="$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js" />
+        <option value="$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js" />
+        <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/playground/modifyDomExample.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FirefoxHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirefoxHelper.jsm" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
       </list>
     </option>
   </component>
@@ -286,7 +311,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
+              <option name="myItemId" value="playground" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -300,11 +325,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fullPages" />
+              <option name="myItemId" value="chrome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -318,15 +339,67 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="evaluation" />
+              <option name="myItemId" value="chrome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fullPages" />
+              <option name="myItemId" value="content" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="100-test" />
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chrome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Firecrow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -364,26 +437,26 @@
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="options.searchVisible" value="true" />
-    <property name="SearchEverywhereHistory" value="_eva&#10;cu" />
+    <property name="SearchEverywhereHistory" value="&#10;_eva&#10;cu" />
     <property name="LayoutCode.rearrangeEntriesJavaScript" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\09-nitrografix" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\100-test\js" />
       <recent name="C:\GitWebStorm\Firecrow\debug" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\reuse\05_03_04" />
       <recent name="C:\GitWebStorm\Firecrow\debug\reuseTests\37" />
-      <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\13-daypack" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\chrome\content\Firecrow\frontend" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\homeostasisBackup" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\10-htmlEdit" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\09-ajaxPool" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\scenarioGenerator\09-ajaxPoller" />
-      <recent name="C:\GitWebStorm\Firecrow\playground" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.reuser">
+  <component name="RunManager" selected="Node.js.runAllScenarioGenerator">
     <configuration default="false" name="slicing.jstd" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver" temporary="true">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="$PROJECT_DIR$/tests/slicing.jstd" />
@@ -3504,7 +3577,11 @@
       <created>1390919569813</created>
       <updated>1390919569813</updated>
     </task>
-    <option name="localTasksCounter" value="727" />
+    <task id="LOCAL-00727" summary="Added support for window scroll, fixed a bug when handling loading events">
+      <created>1390988273769</created>
+      <updated>1390988273769</updated>
+    </task>
+    <option name="localTasksCounter" value="728" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -3548,18 +3625,18 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49306297" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49197862" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2650334" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17079058" sideWeight="0.43556976" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15430982" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21338156" sideWeight="0.6711111" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38392857" sideWeight="0.4973939" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17622209" sideWeight="0.5122732" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.56473213" sideWeight="0.5003723" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6726058" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52597404" sideWeight="0.56488097" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398374" sideWeight="0.4951601" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1458" y="-40" width="1496" height="866" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26623377" sideWeight="0.4996277" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657418" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959402" sideWeight="0.64316237" order="2" side_tool="true" content_ui="tabs" />
@@ -3586,7 +3663,6 @@
       <TodoPanelSettings />
     </option>
     <confirmMoveToFailedCommit value="1" />
-    <MESSAGE value="Fixed a problem with subsumming scenarios" />
     <MESSAGE value="First work on generating touch events" />
     <MESSAGE value="Bug fixes when dependency exists over array modifications" />
     <MESSAGE value="Simple cookie support added" />
@@ -3611,7 +3687,8 @@
     <MESSAGE value="JsRecorder adjusted for Firefox 20+" />
     <MESSAGE value="Correctly saving profiling information  in Firefox plugin" />
     <MESSAGE value="Fixed a bug when finding the correct event handler. It would use to pick the first one of the type and matching code construct that is in the hierarchy of the event raising event. Now it first searches for the exact object the event was raised on, and if it wasn't able to find it, than it moves onto the parent elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug when finding the correct event handler. It would use to pick the first one of the type and matching code construct that is in the hierarchy of the event raising event. Now it first searches for the exact object the event was raised on, and if it wasn't able to find it, than it moves onto the parent elements" />
+    <MESSAGE value="Added support for window scroll, fixed a bug when handling loading events" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added support for window scroll, fixed a bug when handling loading events" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -3630,334 +3707,291 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/11-sipp/js/jQuery.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/widget_upload.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3036" column="20" selection-start="112929" selection-end="112929" vertical-scroll-proportion="0.0" vertical-offset="51386" max-vertical-offset="161075" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/valid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/plugins.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120343" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/jQuery-src.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="166515" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/jquery.validate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="21471" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-38.71295" vertical-offset="33177" max-vertical-offset="34034" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/css/glisse.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.3804598" vertical-offset="2071" max-vertical-offset="2941" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/js/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="857" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/js/jQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-185.66278" vertical-offset="159113" max-vertical-offset="159970" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/js/glisse.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.7607934" vertical-offset="3223" max-vertical-offset="4080" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/js/jquery.plugins.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="17133" max-vertical-offset="18003" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/js/makalu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="3155" max-vertical-offset="4012" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/css/makalu.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-16.099184" vertical-offset="13797" max-vertical-offset="14654" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/js/jQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-187.22987" vertical-offset="160456" max-vertical-offset="161313" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-7.1330223" vertical-offset="6113" max-vertical-offset="6970" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.8203034" vertical-offset="3274" max-vertical-offset="4131" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-virtue/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-7.4504085" vertical-offset="6385" max-vertical-offset="7242" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="881" selection-end="881" vertical-scroll-proportion="0.0" vertical-offset="4226" max-vertical-offset="5083" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/js/jquery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="165658" max-vertical-offset="166515" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/js/librairies.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="13508" max-vertical-offset="14365" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/js/nx.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="4107" max-vertical-offset="4964" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/09-nitrografix/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="25442" max-vertical-offset="26299" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/js/jQuery.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3031" column="0" selection-start="114729" selection-end="114729" vertical-scroll-proportion="0.029462738" vertical-offset="51510" max-vertical-offset="159970" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="642" column="63" selection-start="26459" selection-end="26459" vertical-scroll-proportion="0.0" vertical-offset="10625" max-vertical-offset="15504">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="77" selection-start="10469" selection-end="10469" vertical-scroll-proportion="0.0" vertical-offset="3804" max-vertical-offset="10625">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="159113" max-vertical-offset="159970" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/js/jquery.qtip.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1009" column="348" selection-start="49488" selection-end="49824" vertical-scroll-proportion="0.0" vertical-offset="16964" max-vertical-offset="20213" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="19356" max-vertical-offset="20213" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced2.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/css/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2866" column="8" selection-start="92429" selection-end="92429" vertical-scroll-proportion="0.45762712" vertical-offset="48533" max-vertical-offset="52207" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.451724" vertical-offset="3873" max-vertical-offset="4743" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-sliced3.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/css/reset.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3069" column="7" selection-start="102497" selection-end="102497" vertical-scroll-proportion="0.0" vertical-offset="51862" max-vertical-offset="52275" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="857" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced1.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/css/jquery.qtip.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="55" selection-start="6981" selection-end="6981" vertical-scroll-proportion="2.3559322" vertical-offset="285" max-vertical-offset="21573" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-6.894253" vertical-offset="5998" max-vertical-offset="6868" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-sliced2.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/css/960.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="56" selection-start="6797" selection-end="6797" vertical-scroll-proportion="2.2324455" vertical-offset="285" max-vertical-offset="21896" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-9.043678" vertical-offset="7868" max-vertical-offset="8738" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced2.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="25" selection-start="2597" selection-end="2597" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1513" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.42007" vertical-offset="1217" max-vertical-offset="2074" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-sliced1.html">
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="74" selection-start="11181" selection-end="11181" vertical-scroll-proportion="2.3559322" vertical-offset="1169" max-vertical-offset="74392" />
+        <state line="10" column="0" selection-start="262" selection-end="262" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16677" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-sliced2.html">
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/Scenario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1696" column="7" selection-start="63222" selection-end="63222" vertical-scroll-proportion="0.0" vertical-offset="28453" max-vertical-offset="28934">
+        <state line="40" column="51" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.36221838" vertical-offset="471" max-vertical-offset="5304" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/results/generatedScenarios/symbolicNewCoverage/09-ajaxPool.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="266" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/runAllScenarioGeneratorConfigurations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="37" selection-start="1715" selection-end="1715" vertical-scroll-proportion="0.5731225" vertical-offset="297" max-vertical-offset="2346" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodejs/scenarioGeneratorModules/ScenarioCollection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="32" selection-start="2768" selection-end="2768" vertical-scroll-proportion="0.50508475" vertical-offset="1130" max-vertical-offset="10319" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/09-ajaxPool/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="87" selection-start="1985" selection-end="2039" vertical-scroll-proportion="0.36221838" vertical-offset="998" max-vertical-offset="1751">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html">
+    <entry file="file://$PROJECT_DIR$/playground/modifyDomExample.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3551" column="7" selection-start="112832" selection-end="112832" vertical-scroll-proportion="0.94107455" vertical-offset="59824" max-vertical-offset="60469">
+        <state line="12" column="12" selection-start="280" selection-end="280" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="340">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3605" column="7" selection-start="114561" selection-end="114561" vertical-scroll-proportion="0.0" vertical-offset="60742" max-vertical-offset="61387">
+        <state line="40" column="124" selection-start="2597" selection-end="2597" vertical-scroll-proportion="0.35273573" vertical-offset="377" max-vertical-offset="5338">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirefoxHelper.jsm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3494" column="7" selection-start="110847" selection-end="110847" vertical-scroll-proportion="0.8232236" vertical-offset="58923" max-vertical-offset="59500">
+        <state line="9" column="19" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/UriHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3628" column="7" selection-start="114398" selection-end="114398" vertical-scroll-proportion="0.8232236" vertical-offset="61201" max-vertical-offset="61778">
+        <state line="1719" column="0" selection-start="53586" selection-end="53691" vertical-scroll-proportion="34.01979" vertical-offset="0" max-vertical-offset="29427">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/TimerHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1715" column="7" selection-start="59247" selection-end="59247" vertical-scroll-proportion="0.0" vertical-offset="28646" max-vertical-offset="29257">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="872">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/RequestHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1143" column="7" selection-start="38342" selection-end="38342" vertical-scroll-proportion="0.9116118" vertical-offset="18905" max-vertical-offset="19533">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced3.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/valueTypeHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1825" column="7" selection-start="62908" selection-end="62908" vertical-scroll-proportion="0.88214904" vertical-offset="30516" max-vertical-offset="31127">
+        <state line="430" column="12" selection-start="9708" selection-end="9738" vertical-scroll-proportion="0.0" vertical-offset="6730" max-vertical-offset="16082">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/03-mtcdc/index-profiled3.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4769" column="7" selection-start="193715" selection-end="193715" vertical-scroll-proportion="0.0" vertical-offset="80598" max-vertical-offset="81175">
+        <state line="1604" column="59" selection-start="53407" selection-end="53407" vertical-scroll-proportion="0.58715594" vertical-offset="26756" max-vertical-offset="31637">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled2.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/htmlHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4500" column="7" selection-start="173655" selection-end="173655" vertical-scroll-proportion="0.0" vertical-offset="75957" max-vertical-offset="76602">
+        <state line="1" column="15" selection-start="81" selection-end="81" vertical-scroll-proportion="-0.27293578" vertical-offset="255" max-vertical-offset="3740">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-profiled1.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2644" column="7" selection-start="112320" selection-end="112320" vertical-scroll-proportion="0.0" vertical-offset="44456" max-vertical-offset="45050">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/06-hipstamatic/index-profiled2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2661" column="7" selection-start="112656" selection-end="112656" vertical-scroll-proportion="0.0" vertical-offset="44694" max-vertical-offset="45339">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="40" selection-start="1694" selection-end="1694" vertical-scroll-proportion="0.0" vertical-offset="151" max-vertical-offset="29767">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-profiled3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5551" column="7" selection-start="199168" selection-end="199168" vertical-scroll-proportion="0.0" vertical-offset="93610" max-vertical-offset="94469">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4552" column="9" selection-start="313630" selection-end="313630" vertical-scroll-proportion="0.0" vertical-offset="77030" max-vertical-offset="153731">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="209" column="113" selection-start="15586" selection-end="15590" vertical-scroll-proportion="0.332533" vertical-offset="3276" max-vertical-offset="74290">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="40681">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="591" column="67" selection-start="28149" selection-end="28149" vertical-scroll-proportion="0.47147846" vertical-offset="9642" max-vertical-offset="21029">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="666" column="53" selection-start="28236" selection-end="28236" vertical-scroll-proportion="0.0" vertical-offset="10883" max-vertical-offset="22117">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8808" column="44" selection-start="462482" selection-end="462482" vertical-scroll-proportion="0.3725262" vertical-offset="149416" max-vertical-offset="154904">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/jquery.themepunch.revolution.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="14083" selection-start="14410" selection-end="14414" vertical-scroll-proportion="0.14285715" vertical-offset="0" max-vertical-offset="833">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="43" selection-start="8552" selection-end="8552" vertical-scroll-proportion="0.35273573" vertical-offset="1805" max-vertical-offset="7242">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/valid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="3" selection-start="87" selection-end="87" vertical-scroll-proportion="0.058486238" vertical-offset="0" max-vertical-offset="872">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/index-profiled2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8801" column="5" selection-start="462237" selection-end="462237" vertical-scroll-proportion="0.23399301" vertical-offset="149416" max-vertical-offset="154904">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/jquery.validate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1257" column="0" selection-start="39322" selection-end="39322" vertical-scroll-proportion="0.8812573" vertical-offset="20612" max-vertical-offset="21471">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/widget_upload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="56" selection-start="774" selection-end="774" vertical-scroll-proportion="0.2924312" vertical-offset="0" max-vertical-offset="872">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/plugins.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4765" column="0" selection-start="156769" selection-end="156769" vertical-scroll-proportion="-10.653846" vertical-offset="80728" max-vertical-offset="120360">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/jQuery-src.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5581" column="45" selection-start="219610" selection-end="219610" vertical-scroll-proportion="0.3329453" vertical-offset="94591" max-vertical-offset="166515">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="204" column="63" selection-start="10545" selection-end="10545" vertical-scroll-proportion="0.47147846" vertical-offset="3063" max-vertical-offset="16269">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5610">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TODO">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="30" selection-start="1168" selection-end="1168" vertical-scroll-proportion="0.31664726" vertical-offset="0" max-vertical-offset="5525">
+        <state line="2" column="40" selection-start="161" selection-end="161" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/100-test/index-sliced.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1740" column="35" selection-start="62444" selection-end="62444" vertical-scroll-proportion="0.4062864" vertical-offset="29231" max-vertical-offset="30158">
+        <state line="844" column="39" selection-start="27947" selection-end="27947" vertical-scroll-proportion="0.0" vertical-offset="14040" max-vertical-offset="18734">
+          <folding>
+            <marker date="1391430788318" expanded="false" signature="17369:17384" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="62" selection-start="2476" selection-end="2494" vertical-scroll-proportion="0.0" vertical-offset="1051" max-vertical-offset="7463">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/100-test/js/jQuery-src.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="166515">
+        <state line="108" column="5" selection-start="3821" selection-end="3821" vertical-scroll-proportion="0.0" vertical-offset="1561" max-vertical-offset="2601">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="11" selection-start="348" selection-end="348" vertical-scroll-proportion="0.17811409" vertical-offset="0" max-vertical-offset="1598">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/DOM/EventListenerMixin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="44" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.5848624" vertical-offset="0" max-vertical-offset="1343">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="59" selection-start="460" selection-end="460" vertical-scroll-proportion="0.28132388" vertical-offset="0" max-vertical-offset="19074">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/100-test/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="12" selection-start="299" selection-end="299" vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/07-virtue/assets/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="71" selection-start="1220" selection-end="1220" vertical-scroll-proportion="0.35321102" vertical-offset="287" max-vertical-offset="1802">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="364" selection-end="364" vertical-scroll-proportion="-5.230769" vertical-offset="51" max-vertical-offset="3196">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="787" column="80" selection-start="31253" selection-end="31253" vertical-scroll-proportion="0.3329453" vertical-offset="13093" max-vertical-offset="25024">
+        <state line="62" column="21" selection-start="2817" selection-end="2817" vertical-scroll-proportion="0.41324922" vertical-offset="792" max-vertical-offset="7956">
           <folding />
         </state>
       </provider>

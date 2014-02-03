@@ -787,6 +787,8 @@ FBL.ns(function() { with (FBL) {
                     var eventFile = eventTrace.filePath;
                     this.globalObject.currentEventTime = eventTrace.currentTime;
 
+                    if(eventTrace.args.type == "focus") continue;
+
                     if(this._isBrowserGeneratedEvent(eventTrace))
                     {
                         if(this._handleDomContentReadyMethods(domContentReadyMethods, eventTrace)) { continue; }

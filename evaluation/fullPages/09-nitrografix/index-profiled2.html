@@ -8,7 +8,7 @@
     <meta lang="en" xml:lang="en" content="Nitrografix" name="author"/>
     <meta content="Nitrografix" name="dcterms.rightsHolder"/>
 
-    <link media="all" rel="stylesheet" type="text/css" href="css/style.css"/>
+    <style media="all" rel="stylesheet" type="text/css" href="css/style.css">
     article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
     audio, canvas, video { display: inline-block; }
     audio:not([controls]) { display: none; height: 0px; }
@@ -288,7 +288,7 @@
     #dungeon h5 { font-family: Arial,Helvetica,FreeSans,sans-serif; display: inline-block; margin: 20px 50px 0px 100px; background: none repeat scroll 0% 0% rgb(63, 63, 63); font-size: 14px; padding: 22px; color: rgb(255, 255, 255); border-radius: 4px 4px 4px 4px; font-weight: normal; position: relative; top: 2px; }
     #dungeon h5 span { color: rgb(251, 183, 73); }
     #discover-dungeon { display: inline-block; }
-
+</style>
 
     <script type="text/javascript">
   +((function(window, undefined)
@@ -392,7 +392,10 @@
         return this;
       }, 
       slice: function(){}, 
-      first: function(){}, 
+      first: function()
+      {
+        return this.eq(0);
+      }, 
       last: function(){}, 
       eq: function(i)
       {
@@ -654,14 +657,7 @@
       access: function(elems, fn, key, value, chainable, emptyGet, raw)
       {
         var i = 0, length = elems.length, bulk = key == null;
-        if(jQuery.type(key) === 'object')
-        {
-          chainable = true;
-          for(i in key)
-          {
-            jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
-          }
-        }
+        if(jQuery.type(key) === 'object');
         else if(value !== undefined)
         {
           chainable = true;
@@ -865,7 +861,7 @@
           return !(!(fn(div)));
         }
         catch(e)
-        {
+                {
           return false;
         }
       }
@@ -1920,9 +1916,13 @@
           queue = jQuery._data(elem, type);
           if(data)
           {
-            if(!queue)
+            if(!queue || jQuery.isArray(data))
             {
               queue = jQuery._data(elem, type, jQuery.makeArray(data));
+            }
+            else 
+            {
+              queue.push(data);
             }
           }
 
@@ -1931,7 +1931,7 @@
       }, 
       dequeue: function(elem, type)
       {
-        type = type || 'fx';
+        type = type;
         var queue = jQuery.queue(elem, type), startLength = queue.length, fn = queue.shift(), hooks = jQuery._queueHooks(elem, type), next = function(){};
         if(fn === 'inprogress')
         {
@@ -2365,7 +2365,14 @@
               event.handleObj = handleObj;
               event.data = handleObj.data;
               ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
-              if(ret !== undefined);
+              if(ret !== undefined)
+              {
+                if((event.result = ret) === false)
+                {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              }
             }
           }
         }
@@ -2490,8 +2497,30 @@
       isDefaultPrevented: returnFalse, 
       isPropagationStopped: returnFalse, 
       isImmediatePropagationStopped: returnFalse, 
-      preventDefault: function(){}, 
-      stopPropagation: function(){}, 
+      preventDefault: function()
+      {
+        var e = this.originalEvent;
+        this.isDefaultPrevented = returnTrue;
+        if(!e);
+
+        if(e.preventDefault)
+        {
+          e.preventDefault();
+        }
+      }, 
+      stopPropagation: function()
+      {
+        var e = this.originalEvent;
+        this.isPropagationStopped = returnTrue;
+        if(!e);
+
+        if(e.stopPropagation)
+        {
+          e.stopPropagation();
+        }
+
+        e.cancelBubble = true;
+      }, 
       stopImmediatePropagation: function(){}
     };
     jQuery.each({mouseenter: 'mouseover', mouseleave: 'mouseout'}, function(orig, fix)
@@ -2631,7 +2660,13 @@
       filter: function(selector){}, 
       is: function(selector){}, 
       closest: function(selectors, context){}, 
-      index: function(elem){}, 
+      index: function(elem)
+      {
+        if(!elem)
+        {
+          return this[0] && this[0].parentNode ? this.first().prevAll().length : 0;
+        }
+      }, 
       add: function(selector, context){}, 
       addBack: function(selector){}
     });
@@ -2658,7 +2693,10 @@
       }, 
       prev: function(elem){}, 
       nextAll: function(elem){}, 
-      prevAll: function(elem){}, 
+      prevAll: function(elem)
+      {
+        return jQuery.dir(elem, 'previousSibling');
+      }, 
       nextUntil: function(elem, i, until){}, 
       prevUntil: function(elem, i, until){}, 
       siblings: function(elem){}, 
@@ -2701,7 +2739,21 @@
           return elem.nodeType === 1;
         }));
       }, 
-      dir: function(elem, dir, until){}, 
+      dir: function(elem, dir, until)
+      {
+        var matched = [], cur = elem[dir];
+        while(cur && cur.nodeType !== 9 && until === undefined)
+        {
+          if(cur.nodeType === 1)
+          {
+            matched.push(cur);
+          }
+
+          cur = cur[dir];
+        }
+
+        return matched;
+      }, 
       sibling: function(n, elem)
       {
         var r = [];
@@ -2822,49 +2874,7 @@
       elem = el || elem;
       return jQuery.css(elem, 'display') === 'none' || !(jQuery.contains(elem.ownerDocument, elem));
     }
-    function showHide(elements, show)
-    {
-      var display, elem, hidden, values = [], index = 0, length = elements.length;
-      for(;index < length;index++)
-      {
-        elem = elements[index];
-        if(!(elem.style));
-
-        values[index] = jQuery._data(elem, 'olddisplay');
-        display = elem.style.display;
-        if(show)
-        {
-          if(!(values[index]));
-
-          if(elem.style.display === '');
-        }
-        else 
-        {
-          if(!(values[index]))
-          {
-            hidden = isHidden(elem);
-            if(display || !hidden)
-            {
-              jQuery._data(elem, 'olddisplay', hidden ? 0 : jQuery.css(elem, 'display'));
-            }
-          }
-        }
-      }
-
-      for(index = 0;index < length;index++)
-      {
-        elem = elements[index];
-        if(!(elem.style));
-
-        if(!show || elem.style.display === 'none')
-        {
-          elem.style.display = show ? values[index] : 'none';
-        }
-      }
-
-      return elements;
-    }
-    jQuery.fn.extend({
+    function showHide(elements, show){}    jQuery.fn.extend({
       css: function(name, value)
       {
         return jQuery.access(this, function(elem, name, value)
@@ -2875,14 +2885,8 @@
           return value !== undefined ? jQuery.style(elem, name, value) : jQuery.css(elem, name);
         }, name, value, arguments.length > 1);
       }, 
-      show: function()
-      {
-        return showHide(this, true);
-      }, 
-      hide: function()
-      {
-        return showHide(this);
-      }, 
+      show: function(){}, 
+      hide: function(){}, 
       toggle: function(state){}
     });
     jQuery.extend({
@@ -2929,12 +2933,6 @@
             catch(e){}
           }
         }
-        else 
-        {
-          if(hooks && 'get' in hooks && (ret = hooks.get(elem, false, extra)) !== undefined);
-
-          return style[name];
-        }
       }, 
       css: function(elem, name, extra, styles)
       {
@@ -2956,7 +2954,7 @@
         if(extra === '' || extra)
         {
           num = parseFloat(val);
-          return extra === true || jQuery.isNumeric(num) ? num || 0 : 0;
+          return extra === true || jQuery.isNumeric(num) ? num || 0 : val;
         }
 
         return val;
@@ -2985,7 +2983,7 @@
     function setPositiveNumber(elem, value, subtract)
     {
       var matches = rnumsplit.exec(value);
-      return matches ? Math.max(0, matches[1] - (subtract || 0)) + matches[2] : value;
+      return matches ? Math.max(0, matches[1] - (subtract || 0)) + matches[2] : 0;
     }
     function augmentWidthOrHeight(elem, name, extra, isBorderBox, styles)
     {
@@ -3407,54 +3405,10 @@
       for(prop in props)
       {
         value = props[prop];
-        if(rfxtypes.exec(value))
-        {
-          delete (props[prop]);
-          toggle = toggle || value === 'toggle';
-          if(value === (hidden ? 'hide' : 0));
-
-          orig[prop] = dataShow || jQuery.style(elem, prop);
-        }
+        if(rfxtypes.exec(value));
       }
 
-      if(!(jQuery.isEmptyObject(orig)))
-      {
-        if(dataShow);
-        else 
-        {
-          dataShow = jQuery._data(elem, 'fxshow', {});
-        }
-
-        if(toggle);
-
-        if(hidden)
-        {
-          jQuery(elem).show();
-        }
-
-        anim.done(function()
-        {
-          var prop;
-          jQuery._removeData(elem, 'fxshow');
-          for(prop in orig)
-          {
-            jQuery.style(elem, prop, orig[prop]);
-          }
-        });
-        for(prop in orig)
-        {
-          tween = createTween(hidden ? dataShow[prop] : 0, prop, anim);
-          if(!(prop in dataShow))
-          {
-            dataShow[prop] = tween.start;
-            if(hidden)
-            {
-              tween.end = tween.start;
-              tween.start = prop === 'width' || prop === 'height' ? 1 : 0;
-            }
-          }
-        }
-      }
+      if(!(jQuery.isEmptyObject(orig)));
     }
     function Tween(elem, options, prop, end, easing)
     {
@@ -3484,10 +3438,6 @@
         if(this.options.duration)
         {
           this.pos = eased = jQuery.easing[this.easing](percent, this.options.duration * percent, 0, 1, this.options.duration);
-        }
-        else 
-        {
-          this.pos = eased = percent;
         }
 
         this.now = ((this.end - this.start) * eased) + this.start;
@@ -3529,10 +3479,7 @@
     jQuery.each(['toggle', 'show', 'hide'], function(i, name)
     {
       var cssFn = jQuery.fn[name];
-      jQuery.fn[name] = function(speed, easing, callback)
-      {
-        return speed == null || typeof speed === 'boolean' ? cssFn.apply(this, arguments) : this.animate(genFx(name, true), speed, easing, callback);
-      };
+      jQuery.fn[name] = function(speed, easing, callback){};
     });
     jQuery.fn.extend({
       fadeTo: function(speed, to, easing, callback){}, 
@@ -3546,37 +3493,7 @@
         doAnimation.finish = doAnimation;
         return empty || optall.queue === false ? this.each(doAnimation) : this.queue(optall.queue, doAnimation);
       }, 
-      stop: function(type, clearQueue, gotoEnd)
-      {
-        var stopQueue = function(hooks){};
-        if(typeof type !== 'string')
-        {
-          gotoEnd = clearQueue;
-          clearQueue = type;
-          type = undefined;
-        }
-
-        if(clearQueue);
-
-        return this.each(function()
-        {
-          var dequeue = true, index = type != null, timers = jQuery.timers, data = jQuery._data(this);
-          if(index);
-          else 
-          {
-            for(index in data)
-            {
-              if(data[index] && data[index].stop);
-            }
-          }
-
-          index = timers.length;
-          if(dequeue)
-          {
-            jQuery.dequeue(this, type);
-          }
-        });
-      }, 
+      stop: function(type, clearQueue, gotoEnd){}, 
       finish: function(type){}
     });
     function genFx(type, includeWidth)
@@ -3584,17 +3501,14 @@
       var which, attrs = {
         height: type
       }, i = 0;
-      includeWidth = includeWidth ? 1 : 0;
+      includeWidth = includeWidth ? 0 : 0;
       for(;i < 4;i += 2 - includeWidth)
       {
         which = cssExpand[i];
         attrs['margin' + which] = attrs['padding' + which] = type;
       }
 
-      if(includeWidth)
-      {
-        attrs.opacity = attrs.width = type;
-      }
+      if(includeWidth);
 
       return attrs;
     }
@@ -3612,9 +3526,9 @@
     jQuery.speed = function(speed, easing, fn)
     {
       var opt = speed && typeof speed === 'object' ? jQuery.extend({}, speed) : {
-        complete: fn || (!fn && easing), 
+        complete: fn || (!fn && easing) || jQuery.isFunction(speed), 
         duration: speed, 
-        easing: fn || easing && !(jQuery.isFunction(easing))
+        easing: fn || easing
       };
       opt.duration = jQuery.fx.off ? 0 : typeof (opt.duration) === 'number' ? opt.duration : opt.duration in jQuery.fx.speeds ? 0 : jQuery.fx.speeds._default;
       if(opt.queue == null || opt.queue === true)
@@ -3811,7 +3725,7 @@
   })(window));
 </script>
     <script type="text/javascript">
-  window.Modernizr = (function(a, b, c)
+  (window.Modernizr = (function(a, b, c)
   {
     function x(a)
     {
@@ -3840,28 +3754,28 @@
       return z(b, 'string') || z(b, 'undefined') ? B(e, b) : 0;
     }
     var d = '2.6.2', e = {}, f = !0, g = b.documentElement, h = 'modernizr', i = b.createElement(h), j = i.style, k, l = ({}).toString, m = 'Webkit Moz O ms', n = m.split(' '), o = m.toLowerCase().split(' '), p = {}, q = {}, r = {}, s = [], t = s.slice, u, v = ({}).hasOwnProperty, w;
-    !(z(v, 'undefined')) && !(z(v.call, 'undefined')) ? w = function(a, b)
+    (!(z(v, 'undefined')) && !(z(v.call, 'undefined')) ? w = function(a, b)
     {
       return v.call(a, b);
     } : 0, Function.prototype.bind, p.csstransitions = function()
     {
       return D('transition');
-    };
+    });
     for(var E in p)
-    w(p, E) && u = E.toLowerCase(), e[u] = p[E](), s.push((e[u] ? '' : 0) + u);
+    w(p, E) && (u = E.toLowerCase(), e[u] = p[E](), s.push((e[u] ? '' : 0) + u));
 
-    return e.addTest = function(a, b){}, x(''), i = k = null, (function(a, b)
+    return (e.addTest = function(a, b){}, x(''), i = k = null, (function(a, b)
     {
       function k(a, b){}      function l(){}      function m(a)
       {
         var b = i[a[g]];
-        return b || b = {}, h++, a[g] = h, i[h] = b, b;
+        return (b || (b = {}, h++, a[g] = h, i[h] = b), b);
       }
       function n(a, c, f){}      function o(a, c){}      function p(a, b){}      function q(a)
       {
         a;
         var c = m(a);
-        return r.shivCSS && !f, j, a;
+        return (r.shivCSS && !f, j, a);
       }
       var c = a.html5 || {}, d = /^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i, e = /^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i, f, g = '_html5shiv', h = 0, i = {}, j;
       (function()
@@ -3869,7 +3783,7 @@
         try
         {
           var a = b.createElement('a');
-          a.innerHTML = '<xyz></xyz>', f = 'hidden' in a, j = a.childNodes.length == 1;
+          (a.innerHTML = '<xyz></xyz>', f = 'hidden' in a, j = a.childNodes.length == 1);
         }
         catch(c){}
       })();
@@ -3883,23 +3797,23 @@
         createElement: n, 
         createDocumentFragment: o
       };
-      a.html5 = r, q(b);
-    })(this, b), e._version = d, e._domPrefixes = o, e._cssomPrefixes = n, e.testProp = function(a){}, e.testAllProps = D, g.className = g.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') + (f ? ' js ' + s.join(' ') : 0), e;
+      (a.html5 = r, q(b));
+    })(this, b), e._version = d, e._domPrefixes = o, e._cssomPrefixes = n, e.testProp = function(a){}, e.testAllProps = D, g.className = g.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') + (f ? ' js ' + s.join(' ') : 0), e);
   })(this, this.document), (function(a, b, c)
   {
     function d(a){}    function e(a){}    function f(){}    function g(a){}    function h(){}    function i(a, c, d, e, f, i, j){}    function j(a, b, c, d, f){}    function k()
     {
       var a = B;
-      return a.loader = {
+      return (a.loader = {
         load: j, 
         i: 0
-      }, a;
+      }, a);
     }
     var l = b.documentElement, m = a.setTimeout, n = b.getElementsByTagName('script')[0], o = ({}).toString, p = [], q = 0, r = 'MozAppearance' in l.style, s = r, t = s ? 0 : n.parentNode, l = a.opera, l = !(!(b.attachEvent)), u = r ? 0 : l ? 0 : 'img', v = l ? 0 : u, w = Array.isArray || function(a){}, x = [], y = {}, z = {
       timeout: function(a, b){}
     }, A, B;
-    B = function(a){}, B.addPrefix = function(a, b){}, B.addFilter = function(a){}, B.errorTimeout = 10000, null == b.readyState, a.yepnope = k(), a.yepnope.executeStack = h, a.yepnope.injectJs = function(a, c, d, e, i, j){}, a.yepnope.injectCss = function(a, c, d, e, g, i){};
-  })(this, document), Modernizr.load = function(){};
+    (B = function(a){}, B.addPrefix = function(a, b){}, B.addFilter = function(a){}, B.errorTimeout = 10000, null == b.readyState, a.yepnope = k(), a.yepnope.executeStack = h, a.yepnope.injectJs = function(a, c, d, e, i, j){}, a.yepnope.injectCss = function(a, c, d, e, g, i){});
+  })(this, document), Modernizr.load = function(){});
   (function(a, g)
   {
     function h(c, j)
@@ -4003,12 +3917,12 @@
         c = [c, n || a.yparallax];
         f = [f, d];
         for(d = 2;d--;)
-        h[d] = w.px.test(c[d]), 'string' === typeof (f[d]) && (f[d] = f[d] === q ? 0 : C[f[d]]), h[d] ? b[d] = parseInt(c[d]), e[d] = f[d] * (this.size[d] - b[d]), k[d] = (100 * f[d]) + '%' : b[d] = !0 === c[d] ? 1 : t(c[d]), e[d] = b[d] ? f[d] * (1 - b[d]) : 0;
+        (h[d] = w.px.test(c[d]), 'string' === typeof (f[d]) && (f[d] = f[d] === q ? 0 : C[f[d]]), h[d] ? (b[d] = parseInt(c[d]), e[d] = f[d] * (this.size[d] - b[d]), k[d] = (100 * f[d]) + '%') : (b[d] = !0 === c[d] ? 1 : t(c[d]), e[d] = b[d] ? f[d] * (1 - b[d]) : 0));
       };
       this.getPointer = function()
       {
         for(var a = c.offsetParent(), k = c.position(), f = [], d = [], g = 2;g--;)
-        f[g] = h[g] ? 0 : k[0 === g ? 'left' : 'top'] / (a[0 === g ? 'outerWidth' : 'outerHeight']() - this.size[g]), d[g] = (f[g] - e[g]) / b[g];
+        (f[g] = h[g] ? 0 : k[0 === g ? 'left' : 'top'] / (a[0 === g ? 'outerWidth' : 'outerHeight']() - this.size[g]), d[g] = (f[g] - e[g]) / b[g]);
 
         return d;
       };
@@ -4041,10 +3955,10 @@
       {
         var c = b.length, j;
         for(a.mouse.ontarget = !1;c--;)
-        j = b[c], h.data(j, l).freeze || h.event.add(this, s, v, {
+        (j = b[c], h.data(j, l).freeze || h.event.add(this, s, v, {
           global: a, 
           local: e[c]
-        });
+        }));
       });
       return b.each(function(b)
       {
@@ -4096,70 +4010,11 @@
       _loadEvents: function()
       {
         var self = this;
-        this.$el.on('mouseenter.hoverdir, mouseleave.hoverdir', function(event)
-        {
-          var $el = $(this), $hoverElem = $el.find('div'), direction = self._getDir($el, {
-            x: event.pageX, 
-            y: event.pageY
-          }), styleCSS = self._getStyle(direction);
-          if(event.type === 'mouseenter')
-          {
-            $hoverElem.hide().css(styleCSS.from);
-            clearTimeout(self.tmhover);
-            self.tmhover = setTimeout(function()
-            {
-              $hoverElem.show(0, function()
-              {
-                var $el = $(this);
-                if(self.support)
-                {
-                  $el.css('transition', self.transitionProp);
-                }
-
-                self._applyAnimation($el, styleCSS.to, self.options.speed);
-              });
-            }, self.options.hoverDelay);
-          }
-          else 
-          {
-            if(self.support)
-            {
-              $hoverElem.css('transition', self.transitionProp);
-            }
-
-            clearTimeout(self.tmhover);
-            self._applyAnimation($hoverElem, styleCSS.from, self.options.speed);
-          }
-        });
+        this.$el.on('mouseenter.hoverdir, mouseleave.hoverdir', function(event){});
       }, 
-      _getDir: function($el, coordinates)
-      {
-        var w = $el.width(), h = $el.height(), x = ((coordinates.x - $el.offset().left) - (w / 2)) * (w > h ? 0 : 1), y = ((coordinates.y - $el.offset().top) - (h / 2)) * (h > w ? 0 : 1), direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
-        return direction;
-      }, 
-      _getStyle: function(direction)
-      {
-        var fromStyle, toStyle, slideFromTop = {left: '0px', top: '-100%'}, slideFromBottom = {left: '0px', top: '100%'}, slideFromLeft = {left: '-100%', top: '0px'}, slideFromRight = {left: '100%', top: '0px'}, slideTop = {top: '0px'}, slideLeft = {left: '0px'};
-        switch(direction)
-        {
-          case 0:
-            fromStyle = !(this.options.inverse) ? slideFromTop : 0;
-            toStyle = slideTop;
-            break;
-        }
-        return {
-          from: fromStyle, 
-          to: toStyle
-        };
-      }, 
-      _applyAnimation: function(el, styleCSS, speed)
-      {
-        $.fn.applyStyle = this.support ? $.fn.css : 0;
-        el.stop().applyStyle(styleCSS, $.extend(true, [], {
-          duration: speed + 'ms', 
-          easing: this.options.easing
-        }));
-      }
+      _getDir: function($el, coordinates){}, 
+      _getStyle: function(direction){}, 
+      _applyAnimation: function(el, styleCSS, speed){}
     };
     var logError = function(message){};
     $.fn.hoverdir = function(options)
@@ -4204,7 +4059,10 @@
         duration: 300, 
         queue: !1
       });
-      setTimeout(function(){}, 5000);
+      setTimeout(function()
+      {
+        b.index() < (p - 1) ? c(b) : 0;
+      }, 5000);
     };
     setTimeout(function()
     {
@@ -4217,23 +4075,23 @@
       a.each(function()
       {
         var a = $(this), e = a.attr('class').split(' ')[1].split('-'), d = {};
-        b ? d[e[0]] = d[e[1]] = 10, a.children('.discover-logo').children().animate(d, {
+        b ? (d[e[0]] = d[e[1]] = 10, a.children('.discover-logo').children().animate(d, {
           queue: !1, 
           easing: 'linear'
         }).eq(0).animate({opacity: 1}, {
           queue: !1
-        }), $title = a.find('h3:eq(0)'), $title.css('color', $title.attr('data-color')) : d[e[0]] = d[e[1]] = 2, a.removeClass('discover-hover').children('.discover-logo').children().animate(d, {
+        }), $title = a.find('h3:eq(0)'), $title.css('color', $title.attr('data-color'))) : (d[e[0]] = d[e[1]] = 2, a.removeClass('discover-hover').children('.discover-logo').children().animate(d, {
           queue: !1, 
           easing: 'linear'
         }).eq(0).animate({opacity: 0}, {
           queue: !1
-        }), $('h3', a).removeAttr('style');
+        }), $('h3', a).removeAttr('style'));
       });
     }, g = $('#discover').offset().top, h = $('#discover').height(), j = $(window).height(), k = $('.discover-position'), l = [375, 250, 125, 0], m = function()
     {
       var a = $(this).scrollTop() + j;
       if((a - g) >= (h / 2) && (a - j) <= (g + (h / 2)))
-      for(var a = a - (g + (h / 2)), b = 0, c = l.length - 1;b < l.length;++, --)
+      for(var a = a - (g + (h / 2)), b = 0, c = l.length - 1;b < l.length;)
       {
         if(a > l[b])
         {
@@ -4245,13 +4103,98 @@
         }
       }
     };
-    $(document).on('scroll', function(){});
     m.call(this);
     $('header nav ul, footer ul, #one-page-description').on('click', 'a', function(a){});
-    $('#go-webdev').on('click', function(){});
-    $('#go-webdesign').on('click', function(){});
-    $('#profil-fox h2 img').on('click', function(){});
-    $('#profil-owl h2 img').on('click', function(){});
+    $('#go-webdev').on('click', function()
+    {
+      $('#go-webdesign').animate({opacity: 0});
+      $('#team-area-content h3').animate({opacity: 0}, {
+        duration: 300, 
+        complete: function()
+        {
+          $('#tree').animate({left: 0});
+          $('#owl-blue').animate({right: 640});
+          $('#profil-owl').animate({bottom: 0});
+        }
+      });
+      $('#webdev h4, #webdesign h4').animate({opacity: 0}, {
+        duration: 200, 
+        complete: function()
+        {
+          $('#fox-blue').animate({
+            bottom: -20, 
+            opacity: 0
+          }, {duration: 200});
+        }
+      });
+      $('#go-webdev').animate({
+        right: -200, 
+        opacity: 0
+      }, {duration: 100});
+      return !1;
+    });
+    $('#go-webdesign').on('click', function()
+    {
+      $('#go-webdev').animate({opacity: 0});
+      $('#team-area-content h3').animate({opacity: 0}, {
+        duration: 300, 
+        complete: function()
+        {
+          $('#tree').animate({left: 730});
+          $('#fox-blue').animate({left: 640});
+          $('#profil-fox').animate({bottom: 0});
+        }
+      });
+      $('#webdev h4, #webdesign h4').animate({opacity: 0}, {
+        duration: 200, 
+        complete: function()
+        {
+          $('#owl-blue').animate({
+            bottom: -20, 
+            opacity: 0
+          }, {duration: 200});
+        }
+      });
+      $('#go-webdesign').animate({
+        left: -200, 
+        opacity: 0
+      }, {duration: 100});
+      return !1;
+    });
+    $('#profil-fox h2 img').on('click', function()
+    {
+      $('#tree').animate({left: 370});
+      $('#fox-blue').animate({left: 240});
+      $('#profil-fox').animate({
+        bottom: -410
+      }, {
+        complete: function()
+        {
+          $('#owl-blue').animate({bottom: 40, opacity: 1}, {duration: 200});
+          $('#go-webdev').animate({opacity: 1});
+          $('#go-webdesign').animate({left: 0, opacity: 1}, {duration: 100});
+          $('#team-area-content h3').animate({opacity: 1}, {duration: 300});
+          $('#webdev h4, #webdesign h4').animate({opacity: 1}, {duration: 200});
+        }
+      });
+    });
+    $('#profil-owl h2 img').on('click', function()
+    {
+      $('#tree').animate({left: 370});
+      $('#owl-blue').animate({right: 240});
+      $('#profil-owl').animate({
+        bottom: -410
+      }, {
+        complete: function()
+        {
+          $('#fox-blue').animate({bottom: 40, opacity: 1}, {duration: 200});
+          $('#go-webdev').animate({right: 0, opacity: 1});
+          $('#go-webdesign').animate({opacity: 1}, {duration: 100});
+          $('#team-area-content h3').animate({opacity: 1}, {duration: 300});
+          $('#webdev h4, #webdesign h4').animate({opacity: 1}, {duration: 200});
+        }
+      });
+    });
     $('#work-grid li').each(function()
     {
       $(this).hoverdir();

@@ -3272,7 +3272,7 @@
                 else 
                 {
                   cache = outerCache[dir] = [dirkey];
-                  cache[1] = matcher(elem, context, xml);
+                  cache[1] = matcher(elem, context, xml) || cachedruns;
                   if(cache[1] === true)
                   {
                     return true;
@@ -3965,7 +3965,7 @@
           queue = jQuery._data(elem, type);
           if(data)
           {
-            if(!queue)
+            if(!queue || jQuery.isArray(data))
             {
               queue = jQuery._data(elem, type, jQuery.makeArray(data));
             }
@@ -4532,10 +4532,10 @@
         var i, prop, copy, type = event.type, originalEvent = event, fixHook = this.fixHooks[type];
         if(!fixHook)
         {
-          this.fixHooks[type] = fixHook = rmouseEvent.test(type) ? this.mouseHooks : 0;
+          this.fixHooks[type] = fixHook = rmouseEvent.test(type) ? this.mouseHooks : rkeyEvent.test(type) ? 0 : {};
         }
 
-        copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
+        copy = fixHook.props ? this.props.concat(fixHook.props) : this.props;
         event = new jQuery.Event(originalEvent);
         i = copy.length;
         while(i--)
@@ -4544,12 +4544,15 @@
           event[prop] = originalEvent[prop];
         }
 
-        if(!(event.target));
+        if(!(event.target))
+        {
+          event.target = originalEvent.srcElement || document;
+        }
 
-        //if(event.target.nodeType === 3);
+        if(event.target.nodeType === 3);
 
         event.metaKey = !(!(event.metaKey));
-        return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
+        return fixHook.filter ? fixHook.filter(event, originalEvent) : event;
       }, 
       props: ('altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which').split(' '), 
       fixHooks: {}, 
@@ -4893,7 +4896,7 @@
           expr = (':not(' + expr) + ')';
         }
 
-        return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? [elem] : 0 : jQuery.find.matches(expr, jQuery.grep(elems, function(elem)
+        return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? [elem] : [] : jQuery.find.matches(expr, jQuery.grep(elems, function(elem)
         {
           return elem.nodeType === 1;
         }));
@@ -5787,7 +5790,24 @@
           animation.tweens.push(tween);
           return tween;
         }, 
-        stop: function(gotoEnd){}
+        stop: function(gotoEnd)
+        {
+          var index = 0, length = gotoEnd ? animation.tweens.length : 0;
+          if(stopped);
+
+          stopped = true;
+          for(;index < length;index++)
+          {
+            animation.tweens[index].run(1);
+          }
+
+          if(gotoEnd)
+          {
+            deferred.resolveWith(elem, [animation, gotoEnd]);
+          }
+
+          return this;
+        }
       }), props = animation.props;
       propFilter(props, animation.opts.specialEasing);
       for(;index < length;index++)
@@ -6036,10 +6056,15 @@
 
           for(index = timers.length;index--;)
           {
-            if(timers[index].elem === this);
+            if(timers[index].elem === this && type == null)
+            {
+              timers[index].anim.stop(gotoEnd);
+              dequeue = false;
+              timers.splice(index, 1);
+            }
           }
 
-          if(dequeue)
+          if(dequeue || !gotoEnd)
           {
             jQuery.dequeue(this, type);
           }
@@ -6296,12 +6321,12 @@
 
     t = null;
     e.cssEase = {_default: 'ease', 'in': 'ease-in', out: 'ease-out', 'in-out': 'ease-in-out', snap: 'cubic-bezier(0,1,.5,1)', easeInCubic: 'cubic-bezier(.55, .055, .675, .19)', easeOutCubic: 'cubic-bezier(.215,.61,.355,1)', easeInOutCubic: 'cubic-bezier(.645,.045,.355,1)', easeInCirc: 'cubic-bezier(.6,.04,.98,.335)', easeOutCirc: 'cubic-bezier(.075,.82,.165,1)', easeInOutCirc: 'cubic-bezier(.785,.135,.15,.86)', easeInExpo: 'cubic-bezier(.95,.05,.795,.035)', easeOutExpo: 'cubic-bezier(.19,1,.22,1)', easeInOutExpo: 'cubic-bezier(1,0,0,1)', easeInQuad: 'cubic-bezier(.55,.085,.68,.53)', easeOutQuad: 'cubic-bezier(.25,.46,.45,.94)', easeInOutQuad: 'cubic-bezier(.455,.03,.515,.955)', easeInQuart: 'cubic-bezier(.895,.03,.685,.22)', easeOutQuart: 'cubic-bezier(.165,.84,.44,1)', easeInOutQuart: 'cubic-bezier(.77,0,.175,1)', easeInQuint: 'cubic-bezier(.755,.05,.855,.06)', easeOutQuint: 'cubic-bezier(.23,1,.32,1)', easeInOutQuint: 'cubic-bezier(.86,0,.07,1)', easeInSine: 'cubic-bezier(.47,0,.745,.715)', easeOutSine: 'cubic-bezier(.39,.575,.565,1)', easeInOutSine: 'cubic-bezier(.445,.05,.55,.95)', easeInBack: 'cubic-bezier(.6,-.28,.735,.045)', easeOutBack: 'cubic-bezier(.175, .885,.32,1.275)', easeInOutBack: 'cubic-bezier(.68,-.55,.265,1.55)'};
-    e.cssHooks.transit:transform = {
+    e.cssHooks['transit:transform'] = {
       get: function(t){}, 
       set: function(t, r){}
     };
     e.cssHooks.transform = {
-      set: e.cssHooks.transit:transform.set
+      set: e.cssHooks['transit:transform'].set
     };
     if(e.fn.jquery < '1.8')
     {
@@ -7006,7 +7031,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
       activate: function(t){}
     };
     var n = e.fn.scrollspy;
-    (e.fn.scrollspy = function(n){}, e.fn.scrollspy.Constructor = t, e.fn.scrollspy.defaults = {offset: 10}, e.fn.scrollspy.noConflict = function(){}, e(window).on('load', function(){}));
+    (e.fn.scrollspy = function(n){}, e.fn.scrollspy.Constructor = t, e.fn.scrollspy.defaults = {offset: 10}, e.fn.scrollspy.noConflict = function(){}, e(window).on('load', function()
+    {
+      e('[data-spy="scroll"]').each(function(){});
+    }));
   })(window.jQuery)), !((function(e)
   {
     'use strict';
@@ -7062,7 +7090,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
     var t = function(t, n){};
     t.prototype.checkPosition = function(){};
     var n = e.fn.affix;
-    (e.fn.affix = function(n){}, e.fn.affix.Constructor = t, e.fn.affix.defaults = {offset: 0}, e.fn.affix.noConflict = function(){}, e(window).on('load', function(){}));
+    (e.fn.affix = function(n){}, e.fn.affix.Constructor = t, e.fn.affix.defaults = {offset: 0}, e.fn.affix.noConflict = function(){}, e(window).on('load', function()
+    {
+      e('[data-spy="affix"]').each(function(){});
+    }));
   })(window.jQuery)));
   (function($)
   {
@@ -8532,7 +8563,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
         {
           u = s;
           a = o;
-          n.hoverIntent_t = setTimeout(function(){}, i.interval);
+          n.hoverIntent_t = setTimeout(function()
+          {
+            l(t, n);
+          }, i.interval);
         }
       };
       var c = function(e, t)
@@ -8627,7 +8661,7 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
         if(sf.wp7);
 
-        $menu.on('focusin', 'li', over).on('focusout', 'li', out).on('click', 'a', o, clickHandler).on(touchstart, 'a', touchHandler);
+        $menu.on('mouseenter', 'li', over).on('mouseleave', 'li', out).on('click', 'a', o, clickHandler);
       }, touchHandler = function(e){}, clickHandler = function(e){}, setPathToCurrent = function($menu, o)
       {
         return $menu.find('li.' + o.pathClass).slice(0, o.pathLevels).addClass((o.hoverClass + ' ') + c.bcClass).filter(function(){}).removeClass(o.pathClass);

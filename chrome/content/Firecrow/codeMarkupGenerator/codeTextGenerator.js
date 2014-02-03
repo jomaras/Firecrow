@@ -519,6 +519,8 @@ Firecrow.CodeTextGenerator.prototype =
     {
         var code = "";
 
+        var expressionCode = this.generateExpression(unaryExpression.argument);
+
         if(unaryExpression.prefix) { code += unaryExpression.operator;}
 
         if(unaryExpression.operator == "typeof"
@@ -528,7 +530,7 @@ Firecrow.CodeTextGenerator.prototype =
         var isComplexArgument = !(ASTHelper.isLiteral(unaryExpression.argument) || ASTHelper.isIdentifier(unaryExpression.argument));
 
         code += (isComplexArgument ? this._LEFT_PARENTHESIS : "")
-                    + this.generateExpression(unaryExpression.argument)
+                    + expressionCode
               + (isComplexArgument ? this._RIGHT_PARENTHESIS : "");
 
         if(!unaryExpression.prefix) { code += unaryExpression.operator; }
@@ -576,16 +578,11 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromUpdateExpression: function(updateExpression)
     {
-        var code = "";
-        // if prefixed e.g.: ++i
-        if(updateExpression.prefix) { code += updateExpression.operator;}
+        var code = this.generateJsCode(updateExpression.argument);
+        if(code.trim && code.trim() == "") { return ""; }
 
-        code += this.generateJsCode(updateExpression.argument);
-
-        // if postfixed e.g.: i++
-        if(!updateExpression.prefix) code += updateExpression.operator;
-
-        return code;
+        if(updateExpression.prefix) { return updateExpression.operator + code;}
+        else                        { return code + updateExpression.operator;}
     },
 
     generateFromNewExpression: function(newExpression)
@@ -1133,7 +1130,7 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 var item = sequence[i];
 
-                if(i != 0) { code += this._COMMA +  " "; }
+                if(i != 0 && code.trim() != "") { code += this._COMMA +  " "; }
 
                 if(this.isSlicing && !item.shouldBeIncluded)
                 {

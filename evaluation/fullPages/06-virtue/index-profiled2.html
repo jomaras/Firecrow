@@ -3084,14 +3084,7 @@
           '~': {dir: 'previousSibling'}
         }, 
         preFilter: {
-          'ATTR': function(match)
-          {
-            match[1] = match[1].replace(runescape, funescape);
-            match[3] = (match[4]).replace(runescape, funescape);
-            if(match[2] === '~=');
-
-            return match.slice(0, 4);
-          }, 
+          'ATTR': function(match){}, 
           'CHILD': function(match){}, 
           'PSEUDO': function(match)
           {
@@ -3122,17 +3115,7 @@
               return pattern.test((typeof (elem.className) === 'string' && elem.className));
             }));
           }, 
-          'ATTR': function(name, operator, check)
-          {
-            return function(elem)
-            {
-              var result = Sizzle.attr(elem, name);
-              if(result == null)
-              {
-                return operator === '!=';
-              }
-            };
-          }, 
+          'ATTR': function(name, operator, check){}, 
           'CHILD': function(type, what, argument, first, last){}, 
           'PSEUDO': function(pseudo, argument)
           {
@@ -4494,29 +4477,7 @@
       handlers: function(event, handlers)
       {
         var sel, handleObj, matches, i, handlerQueue = [], delegateCount = handlers.delegateCount, cur = event.target;
-        if(delegateCount && cur.nodeType && !(event.button))
-        {
-          for(;cur != this;cur = cur.parentNode)
-          {
-            if(cur.nodeType === 1 && cur.disabled !== true)
-            {
-              matches = [];
-              for(i = 0;i < delegateCount;i++)
-              {
-                handleObj = handlers[i];
-                sel = handleObj.selector + ' ';
-                if(matches[sel] === undefined)
-                {
-                  matches[sel] = handleObj.needsContext ? 0 : jQuery.find(sel, this, null, [cur]).length;
-                }
-
-                if(matches[sel]);
-              }
-
-              if(matches.length);
-            }
-          }
-        }
+        if(delegateCount);
 
         if(delegateCount < handlers.length)
         {
@@ -4550,7 +4511,10 @@
           event[prop] = originalEvent[prop];
         }
 
-        if(!(event.target));
+        if(!(event.target))
+        {
+          event.target = originalEvent.srcElement || document;
+        }
 
         if(event.target.nodeType === 3);
 
@@ -7022,7 +6986,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
       activate: function(t){}
     };
     var n = e.fn.scrollspy;
-    (e.fn.scrollspy = function(n){}, e.fn.scrollspy.Constructor = t, e.fn.scrollspy.defaults = {offset: 10}, e.fn.scrollspy.noConflict = function(){}, e(window).on('load', function(){}));
+    (e.fn.scrollspy = function(n){}, e.fn.scrollspy.Constructor = t, e.fn.scrollspy.defaults = {offset: 10}, e.fn.scrollspy.noConflict = function(){}, e(window).on('load', function()
+    {
+      e('[data-spy="scroll"]').each(function(){});
+    }));
   })(window.jQuery)), !((function(e)
   {
     'use strict';
@@ -7078,7 +7045,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
     var t = function(t, n){};
     t.prototype.checkPosition = function(){};
     var n = e.fn.affix;
-    (e.fn.affix = function(n){}, e.fn.affix.Constructor = t, e.fn.affix.defaults = {offset: 0}, e.fn.affix.noConflict = function(){}, e(window).on('load', function(){}));
+    (e.fn.affix = function(n){}, e.fn.affix.Constructor = t, e.fn.affix.defaults = {offset: 0}, e.fn.affix.noConflict = function(){}, e(window).on('load', function()
+    {
+      e('[data-spy="affix"]').each(function(){});
+    }));
   })(window.jQuery)));
   (function($)
   {
@@ -8805,8 +8775,8 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
     {
       function LightboxOptions()
       {
-        this.fileLoadingImage = virtue_URL + 'assets/img/loading.gif';
-        this.fileCloseImage = virtue_URL + 'assets/img/close.png';
+        this.fileLoadingImage = virtue_URL + '/assets/img/loading.gif';
+        this.fileCloseImage = virtue_URL + '/assets/img/close.png';
         this.resizeDuration = 700;
         this.fadeDuration = 500;
         this.labelImage = 'Image';
@@ -9008,7 +8978,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
         mainobj.togglecontrol();
         $(('a[href="' + mainobj.anchorkeyword) + '"]').click(function(){});
-        $(window).bind('scroll resize', function(e){});
+        $(window).bind('scroll resize', function(e)
+        {
+          mainobj.togglecontrol();
+        });
       });
     }
   };

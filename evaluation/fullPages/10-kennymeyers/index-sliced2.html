@@ -2737,7 +2737,7 @@
             'aria-atomic': d
           })), y.rendered = -1, null, null, O(s.content.text, e), null, I(), null, a.each(h, function()
           {
-            this(y);
+            this.initialize === 'render' && this(y);
           }), P(), D.queue('fx', function(a)
           {
             (null, D.trigger(i, [y]), null, y.redraw(), y.toggle(d, G.event), a());

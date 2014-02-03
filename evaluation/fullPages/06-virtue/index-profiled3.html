@@ -2370,10 +2370,13 @@
       {
         return this.eq(0);
       }, 
-      last: function(){}, 
+      last: function()
+      {
+        return this.eq(-1);
+      }, 
       eq: function(i)
       {
-        var len = this.length, j = +i + (i < 0 ? 0 : 0);
+        var len = this.length, j = +i + (i < 0 ? len : 0);
         return this.pushStack(j >= 0 && j < len ? [this[j]] : 0);
       }, 
       map: function(callback)
@@ -3087,7 +3090,7 @@
           'ATTR': function(match)
           {
             match[1] = match[1].replace(runescape, funescape);
-            match[3] = (match[4]).replace(runescape, funescape);
+            match[3] = (match[4] || match[5]).replace(runescape, funescape);
             if(match[2] === '~=');
 
             return match.slice(0, 4);
@@ -4128,19 +4131,7 @@
         return this;
       }, 
       toggleClass: function(value, stateVal){}, 
-      hasClass: function(selector)
-      {
-        var className = (' ' + selector) + ' ', i = 0, l = this.length;
-        for(;i < l;i++)
-        {
-          if(this[i].nodeType === 1 && ((' ' + this[i].className) + ' ').replace(rclass, ' ').indexOf(className) >= 0)
-          {
-            return true;
-          }
-        }
-
-        return false;
-      }, 
+      hasClass: function(selector){}, 
       val: function(value){}
     });
     jQuery.extend({
@@ -4550,7 +4541,10 @@
           event[prop] = originalEvent[prop];
         }
 
-        if(!(event.target));
+        if(!(event.target))
+        {
+          event.target = originalEvent.srcElement || document;
+        }
 
         if(event.target.nodeType === 3);
 
@@ -4919,7 +4913,7 @@
           expr = (':not(' + expr) + ')';
         }
 
-        return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? [elem] : 0 : jQuery.find.matches(expr, jQuery.grep(elems, function(elem)
+        return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? [elem] : [] : jQuery.find.matches(expr, jQuery.grep(elems, function(elem)
         {
           return elem.nodeType === 1;
         }));
@@ -4995,7 +4989,17 @@
           }
         });
       }, 
-      prepend: function(){}, 
+      prepend: function()
+      {
+        return this.domManip(arguments, function(elem)
+        {
+          if(this.nodeType === 1)
+          {
+            var target = manipulationTarget(this, elem);
+            target.insertBefore(elem, target.firstChild);
+          }
+        });
+      }, 
       before: function()
       {
         return this.domManip(arguments, function(elem)
@@ -7022,7 +7026,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
       activate: function(t){}
     };
     var n = e.fn.scrollspy;
-    (e.fn.scrollspy = function(n){}, e.fn.scrollspy.Constructor = t, e.fn.scrollspy.defaults = {offset: 10}, e.fn.scrollspy.noConflict = function(){}, e(window).on('load', function(){}));
+    (e.fn.scrollspy = function(n){}, e.fn.scrollspy.Constructor = t, e.fn.scrollspy.defaults = {offset: 10}, e.fn.scrollspy.noConflict = function(){}, e(window).on('load', function()
+    {
+      e('[data-spy="scroll"]').each(function(){});
+    }));
   })(window.jQuery)), !((function(e)
   {
     'use strict';
@@ -7078,7 +7085,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
     var t = function(t, n){};
     t.prototype.checkPosition = function(){};
     var n = e.fn.affix;
-    (e.fn.affix = function(n){}, e.fn.affix.Constructor = t, e.fn.affix.defaults = {offset: 0}, e.fn.affix.noConflict = function(){}, e(window).on('load', function(){}));
+    (e.fn.affix = function(n){}, e.fn.affix.Constructor = t, e.fn.affix.defaults = {offset: 0}, e.fn.affix.noConflict = function(){}, e(window).on('load', function()
+    {
+      e('[data-spy="affix"]').each(function(){});
+    }));
   })(window.jQuery)));
   (function($)
   {
@@ -7220,23 +7230,7 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
             }
 
             methods.directionNav.update();
-            slider.directionNav.bind(eventType, function(event)
-            {
-              event.preventDefault();
-              var target;
-              if(watchedEvent === '' || watchedEvent === event.type)
-              {
-                target = $(this).hasClass(namespace + 'next') ? slider.getTarget('next') : slider.getTarget('prev');
-                slider.flexAnimate(target, slider.vars.pauseOnAction);
-              }
-
-              if(watchedEvent === '')
-              {
-                watchedEvent = event.type;
-              }
-
-              methods.setToClearWatchedEvent();
-            });
+            slider.directionNav.bind(eventType, function(event){});
           }, 
           update: function()
           {
@@ -7290,11 +7284,7 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
             return document[methods.pauseInvisible.visProp] || false;
           }
         }, 
-        setToClearWatchedEvent: function()
-        {
-          clearTimeout(watchedEventClearTimer);
-          watchedEventClearTimer = setTimeout(function(){}, 3000);
-        }
+        setToClearWatchedEvent: function(){}
       };
       slider.flexAnimate = function(target, pause, override, withSync, fromNav)
       {
@@ -7311,8 +7301,7 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
           slider.animating = true;
           slider.animatingTo = target;
-          if(pause)
-          slider.pause();
+          if(pause);
 
           slider.vars.before(slider);
           if(slider.syncExists);
@@ -7327,11 +7316,7 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
           if(slider.vars.directionNav)
           methods.directionNav.update();
 
-          if(target === slider.last)
-          {
-            slider.vars.end(slider);
-            if(!(slider.vars.animationLoop));
-          }
+          if(target === slider.last);
 
           if(!fade)
           {
@@ -7358,16 +7343,12 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
         slider.currentSlide = slider.animatingTo;
         slider.vars.after(slider);
       };
-      slider.animateSlides = function(){};
-      slider.pause = function()
+      slider.animateSlides = function()
       {
-        clearInterval(slider.animatedSlides);
-        slider.animatedSlides = null;
-        slider.playing = false;
-        if(slider.vars.pausePlay);
-
-        if(slider.syncExists);
+        if(!(slider.animating) && focused)
+        slider.flexAnimate(slider.getTarget('next'));
       };
+      slider.pause = function(){};
       slider.play = function()
       {
         if(slider.playing);
@@ -7390,10 +7371,6 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
         if(dir === 'next')
         {
           return slider.currentSlide === slider.last ? 0 : slider.currentSlide + 1;
-        }
-        else 
-        {
-          return slider.currentSlide === 0 ? 0 : slider.currentSlide - 1;
         }
       };
       slider.setProps = function(pos, special, dur){};
@@ -7720,9 +7697,425 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
           return true;
         });
-        $cfs.bind((cf_e('prev', conf) + ' ') + cf_e('next', conf), function(e, obj, num, clb, que){});
-        $cfs.bind(cf_e('slide_prev', conf), function(e, sO, nI){});
-        $cfs.bind(cf_e('slide_next', conf), function(e, sO, nI){});
+        $cfs.bind((cf_e('prev', conf) + ' ') + cf_e('next', conf), function(e, obj, num, clb, que)
+        {
+          e.stopPropagation();
+          if(crsl.isStopped || $cfs.is(':hidden'));
+
+          var minimum = is_number(opts.items.minimum) ? 0 : opts.items.visible + 1;
+          if(minimum > itms.total);
+
+          var v = [obj, num, clb, que], t = ['object', 'number/string', 'function', 'boolean'], a = cf_sortParams(v, t);
+          obj = a[0];
+          num = a[1];
+          clb = a[2];
+          que = a[3];
+          var eType = e.type.slice(conf.events.prefix.length);
+          if(!(is_object(obj)))
+          {
+            obj = {};
+          }
+
+          if(is_function(clb));
+
+          if(is_boolean(que));
+
+          obj = $.extend(true, {}, opts[eType], obj);
+          if(obj.conditions);
+
+          if(!(is_number(num)))
+          {
+            if(opts.items.filter != '*');
+            else 
+            {
+              var arr = [num, obj.items, opts[eType].items];
+              for(var a = 0, l = arr.length;a < l;a++)
+              {
+                if(is_number(arr[a]) || arr[a] == 'page' || arr[a] == 'visible')
+                {
+                  num = arr[a];
+                  break;
+                }
+              }
+            }
+
+            switch(num)
+            {
+              case 'page':
+              case 'visible':
+            }
+          }
+
+          if(scrl.isStopped);
+
+          if(obj.duration > 0)
+          {
+            if(crsl.isScrolling)
+            {
+              if(obj.queue);
+
+              e.stopImmediatePropagation();
+              return debug(conf, 'Carousel currently scrolling.');
+            }
+          }
+
+          tmrs.timePassed = 0;
+          $cfs.trigger(cf_e('slide_' + eType, conf), [obj, num]);
+          if(opts.synchronise)
+          {
+            var s, c;
+            for(var j, l;;)
+            {
+              var d;
+            }
+          }
+
+          return true;
+        });
+        $cfs.bind(cf_e('slide_prev', conf), function(e, sO, nI)
+        {
+          e.stopPropagation();
+          var a_itm = $cfs.children();
+          if(!(opts.circular));
+
+          sz_resetMargin(a_itm, opts);
+          if(!(is_number(nI)))
+          {
+            if(false);
+            else if(false)
+            {
+              var xI;
+            }
+          }
+
+          if(!(opts.circular));
+
+          opts.items.visibleConf.old = opts.items.visible;
+          if(opts.items.visibleConf.variable)
+          {
+            var vI;
+          }
+          else if(opts.items.filter != '*')
+          {
+            var vI;
+          }
+
+
+          sz_resetMargin(a_itm, opts, true);
+          if(nI == 0);
+
+          debug(conf, ('Scrolling ' + nI) + ' items backward.');
+          itms.first += nI;
+          while(itms.first >= itms.total)
+          {
+            itms.first -= itms.total;
+          }
+
+          if(!(opts.circular));
+
+          $cfs.children().slice(itms.total - nI, itms.total).prependTo($cfs);
+          if(itms.total < (opts.items.visible + nI));
+
+          var a_itm = $cfs.children(), i_old = gi_getOldItemsPrev(a_itm, opts, nI), i_new = gi_getNewItemsPrev(a_itm, opts), i_cur_l = a_itm.eq(nI - 1), i_old_l = i_old.last(), i_new_l = i_new.last();
+          sz_resetMargin(a_itm, opts);
+          var pL = 0, pR = 0;
+          if(opts.align)
+          {
+            var p;
+          }
+
+          var oL = pL < 0 ? 0 : 0;
+          var hiddenitems = false, i_skp = $();
+          if(opts.items.visible < nI)
+          {
+            if(false)
+            {
+              var orgW;
+            }
+          }
+
+          var $cf2 = false, i_siz = ms_getTotalSize(a_itm.slice(0, nI), opts, 'width'), w_siz = cf_mapWrapperSizes(ms_getSizes(i_new, opts, true), opts, !(opts.usePadding)), i_siz_vis = 0, a_cfs = {}, a_wsz = {}, a_cur = {}, a_old = {}, a_new = {}, a_lef = {}, a_lef_vis = {}, a_dur = sc_getDuration(sO, opts, nI, i_siz);
+          switch(sO.fx)
+          {
+            case 'cover':
+            case 'cover-fade':
+          }
+          if(hiddenitems);
+
+          sz_resetMargin(a_itm, opts, true);
+          if(pR >= 0)
+          {
+            sz_resetMargin(i_old_l, opts, opts.padding[opts.d[1]]);
+          }
+
+          if(pL >= 0)
+          {
+            sz_resetMargin(i_cur_l, opts, opts.padding[opts.d[3]]);
+          }
+
+          if(opts.align);
+
+          a_lef[opts.d.left] = -(i_siz - oL);
+          a_lef_vis[opts.d.left] = -(i_siz_vis - oL);
+          a_wsz[opts.d.left] = w_siz[opts.d.width];
+          var _s_wrapper = function(){}, _a_wrapper = function(){}, _s_paddingold = function(){}, _a_paddingold = function(){}, _s_paddingnew = function(){}, _a_paddingnew = function(){}, _s_paddingcur = function(){}, _a_paddingcur = function(){}, _onafter = function(){}, _moveitems = function(){}, _position = function(){};
+          switch(sO.fx)
+          {
+            case 'crossfade':
+            case 'cover':
+            case 'cover-fade':
+            case 'uncover':
+            case 'uncover-fade':
+          }
+          switch(sO.fx)
+          {
+            case 'crossfade':
+            case 'uncover':
+            case 'uncover-fade':
+            case 'cover':
+            case 'cover-fade':
+          }
+          $cfs.css(a_lef);
+          scrl = sc_setScroll(a_dur, sO.easing, conf);
+          a_cfs[opts.d.left] = opts.usePadding ? 0 : 0;
+          if(opts[opts.d.width] == 'variable' || opts[opts.d.height] == 'variable');
+
+          if(opts.usePadding);
+
+          _position = function(){};
+          var overFill = (opts.items.visible + nI) - itms.total;
+          _moveitems = function()
+          {
+            if(overFill > 0);
+
+            sc_showHiddenItems(hiddenitems);
+            if(opts.usePadding)
+            {
+              var l_itm;
+            }
+          };
+          var cb_arguments = sc_mapCallbackArguments(i_old, i_skp, i_new, nI, 'prev', a_dur, w_siz);
+          _onafter = function()
+          {
+            sc_afterScroll($cfs, $cf2, sO);
+            crsl.isScrolling = false;
+            clbk.onAfter = sc_fireCallbacks($tt0, sO, 'onAfter', cb_arguments, clbk);
+            queu = sc_fireQueue($cfs, queu, conf);
+            if(!(crsl.isPaused));
+          };
+          crsl.isScrolling = true;
+          tmrs = sc_clearTimers(tmrs);
+          clbk.onBefore = sc_fireCallbacks($tt0, sO, 'onBefore', cb_arguments, clbk);
+          switch(sO.fx)
+          {
+            case 'none':
+            case 'fade':
+            case 'crossfade':
+            case 'cover':
+            case 'cover-fade':
+            case 'uncover':
+            case 'uncover-fade':
+            default:
+                            scrl.anims.push([$cfs, a_cfs, function()
+              {
+                _moveitems();
+                _onafter();
+              }]);
+
+                            _a_wrapper();
+
+                            _a_paddingold();
+
+                            _a_paddingnew();
+
+                            _a_paddingcur();
+
+                            break;
+
+          }
+          sc_startScroll(scrl, conf);
+          cf_setCookie(opts.cookie, $cfs, conf);
+          $cfs.trigger(cf_e('updatePageStatus', conf), [false, w_siz]);
+          return true;
+        });
+        $cfs.bind(cf_e('slide_next', conf), function(e, sO, nI)
+        {
+          e.stopPropagation();
+          var a_itm = $cfs.children();
+          if(!(opts.circular));
+
+          sz_resetMargin(a_itm, opts);
+          if(!(is_number(nI)))
+          {
+            if(false)
+            {
+              var xI;
+            }
+          }
+
+          var lastItemNr = itms.first == 0 ? itms.total : itms.first;
+          if(!(opts.circular))
+          {
+            if(false)
+            {
+              var vI, xI;
+            }
+            else 
+            {
+              var vI, xI;
+            }
+          }
+
+          opts.items.visibleConf.old = opts.items.visible;
+          if(opts.items.visibleConf.variable)
+          {
+            var vI;
+          }
+          else if(opts.items.filter != '*')
+          {
+            var vI;
+          }
+
+
+          sz_resetMargin(a_itm, opts, true);
+          if(nI == 0);
+
+          debug(conf, ('Scrolling ' + nI) + ' items forward.');
+          itms.first -= nI;
+          while(itms.first < 0)
+          {
+            itms.first += itms.total;
+          }
+
+          if(!(opts.circular));
+
+          if(itms.total < (opts.items.visible + nI));
+
+          var a_itm = $cfs.children(), i_old = gi_getOldItemsNext(a_itm, opts), i_new = gi_getNewItemsNext(a_itm, opts, nI), i_cur_l = a_itm.eq(nI - 1), i_old_l = i_old.last(), i_new_l = i_new.last();
+          sz_resetMargin(a_itm, opts);
+          var pL = 0, pR = 0;
+          if(opts.align)
+          {
+            var p;
+          }
+
+          var hiddenitems = false, i_skp = $();
+          if(opts.items.visibleConf.old < nI)
+          {
+            if(false)
+            {
+              var orgW;
+            }
+          }
+
+          var $cf2 = false, i_siz = ms_getTotalSize(a_itm.slice(0, nI), opts, 'width'), w_siz = cf_mapWrapperSizes(ms_getSizes(i_new, opts, true), opts, !(opts.usePadding)), i_siz_vis = 0, a_cfs = {}, a_cfs_vis = {}, a_cur = {}, a_old = {}, a_lef = {}, a_dur = sc_getDuration(sO, opts, nI, i_siz);
+          switch(sO.fx)
+          {
+            case 'uncover':
+            case 'uncover-fade':
+          }
+          if(hiddenitems);
+
+          if(opts.align);
+
+          sz_resetMargin(a_itm, opts, true);
+          sz_resetMargin(i_old_l, opts, opts.padding[opts.d[1]]);
+          if(opts.align);
+
+          a_lef[opts.d.left] = opts.usePadding ? 0 : 0;
+          var _s_wrapper = function(){}, _a_wrapper = function(){}, _s_paddingold = function(){}, _a_paddingold = function(){}, _s_paddingcur = function(){}, _a_paddingcur = function(){}, _onafter = function(){}, _moveitems = function(){}, _position = function(){};
+          switch(sO.fx)
+          {
+            case 'crossfade':
+            case 'cover':
+            case 'cover-fade':
+            case 'uncover':
+            case 'uncover-fade':
+          }
+          switch(sO.fx)
+          {
+            case 'crossfade':
+            case 'cover':
+            case 'cover-fade':
+          }
+          scrl = sc_setScroll(a_dur, sO.easing, conf);
+          a_cfs[opts.d.left] = -i_siz;
+          a_cfs_vis[opts.d.left] = -i_siz_vis;
+          if(pL < 0);
+
+          if(opts[opts.d.width] == 'variable' || opts[opts.d.height] == 'variable');
+
+          if(opts.usePadding)
+          {
+            var i_new_l_m;
+            var i_cur_l_m;
+          }
+
+          _position = function()
+          {
+            $cfs.css(a_lef);
+          };
+          var overFill = (opts.items.visible + nI) - itms.total;
+          _moveitems = function()
+          {
+            if(overFill > 0);
+
+            var l_itm = $cfs.children().slice(0, nI).appendTo($cfs).last();
+            if(overFill > 0);
+
+            sc_showHiddenItems(hiddenitems);
+            if(opts.usePadding)
+            {
+              if(false)
+              {
+                var i_cur_l;
+              }
+            }
+          };
+          var cb_arguments = sc_mapCallbackArguments(i_old, i_skp, i_new, nI, 'next', a_dur, w_siz);
+          _onafter = function()
+          {
+            $cfs.css('zIndex', $cfs.data('_cfs_origCssZindex'));
+            sc_afterScroll($cfs, $cf2, sO);
+            crsl.isScrolling = false;
+            clbk.onAfter = sc_fireCallbacks($tt0, sO, 'onAfter', cb_arguments, clbk);
+            queu = sc_fireQueue($cfs, queu, conf);
+            if(!(crsl.isPaused));
+          };
+          crsl.isScrolling = true;
+          tmrs = sc_clearTimers(tmrs);
+          clbk.onBefore = sc_fireCallbacks($tt0, sO, 'onBefore', cb_arguments, clbk);
+          switch(sO.fx)
+          {
+            case 'none':
+            case 'fade':
+            case 'crossfade':
+            case 'cover':
+            case 'cover-fade':
+            case 'uncover':
+            case 'uncover-fade':
+            default:
+                            scrl.anims.push([$cfs, a_cfs, function()
+              {
+                _position();
+                _moveitems();
+                _onafter();
+              }]);
+
+                            _a_wrapper();
+
+                            _a_paddingold();
+
+                            _a_paddingcur();
+
+                            break;
+
+          }
+          sc_startScroll(scrl, conf);
+          cf_setCookie(opts.cookie, $cfs, conf);
+          $cfs.trigger(cf_e('updatePageStatus', conf), [false, w_siz]);
+          return true;
+        });
         $cfs.bind(cf_e('slideTo', conf), function(e, num, dev, org, obj, dir, clb){});
         $cfs.bind(cf_e('prevPage', conf), function(e, obj, clb){});
         $cfs.bind(cf_e('nextPage', conf), function(e, obj, clb){});
@@ -7800,21 +8193,41 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
         if(opts.prev.button)
         {
-          opts.prev.button.bind(cf_e(opts.prev.event, conf, false), function(e){});
+          opts.prev.button.bind(cf_e(opts.prev.event, conf, false), function(e)
+          {
+            e.preventDefault();
+            $cfs.trigger(cf_e('prev', conf));
+          });
           if(opts.prev.pauseOnHover)
           {
             var pC = bt_pauseOnHoverConfig(opts.prev.pauseOnHover);
-            opts.prev.button.bind(cf_e('mouseenter', conf, false), function(){}).bind(cf_e('mouseleave', conf, false), function(){});
+            opts.prev.button.bind(cf_e('mouseenter', conf, false), function()
+            {
+              $cfs.trigger(cf_e('pause', conf), pC);
+            }).bind(cf_e('mouseleave', conf, false), function()
+            {
+              $cfs.trigger(cf_e('resume', conf));
+            });
           }
         }
 
         if(opts.next.button)
         {
-          opts.next.button.bind(cf_e(opts.next.event, conf, false), function(e){});
+          opts.next.button.bind(cf_e(opts.next.event, conf, false), function(e)
+          {
+            e.preventDefault();
+            $cfs.trigger(cf_e('next', conf));
+          });
           if(opts.next.pauseOnHover)
           {
             var pC = bt_pauseOnHoverConfig(opts.next.pauseOnHover);
-            opts.next.button.bind(cf_e('mouseenter', conf, false), function(){}).bind(cf_e('mouseleave', conf, false), function(){});
+            opts.next.button.bind(cf_e('mouseenter', conf, false), function()
+            {
+              $cfs.trigger(cf_e('pause', conf), pC);
+            }).bind(cf_e('mouseleave', conf, false), function()
+            {
+              $cfs.trigger(cf_e('resume', conf));
+            });
           }
         }
 
@@ -7970,7 +8383,62 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
       set: function(n, v, d){}, 
       remove: function(n){}
     };
-    function sc_setScroll(d, e, c){}    function sc_startScroll(s, c){}    function sc_stopScroll(s, finish){}    function sc_afterScroll($c, $c2, o){}    function sc_fireCallbacks($t, o, b, a, c){}    function sc_fireQueue($c, q, c){}    function sc_hideHiddenItems(hiddenitems){}    function sc_showHiddenItems(hiddenitems){}    function sc_clearTimers(t)
+    function sc_setScroll(d, e, c)
+    {
+      if(c.transition == 'transition');
+
+      return {
+        anims: [], 
+        duration: d, 
+        orgDuration: d, 
+        easing: e, 
+        startTime: getTime()
+      };
+    }
+    function sc_startScroll(s, c)
+    {
+      for(var a = 0, l = s.anims.length;a < l;a++)
+      {
+        var b = s.anims[a];
+        if(!b);
+
+        b[0][c.transition](b[1], s.duration, s.easing, b[2]);
+      }
+    }
+    function sc_stopScroll(s, finish){}    function sc_afterScroll($c, $c2, o)
+    {
+      if($c2);
+
+      switch(o.fx)
+      {
+        case 'fade':
+        case 'crossfade':
+        case 'cover-fade':
+        case 'uncover-fade':
+      }
+    }
+    function sc_fireCallbacks($t, o, b, a, c)
+    {
+      if(o[b]);
+
+      if(c[b].length)
+      {
+        var i, l;
+      }
+
+      return [];
+    }
+    function sc_fireQueue($c, q, c)
+    {
+      if(q.length);
+
+      return q;
+    }
+    function sc_hideHiddenItems(hiddenitems){}    function sc_showHiddenItems(hiddenitems)
+    {
+      if(hiddenitems);
+    }
+    function sc_clearTimers(t)
     {
       if(t.auto);
 
@@ -7978,7 +8446,39 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
       return t;
     }
-    function sc_mapCallbackArguments(i_old, i_skp, i_new, s_itm, s_dir, s_dur, w_siz){}    function sc_getDuration(sO, o, nI, siz){}    function nv_showNavi(o, t, c)
+    function sc_mapCallbackArguments(i_old, i_skp, i_new, s_itm, s_dir, s_dur, w_siz)
+    {
+      return {
+        'width': w_siz.width, 
+        'height': w_siz.height, 
+        'items': {
+          'old': i_old, 
+          'skipped': i_skp, 
+          'visible': i_new
+        }, 
+        'scroll': {
+          'items': s_itm, 
+          'direction': s_dir, 
+          'duration': s_dur
+        }
+      };
+    }
+    function sc_getDuration(sO, o, nI, siz)
+    {
+      var dur = sO.duration;
+      if(sO.fx == 'none');
+
+      if(dur == 'auto');
+      else if(dur < 10);
+
+
+      if(dur < 1);
+
+      if(sO.fx == 'fade');
+
+      return Math.round(dur);
+    }
+    function nv_showNavi(o, t, c)
     {
       var minimum = is_number(o.items.minimum) ? 0 : o.items.visible + 1;
       if(t == 'show' || t == 'hide')
@@ -8229,11 +8729,34 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
     {
       return i.slice(0, o.items.visible);
     }
-    function gi_getOldItemsPrev(i, o, n){}    function gi_getNewItemsPrev(i, o){}    function gi_getOldItemsNext(i, o){}    function gi_getNewItemsNext(i, o, n){}    function sz_storeMargin(i, o, d)
+    function gi_getOldItemsPrev(i, o, n)
+    {
+      return i.slice(n, o.items.visibleConf.old + n);
+    }
+    function gi_getNewItemsPrev(i, o)
+    {
+      return i.slice(0, o.items.visible);
+    }
+    function gi_getOldItemsNext(i, o)
+    {
+      return i.slice(0, o.items.visibleConf.old);
+    }
+    function gi_getNewItemsNext(i, o, n)
+    {
+      return i.slice(n, o.items.visible + n);
+    }
+    function sz_storeMargin(i, o, d)
     {
       if(o.usePadding);
     }
-    function sz_resetMargin(i, o, m){}    function sz_storeOrigCss(i)
+    function sz_resetMargin(i, o, m)
+    {
+      if(o.usePadding)
+      {
+        var x;
+      }
+    }
+    function sz_storeOrigCss(i)
     {
       i.each(function()
       {
@@ -8468,7 +8991,14 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
       return -1;
     }
-    function cf_setCookie(n, $c, c){}    function cf_getCookie(n){}    function in_mapCss($elem, props)
+    function cf_setCookie(n, $c, c)
+    {
+      if(n)
+      {
+        var v;
+      }
+    }
+    function cf_getCookie(n){}    function in_mapCss($elem, props)
     {
       var css = {};
       for(var p = 0, l = props.length;p < l;p++)
@@ -8805,8 +9335,8 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
     {
       function LightboxOptions()
       {
-        this.fileLoadingImage = virtue_URL + 'assets/img/loading.gif';
-        this.fileCloseImage = virtue_URL + 'assets/img/close.png';
+        this.fileLoadingImage = virtue_URL + '/assets/img/loading.gif';
+        this.fileCloseImage = virtue_URL + '/assets/img/close.png';
         this.resizeDuration = 700;
         this.fadeDuration = 500;
         this.labelImage = 'Image';
@@ -9008,7 +9538,10 @@ Duis iaculis pretium fermentum. Duis at placerat lacus, non luctus dui. Nunc vel
 
         mainobj.togglecontrol();
         $(('a[href="' + mainobj.anchorkeyword) + '"]').click(function(){});
-        $(window).bind('scroll resize', function(e){});
+        $(window).bind('scroll resize', function(e)
+        {
+          mainobj.togglecontrol();
+        });
       });
     }
   };

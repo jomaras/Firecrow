@@ -1,6 +1,23 @@
+var usesModule = typeof module !== 'undefined' && module.exports;
+var HtmlHelper;
+if(usesModule || typeof FBL == "undefined")
+{
+    FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
+
+    if(typeof Components != "undefined")
+    {
+        const Cu = Components.utils;
+        const Cc = Components.classes;
+
+        var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
+
+        scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/ASTHelper.js", this, "UTF-8");
+    }
+}
+
 FBL.ns(function () { with (FBL) {
 /******/
-Firecrow.htmlHelper =
+Firecrow.htmlHelper = HtmlHelper =
 {
     serializeToHtmlJSON: function(htmlDocument, scriptPathsAndModels, stylesPathsAndModels)
     {
@@ -48,59 +65,52 @@ Firecrow.htmlHelper =
 
     getSimplifiedElement: function(rootElement, scriptPathsAndModels, stylesPathsAndModels)
     {
-        try
+        var elem =
         {
-            var elem =
-            {
-                type: rootElement.nodeType != 3 ? rootElement.localName : "textNode",
-                attributes: this.getAttributes(rootElement),
-                childNodes: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
-                nodeId: this._lastUsedId++
-            };
+            type: rootElement.nodeType != 3 ? rootElement.localName : "textNode",
+            attributes: this.getAttributes(rootElement),
+            childNodes: this.getChildren(rootElement, scriptPathsAndModels, stylesPathsAndModels),
+            nodeId: this._lastUsedId++
+        };
 
-            if(elem.type == null) { return null;}
+        if(elem.type == null) { return null;}
 
-            var that = this;
+        var that = this;
 
-            if(rootElement.nodeType == 3 //is text node
-            || rootElement.tagName == "SCRIPT")
-            {
-                elem.textContent = rootElement.textContent;
-            }
-
-            if(rootElement.tagName == "SCRIPT")
-            {
-                elem.pathAndModel = scriptPathsAndModels.splice(0,1)[0];
-
-                Firecrow.ASTHelper.traverseAst(elem.pathAndModel.model, function (currentElement)
-                {
-                    currentElement.nodeId = that._lastUsedId++;
-                });
-            }
-            else if (rootElement.tagName == "STYLE"
-                  || (rootElement.tagName == "LINK" && rootElement.rel != "" && rootElement.rel.toLowerCase() == "stylesheet"))
-            {
-                elem.pathAndModel = stylesPathsAndModels.splice(0,1)[0];
-
-                var model = elem.pathAndModel.model;
-
-                var textContent = "";
-
-                model.rules.forEach(function(rule)
-                {
-                    rule.nodeId = that._lastUsedId++;
-                    textContent += rule.cssText + "\n";
-                });
-
-                elem.textContent = textContent;
-            }
-
-            return elem;
-        }
-        catch(e)
+        if(rootElement.nodeType == 3 //is text node
+        || rootElement.tagName == "SCRIPT")
         {
-            Cu.reportError("helpers.htmlHelper: Error when getting simplified:" + e);
+            elem.textContent = rootElement.textContent;
         }
+
+        if(rootElement.tagName == "SCRIPT")
+        {
+            elem.pathAndModel = scriptPathsAndModels.splice(0,1)[0];
+
+            Firecrow.ASTHelper.traverseAst(elem.pathAndModel.model, function (currentElement)
+            {
+                currentElement.nodeId = that._lastUsedId++;
+            });
+        }
+        else if (rootElement.tagName == "STYLE"
+              || (rootElement.tagName == "LINK" && rootElement.rel != "" && rootElement.rel.toLowerCase() == "stylesheet"))
+        {
+            elem.pathAndModel = stylesPathsAndModels.splice(0,1)[0];
+
+            var model = elem.pathAndModel.model;
+
+            var textContent = "";
+
+            model.rules.forEach(function(rule)
+            {
+                rule.nodeId = that._lastUsedId++;
+                textContent += rule.cssText + "\n";
+            });
+
+            elem.textContent = textContent;
+        }
+
+        return elem;
     },
 
     getAllNodes: function(rootElement)
@@ -196,3 +206,10 @@ Firecrow.htmlHelper =
     }
 };
 }});
+
+if(usesModule)
+{
+    exports.HtmlHelper = FBL.Firecrow.HtmlHelper;
+}
+
+var EXPORTED_SYMBOLS = ["HtmlHelper"];

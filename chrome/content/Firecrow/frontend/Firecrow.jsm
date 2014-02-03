@@ -139,8 +139,6 @@ FirecrowView.prototype =
         this._scenarioTabButton.onclick = this._scenarioTabClick.bind(this);
 
         this._updateCurrentRecordings();
-        this._window.alert("Hello");
-
     },
 
     emit: function(){}, //For selection

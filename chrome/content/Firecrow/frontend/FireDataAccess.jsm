@@ -5,6 +5,8 @@ var Ci = Components.interfaces;
 
 Cu.import("chrome://Firecrow/content/initFBL.js");
 Cu.import("chrome://Firecrow/content/helpers/UriHelper.js");
+Cu.import("chrome://Firecrow/content/helpers/htmlHelper.js");
+Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 
 var FireDataAccess =
 {
@@ -18,7 +20,6 @@ var FireDataAccess =
 
         this._externalFilesMap = {};
         this._pathSourceLoadedCallbackMap = {};
-        this._htmlHelper = htmlHelper;
     },
 
     setBrowser: function(browser)
@@ -80,12 +81,36 @@ var FireDataAccess =
             this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
             this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
             Cu.reportError("Could not load: " + path);
-        }.bind(this), 5000)};
+        }.bind(this), 8000)};
 
         this._sourceCodeLoadedInBrowser = this._sourceCodeLoadedInBrowser.bind(this);
 
         this._browser.addEventListener("DOMContentLoaded", this._sourceCodeLoadedInBrowser);
         this._browser.setAttribute("src", "view-source:" + path);
+    },
+
+    saveModel: function(selectedFolder, pageUrl, iFrame)
+    {
+        var pageName = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, pageUrl.indexOf("."));
+
+        if(pageName == "") { pageName = "model"; }
+
+        pageName += Date.now();
+
+        if(selectedFolder)
+        {
+            this.asyncGetPageModel(pageUrl, iFrame, function(window, htmlJson)
+            {
+                FileHelper.writeToFile(selectedFolder + "\\" + pageName + ".json", this._wrapModel(JSON.stringify(htmlJson, function(key, value)
+                {
+                    if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                    {
+                        return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+                    }
+                    return value;
+                })));
+            }.bind(this));
+        }
     },
 
     asyncGetPageModel: function(url, iFrame, callback)
@@ -110,7 +135,7 @@ var FireDataAccess =
 
                     this.cacheAllExternalFilesContent(document, function()
                     {
-                        var htmlJson = this._htmlHelper.serializeToHtmlJSON
+                        var htmlJson = HtmlHelper.serializeToHtmlJSON
                         (
                             document,
                             this._getScriptsPathsAndModels(document),
@@ -126,6 +151,13 @@ var FireDataAccess =
             iFrame.webNavigation.loadURI(url, Ci.nsIWebNavigation, null, null, null);
         }
         catch(e) { Cu.reportError("Loading html in iFrame errror: " + e); }
+    },
+
+    _wrapModel: function(model)
+    {
+        //return "var fullPageModel = { pageModel:" + model + "};";
+        return model;
+        //return "HtmlModelMapping.push({url: '',results: [], model: " + model + "});"
     },
 
     _sourceCodeLoadedInBrowser: function()

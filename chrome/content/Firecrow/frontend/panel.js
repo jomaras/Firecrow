@@ -43,7 +43,6 @@ FirecrowPanel.prototype =
         {
             this.panelWin.slicerPanelController.reset();
         }
-
     },
 
     open: function()

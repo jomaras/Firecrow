@@ -6,12 +6,15 @@ const Ci = Components.interfaces;
 Cu.import("resource:///modules/source-editor.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 Cu.import("chrome://Firecrow/content/frontend/JsRecorder.jsm");
+Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 
 var SlicerPanelController = function(extensionWindow, extensionDocument, getCurrentPageWindowFunction, getCurrentPageDocumentFunction)
 {
     this._extensionDocument = extensionDocument;
     this._extensionWindow = extensionWindow;
+
+    this._hiddenIFrame = this._extensionDocument.getElementById("fdHiddenIFrame");
 
     this._getCurrentPageWindow = getCurrentPageWindowFunction;
     this._getCurrentPageDocument = getCurrentPageDocumentFunction;
@@ -69,7 +72,11 @@ SlicerPanelController.prototype =
 
     _onSaveModelClick: function()
     {
+        var selectedFolder = FirefoxHelper.promptUserForFolder(this._extensionWindow, "Select destination folder");
 
+        if(selectedFolder == "" || selectedFolder == null) { return; }
+
+        FireDataAccess.saveModel(selectedFolder, this._getCurrentPageDocument().baseURI, this._hiddenIFrame);
     },
 
     _onRecordClick: function(e)
@@ -165,7 +172,7 @@ SlicerPanelController.prototype =
 
         var currentContent = FireDataAccess.getFileContent(this._currentSelectedFile);
 
-        if(currentContent != null)
+        if(currentContent != null && currentContent != "SOURCE_UNAVAILABLE")
         {
             this.editor.setText(currentContent);
             this._showExistingBreakpoints();

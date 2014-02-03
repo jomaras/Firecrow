@@ -7,14 +7,6 @@ if(usesModule)
 
 FBL.ns(function () { with (FBL) {
 
-var ValueTypeHelper = Firecrow.ValueTypeHelper;
-
-if(ValueTypeHelper == null && usesModule)
-{
-    var path = require('path');
-    ValueTypeHelper = require(path.resolve(__dirname, "valueTypeHelper.js")).ValueTypeHelper;
-}
-
 Firecrow.ASTHelper = ASTHelper =
 {
     parseSourceCodeToAST: function(sourceCode, sourceCodePath, startLine)
@@ -526,7 +518,7 @@ Firecrow.ASTHelper = ASTHelper =
 
             for(var i = 0; i < children.length; i++)
             {
-                ValueTypeHelper.pushAll(styleElements, this.getStyleElements(children[i]));
+                ASTHelper._pushAll(styleElements, this.getStyleElements(children[i]));
             }
         }
 
@@ -545,7 +537,7 @@ Firecrow.ASTHelper = ASTHelper =
 
         for(var i = 0; i < children.length; i++)
         {
-            ValueTypeHelper.pushAll(htmlElements, this.getAllHtmlNodes(children[i]));
+            ASTHelper._pushAll(htmlElements, this.getAllHtmlNodes(children[i]));
         }
 
         return htmlElements;
@@ -567,7 +559,7 @@ Firecrow.ASTHelper = ASTHelper =
 
             for(var i = 0; i < children.length; i++)
             {
-                ValueTypeHelper.pushAll(scriptElements, this.getScriptElements(children[i]));
+                ASTHelper._pushAll(scriptElements, this.getScriptElements(children[i]));
             }
         }
 
@@ -636,7 +628,7 @@ Firecrow.ASTHelper = ASTHelper =
 
             for(var i = 0; i < cases.length; i++)
             {
-                ValueTypeHelper.pushAll(items, cases[i].consequent);
+                ASTHelper._pushAll(items, cases[i].consequent);
             }
         }
         else if (this.isTryStatement(blockStatement))
@@ -704,7 +696,7 @@ Firecrow.ASTHelper = ASTHelper =
 
             if(mappedParentElement == null) { return; }
 
-            var isPropertyArray = ValueTypeHelper.isArray(parentElement[propertyName]);
+            var isPropertyArray = ASTHelper._isArray(parentElement[propertyName]);
 
             if(mappedParentElement[propertyName] == null)
             {
@@ -742,7 +734,7 @@ Firecrow.ASTHelper = ASTHelper =
 
         for(var prop in originalNode)
         {
-            if(!ValueTypeHelper.isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp || prop == "comments")
+            if(!ASTHelper._isObject(originalNode[prop]) || originalNode[prop] instanceof RegExp || prop == "comments")
             {
                 clone[prop] = originalNode[prop];
             }
@@ -757,13 +749,13 @@ Firecrow.ASTHelper = ASTHelper =
         {
             if(astElement == null) { return; }
 
-            if(ValueTypeHelper.isString(astElement)) { return; }
+            if(ASTHelper._isString(astElement)) { return; }
 
             for(var propName in astElement)
             {
                 var propertyValue = astElement[propName];
 
-                if(ValueTypeHelper.isArray(propertyValue))
+                if(ASTHelper._isArray(propertyValue))
                 {
                     for(var i = 0; i < propertyValue.length; i++)
                     {
@@ -771,7 +763,7 @@ Firecrow.ASTHelper = ASTHelper =
                         this.traverseWholeAST(propertyValue[i], processElementFunction);
                     }
                 }
-                else if(ValueTypeHelper.isString(propertyValue))
+                else if(ASTHelper._isString(propertyValue))
                 {
                     processElementFunction(propertyValue, propName, astElement);
                 }
@@ -790,7 +782,7 @@ Firecrow.ASTHelper = ASTHelper =
 
     traverseAst: function(astElement, processElementFunction, ignoreProperties)
     {
-        if(!(ValueTypeHelper.isObject(astElement))) { return; }
+        if(!(ASTHelper._isObject(astElement))) { return; }
         if(astElement.addJsProperty != null)debugger;
         for(var propName in astElement)
         {
@@ -823,18 +815,18 @@ Firecrow.ASTHelper = ASTHelper =
 
             if(propertyValue == null) { continue; }
 
-            if(ValueTypeHelper.isArray(propertyValue))
+            if(ASTHelper._isArray(propertyValue))
             {
                 for(var i = 0; i < propertyValue.length; i++)
                 {
-                    if(ValueTypeHelper.isObject(propertyValue[i]))
+                    if(ASTHelper._isObject(propertyValue[i]))
                     {
                         processElementFunction(propertyValue[i], propName, astElement, i);
                         this.traverseAst(propertyValue[i], processElementFunction, ignoreProperties);
                     }
                 }
             }
-            else if (ValueTypeHelper.isObject(propertyValue))
+            else if (ASTHelper._isObject(propertyValue))
             {
                 processElementFunction(propertyValue, propName, astElement);
                 this.traverseAst(propertyValue, processElementFunction, ignoreProperties);
@@ -844,7 +836,7 @@ Firecrow.ASTHelper = ASTHelper =
 
     traverseAstWhileIgnoring: function(astElement, processElementFunction, ignoreElementTypes)
     {
-        if(!(ValueTypeHelper.isObject(astElement))) { return; }
+        if(!(ASTHelper._isObject(astElement))) { return; }
 
         if(ignoreElementTypes != null && ignoreElementTypes.indexOf(astElement.type) != -1) { return; }
 
@@ -873,18 +865,18 @@ Firecrow.ASTHelper = ASTHelper =
 
             if(propertyValue == null) { continue; }
 
-            if(ValueTypeHelper.isArray(propertyValue))
+            if(ASTHelper._isArray(propertyValue))
             {
                 for(var i = 0; i < propertyValue.length; i++)
                 {
-                    if(ValueTypeHelper.isObject(propertyValue[i]))
+                    if(ASTHelper._isObject(propertyValue[i]))
                     {
                         processElementFunction(propertyValue[i], propName, astElement, i);
                         this.traverseAstWhileIgnoring(propertyValue[i], processElementFunction, ignoreElementTypes);
                     }
                 }
             }
-            else if (ValueTypeHelper.isObject(propertyValue))
+            else if (ASTHelper._isObject(propertyValue))
             {
                 if(ignoreElementTypes == null || ignoreElementTypes.indexOf(propertyValue.type) == -1)
                 {
@@ -955,7 +947,7 @@ Firecrow.ASTHelper = ASTHelper =
                 {
                     this.traverseDirectSourceElements(astElement.block, processSourceElementFunction, enterBranchAndLoops);
 
-                    var handlers = astElement.handlers || (ValueTypeHelper.isArray(astElement.handler) ? astElement.handler : [astElement.handler]);
+                    var handlers = astElement.handlers || (ASTHelper._isArray(astElement.handler) ? astElement.handler : [astElement.handler]);
 
                     handlers.forEach(function(catchClause)
                     {
@@ -1152,7 +1144,7 @@ Firecrow.ASTHelper = ASTHelper =
 
     areRelated: function(statements1, statements2)
     {
-        if(!ValueTypeHelper.isArray(statements1) && !ValueTypeHelper.isArray(statements2))
+        if(!ASTHelper._isArray(statements1) && !ASTHelper._isArray(statements2))
         {
             return this.isAncestor(statements1, statements2) || this.isAncestor(statements2, statements1)
         }
@@ -1562,10 +1554,10 @@ Firecrow.ASTHelper = ASTHelper =
 
         if(parent == null || parent.children == null) { return; }
 
-        ValueTypeHelper.removeFromArrayByIndex(parent.children, parent.children.indexOf(node));
+        ASTHelper._removeFromArrayByIndex(parent.children, parent.children.indexOf(node));
 
         if(parent.rules == null) { return; }
-        ValueTypeHelper.removeFromArrayByIndex(parent.rules, parent.rules.indexOf(node));
+        ASTHelper._removeFromArrayByIndex(parent.rules, parent.rules.indexOf(node));
     },
 
     isElementOfType: function(element, type)
@@ -1598,7 +1590,7 @@ Firecrow.ASTHelper = ASTHelper =
     isIdentifier: function(element) { return this.isElementOfType(element, this.CONST.Identifier); },
     isLiteral: function(element) { return this.isElementOfType(element, this.CONST.Literal); },
     isProperty: function(element) { return this.isElementOfType(element, this.CONST.Property); },
-    isStringLiteral: function(element) { return this.isLiteral(element) && ValueTypeHelper.isString(element.value);},
+    isStringLiteral: function(element) { return this.isLiteral(element) && ASTHelper._isString(element.value);},
 
     isStatement: function(element)
     {
@@ -1739,6 +1731,35 @@ Firecrow.ASTHelper = ASTHelper =
         }
 
         return returnStatement.argument;
+    },
+    
+    _pushAll: function(baseArray, arrayWithItems)
+    {
+        if(baseArray == null || arrayWithItems == null) { return; }
+        
+        baseArray.push.apply(baseArray, arrayWithItems);    
+    },
+
+    _isArray: function(arrayOfElements)
+    {
+        return (typeof arrayOfElements) == "array" || arrayOfElements instanceof Array;
+    },
+
+    _isObject: function(potentialObject)
+    {
+        return 'object' == typeof potentialObject;
+    },
+    
+    _isString: function(variable)
+    {
+        return (typeof variable) == "string" || variable instanceof String;   
+    },
+
+    _removeFromArrayByIndex: function(array, index)
+    {
+        if(array == null) { return null; }
+
+        return array.splice(index, 1);
     },
 
     CONST :
