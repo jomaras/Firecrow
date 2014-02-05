@@ -139,7 +139,14 @@
                                       </radiogroup>
                                   </menupopup>
                               </toolbarbutton>
-                              <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Slice" disabled="false" id="slicingButton"/>
+                              <toolbarbutton type="menu-button" class="devtools-toolbarbutton" tooltiptext="Slice" id="slicingButton">
+                                  <menupopup>
+                                      <radiogroup id="slicingOptions">
+                                          <radio label="PhantomJs" selected="true" value="PhantomJs"/>
+                                          <radio label="SlimerJs" value="SlimerJs"/>
+                                      </radiogroup>
+                                  </menupopup>
+                              </toolbarbutton>
                               <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model" disabled="false" id="saveModelButton"/>
                           </hbox>
                       </toolbar>

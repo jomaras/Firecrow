@@ -41,6 +41,8 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
     this._slicingButton = extensionDocument.getElementById("slicingButton");
     this._slicingButton.onclick = function(e) { this._onSlicingClick(e); }.bind(this);
 
+    this._slicingOptionsElement = extensionDocument.getElementById("slicingOptions");
+
     this._saveModelButton = extensionDocument.getElementById("saveModelButton");
     this._saveModelButton.onclick = function(e) { this._onSaveModelClick(e); }.bind(this);
 
@@ -71,9 +73,13 @@ SlicerPanelController.prototype =
         this._updateCurrentRecordings();
     },
 
-    _onSlicingClick: function()
+    _onSlicingClick: function(e)
     {
-
+        if(e.target == this._slicingButton
+        && e.currentTarget == this._slicingButton && e.originalTarget != this._slicingButton)
+        {
+            Cu.reportError("Perform slicing: " + this._slicingOptionsElement.value);
+        }
     },
 
     _onSaveModelClick: function()

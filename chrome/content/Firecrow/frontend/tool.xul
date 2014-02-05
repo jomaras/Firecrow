@@ -37,7 +37,14 @@
                                         </radiogroup>
                                     </menupopup>
                                 </toolbarbutton>
-                                <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Slice" disabled="false" id="slicingButton"/>
+                                <toolbarbutton type="menu-button" class="devtools-toolbarbutton" tooltiptext="Slice" disabled="false" id="slicingButton">
+                                    <menupopup>
+                                        <radiogroup id="slicingOptions">
+                                            <radio label="PhantomJs" selected="true" value="PhantomJs"/>
+                                            <radio label="SlimerJs" value="SlimerJs"/>
+                                        </radiogroup>
+                                    </menupopup>
+                                </toolbarbutton>
                                 <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model" disabled="false" id="saveModelButton"/>
                             </hbox>
                         </toolbar>
@@ -57,18 +64,6 @@
                         <div class="devtools-toolbar"><h2 class="toolbarTitle" flex="1"><label>Existing recordings</label></h2></div>
                         <vbox flex="1" id="existingRecordingsList">
                             <vbox class="recordingView">
-                                <div>
-                                    <span class="deleteContainer"></span>
-                                    <checkbox class="selectRecordingCheckbox"></checkbox>
-                                    <label>Slider Scenario</label>
-                                </div>
-
-                                <div class="eventRecordingElement">DOMContentLoaded on document</div>
-                                <div class="eventRecordingElement">mouseover on //*[@id="portfolio-carousel"]/div[1]/div</div>
-                                <div class="eventRecordingElement">10x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="prevport_portfolio"]</div>
-                                <div class="eventRecordingElement">20x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="nextport_portfolio"]</div>
                             </vbox>
                         </vbox>
                     </vbox>
@@ -96,73 +91,9 @@
                             <h2 class="toolbarTitle" flex="1"><label>Generated scenarios</label></h2>
                         </div>
                         <vbox flex="1" id="generatedScenariosContainer">
-                            <vbox>
-                                <label>Scenario 1</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                            </vbox>
-                            <vbox>
-                                <label>Scenario 2</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
                         </vbox>
                         <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1"><label>Kept scenarios</label></h2></div>
                         <vbox flex="1" id="keptScenariosContainer">
-                            <vbox>
-                                <label>Scenario 6</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">5x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 2</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">5x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
-                            </vbox>
                         </vbox>
                     </vbox>
                 </tabpanel>
@@ -190,96 +121,13 @@
                             <toolbarbutton class="devtools-toolbarbutton addButton" tooltiptext="Add Slicing Criteria Button" disabled="false"/>
                         </div>
                         <vbox flex="1" id="generatedScenariosContainer">
-                            <vbox>
-                                <label>Scenario 1</label>
-                                <div class="eventRecordingElement">mouseover on //*[@id="sideContainer"]</div>
-                                <div class="eventRecordingElement">3x timeout on window</div>
-                            </vbox>
-                            <vbox>
-                                <label>Scenario 2</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
 
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 3</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                            </vbox>
                         </vbox>
                         <div class="devtools-toolbar">
                             <h2 class="toolbarTitle" flex="1"><label>Application scenarios</label></h2>
                             <toolbarbutton class="devtools-toolbarbutton addButton" tooltiptext="Add Slicing Criteria Button" disabled="false"/>
                         </div>
                         <vbox flex="1" id="keptScenariosContainer">
-                            <vbox>
-                                <label>Scenario 2</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">2x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 6</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">5x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 7</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">5x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
-                            </vbox>
-
-                            <vbox>
-                                <label>Scenario 7</label>
-                                <div class="eventRecordingElement">onload on window</div>
-                                <div class="eventRecordingElement">5x timeout on window</div>
-                                <div class="eventRecordingElement">click on //*[@id="mainContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">click on //*[@id="pictureContainer"]</div>
-                                <div class="eventRecordingElement">keypress[] on //*[@id="pictureContainer"]</div>
-                            </vbox>
                         </vbox>
                     </vbox>
                 </tabpanel>

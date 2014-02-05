@@ -29,6 +29,10 @@
 #slicingButton
 {
     list-style-image: url("images/slicing.png");
+    font-weight: normal;
+    font-size: 8pt;
+    line-height: 1.6;
+    width: 45px;
 }
 
 #saveModelButton
@@ -63,7 +67,7 @@
     color: white !important;
 }
 
-#recordButton > .toolbarbutton-menubutton-button:before {
+#recordButton > .toolbarbutton-menubutton-button:before{
     content: "";
     display: inline-block;
     height: 8px;
@@ -74,7 +78,7 @@
     border-style: solid;
 }
 
-#recordButton > .toolbarbutton-menubutton-button:before {
+#recordButton > .toolbarbutton-menubutton-button:before{
     background-image: linear-gradient(#B9B9B9, #AAAAAA);
     border-color: #929292;
 }
