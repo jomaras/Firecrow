@@ -84,25 +84,39 @@ var JsRecorder = function()
                     trace.thisValue = { xPath: that.getElementXPath(thisElement)};
 
                     var args = frame.scope.getWrappedValue().arguments;
+
+                    if(args == null)
+                    {
+                        var scopeValue = frame.scope.getWrappedValue();
+
+                        for(var propName in scopeValue)
+                        {
+                            if(propName == "arguments") { continue; }
+
+                            args = [scopeValue[propName]];
+                            break;
+                        }
+                    }
+
                     var firstArgument = args[0];
 
                     trace.args =
                     {
-                        targetXPath: firstArgument!= null ? that.getElementXPath(firstArgument.target) : "",
-                        originalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.originalTarget) : "",
-                        currentTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.currentTarget) : "",
-                        explicitOriginalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.explicitOriginalTarget) : "",
-                        rangeParentXPath : firstArgument != null ? that.getElementXPath(firstArgument.rangeParent) : "",
-                        relatedTargetXPath : firstArgument != null ? that.getElementXPath(firstArgument.relatedTarget) : "",
-                        clientX: firstArgument != null ? firstArgument.clientX : 0,
-                        clientY: firstArgument != null ? firstArgument.clientY : 0,
-                        screenX: firstArgument != null ? firstArgument.screenX : 0,
-                        screenY: firstArgument != null ?  firstArgument.screenY : 0,
-                        pageX: firstArgument != null ?  firstArgument.pageX : 0,
-                        pageY: firstArgument != null ?  firstArgument.pageY : 0,
+                        targetXPath: firstArgument != null ? that.getElementXPath(firstArgument.target) : undefined,
+                        originalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.originalTarget) : undefined,
+                        currentTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.currentTarget) : undefined,
+                        explicitOriginalTargetXPath: firstArgument != null ? that.getElementXPath(firstArgument.explicitOriginalTarget) : undefined,
+                        rangeParentXPath : firstArgument != null ? that.getElementXPath(firstArgument.rangeParent) : undefined,
+                        relatedTargetXPath : firstArgument != null ? that.getElementXPath(firstArgument.relatedTarget) : undefined,
+                        clientX: firstArgument != null ? firstArgument.clientX : undefined,
+                        clientY: firstArgument != null ? firstArgument.clientY : undefined,
+                        screenX: firstArgument != null ? firstArgument.screenX : undefined,
+                        screenY: firstArgument != null ?  firstArgument.screenY : undefined,
+                        pageX: firstArgument != null ?  firstArgument.pageX : undefined,
+                        pageY: firstArgument != null ?  firstArgument.pageY : undefined,
                         type: firstArgument != null ? firstArgument.type
                                                     : trace.thisValue.xPath !== "" ? "elementEvent" : "",
-                        keyCode: firstArgument != null ?  firstArgument.keyCode : 0,
+                        keyCode: firstArgument != null ?  firstArgument.keyCode : undefined,
                         currentInputStates: that.getCurrentInputStates(thisElement)
                     };
 

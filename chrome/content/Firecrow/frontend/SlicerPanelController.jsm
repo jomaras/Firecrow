@@ -3,7 +3,7 @@ var EXPORTED_SYMBOLS = ["SlicerPanelController"];
 const Cu = Components.utils;
 const Ci = Components.interfaces;
 
-Cu.import("resource:///modules/source-editor.jsm");
+Cu.import("resource:///modules/devtools/sourceeditor/source-editor.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 Cu.import("chrome://Firecrow/content/frontend/JsRecorder.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
@@ -55,7 +55,7 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
     this._externalFilesMap = {};
 
     this._createSourceCodeViewer();
-    //this._updateCurrentRecordings();
+    this._updateCurrentRecordings();
 };
 
 SlicerPanelController.prototype =
@@ -63,11 +63,17 @@ SlicerPanelController.prototype =
     reset: function()
     {
         this._sourcesMenuPopup.innerHTML = "";
+
         this._sourcesMenuList.setAttribute("label","Select Source file");
 
         this.editor.setText("---- SELECT SOURCE FILE ----");
 
         this._updateCurrentRecordings();
+    },
+
+    _onSlicingClick: function()
+    {
+
     },
 
     _onSaveModelClick: function()
@@ -84,7 +90,7 @@ SlicerPanelController.prototype =
         if(e.target == this._recordButton
         && e.currentTarget == this._recordButton && e.originalTarget != this._recordButton)
         {
-            this._profileEventExecutions = this._recordOptionsElement.value == "All";
+            this._profileAllExecutions = this._recordOptionsElement.value == "All";
 
             if(!this._recordButton.checked)
             {
@@ -105,7 +111,7 @@ SlicerPanelController.prototype =
     {
         this._jsRecorder = new JsRecorder();
 
-        this._jsRecorder.startProfiling(this._profileEventExecutions);
+        this._jsRecorder.startProfiling(this._profileAllExecutions);
     },
 
     _stopProfiling: function()
@@ -113,14 +119,18 @@ SlicerPanelController.prototype =
         this._jsRecorder.stopProfiling();
 
         var siteName = encodeURIComponent(this._getCurrentPageDocument().baseURI);
-        var currentTime = Date.now();
+        this._lastRecordingTime = Date.now();
 
-        if(this._profileEventExecutions)
+
+        if(this._profileAllExecutions)
         {
-            FileHelper.createAllExecutionsProfilingFile(siteName, currentTime, JSON.stringify(this._jsRecorder.executionTrace));
+            FileHelper.createAllExecutionsProfilingFile(siteName, this._lastRecordingTime, JSON.stringify(this._jsRecorder.executionTrace));
         }
 
-        FileHelper.createEventProfilingFile(siteName, currentTime, JSON.stringify(this._jsRecorder.eventTrace));
+        this._lastEventTrace = JSON.stringify(this._jsRecorder.eventTrace);
+        FileHelper.createEventProfilingFile(siteName, this._lastRecordingTime, this._lastEventTrace);
+
+        this._updateCurrentRecordings();
     },
 
     _createSourceCodeViewer: function()
@@ -334,10 +344,16 @@ SlicerPanelController.prototype =
     {
         this._clearRecordingInfoDisplay();
 
-        var recordingsFiles = []//;FireDataAccess.getRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
+        var recordingsFiles = FileHelper.getEventRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
 
         for(var i = 0; i < recordingsFiles.length; i++)
         {
+            //File writing is async, and file reading sync..
+            if(recordingsFiles[i].content == "" && recordingsFiles[i].name.indexOf(this._lastRecordingTime) != -1)
+            {
+                recordingsFiles[i].content = this._lastEventTrace;
+            }
+
             this._createRecordingInfoView(recordingsFiles[i]);
         }
     },
@@ -367,14 +383,27 @@ SlicerPanelController.prototype =
 
         container.appendChild(titleContainer);
 
-        var recordingInfos = JSON.parse(recordingInfo.content);
-
-        for(var i = 0; i < recordingInfos.length; i++)
+        try
         {
+            var recordingInfos = JSON.parse(recordingInfo.content);
+        }
+        catch(e)
+        {
+            recordingInfos = [];
+            Cu.reportError("Error when parsing recording info: " + e + " Content: " + recordingInfo.content);
+        }
+
+        var eventInfos = this._getRecordedEventInfos(recordingInfos);
+
+        for(var i = 0; i < eventInfos.length; i++)
+        {
+            var eventInfo = eventInfos[i];
+
             var itemElement = doc.createElement("div");
+
             itemElement.className = "eventRecordingElement";
 
-            itemElement.innerHTML = "<label>" + recordingInfos[i].args.type + " on " + recordingInfos[i].thisValue.xPath + "; </label>";
+            itemElement.innerHTML = "<label> "  + eventInfo + "</label>";
 
             container.appendChild(itemElement);
         }
@@ -388,7 +417,7 @@ SlicerPanelController.prototype =
         {
             var button = e.target;
 
-            if(button.filePath && this._window.confirm("Permanently delete recording: " + button.recordingInfo))
+            if(button.filePath && this._extensionWindow.confirm("Permanently delete recording: " + button.recordingInfo))
             {
                 FileHelper.deleteFile(button.filePath);
                 button.onclick = null;
@@ -398,6 +427,37 @@ SlicerPanelController.prototype =
         }.bind(this);
 
         this._existingRecordingsList.appendChild(container);
+    },
+
+    _getRecordedEventInfos: function(recordingInfos)
+    {
+        var allEventInfosMap = [];
+
+        for(var i = 0; i < recordingInfos.length; i++)
+        {
+            var recordingInfo = recordingInfos[i];
+            var eventInfo = (recordingInfo.args.type || "timing" )+ " on " + (recordingInfo.thisValue.xPath || "window");
+
+            allEventInfosMap.push(eventInfo);
+        }
+
+        var unique = [];
+        var occurrences = 0;
+        for(var i = 0; i < allEventInfosMap.length; i++)
+        {
+            var current = allEventInfosMap[i];
+            var next = allEventInfosMap[i+1];
+
+            occurrences++
+
+            if(current != next)
+            {
+                unique.push((occurrences > 1 ? occurrences + "x " : "") + current);
+                occurrences = 0;
+            }
+        }
+
+        return unique;
     },
 
     _getProfilingTime: function(recordingName)

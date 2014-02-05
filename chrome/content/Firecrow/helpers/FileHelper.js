@@ -54,7 +54,7 @@ Firecrow.FileHelper = FileHelper =
         CU.reportError("Profiling file written to:" + file.path);
     },
 
-    getRecordingsFiles: function(siteName)
+    getEventRecordingsFiles: function(siteName, callbackFunction)
     {
         var dir = FileUtils.getDir("ProfD", recordingsFolderPath.concat(siteName), true);
 
@@ -67,7 +67,7 @@ Firecrow.FileHelper = FileHelper =
 
             entry.QueryInterface(Components.interfaces.nsIFile);
 
-            if(!entry.isDirectory())
+            if(!entry.isDirectory() && entry.path.indexOf("allExecutions.json") == -1)
             {
                 files.push({path: entry.path, name: entry.leafName, content: this.readFromFile(entry.path)});
             }
@@ -80,33 +80,30 @@ Firecrow.FileHelper = FileHelper =
     {
         try
         {
-            var output = "";
             var file = CC["@mozilla.org/file/local;1"].createInstance(CI.nsILocalFile);
 
             file.initWithPath(absoluteFilePath);
 
-            if (!file.exists()) { alert("File not found:" + absoluteFilePath); return ""; }
+            if (!file.exists()) { CU.reportError("File not found:" + absoluteFilePath); return ""; }
 
-            var stream = CC["@mozilla.org/network/file-input-stream;1"].createInstance(CI.nsIFileInputStream);
+            var data = "";
+            var fstream = CC["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
+            var cstream = CC["@mozilla.org/intl/converter-input-stream;1"].createInstance(Components.interfaces.nsIConverterInputStream);
 
-            stream.init(file, 0x01, 00004, null);
+            fstream.init(file, -1, 0, 0);
+            cstream.init(fstream, "UTF-8", 0, 0); // you can use another encoding here if you wish
 
-            var inputStream = CC["@mozilla.org/scriptableinputstream;1"].createInstance(CI.nsIScriptableInputStream);
+            var str = {};
+            var read = 0;
+            do
+            {
+                read = cstream.readString(0xffffffff, str); // read as much as we can and put it in str.value
+                data += str.value;
+            } while (read != 0);
 
-            inputStream.init(stream);
+            cstream.close(); // this closes fstream
 
-            var cstream = CC["@mozilla.org/intl/converter-input-stream;1"].createInstance(CI.nsIConverterInputStream);
-
-            cstream.init(stream, "UTF-8", 0, 0);
-
-            var str = {}
-
-            cstream.readString(-1, str); // read the whole file and put it in str.value
-            output = str.value;
-
-            cstream.close(); // this closes fstream  
-
-            return output;
+            return data;
         } 
         catch (e) { alert("Error while reading from file:" + e); }
     },
