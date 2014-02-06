@@ -7,3 +7,7 @@
 
  - download whole page (substitute resources with full page url)
  - offer usage of phantomJs
+ - offer usage of slimerJs
+ + offer usage inbrowser
+ - TODO replace caching with: NetUtil.asyncFetch()
+ - close all streams in FileHelper

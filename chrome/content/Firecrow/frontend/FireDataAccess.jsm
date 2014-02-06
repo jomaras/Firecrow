@@ -76,6 +76,7 @@ var FireDataAccess =
     {
         if(this._externalFilesMap[path]) { finishedCallback && finishedCallback(); return; }
 
+        //TODO replace caching with: NetUtil.asyncFetch()
         this._pathSourceLoadedCallbackMap[path] = { finishedCallback: finishedCallback, failCallbackId: this._window.setTimeout(function()
         {
             this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";

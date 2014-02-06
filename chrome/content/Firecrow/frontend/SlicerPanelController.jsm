@@ -84,21 +84,60 @@ SlicerPanelController.prototype =
 
             FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
             {
-                dialog.logMessage("Starting slicing!");
-
-                this._slicingFrame.contentWindow.console.log = dialog.logMessage;
-
-                var sourceCode = this._slicingFrame.contentWindow.performSlicing
-                ({
+                var model = {
                     url: this._getCurrentPageDocument().baseURI,
                     model: htmlJson,
                     trackedElementsSelectors: this._selectors,
                     eventTraces: this._getSelectedEventTraces()
-                });
-
-                dialog.setSourceCode(sourceCode);
+                };
+                switch(this._slicingOptionsElement.value)
+                {
+                    case "PhantomJs":
+                        this._performSlicingInPhantomJs(model, dialog);
+                        break;
+                    case "SlimerJs":
+                        this._performSlicingInSlimerJs(model, dialog);
+                        break;
+                    case "Firefox":
+                    default:
+                        this._performSlicingInFirefox(model, dialog);
+                }
             }.bind(this));
         }
+    },
+
+    _performSlicingInPhantomJs: function(model, dialog)
+    {
+        //dialog.logMessage("Native path" + FileHelper.getNativePath("chrome://Firecrow/content/helpers/FileHelper.js"));
+        dialog.logMessage("Started slicing in Phantom Js..");
+        dialog.logMessage("Serializing model..");
+        FileHelper.saveModelForPhantomJs(model, function(modelPath)
+        {
+            dialog.logMessage("Model saved to:" + modelPath);
+
+            FileHelper.savePhantomJsScript(function(scriptPath)
+            {
+                dialog.logMessage("PhantomJs script saved to:" + scriptPath);
+
+                //https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIProcess?redirectlocale=en-US&redirectslug=nsIProcess
+            });
+        }.bind(this));
+    },
+
+    _performSlicingInSlimerJs: function(model, dialog)
+    {
+        dialog.logMessage("Slicing in SlimerJs not yet supported");
+    },
+
+    _performSlicingInFirefox: function(model, dialog)
+    {
+        this._slicingFrame.contentWindow.console.log = dialog.logMessage;
+
+        dialog.logMessage("Slicing started in Firefox - UI might become unresponsive for minutes at a time");
+
+        var sourceCode = this._slicingFrame.contentWindow.performSlicing(model);
+
+        dialog.setSourceCode(sourceCode);
     },
 
     _getSelectedEventTraces: function()

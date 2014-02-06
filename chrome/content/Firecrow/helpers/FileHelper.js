@@ -14,13 +14,20 @@ if(typeof FBL == "undefined")
 FBL.ns(function () { with (FBL) {
 /******/
 
-var recordingsFolderPath = ["Firecrow", "profiles"]
+var recordingsFolderPath = ["Firecrow", "profiles"];
+var phantomJsModelFolder = ["Firecrow", "phantomJs"];
+
 
 Firecrow.FileHelper = FileHelper =
 {
     createFirecrowDirs: function()
     {
         FileUtils.getDir("ProfD", recordingsFolderPath, true);
+    },
+
+    createFirecrowPhantomJsDirs: function()
+    {
+        FileUtils.getDir("ProfD", phantomJsModelFolder, true);
     },
 
     createEventProfilingFile: function(siteName, recordingId, eventProfilingInfo)
@@ -31,6 +38,60 @@ Firecrow.FileHelper = FileHelper =
     createAllExecutionsProfilingFile: function(siteName, recordingId, executionProfilingInfo)
     {
         this._createProfilingFile(siteName, "executions", recordingId, executionProfilingInfo);
+    },
+
+    saveModelForPhantomJs: function(model, callbackFunction)
+    {
+        this.createFirecrowPhantomJsDirs();
+        this.deleteFilesInFolder(FileUtils.getFile("ProfD", phantomJsModelFolder).path);
+
+        var file = FileUtils.getFile("ProfD", phantomJsModelFolder.concat(["model.json"]));
+        if(!file.exists())
+        {
+            file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+        }
+
+        var ostream = FileUtils.openSafeFileOutputStream(file);
+
+        var converter = CC["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(CI.nsIScriptableUnicodeConverter);
+        converter.charset = "UTF-8";
+        var istream = converter.convertToInputStream(JSON.stringify(model, function(key, value)
+        {
+            if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+            {
+                return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+            }
+
+            return value;
+        }));
+
+        NetUtil.asyncCopy(istream, ostream, function()
+        {
+            FileUtils.closeSafeFileOutputStream(ostream);
+            callbackFunction && callbackFunction(file.path);
+        });
+    },
+
+    savePhantomJsScript: function(callbackFunction)
+    {
+        NetUtil.asyncFetch("chrome://Firecrow/content/slicer.js", function(aInputStream, aResult)
+        {
+            if (!Components.isSuccessCode(aResult))  { return; }
+
+            var file = FileUtils.getFile("ProfD", phantomJsModelFolder.concat(["phantomJsScript.js"]));
+            if(!file.exists())
+            {
+                file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+            }
+
+            var ostream = FileUtils.openSafeFileOutputStream(file);
+
+            NetUtil.asyncCopy(aInputStream, ostream, function()
+            {
+                FileUtils.closeSafeFileOutputStream(ostream);
+                callbackFunction && callbackFunction(file.path);
+            });
+        });
     },
 
     _createProfilingFile: function(siteName, profilingType, recordingId, info)
@@ -49,7 +110,10 @@ Firecrow.FileHelper = FileHelper =
         converter.charset = "UTF-8";
         var istream = converter.convertToInputStream(info);
 
-        NetUtil.asyncCopy(istream, ostream);
+        NetUtil.asyncCopy(istream, ostream, function()
+        {
+            FileUtils.closeSafeFileOutputStream(ostream);
+        });
 
         CU.reportError("Profiling file written to:" + file.path);
     },
@@ -107,6 +171,13 @@ Firecrow.FileHelper = FileHelper =
         } 
         catch (e) { alert("Error while reading from file:" + e); }
     },
+
+    getNativePath: function(path)
+    {
+        var file = FileUtils.getFile("ProfD", path);
+
+        return file.nativePath;
+    },
     
     getFileContentFromUrl: function (fileUrl)
     {
@@ -124,12 +195,10 @@ Firecrow.FileHelper = FileHelper =
             var selectedBrowser = Firecrow.fbHelper.getCurrentBrowser();
             
             return new Firebug.SourceCache
-            (
-                { 
-                	browser: selectedBrowser, 
-                	window: selectedBrowser.contentWindow 
-                }
-            ).load(fileUrl);
+            ({
+                browser: selectedBrowser,
+                window: selectedBrowser.contentWindow
+            }).load(fileUrl);
         }
         catch (e) { alert("Error while getting file lines: " + fileUrl + " " + e); }
     },
@@ -301,7 +370,7 @@ Firecrow.FileHelper = FileHelper =
                 }
             }
         }
-        catch (e) { alert("Error while deleting files in a folder " + e); }
+        catch (e) { CU.reportError("Error while deleting files in a folder " + e); }
     },
 
     deleteFile: function(path)

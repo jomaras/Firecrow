@@ -43,7 +43,7 @@
 
         function logMessage(message)
         {
-            var label = document.createElement("label");
+            var label = document.createElement("div");
             label.textContent = "----" + getCurrentTime() + ": " + message ;
             informationContainer.appendChild(label);
         }
