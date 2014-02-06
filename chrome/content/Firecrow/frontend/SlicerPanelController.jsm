@@ -15,6 +15,7 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
     this._extensionWindow = extensionWindow;
 
     this._hiddenIFrame = this._extensionDocument.getElementById("fdHiddenIFrame");
+    this._slicingFrame = this._extensionDocument.getElementById("slicingFrame");
 
     this._getCurrentPageWindow = getCurrentPageWindowFunction;
     this._getCurrentPageDocument = getCurrentPageDocumentFunction;
@@ -36,7 +37,7 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
     this._sourcesMenuList.addEventListener("command", function(e){ this._onSourcesPopupItemSelected(e); }.bind(this));
 
     this._slicingCriteriaList = extensionDocument.getElementById("slicingCriteriaList");
-    this._existingRecordingsList = extensionDocument.getElementById("existingRecordingsList");
+    this._recordingsGroup = extensionDocument.getElementById("recordingsGroup");
 
     this._slicingButton = extensionDocument.getElementById("slicingButton");
     this._slicingButton.onclick = function(e) { this._onSlicingClick(e); }.bind(this);
@@ -52,7 +53,8 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
     this._currentSelectedFile = null;
     this._ignoreBreakpointChanges = true;
     this._pathSourceLoadedCallbackMap = {};
-    this._slicingCriteriaMap = { DOM: {} };
+    this._slicingCriteriaMap = { DOM: {}};
+    this._selectors = [];
 
     this._externalFilesMap = {};
 
@@ -78,7 +80,45 @@ SlicerPanelController.prototype =
         if(e.target == this._slicingButton
         && e.currentTarget == this._slicingButton && e.originalTarget != this._slicingButton)
         {
-            Cu.reportError("Perform slicing: " + this._slicingOptionsElement.value);
+            var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/slicingDialog.xul', '', 'chrome,dialog,centerscreen');
+
+            FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
+            {
+                dialog.logMessage("Starting slicing!");
+
+                this._slicingFrame.contentWindow.console.log = dialog.logMessage;
+
+                var sourceCode = this._slicingFrame.contentWindow.performSlicing
+                ({
+                    url: this._getCurrentPageDocument().baseURI,
+                    model: htmlJson,
+                    trackedElementsSelectors: this._selectors,
+                    eventTraces: this._getSelectedEventTraces()
+                });
+
+                dialog.setSourceCode(sourceCode);
+            }.bind(this));
+        }
+    },
+
+    _getSelectedEventTraces: function()
+    {
+        if(this._recordingsGroup.selectedItem == null) { return []; }
+
+        for(var i = 0; i < this._recordingsFiles.length; i++)
+        {
+            if(this._recordingsFiles[i].path == this._recordingsGroup.selectedItem.filePath)
+            {
+                try
+                {
+                    return JSON.parse(this._recordingsFiles[i].content);
+                }
+                catch(e)
+                {
+                    Cu.reportError("Error when parsing eventTrace:" + e);
+                    return [];
+                }
+            }
         }
     },
 
@@ -126,7 +166,6 @@ SlicerPanelController.prototype =
 
         var siteName = encodeURIComponent(this._getCurrentPageDocument().baseURI);
         this._lastRecordingTime = Date.now();
-
 
         if(this._profileAllExecutions)
         {
@@ -271,6 +310,7 @@ SlicerPanelController.prototype =
         if(cssSelector == null || cssSelector == "") { return; }
 
         this._slicingCriteriaMap.DOM[cssSelector] = true;
+        this._selectors.push(cssSelector);
         this._updateSlicingCriteriaDisplay();
     },
 
@@ -317,6 +357,12 @@ SlicerPanelController.prototype =
 
             if(this._slicingCriteriaMap[button.firstPropertyId])
             {
+                var indexOfElement = this._selectors.indexOf(button.secondPropertyId);
+                if(indexOfElement >= 0)
+                {
+                    this._selectors.splice(indexOfElement, 1)
+                }
+
                 delete this._slicingCriteriaMap[button.firstPropertyId][button.secondPropertyId];
             }
 
@@ -350,23 +396,26 @@ SlicerPanelController.prototype =
     {
         this._clearRecordingInfoDisplay();
 
-        var recordingsFiles = FileHelper.getEventRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
+        this._recordingsFiles = FileHelper.getEventRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
 
-        for(var i = 0; i < recordingsFiles.length; i++)
+        for(var i = 0; i < this._recordingsFiles.length; i++)
         {
             //File writing is async, and file reading sync..
-            if(recordingsFiles[i].content == "" && recordingsFiles[i].name.indexOf(this._lastRecordingTime) != -1)
+            var recording = this._recordingsFiles[i];
+            if(recording.content == "" && recording.name.indexOf(this._lastRecordingTime) != -1)
             {
-                recordingsFiles[i].content = this._lastEventTrace;
+                recording.content = this._lastEventTrace;
             }
 
-            this._createRecordingInfoView(recordingsFiles[i]);
+            this._createRecordingInfoView(recording);
         }
+
+        this._recordingsGroup.selectedIndex = 0;
     },
 
     _createRecordingInfoView: function(recordingInfo)
     {
-        var doc = this._existingRecordingsList.ownerDocument;
+        var doc = this._recordingsGroup.ownerDocument;
 
         var container = doc.createElement("vbox");
         container.className = "recordingView";
@@ -377,15 +426,8 @@ SlicerPanelController.prototype =
         deleteRecordingContainer.className = "deleteContainer";
         titleContainer.appendChild(deleteRecordingContainer);
 
-        var checkbox = doc.createElement("checkbox");
-        checkbox.recordingFilePath = recordingInfo.path;
-        checkbox.className = "selectRecordingCheckbox";
-        titleContainer.appendChild(checkbox);
-
-        var timeLabel = doc.createElement("label");
-        timeLabel.textContent = this._getProfilingTime(recordingInfo.name);
-
-        titleContainer.appendChild(timeLabel);
+        var radioButton = doc.createElement("radio");
+        titleContainer.appendChild(radioButton);
 
         container.appendChild(titleContainer);
 
@@ -432,7 +474,10 @@ SlicerPanelController.prototype =
             }
         }.bind(this);
 
-        this._existingRecordingsList.appendChild(container);
+        this._recordingsGroup.appendChild(container);
+
+        radioButton.filePath = recordingInfo.path;
+        radioButton.label = this._getProfilingTime(recordingInfo.name);
     },
 
     _getRecordedEventInfos: function(recordingInfos)
@@ -475,14 +520,14 @@ SlicerPanelController.prototype =
 
     _clearRecordingInfoDisplay: function()
     {
-        var deleteButtons = this._existingRecordingsList.querySelectorAll(".deleteContainer");
+        var deleteButtons = this._recordingsGroup.querySelectorAll(".deleteContainer");
 
         for(var i = 0; i < deleteButtons.length; i++)
         {
             deleteButtons[i].onclick = null;
         }
 
-        this._existingRecordingsList.innerHTML = "";
+        this._recordingsGroup.innerHTML = "";
     },
 
     _getContentScriptNameAndPaths: function(document)

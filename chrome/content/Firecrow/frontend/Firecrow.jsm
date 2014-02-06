@@ -97,7 +97,7 @@ FirecrowView.prototype =
         this._sourcesMenuList = this.$("sourcesMenuList");
 
         this._slicingCriteriaList = this.$("slicingCriteriaList");
-        this._existingRecordingsList = this.$("existingRecordingsList");
+        this._recordingsGroup = this.$("existingRecordingsList");
 
         this._featureDescriptorContainer = this.$("featureDescriptorContainer");
 
@@ -516,14 +516,14 @@ FirecrowView.prototype =
 
     _getSelectedRecordingsPaths: function()
     {
-        var doc = this._existingRecordingsList.ownerDocument;
+        var doc = this._recordingsGroup.ownerDocument;
 
         var selectedItems = doc.querySelectorAll(".selectRecordingCheckbox[checked]");
         var paths = [];
 
         for(var i = 0; i < selectedItems.length; i++)
         {
-            paths.push(selectedItems[i].recordingFilePath);
+            paths.push(selectedItems[i].filePath);
         }
 
         return paths;
@@ -631,7 +631,7 @@ FirecrowView.prototype =
 
     _createRecordingInfoView: function(recordingInfo)
     {
-        var doc = this._existingRecordingsList.ownerDocument;
+        var doc = this._recordingsGroup.ownerDocument;
 
         var container = doc.createElement("vbox");
         container.className = "recordingView";
@@ -643,7 +643,7 @@ FirecrowView.prototype =
         titleContainer.appendChild(deleteRecordingContainer);
 
         var checkbox = doc.createElement("checkbox");
-        checkbox.recordingFilePath = recordingInfo.path;
+        checkbox.filePath = recordingInfo.path;
         checkbox.className = "selectRecordingCheckbox";
         titleContainer.appendChild(checkbox);
 
@@ -684,7 +684,7 @@ FirecrowView.prototype =
             }
         }.bind(this);
 
-        this._existingRecordingsList.appendChild(container);
+        this._recordingsGroup.appendChild(container);
     },
 
     _openSelectFolderDialog: function()
@@ -741,14 +741,14 @@ FirecrowView.prototype =
 
     _clearRecordingInfoDisplay: function()
     {
-        var deleteButtons = this._existingRecordingsList.querySelectorAll(".deleteContainer");
+        var deleteButtons = this._recordingsGroup.querySelectorAll(".deleteContainer");
 
         for(var i = 0; i < deleteButtons.length; i++)
         {
             deleteButtons[i].onclick = null;
         }
 
-        this._existingRecordingsList.innerHTML = "";
+        this._recordingsGroup.innerHTML = "";
     },
 
     _createMarkupViewer: function()

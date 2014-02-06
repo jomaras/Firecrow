@@ -416,8 +416,7 @@ Firecrow.ValueTypeHelper =
     {
         try
         {
-            var elementIndex = array.indexOf(element);
-            return this.removeFromArrayByIndex(array, elementIndex);
+            return this.removeFromArrayByIndex(array, array.indexOf(element));
         }
         catch(e) { alert("Error while removing elements from array by element: " + e);}
     },

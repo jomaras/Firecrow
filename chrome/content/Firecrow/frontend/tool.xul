@@ -17,6 +17,7 @@
         <browser id="invisibleBrowser" collapsed="true" type="content"/>
         <vbox hidden="false" height="0" collapsed="true">
             <iframe type="content" src="" name="fdHiddenIFrame" hidden="false" id="fdHiddenIFrame" height="0"/>
+            <iframe type="content" name="slicingFrame" hidden="false" id="slicingFrame" height="0" src="../slicer.html"/>
         </vbox>
         <tabbox id="FirecrowTabContainer" flex="1" class="devtools-sidebar-tabs">
             <tabpanels flex="1">
@@ -42,6 +43,7 @@
                                         <radiogroup id="slicingOptions">
                                             <radio label="PhantomJs" selected="true" value="PhantomJs"/>
                                             <radio label="SlimerJs" value="SlimerJs"/>
+                                            <radio label="Firefox" value="Firefox"/>
                                         </radiogroup>
                                     </menupopup>
                                 </toolbarbutton>
@@ -63,8 +65,8 @@
                         <vbox flex="1" id="slicingCriteriaList"/>
                         <div class="devtools-toolbar"><h2 class="toolbarTitle" flex="1"><label>Existing recordings</label></h2></div>
                         <vbox flex="1" id="existingRecordingsList">
-                            <vbox class="recordingView">
-                            </vbox>
+                            <radiogroup id="recordingsGroup">
+                            </radiogroup>
                         </vbox>
                     </vbox>
                 </tabpanel>
@@ -80,7 +82,7 @@
                             <span style="margin-top: 5px;" id="featureDescriptorContainer"></span>
                         </hbox>
                         <vbox flex="1" id="scenarioMarkupViewerElement">
-                            <iframe src="http://localhost/Firecrow/phantomJs/helperPages/viewExecutedCode.html" style="width:100%; height:100%; overflow: auto; min-height: 250px;"></iframe>
+
                         </vbox>
                     </vbox>
 

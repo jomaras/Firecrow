@@ -6,8 +6,8 @@ if(usesModule || typeof FBL == "undefined")
 
     if(typeof Components != "undefined")
     {
-        const Cu = Components.utils;
-        const Cc = Components.classes;
+        var Cu = Components.utils;
+        var Cc = Components.classes;
 
         var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
 

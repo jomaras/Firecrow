@@ -6,20 +6,27 @@
 </head>
 <body>
     <button id="button">Button</button>
-    <script >
-        button.onclick = function()
-        {
-            try
-            {
-                var obj = JSON.parse(a);
-            }
-            catch(e)
-            {
-                debugger;
-            }
+    <form>
+        <input type ="checkbox"  label="First" value="first"/>1<br/>
+        <input type ="checkbox"  label="Second" value="second"/>1<br/>
+        <input type ="checkbox" label="Third"/>3
+    </form>
 
-            return false;
-        };
+    <script>
+        var allInputs = document.querySelectorAll("input");
+
+        for(var i = 0; i < allInputs.length; i++)
+        {
+            allInputs[i].onclick = function()
+            {
+                for(var j = 0; j < allInputs.length; j++)
+                {
+                    allInputs[j].checked = false;
+                }
+
+                //this.checked = true;
+            }
+        }
     </script>
 </body>
 </html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slicer</title>
+    <script src="initFBL.js"></script>
+    <script src="helpers/valueTypeHelper.js"></script>
+    <script src="helpers/htmlHelper.js"></script>
+    <script src="helpers/ASTHelper.js"></script>
+    <script src="helpers/htmlHelper.js"></script>
+    <script src="helpers/UriHelper.js"></script>
+    <script src="helpers/TimerHelper.js"></script>
+    <script src="helpers/esprima.js"></script>
+
+    <script src="scenarioGenerator/Event.js"></script>
+    <script src="scenarioGenerator/Scenario.js"></script>
+
+    <script src="scenarioGenerator/symbolic/NumberRange.js"></script>
+    <script src="scenarioGenerator/symbolic/StringConstraint.js"></script>
+    <script src="scenarioGenerator/symbolic/Expression.js"></script>
+    <script src="scenarioGenerator/symbolic/PathConstraint.js"></script>
+    <script src="scenarioGenerator/symbolic/SymbolicExecutor.js"></script>
+    <script src="scenarioGenerator/symbolic/ConstraintResolver.js"></script>
+
+    <script src="dependencyGraph/dependencyHighlighter.js"></script>
+    <script src="dependencyGraph/node.js"></script>
+    <script src="dependencyGraph/edge.js"></script>
+    <script src="dependencyGraph/dependencyGraph.js"></script>
+    <script src="dependencyGraph/slicingCriterion.js"></script>
+    <script src="dependencyGraph/inclusionFinder.js"></script>
+    <script src="dependencyGraph/dependencyPostprocessor.js"></script>
+    <script src="codeMarkupGenerator/codeMarkupGenerator.js"></script>
+    <script src="codeMarkupGenerator/codeTextGenerator.js"></script>
+
+    <script src="interpreter/commands/CommandGenerator.js"></script>
+    <script src="interpreter/commands/Command.js"></script>
+
+    <script src="interpreter/model/FcValue.js"></script>
+    <script src="interpreter/model/object/Object.js"></script>
+    <script src="interpreter/model/object/ObjectPrototype.js"></script>
+    <script src="interpreter/model/object/ObjectFunction.js"></script>
+    <script src="interpreter/model/object/ObjectExecutor.js"></script>
+    <script src="interpreter/model/globalObject/GlobalObject.js"></script>
+    <script src="interpreter/model/globalObject/GlobalObjectExecutor.js"></script>
+    <script src="interpreter/model/array/Array.js"></script>
+    <script src="interpreter/model/array/ArrayCallbackExecutor.js"></script>
+    <script src="interpreter/model/array/ArrayExecutor.js"></script>
+    <script src="interpreter/model/array/ArrayFunction.js"></script>
+    <script src="interpreter/model/array/ArrayPrototype.js"></script>
+    <script src="interpreter/model/XMLHttpRequest.js"></script>
+    <script src="interpreter/model/Math.js"></script>
+    <script src="interpreter/model/internal/RegEx.js"></script>
+    <script src="interpreter/model/Function.js"></script>
+    <script src="interpreter/model/Identifier.js"></script>
+
+    <script src="interpreter/model/internal/FunctionFunction.js"></script>
+    <script src="interpreter/model/internal/Date.js"></script>
+    <script src="interpreter/model/internal/Boolean.js"></script>
+    <script src="interpreter/model/internal/Number.js"></script>
+    <script src="interpreter/model/internal/String.js"></script>
+    <script src="interpreter/model/internal/Image.js"></script>
+    <script src="interpreter/model/internal/Element.js"></script>
+    <script src="interpreter/model/internal/HTMLElement.js"></script>
+    <script src="interpreter/model/internal/HTMLImageElement.js"></script>
+    <script src="interpreter/model/internal/Canvas.js"></script>
+    <script src="interpreter/model/internal/Error.js"></script>
+
+    <script src="interpreter/model/DOM/Document.js"></script>
+    <script src="interpreter/model/DOM/DocumentExecutor.js"></script>
+    <script src="interpreter/model/DOM/HtmlElement.js"></script>
+    <script src="interpreter/model/DOM/HtmlElementExecutor.js"></script>
+    <script src="interpreter/model/DOM/TextNode.js"></script>
+    <script src="interpreter/model/DOM/Attribute.js"></script>
+    <script src="interpreter/model/DOM/ClassList.js"></script>
+    <script src="interpreter/model/DOM/CSSStyleDeclaration.js"></script>
+    <script src="interpreter/model/DOM/DOMProperties.js"></script>
+    <script src="interpreter/model/DOM/SimpleXPath.js"></script>
+    <script src="interpreter/model/DOM/EventListenerMixin.js"></script>
+    <script src="interpreter/model/DOM/Event.js"></script>
+
+    <script src="interpreter/simulator/VariableObject.js"></script>
+    <script src="interpreter/simulator/InternalExecutor.js"></script>
+    <script src="interpreter/simulator/ExecutionContextStack.js"></script>
+    <script src="interpreter/simulator/DependencyCreator.js"></script>
+    <script src="interpreter/simulator/Evaluator.js"></script>
+
+    <script src="interpreter/InterpreterSimulator.js"></script>
+
+    <script src="doppelBrowser/browser.js"></script>
+    <script src="interpreter/ExecutionInfo.js"></script>
+    <script src="dependencyGraph/DependencyGenerator.js"></script>
+    <script src="Slicer.js"></script>
+
+    <script src="beautifier/beautify.js"></script>
+    <script src="beautifier/beautify-css.js"></script>
+    <script src="beautifier/beautify-html.js"></script>
+</head>
+<body>
+    <iframe id="firecrowFrame" height="800" width="1300"></iframe>
+    <script>
+        var Firecrow = FBL.Firecrow;
+
+        window.performSlicing = function(htmlModel, profile)
+        {
+            var url = htmlModel.url;
+
+            var slicingCriteria = [];
+
+            htmlModel.trackedElementsSelectors = htmlModel.trackedElementsSelectors || htmlModel.model.trackedElementsSelectors || [];
+            htmlModel.eventTraces = htmlModel.eventTraces || htmlModel.model.eventTraces || [];
+            htmlModel.model.eventTraces = htmlModel.eventTraces;
+
+            if(htmlModel.trackedElementsSelectors != null)
+            {
+                htmlModel.trackedElementsSelectors.forEach(function(selector)
+                {
+                    slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+                });
+            }
+
+            if(!profile)
+            {
+                var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, url).browser;
+
+                var sourceCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+            }
+            else
+            {
+                var browser = Firecrow.Slicer.profile(htmlModel.model, url).browser;
+                sourceCode = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
+            }
+
+            return html_beautify(sourceCode, { indent_scripts: "normal", preserve_newlines: false, max_preserve_newlines: -1, "brace_style": "expand"});
+        }
+    </script>
+</body>
+</html>

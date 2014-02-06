@@ -90,7 +90,9 @@
 
 .deleteContainer
 {
+    background-repeat: no-repeat;
     background-image: url("images/delete.png");
+    background-position: center;
     width: 16px;
     height: 16px;
     cursor: pointer;
