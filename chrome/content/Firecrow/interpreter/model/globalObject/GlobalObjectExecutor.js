@@ -25,7 +25,7 @@ fcModel.GlobalObjectExecutor =
                 return globalObject.internalExecutor.createInternalPrimitiveObject
                 (
                     callExpression,
-                    globalObject.origWindow[fcFunction.jsValue.name].apply(globalObject.origWindow, globalObject.getJsValues(args))
+                    (globalObject.origWindow[fcFunction.jsValue.name] || eval(fcFunction.jsValue.name)).apply(globalObject.origWindow, globalObject.getJsValues(args))
                 );
             }
             else if (globalObject.internalExecutor.isInternalConstructor(fcFunction))
@@ -82,7 +82,8 @@ fcModel.GlobalObjectExecutor =
 
     executesFunction: function(globalObject, functionName)
     {
-        return globalObject.origWindow[functionName] != null && ValueTypeHelper.isFunction(globalObject.origWindow[functionName]);
+        return (globalObject.origWindow[functionName] != null || eval(functionName))
+             && ValueTypeHelper.isFunction(globalObject.origWindow[functionName] || eval(functionName));
     }
 };
 /*************************************************************************************/

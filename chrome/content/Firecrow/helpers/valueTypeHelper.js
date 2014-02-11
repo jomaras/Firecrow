@@ -176,7 +176,13 @@ Firecrow.ValueTypeHelper =
     {
         if (this.isNull(arrayOfElements)) { return false; }
 
-        return (typeof arrayOfElements) == "array" || arrayOfElements instanceof Array;
+        var result = (typeof arrayOfElements) == "array" || arrayOfElements instanceof Array;
+
+        if(result) { return true; }
+
+        if(Array != null && Array.isArray != null) { return Array.isArray(arrayOfElements); }
+
+        return result;
     },
 
     isArrayLike: function(arrayLike)

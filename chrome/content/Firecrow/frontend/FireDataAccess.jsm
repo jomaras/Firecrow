@@ -8,6 +8,8 @@ Cu.import("chrome://Firecrow/content/helpers/UriHelper.js");
 Cu.import("chrome://Firecrow/content/helpers/htmlHelper.js");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 
+Components.utils.import("resource://gre/modules/NetUtil.jsm");
+
 var FireDataAccess =
 {
     _externalFilesMap: {},
@@ -76,18 +78,13 @@ var FireDataAccess =
     {
         if(this._externalFilesMap[path]) { finishedCallback && finishedCallback(); return; }
 
-        //TODO replace caching with: NetUtil.asyncFetch()
-        this._pathSourceLoadedCallbackMap[path] = { finishedCallback: finishedCallback, failCallbackId: this._window.setTimeout(function()
+        NetUtil.asyncFetch(path, function(aInputStream, aResult)
         {
-            this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
-            this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
-            Cu.reportError("Could not load: " + path);
-        }.bind(this), 8000)};
+            Components.isSuccessCode(aResult) ? this._externalFilesMap[path] = NetUtil.readInputStreamToString(aInputStream, aInputStream.available())
+                                              : this._externalFilesMap[path] = "SOURCE_UNAVAILABLE";
 
-        this._sourceCodeLoadedInBrowser = this._sourceCodeLoadedInBrowser.bind(this);
-
-        this._browser.addEventListener("DOMContentLoaded", this._sourceCodeLoadedInBrowser);
-        this._browser.setAttribute("src", "view-source:" + path);
+            finishedCallback && finishedCallback();
+        }.bind(this));
     },
 
     saveModel: function(selectedFolder, pageUrl, iFrame)
@@ -126,27 +123,23 @@ var FireDataAccess =
             iFrame.webNavigation.allowPlugins = false;
             iFrame.webNavigation.allowSubframes = false;
 
-            iFrame.addEventListener("DOMContentLoaded", function listener(e)
+            iFrame.addEventListener("load", function listener(e)
             {
-                try
+                var document = e.originalTarget.wrappedJSObject;
+
+                iFrame.removeEventListener("load", listener, true);
+
+                this.cacheAllExternalFilesContent(document, function()
                 {
-                    var document = e.originalTarget.wrappedJSObject;
+                    var htmlJson = HtmlHelper.serializeToHtmlJSON
+                    (
+                        document,
+                        this._getScriptsPathsAndModels(document),
+                        this._getStylesPathsAndModels(document)
+                    );
 
-                    iFrame.removeEventListener("DOMContentLoaded", listener, true);
-
-                    this.cacheAllExternalFilesContent(document, function()
-                    {
-                        var htmlJson = HtmlHelper.serializeToHtmlJSON
-                        (
-                            document,
-                            this._getScriptsPathsAndModels(document),
-                            this._getStylesPathsAndModels(document)
-                        );
-
-                        callback(document.defaultView, htmlJson);
-                    }.bind(this));
-                }
-                catch(e) { Cu.reportError("Error while serializing html code:" + e + "->" + e.lineNo + " " + e.href + ";" + e.stack);}
+                    callback(document.defaultView, htmlJson);
+                }.bind(this));
             }.bind(this), true);
 
             iFrame.webNavigation.loadURI(url, Ci.nsIWebNavigation, null, null, null);
@@ -159,23 +152,6 @@ var FireDataAccess =
         //return "var fullPageModel = { pageModel:" + model + "};";
         return model;
         //return "HtmlModelMapping.push({url: '',results: [], model: " + model + "});"
-    },
-
-    _sourceCodeLoadedInBrowser: function()
-    {
-        var path = this._browser.contentDocument.baseURI.replace("view-source:", "");
-
-        if(this._pathSourceLoadedCallbackMap[path] != null)
-        {
-            this._window.clearTimeout(this._pathSourceLoadedCallbackMap[path].failCallbackId);
-        }
-
-        this._browser.removeEventListener("DOMContentLoaded", this._sourceCodeLoadedInBrowser);
-
-        this._externalFilesMap[path] = this._browser.contentDocument.getElementById('viewsource').textContent;
-
-        this._pathSourceLoadedCallbackMap[path] && this._pathSourceLoadedCallbackMap[path].finishedCallback && this._pathSourceLoadedCallbackMap[path].finishedCallback();
-        this._pathSourceLoadedCallbackMap[path] = null;
     },
 
     getExternalScripts: function(document)
@@ -292,7 +268,15 @@ var FireDataAccess =
     {
         if(styleSheet == null) { return model; }
 
-        var cssRules = styleSheet.cssRules;
+        try
+        {
+            var cssRules = styleSheet.cssRules;
+        }
+        catch(e)
+        {
+            Cu.reportError("CSS stylesheets not yet ready for parsing!" + e);
+            cssRules = [];
+        }
 
         for(var i = 0; i < cssRules.length; i++)
         {

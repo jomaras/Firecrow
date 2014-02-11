@@ -912,7 +912,7 @@ fcModel.GlobalObject.prototype._createInternalFunctions = function()
             methodName,
             new fcModel.fcValue
             (
-                this.origWindow[methodName],
+                this.origWindow[methodName] || eval(methodName),
                 fcModel.Function.createInternalNamedFunction(this, methodName, this),
                 null
             ),

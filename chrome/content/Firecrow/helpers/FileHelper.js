@@ -14,12 +14,30 @@ if(typeof FBL == "undefined")
 FBL.ns(function () { with (FBL) {
 /******/
 
-var recordingsFolderPath = ["Firecrow", "profiles"];
-var phantomJsModelFolder = ["Firecrow", "phantomJs"];
-
+var firecrowFolderPath = ["Firecrow"];
+var recordingsFolderPath = firecrowFolderPath.concat(["profiles"]);
+var phantomJsModelFolder = firecrowFolderPath.concat(["phantomJs"]);
 
 Firecrow.FileHelper = FileHelper =
 {
+    userPickFile: function(window, title, filter)
+    {
+        const nsIFilePicker = Components.interfaces.nsIFilePicker;
+
+        var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+        fp.init(window, title, nsIFilePicker.modeOpen);
+        fp.appendFilter(filter, filter);
+
+        var rv = fp.show();
+
+        if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace)
+        {
+            return fp.file.path;
+        }
+
+        return null;
+    },
+
     createFirecrowDirs: function()
     {
         FileUtils.getDir("ProfD", recordingsFolderPath, true);

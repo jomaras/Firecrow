@@ -163,7 +163,12 @@ fcModel.RegExExecutor =
 
                         return fcThisValue.globalObject.internalExecutor.createArray(callExpression, internalPrimitives);
                     }
-                    else { this.notifyError("Unknown result when exec regexp"); return null; }
+                    else
+                    {
+                        this.notifyError("Unknown result when exec regexp: " + result);
+                        debugger;
+                        return null;
+                    }
                 case "test":
                     var result = thisObjectValue[functionName].apply(thisObjectValue, globalObject.getJsValues(args));
                     return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);

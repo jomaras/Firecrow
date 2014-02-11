@@ -292,7 +292,10 @@ fcSimulator.InternalExecutor.prototype =
         }
         catch(e)
         {
-            this.notifyError("Error when executing internal function: " + e + " " + e.fileName + " " + e.lineNumber + " " + this.globalObject.browser.url);
+            this.notifyError("Error when executing internal function: " + e + " " + e.fileName + " " + e.lineNumber + " " + this.globalObject.browser.url
+                            + " on code expression @ " + (callExpression != null && callExpression.loc != null ? callExpression.loc.start.line : "?")
+                            + " code:" + Firecrow.gen(callExpression)
+                            + e.stack);
         }
     },
 
@@ -421,7 +424,7 @@ fcSimulator.InternalExecutor.prototype =
 
     _executeInternalStringFunctionMethod: function(thisObject, functionObject, args, callExpression, callCommand)
     {
-        //This is a hack when an internal callback function get another interanal function as an argument
+        //This is a hack when an internal callback function gets another internal function as an argument
         if(args.length == 0 && callCommand.parentCallExpressionCommand != null && callCommand.parentCallExpressionCommand.arguments != null)
         {
             args = callCommand.parentCallExpressionCommand.arguments || [];

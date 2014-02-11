@@ -16,7 +16,7 @@
         var informationContainer = document.getElementById("informationContainer");
         var sourceCodeContainer = document.getElementById("sourceCodeContainer");
         var editor = null;
-        var defaultText = "---- PERFORMING SLICING - WAITING FOR RESULT ----";
+        var defaultText = "---- PERFORMING SLICING - WAITING FOR RESULT ---- Firefox might become unresponsive!";
 
 
         window.onload = function()

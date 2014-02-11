@@ -108,7 +108,10 @@ SlicerPanelController.prototype =
 
     _performSlicingInPhantomJs: function(model, dialog)
     {
-        //dialog.logMessage("Native path" + FileHelper.getNativePath("chrome://Firecrow/content/helpers/FileHelper.js"));
+        var phantomJsFilePath = this._getPhantomJsFilePath();
+
+        if(phantomJsFilePath == null || phantomJsFilePath == "") { Cu.reportError("Unknown phantomjs location"); return; }
+
         dialog.logMessage("Started slicing in Phantom Js..");
         dialog.logMessage("Serializing model..");
         FileHelper.saveModelForPhantomJs(model, function(modelPath)
@@ -120,8 +123,13 @@ SlicerPanelController.prototype =
                 dialog.logMessage("PhantomJs script saved to:" + scriptPath);
 
                 //https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIProcess?redirectlocale=en-US&redirectslug=nsIProcess
-            });
+            }.bind(this));
         }.bind(this));
+    },
+
+    _getPhantomJsFilePath: function()
+    {
+        return FileHelper.userPickFile(this._extensionWindow, "Select PhantomJs path", "phantomjs.exe");
     },
 
     _performSlicingInSlimerJs: function(model, dialog)

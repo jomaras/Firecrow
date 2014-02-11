@@ -307,7 +307,7 @@ fcModel.Object.prototype =
             }
             catch(e)
             {
-                debugger;
+                //debugger;
             }
         }
 

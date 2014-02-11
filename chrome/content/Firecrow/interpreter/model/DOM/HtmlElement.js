@@ -103,13 +103,14 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
     {
-        if(ValueTypeHelper.isPrimitive(this.htmlElement[propertyName]))
+        var propertyValue = this.htmlElement[propertyName] || (this.htmlElement != null && this.htmlElement.getAttribute != null ? this.htmlElement.getAttribute(propertyName) : null);
+        if(ValueTypeHelper.isPrimitive(propertyValue))
         {
-            this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(creationConstruct, this.htmlElement[propertyName]), creationConstruct);
+            this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(creationConstruct, propertyValue), creationConstruct);
         }
-        else if (ValueTypeHelper.isHtmlElement(this.htmlElement[propertyName]))
+        else if (ValueTypeHelper.isHtmlElement(propertyValue))
         {
-            this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(this.htmlElement[propertyName], this.globalObject, creationConstruct), creationConstruct);
+            this.addProperty(propertyName, fcModel.HtmlElementExecutor.wrapToFcElement(propertyValue, this.globalObject, creationConstruct), creationConstruct);
         }
 
         fcModel.HtmlElementExecutor.addDependencies(this.htmlElement, codeConstruct, this.globalObject);

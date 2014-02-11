@@ -28,6 +28,13 @@
                     message += " timeout ";
 
                     mainContainer.textContent += message;
+
+                    var re = /\w+\s/g;
+                    var str = "fee fi fo fum";
+                    var myArray = str.match(re);
+                    mainContainer.textContent += myArray.length;
+
+                    mainContainer.textContent += parseInt("12");
                 }, 1000);
             };
 
