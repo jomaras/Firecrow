@@ -143,9 +143,10 @@ SlicerPanelController.prototype =
 
         dialog.logMessage("Slicing started in Firefox - UI might become unresponsive for minutes at a time");
 
-        var sourceCode = this._slicingFrame.contentWindow.performSlicing(model);
-
-        dialog.setSourceCode(sourceCode);
+        this._extensionWindow.setTimeout(function()
+        {
+            dialog.setSourceCode(this._slicingFrame.contentWindow.performSlicing(model));
+        }.bind(this), 1000);
     },
 
     _getSelectedEventTraces: function()

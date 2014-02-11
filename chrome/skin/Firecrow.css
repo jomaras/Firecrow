@@ -55,6 +55,13 @@
     list-style-image: url("images/plus.png");
 }
 
+#saveFileButton
+{
+    list-style-image: url("images/download.png");
+    width: 20px;
+    height: 20px;
+}
+
 #recordButton
 {
     font-weight: normal;

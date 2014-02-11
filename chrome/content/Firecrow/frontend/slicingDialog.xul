@@ -1,22 +1,32 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/common.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/splitview.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/splitview.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/profiler.css" type="text/css"?>
+<?xml-stylesheet href="chrome://Firecrow/skin/Firecrow.css" type="text/css"?>
 
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="Slicing Information Window">
-    <vbox id="sourceCodeContainer" style="width: 100%; height: 500px" flex="1"></vbox>
-    <vbox id="informationContainer" style="width: 800px; height: 100px; overflow: auto; border-top-style: solid; border-color: #2e373d; margin-top:5px">
 
-    </vbox>
+    <vbox id="sourceCodeContainer" style="width: 100%; height: 500px" flex="1"></vbox>
+    <hbox horizontalAlign="right" align="right" style="width: 100%; margin-top: 5px; margin-bottom: 5px">
+        <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save file" disabled="false" id="saveFileButton" value="Save file"/>
+    </hbox>
+    <vbox id="informationContainer" style="width: 800px; height: 100px; overflow: auto; border-top-style: solid; border-color: #2e373d; margin-top:5px"></vbox>
+
     <script><![CDATA[
         var Cu = Components.utils;
         var Ci = Components.interfaces;
 
         Cu.import("resource:///modules/devtools/sourceeditor/source-editor.jsm");
+        Cu.import("chrome://Firecrow/content/helpers/FileHelper.js")
 
 
         var informationContainer = document.getElementById("informationContainer");
         var sourceCodeContainer = document.getElementById("sourceCodeContainer");
         var editor = null;
         var defaultText = "---- PERFORMING SLICING - WAITING FOR RESULT ---- Firefox might become unresponsive!";
+        var generatedSource = null;
 
 
         window.onload = function()
@@ -39,6 +49,21 @@
                     editor.setText(defaultText);
                 }
             );
+
+            var saveFileButton = document.getElementById("saveFileButton");
+
+            saveFileButton.onclick = function()
+            {
+                if(generatedSource == null) { alert("There is no code to save!"); return; }
+
+                var pickedFile = FileHelper.userPickFile(window, "Save to file");
+
+                if(pickedFile)
+                {
+                    FileHelper.writeToFile(pickedFile, generatedSource);
+                    logMessage("Sliced code written to: " + pickedFile);
+                }
+            };
         }
 
         function logMessage(message)
@@ -46,11 +71,14 @@
             var label = document.createElement("div");
             label.textContent = "----" + getCurrentTime() + ": " + message ;
             informationContainer.appendChild(label);
+            informationContainer.scrollTop = informationContainer.scrollHeight;
         }
 
         function setSourceCode(sourceCode)
         {
             if(editor == null) { logMessage("Error, editor is not ready"); return; }
+
+            generatedSource = sourceCode;
 
             try
             {
