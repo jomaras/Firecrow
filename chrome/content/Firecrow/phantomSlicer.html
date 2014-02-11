@@ -93,66 +93,66 @@
     <script src="beautifier/beautify.js"></script>
     <script src="beautifier/beautify-css.js"></script>
     <script src="beautifier/beautify-html.js"></script>
+    <script src="{PATH_TO_MODEL}"></script>
 </head>
 <body>
-    <iframe id="firecrowFrame" height="800" width="1300"></iframe>
-    <script>
-        var Firecrow = FBL.Firecrow;
+<h1>Firecrow - Debugging Test pages</h1>
+<iframe id="firecrowFrame" height="800" width="1300"></iframe>
+<div>
+    <a id="testIdContainer"></a>
+</div>
 
-        window.performSlicing = function(htmlModel, profile)
+<br/>
+<span id="resultTitle">Result:</span>
+Time: <span id="timeContainer"></span><br/>
+SC: <span id="slicingCriteriaCount"></span><br>
+Eval Expr:<span id="noEvaluatedExpressions"></span><br>
+<br/>
+<div id="slicedCodeContainer">
+    <textarea id="slicedSourceTextContainer"></textarea>
+</div>
+<div style="clear:both"/>
+
+<script>
+    var Firecrow = FBL.Firecrow;
+    var timeContainer = document.getElementById("timeContainer");
+
+    var htmlModel = HtmlModelMapping.getFirstModelMapping();
+    var url = htmlModel.url;
+    var slicingCriteria = htmlModel.results.map(function(result)
+    {
+        for(var propName in result)
         {
-            simulateExecution(htmlModel, profile)
-
-            return html_beautify
-            (
-                !profile ? FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model)
-                         : FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model),
-                {
-                    indent_scripts: "normal",
-                    preserve_newlines: false,
-                    max_preserve_newlines: -1,
-                    "brace_style": "expand"
-                }
-            );
-        };
-
-        window.getSlicedCodeMarkup = function(model, profile)
-        {
-            simulateExecution(model, profile);
-
-            return FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(model.model);
-        };
-
-        function simulateExecution(htmlModel, profile)
-        {
-            var url = htmlModel.url;
-
-            var slicingCriteria = [];
-
-            htmlModel.trackedElementsSelectors = htmlModel.trackedElementsSelectors || htmlModel.model.trackedElementsSelectors || [];
-            htmlModel.eventTraces = htmlModel.eventTraces || htmlModel.model.eventTraces || [];
-            htmlModel.model.eventTraces = htmlModel.eventTraces;
-
-            if(htmlModel.trackedElementsSelectors != null)
-            {
-                htmlModel.trackedElementsSelectors.forEach(function(selector)
-                {
-                    slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
-                });
-            }
-
-            if(!profile)
-            {
-                var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, url).browser;
-
-                var sourceCode = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
-            }
-            else
-            {
-                var browser = Firecrow.Slicer.profile(htmlModel.model, url).browser;
-                sourceCode = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
-            }
+            return Firecrow.DependencyGraph.SlicingCriterion.createReadIdentifierCriterion(url, -1, propName);
         }
-    </script>
+    });
+
+    if(htmlModel.model.trackedElementsSelectors != null)
+    {
+        htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+        {
+            slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+        });
+    }
+
+    var timer = Firecrow.TimerHelper.createTimer();
+
+    if(!profile)
+    {
+        var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, url).browser;
+
+        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+    }
+    else
+    {
+        var browser = Firecrow.Slicer.profile(htmlModel.model, url).browser;
+        document.getElementById("slicedSourceTextContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateProfiledCode(htmlModel.model);
+    }
+
+    document.getElementById("slicingCriteriaCount").textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
+    document.getElementById("noEvaluatedExpressions").textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
+
+    timeContainer.textContent = timer.getElapsedTimeInSeconds();
+</script>
 </body>
 </html>

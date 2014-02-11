@@ -1172,7 +1172,9 @@ FBL.ns(function () { with (FBL) {
             if(expression == null) { return ""; }
 
             return (expression.hasBeenExecuted ? " hasBeenExecuted "
-                                              : " hasNotBeenExecuted ") + (expression.differsInExecution ? " differs " : "");
+                                              : " hasNotBeenExecuted ")
+                 + (expression.differsInExecution ? " differs " : "")
+                 + (expression.shouldBeIncluded ? " hasBeenIncluded" : "hasNotBeenIncluded");
         },
 
         formatId: function(currentId)

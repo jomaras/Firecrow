@@ -2,12 +2,15 @@ var EXPORTED_SYMBOLS = ["SlicerPanelController"];
 
 const Cu = Components.utils;
 const Ci = Components.interfaces;
+const Cc = Components.classes;
 
 Cu.import("resource:///modules/devtools/sourceeditor/source-editor.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 Cu.import("chrome://Firecrow/content/frontend/JsRecorder.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
+
+
 
 var SlicerPanelController = function(extensionWindow, extensionDocument, getCurrentPageWindowFunction, getCurrentPageDocumentFunction)
 {
@@ -43,6 +46,7 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
     this._slicingButton.onclick = function(e) { this._onSlicingClick(e); }.bind(this);
 
     this._slicingOptionsElement = extensionDocument.getElementById("slicingOptions");
+    this._slicingResultOptions = extensionDocument.getElementById("slicingResultOptions");
 
     this._saveModelButton = extensionDocument.getElementById("saveModelButton");
     this._saveModelButton.onclick = function(e) { this._onSaveModelClick(e); }.bind(this);
@@ -80,30 +84,63 @@ SlicerPanelController.prototype =
         if(e.target == this._slicingButton
         && e.currentTarget == this._slicingButton && e.originalTarget != this._slicingButton)
         {
-            var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/slicingDialog.xul', '', 'chrome,dialog,centerscreen');
-
-            FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
-            {
-                var model = {
-                    url: this._getCurrentPageDocument().baseURI,
-                    model: htmlJson,
-                    trackedElementsSelectors: this._selectors,
-                    eventTraces: this._getSelectedEventTraces()
-                };
-                switch(this._slicingOptionsElement.value)
-                {
-                    case "PhantomJs":
-                        this._performSlicingInPhantomJs(model, dialog);
-                        break;
-                    case "SlimerJs":
-                        this._performSlicingInSlimerJs(model, dialog);
-                        break;
-                    case "Firefox":
-                    default:
-                        this._performSlicingInFirefox(model, dialog);
-                }
-            }.bind(this));
+            if(this._slicingResultOptions.value == "ExtractSlicedCode") { this._extractAndShowSlicedCode(); }
+            else if (this._slicingResultOptions.value == "MarkSlicedCode") { this._extractAndMarkSlicedCode(); }
         }
+    },
+
+    _extractAndMarkSlicedCode: function()
+    {
+        //CONTINUE HERE, CREATE a dialog similar to slicingDialog that will generate the markup of the whole code, and will mark the
+        //sliced code. Group into files.
+        var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/markSlicedCodeDialog.xul', '', 'chrome,dialog,centerscreen');
+
+        FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
+        {
+            var model = {
+                url: this._getCurrentPageDocument().baseURI,
+                model: htmlJson,
+                trackedElementsSelectors: this._selectors,
+                eventTraces: this._getSelectedEventTraces()
+            };
+
+            switch(this._slicingOptionsElement.value)
+            {
+                case "PhantomJs":
+                case "SlimerJs":
+                case "Firefox":
+                default:
+                    this._performMarkSlicedCodeInFirefox(model, dialog);
+            }
+        }.bind(this));
+    },
+
+    _extractAndShowSlicedCode: function()
+    {
+        var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/slicingDialog.xul', '', 'chrome,dialog,centerscreen');
+
+        FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
+        {
+            var model = {
+                url: this._getCurrentPageDocument().baseURI,
+                model: htmlJson,
+                trackedElementsSelectors: this._selectors,
+                eventTraces: this._getSelectedEventTraces()
+            };
+
+            switch(this._slicingOptionsElement.value)
+            {
+                case "PhantomJs":
+                    this._performSlicingInPhantomJs(model, dialog);
+                    break;
+                case "SlimerJs":
+                    this._performSlicingInSlimerJs(model, dialog);
+                    break;
+                case "Firefox":
+                default:
+                    this._performSlicingInFirefox(model, dialog);
+            }
+        }.bind(this));
     },
 
     _performSlicingInPhantomJs: function(model, dialog)
@@ -121,6 +158,7 @@ SlicerPanelController.prototype =
             FileHelper.savePhantomJsScript(function(scriptPath)
             {
                 dialog.logMessage("PhantomJs script saved to:" + scriptPath);
+                dialog.setSourceCode("PhantomJs not yet implemented!");
 
                 //https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIProcess?redirectlocale=en-US&redirectslug=nsIProcess
             }.bind(this));
@@ -129,12 +167,32 @@ SlicerPanelController.prototype =
 
     _getPhantomJsFilePath: function()
     {
-        return FileHelper.userPickFile(this._extensionWindow, "Select PhantomJs path", "phantomjs.exe");
+        var loggedPath = FireDataAccess.getPhantomJsPath();
+
+        if(loggedPath != null && loggedPath == "") { return loggedPath; }
+
+        var phantomJsPath = FileHelper.userPickFile(this._extensionWindow, "Select PhantomJs path", "phantomjs.exe");
+
+        FireDataAccess.savePhantomJsPath(phantomJsPath);
+
+        return phantomJsPath;
     },
 
     _performSlicingInSlimerJs: function(model, dialog)
     {
         dialog.logMessage("Slicing in SlimerJs not yet supported");
+    },
+
+    _performMarkSlicedCodeInFirefox: function(model, dialog)
+    {
+        this._slicingFrame.contentWindow.console.log = dialog.logMessage;
+
+        dialog.logMessage("Slicing started in Firefox - UI might become unresponsive for minutes at a time");
+
+        this._extensionWindow.setTimeout(function()
+        {
+            dialog.setSourceMarkup(this._slicingFrame.contentWindow.getSlicedCodeMarkup(model));
+        }.bind(this), 1000);
     },
 
     _performSlicingInFirefox: function(model, dialog)

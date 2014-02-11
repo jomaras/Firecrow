@@ -40,10 +40,17 @@
                                 </toolbarbutton>
                                 <toolbarbutton type="menu-button" class="devtools-toolbarbutton" tooltiptext="Slice" disabled="false" id="slicingButton">
                                     <menupopup>
+                                        <label>Slicing engine:</label>
                                         <radiogroup id="slicingOptions">
                                             <radio label="Firefox" selected="true" value="Firefox"/>
                                             <radio label="PhantomJs" value="PhantomJs"/>
                                             <radio label="SlimerJs" value="SlimerJs"/>
+                                        </radiogroup>
+                                        <separator class="groove-thin"/>
+                                        <label>Result:</label>
+                                        <radiogroup id="slicingResultOptions">
+                                            <radio label="Extract sliced code" selected="true" value="ExtractSlicedCode"/>
+                                            <radio label="Mark sliced code" value="MarkSlicedCode"/>
                                         </radiogroup>
                                     </menupopup>
                                 </toolbarbutton>

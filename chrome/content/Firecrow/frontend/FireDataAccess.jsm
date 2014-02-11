@@ -2,19 +2,51 @@ var EXPORTED_SYMBOLS = ["FireDataAccess"];
 
 var Cu = Components.utils;
 var Ci = Components.interfaces;
+var Cc = Components.classes;
 
 Cu.import("chrome://Firecrow/content/initFBL.js");
 Cu.import("chrome://Firecrow/content/helpers/UriHelper.js");
 Cu.import("chrome://Firecrow/content/helpers/htmlHelper.js");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
+Cu.import("resource://gre/modules/NetUtil.jsm");
 
-Components.utils.import("resource://gre/modules/NetUtil.jsm");
+var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
+var phantomJsPreference = "Firecrow.phantomJsPath";
+var slimerJsPreference = "Firecrow.slimerJsPath";
 
 var FireDataAccess =
 {
     _externalFilesMap: {},
     _pathSourceLoadedCallbackMap: {},
     _externalScripts: [],
+
+    getPhantomJsPath: function()
+    {
+        return this.getPreference(phantomJsPreference);
+    },
+
+    savePhantomJsPath: function(path)
+    {
+        return this.savePreference(phantomJsPreference, path);
+    },
+
+    getPreference: function(preference)
+    {
+        try
+        {
+            return prefService.getCharPref(preference);
+        }
+        catch(e) { return null; }
+    },
+
+    savePreference: function(preference, value)
+    {
+        try
+        {
+            return prefService.setCharPref(preference, value);
+        }
+        catch(e) {  }
+    },
 
     reset: function(window, htmlHelper)
     {
