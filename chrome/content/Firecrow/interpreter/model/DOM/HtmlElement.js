@@ -103,7 +103,14 @@ fcModel.HtmlElement.prototype.getJsPropertyValue = function(propertyName, codeCo
 
     if(fcModel.DOM_PROPERTIES.isNodePrimitives(propertyName) || fcModel.DOM_PROPERTIES.isElementPrimitives(propertyName))
     {
-        var propertyValue = this.htmlElement[propertyName] || (this.htmlElement != null && this.htmlElement.getAttribute != null ? this.htmlElement.getAttribute(propertyName) : null);
+        var propertyValue = this.htmlElement[propertyName];
+
+        //TODO - firefox rel HACK!
+        if(propertyValue === undefined && propertyName == "rel")
+        {
+            propertyValue = this.htmlElement != null && this.htmlElement.getAttribute != null ? this.htmlElement.getAttribute(propertyName) : null;
+        }
+
         if(ValueTypeHelper.isPrimitive(propertyValue))
         {
             this.addProperty(propertyName, this.globalObject.internalExecutor.createInternalPrimitiveObject(creationConstruct, propertyValue), creationConstruct);

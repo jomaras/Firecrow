@@ -535,6 +535,14 @@ SlicerPanelController.prototype =
         for(var i = 0; i < recordingInfos.length; i++)
         {
             var recordingInfo = recordingInfos[i];
+            if(recordingInfo == null)
+            {
+                recordingInfo = {};
+            }
+
+            if(recordingInfo.args == null) { recordingInfo.args = {}; }
+            if(recordingInfo.thisValue == null) { recordingInfo.thisValue = {}; }
+
             var eventInfo = (recordingInfo.args.type || "timing" )+ " on " + (recordingInfo.thisValue.xPath || "window");
 
             allEventInfosMap.push(eventInfo);

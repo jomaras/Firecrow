@@ -188,6 +188,7 @@ fcSimulator.Evaluator.prototype =
         var identifierConstruct = identifierCommand.codeConstruct;
 
         //if(identifierConstruct.nodeId == 99071)debugger
+        //if(identifierConstruct.loc != null && identifierConstruct.loc.start.line == 2538) debugger;
         var identifier = this.executionContextStack.getIdentifier(identifierConstruct.name, identifierConstruct);
         var identifierValue = identifier != null ? identifier.value : null;
         this.executionContextStack.setExpressionValue
@@ -211,7 +212,7 @@ fcSimulator.Evaluator.prototype =
 
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
         //if(memberExpression.nodeId == 376) debugger;
-        //if(memberExpression.loc != null && memberExpression.loc.start.line == 34) debugger;
+        //if(memberExpression.loc != null && memberExpression.loc.start.line == 1433) debugger;
 
         if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
 

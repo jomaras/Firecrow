@@ -8,8 +8,8 @@
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
 
     <script src="pages/modelMapping.js"></script>
-    <script src="http://localhost/CodeModels/evaluation/fullPages/11-sipp/codeModel/featureModelDebug.js"></script>
-    <script src="http://localhost/Firecrow/evaluation/fullPages/11-sipp/allExecutions.txt"></script>
+    <script src="file:///C:/GitWebStorm/CodeModels/evaluation/fullPages/12-idt/codeModel/featureModel.js"></script>
+    <script src="file:///C:/Users/Josip/AppData/Roaming/Mozilla/Firefox/Profiles/x0ne0m8u.default/Firecrow/profiles/http%253A%252F%252Flocalhost%252FFirecrow%252Fevaluation%252FfullPages%252F12-idt%252F/1392112853438-executions.json" type="text/javascript"></script>
 
     <script src="../chrome/content/Firecrow/helpers/valueTypeHelper.js"></script>
     <script src="../chrome/content/Firecrow/helpers/htmlHelper.js"></script>
@@ -396,6 +396,11 @@ Eval Expr:<span id="noEvaluatedExpressions"></span><br>
         encounteredLines[execution.file][execution.line]++;
         executedLines[execution.file][execution.line] = true;
     }
+
+    executedLines["file:///C:/GitWebStorm/Firecrow/evaluation/fullPages/06-idt/scripts/jQuery.js"] = executedLines["http://localhost/Firecrow/evaluation/fullPages/12-idt/scripts/jQuery.js"];
+    executedLines["file:///C:/GitWebStorm/Firecrow/evaluation/fullPages/06-idt/scripts/page.js"] = executedLines["http://localhost/Firecrow/evaluation/fullPages/12-idt/scripts/page.js"];
+    executedLines["file:///C:/GitWebStorm/Firecrow/evaluation/fullPages/12-idt/scripts/jQuery.js"] = executedLines["http://localhost/Firecrow/evaluation/fullPages/12-idt/scripts/jQuery.js"];
+    executedLines["file:///C:/GitWebStorm/Firecrow/evaluation/fullPages/12-idt/scripts/page.js"] = executedLines["http://localhost/Firecrow/evaluation/fullPages/12-idt/scripts/page.js"];
 
     var baseUrl = htmlModel.url;
     var currentFilePath = baseUrl;

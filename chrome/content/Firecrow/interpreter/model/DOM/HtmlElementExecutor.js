@@ -497,12 +497,10 @@ fcModel.HtmlElementExecutor =
         catch(e)
         {
             globalObject.executionContextStack.callExceptionCallbacks
-            (
-                {
-                    exceptionGeneratingConstruct: callExpression,
-                    isDomStringException: true
-                }
-            );
+            ({
+                exceptionGeneratingConstruct: callExpression,
+                isDomStringException: true
+            });
         }
 
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, result);

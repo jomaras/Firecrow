@@ -294,6 +294,7 @@ FBL.ns(function() { with (FBL) {
 
                 try
                 {
+                    htmlDomElement[attribute.name] = attribute.value;
                     htmlDomElement.setAttribute(attribute.name, attribute.value);
                 }
                 catch(e) { debugger; }
