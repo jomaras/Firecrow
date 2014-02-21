@@ -1,16 +1,9 @@
 ******************   0. Programming  ******************
  + enable page model creation and saving
 
- - Enable DOM viewer for slicing
- + save recording on disk
- + show existing recordings from disk
-
  - download whole page (substitute resources with full page url)
  - offer usage of phantomJs
  - offer usage of slimerJs
  + offer usage inbrowser
- - TODO replace caching with: NetUtil.asyncFetch()
- - close all streams in FileHelper
-
 
 - problem je šta se u catch expressions varijabla nametne (šta je ok, al je problem i šta posli ostane ta vrijednost)

@@ -216,7 +216,6 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isEndSwitchStatementCommand()) { this._tryPopCommand(command);}
                 else if (command.isCaseCommand()) {}
                 else if (command.isStartTryStatementCommand() || command.isEndTryStatementCommand()) { }
-                else if (command.isEndCatchStatementCommand()) { this._tryPopCommand(command);}
                 else if (command.isEvalNewExpressionCommand()){ this.dependencyCreator.addNewExpressionDependencies(command.codeConstruct);}
                 else if (command.isStartLogicalExpressionCommand()) { }
                 else if (command.isCallInternalConstructorCommand()) { this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct); }
@@ -232,13 +231,11 @@ FBL.ns(function() { with (FBL) {
                 else
                 {
                     if (command.isEndEvalConditionalExpressionCommand()) { this._tryPopCommand(command); }
+                    else if (command.isStartCatchStatementCommand()) { this._addToBlockCommandStack(command); }
+                    else if (command.isEndCatchStatementCommand()) { this._tryPopCommand(command);}
                     else if(command.isEvalForInWhereCommand())
                     {
                         this.dependencyCreator.addDependenciesToTopBlockConstructs(command.codeConstruct.right);
-                        this._addToBlockCommandStack(command);
-                    }
-                    else if (command.isStartCatchStatementCommand())
-                    {
                         this._addToBlockCommandStack(command);
                     }
                     else if (command.isEndLogicalExpressionCommand())
@@ -335,7 +332,7 @@ FBL.ns(function() { with (FBL) {
             }
         },
 
-        setIdentifierValue: function(identifierName, value, setCodeConstruct)
+        setIdentifierValue: function(identifierName, value, setCodeConstruct, keepOldValue)
         {
             for(var i = this.stack.length - 1; i >= 0; i--)
             {
@@ -349,7 +346,7 @@ FBL.ns(function() { with (FBL) {
 
                     if(identifier != null)
                     {
-                        identifier.setValue(value, setCodeConstruct);
+                        identifier.setValue(value, setCodeConstruct, keepOldValue);
 
                         if(variableObject != this.globalObject && !ValueTypeHelper.isOfType(variableObject, fcSimulator.VariableObject))
                         {
@@ -367,6 +364,27 @@ FBL.ns(function() { with (FBL) {
             }
 
             this.stack[0].registerIdentifier(new fcModel.Identifier(identifierName, value, setCodeConstruct, this.globalObject));
+        },
+
+        restoreIdentifier: function(identifierName)
+        {
+            for(var i = this.stack.length - 1; i >= 0; i--)
+            {
+                var scopeChain = this.stack[i].scopeChain;
+
+                for(var j = scopeChain.length - 1; j >= 0; j--)
+                {
+                    var variableObject = scopeChain[j];
+
+                    var identifier = variableObject.getIdentifier(identifierName);
+
+                    if(identifier != null)
+                    {
+                        identifier.restoreOldValue();
+                        return;
+                    }
+                }
+            }
         },
 
         deleteIdentifier: function(identifierName)
@@ -531,7 +549,18 @@ FBL.ns(function() { with (FBL) {
             }
             else if (topCommand.isStartCatchStatementCommand())
             {
-                return topCommand.blockStackConstructs = [topCommand.exceptionArgument.exceptionGeneratingConstruct];
+                if(topCommand.exceptionArgument.exceptionGeneratingConstruct != null)
+                {
+                    return topCommand.blockStackConstructs = [topCommand.exceptionArgument.exceptionGeneratingConstruct];
+                }
+                else if(topCommand.exceptionArgument.codeConstruct != null)
+                {
+                    return topCommand.blockStackConstructs = [topCommand.exceptionArgument.codeConstruct];
+                }
+                else
+                {
+                    return topCommand.blockStackConstructs = [topCommand.codeConstruct.param];
+                }
             }
 
             this.notifyError("Should not be here when getting top block command @ " + topCommand.codeConstruct.loc.source);

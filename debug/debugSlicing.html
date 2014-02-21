@@ -144,7 +144,7 @@
     <script>
         var Firecrow = FBL.Firecrow;
 
-        var pageIndex = "95";
+        var pageIndex = "137";
 
         var href = document.location.href;
 
@@ -173,10 +173,11 @@
         }
 
         //Firecrow.DependencyGraph.DependencyGraph.sliceUnions = false;
-       // Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
+        //Firecrow.Interpreter.Model.Object.MONOLITIC_ARRAYS = false;
 
         setTitle(url);
 
+        Firecrow.Interpreter.Model.GlobalObject.shouldTrackIdentifiers = true;
         var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
 
         var browser = result.browser;

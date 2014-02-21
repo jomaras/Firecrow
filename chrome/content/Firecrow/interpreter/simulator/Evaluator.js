@@ -146,7 +146,7 @@ fcSimulator.Evaluator.prototype =
         var finalValue = this._getAssignmentValue(assignmentCommand);
 
         if(ASTHelper.isIdentifier(assignmentCommand.leftSide)) { this._assignToIdentifier(assignmentCommand.leftSide, finalValue, assignmentExpression); }
-        else if (ASTHelper.isMemberExpression(assignmentCommand.leftSide)) { this._assignToMemberExpression(assignmentCommand.leftSide, finalValue, assignmentExpression); }
+        else if (ASTHelper.isMemberExpression(assignmentCommand.leftSide)) { this._assignToMemberExpression(assignmentCommand.leftSide, finalValue, assignmentExpression, assignmentCommand); }
 
         this.executionContextStack.setExpressionValue(assignmentExpression, finalValue);
 
@@ -160,9 +160,9 @@ fcSimulator.Evaluator.prototype =
         var updateExpression = evalUpdateCommand.codeConstruct;
         var currentValue = this.executionContextStack.getExpressionValue(updateExpression.argument);
 
-        if(currentValue == null || currentValue.jsValue == null) { this._callExceptionCallbacks(); return; }
-
         this.dependencyCreator.createUpdateExpressionDependencies(updateExpression);
+
+        if(currentValue == null || currentValue.jsValue == null) { this._callExceptionCallbacks(evalUpdateCommand); return; }
 
         if(ASTHelper.isIdentifier(updateExpression.argument))
         {
@@ -170,7 +170,7 @@ fcSimulator.Evaluator.prototype =
         }
         else if(ASTHelper.isMemberExpression(updateExpression.argument))
         {
-            this._assignToMemberExpression(updateExpression.argument, this._getUpdateValue(currentValue, updateExpression), updateExpression);
+            this._assignToMemberExpression(updateExpression.argument, this._getUpdateValue(currentValue, updateExpression), updateExpression, evalUpdateCommand);
         }
         else
         {
@@ -214,7 +214,7 @@ fcSimulator.Evaluator.prototype =
         //if(memberExpression.nodeId == 376) debugger;
         //if(memberExpression.loc != null && memberExpression.loc.start.line == 8589) debugger;
 
-        if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
+        if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(memberCommand); return; }
 
         this.globalObject.browser.callExpressionEvaluatedCallbacks(memberExpression.object);
 
@@ -263,9 +263,9 @@ fcSimulator.Evaluator.prototype =
         var unaryExpression = unaryCommand.codeConstruct;
         var argumentValue = this.executionContextStack.getExpressionValue(unaryExpression.argument);
 
-        if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(); return; }
-
         this.dependencyCreator.createDataDependency(unaryExpression, unaryExpression.argument);
+
+        if(argumentValue == null && unaryExpression.operator != "typeof") { this._callExceptionCallbacks(unaryCommand); return; }
 
         var expressionValue = null;
 
@@ -275,7 +275,7 @@ fcSimulator.Evaluator.prototype =
         else if (unaryExpression.operator == "~") { expressionValue = ~argumentValue.jsValue; }
         else if (unaryExpression.operator == "typeof") { expressionValue = argumentValue == null ? "undefined" : typeof argumentValue.jsValue; }
         else if (unaryExpression.operator == "void") { expressionValue = void argumentValue.jsValue;}
-        else if (unaryExpression.operator == "delete") { expressionValue = this._evalDeleteExpression(unaryExpression); }
+        else if (unaryExpression.operator == "delete") { expressionValue = this._evalDeleteExpression(unaryExpression, unaryCommand); }
 
         this.executionContextStack.setExpressionValue(unaryExpression, this.globalObject.internalExecutor.createInternalPrimitiveObject(unaryExpression, expressionValue));
 
@@ -291,8 +291,8 @@ fcSimulator.Evaluator.prototype =
         var leftValue = this.executionContextStack.getExpressionValue(binaryExpression.left);
         var rightValue = this.executionContextStack.getExpressionValue(binaryExpression.right);
 
-        if(leftValue == null) { this._callExceptionCallbacks(); return; }
-        if(rightValue == null) { this._callExceptionCallbacks(); return; }
+        if(leftValue == null) { this._callExceptionCallbacks(binaryCommand); return; }
+        if(rightValue == null) { this._callExceptionCallbacks(binaryCommand); return; }
 
         if(binaryExpression.operator == "in")
         {
@@ -510,17 +510,23 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setIdentifierValue
         (
             startCatchCommand.codeConstruct.param.name,
-            startCatchCommand.exceptionArgument,
+            startCatchCommand.exceptionArgument || this.globalObject.internalExecutor.createNonConstructorObject(startCatchCommand.codeConstruct),
             startCatchCommand.throwingCommand != null ? startCatchCommand.throwingCommand.codeConstruct
-                                                      : null
+                                                      : null,
+            true
          );
 
         this.globalObject.browser.logConstructExecuted(startCatchCommand.codeConstruct);
+
+        if(startCatchCommand.exceptionArgument != null && startCatchCommand.exceptionArgument.codeConstruct != null)
+        {
+            this.dependencyCreator.createDataDependency(startCatchCommand.codeConstruct.param, startCatchCommand.exceptionArgument.codeConstruct);
+        }
     },
 
     _evalEndCatchCommand: function(endCatchCommand)
     {
-        this.executionContextStack.deleteIdentifier(endCatchCommand.codeConstruct.param.name);
+        this.executionContextStack.restoreIdentifier(endCatchCommand.codeConstruct.param.name);
     },
 
     _evalLogicalItemCommand: function(evalLogicalItemCommand)
@@ -542,7 +548,7 @@ fcSimulator.Evaluator.prototype =
         }
         else if(logicalExpressionItem == wholeLogicalExpression.right)
         {
-            this.executionContextStack.setExpressionValue(wholeLogicalExpression, this._getLogicalExpressionValue(wholeLogicalExpression));
+            this.executionContextStack.setExpressionValue(wholeLogicalExpression, this._getLogicalExpressionValue(wholeLogicalExpression, evalLogicalItemCommand));
 
             this.dependencyCreator.createDependenciesForLogicalExpressionItemCommand(wholeLogicalExpression);
         }
@@ -671,12 +677,12 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setIdentifierValue(identifier.name, finalValue, assignmentExpression);
     },
 
-    _assignToMemberExpression: function(memberExpression, finalValue, assignmentExpression)
+    _assignToMemberExpression: function(memberExpression, finalValue, assignmentExpression, command)
     {
         var object = this.executionContextStack.getExpressionValue(memberExpression.object);
         var property = this.executionContextStack.getExpressionValue(memberExpression.property);
 
-        if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(); return; }
+        if(object == null || (object.jsValue == null && object != this.globalObject)) { this._callExceptionCallbacks(command); return; }
 
         if (this._hasAddJsPropertyFunction(object))
         {
@@ -729,7 +735,7 @@ fcSimulator.Evaluator.prototype =
 
     _checkSlicing: function(identifierConstruct)
     {
-        if(this.globalObject.satisfiesIdentifierSlicingCriteria(identifierConstruct))
+        if(this.globalObject.shouldTrackIdentifiers && this.globalObject.satisfiesIdentifierSlicingCriteria(identifierConstruct))
         {
             this.globalObject.browser.callImportantConstructReachedCallbacks(identifierConstruct);
         }
@@ -860,12 +866,12 @@ fcSimulator.Evaluator.prototype =
         return  (value.jsValue && operator == "||") || (!value.jsValue && operator == "&&");
     },
 
-    _getLogicalExpressionValue: function(wholeLogicalExpression)
+    _getLogicalExpressionValue: function(wholeLogicalExpression, command)
     {
         var leftValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.left);
         var rightValue = this.executionContextStack.getExpressionValue(wholeLogicalExpression.right);
 
-        if(leftValue == null || rightValue == null) { this._callExceptionCallbacks(); return; }
+        if(leftValue == null || rightValue == null) { this._callExceptionCallbacks(command); return; }
 
         var result = wholeLogicalExpression.operator == "&&" ? leftValue.jsValue && rightValue.jsValue
                                                              : leftValue.jsValue || rightValue.jsValue;
@@ -874,7 +880,7 @@ fcSimulator.Evaluator.prototype =
                                                    : result === leftValue.jsValue ? leftValue : rightValue;
     },
 
-    _evalDeleteExpression: function(deleteExpression)
+    _evalDeleteExpression: function(deleteExpression, command)
     {
         if(ASTHelper.isIdentifier(deleteExpression.argument))
         {
@@ -885,7 +891,7 @@ fcSimulator.Evaluator.prototype =
         {
             var object = this.executionContextStack.getExpressionValue(deleteExpression.argument.object);
 
-            if(object == null) { this._callExceptionCallbacks(); return; }
+            if(object == null) { this._callExceptionCallbacks(command); return; }
 
             var propertyName = "";
 

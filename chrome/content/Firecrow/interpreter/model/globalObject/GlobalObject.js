@@ -35,6 +35,7 @@ fcModel.GlobalObject = function(browser)
         this.DYNAMIC_NODE_COUNTER = 0;
 
         this.isGlobalObject = true;
+        this.shouldTrackIdentifiers = fcModel.GlobalObject.shouldTrackIdentifiers;
     }
     catch(e)
     {

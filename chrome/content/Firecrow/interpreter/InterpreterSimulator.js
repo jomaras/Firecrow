@@ -40,6 +40,7 @@ FBL.ns(function() { with (FBL) {
             try
             {
                 if(fcSimulator.logTrace) { console.log("Logging trace!"); }
+
                 var timer = Firecrow.TimerHelper.createTimer();
 
                 for(this.currentCommandIndex = 0; this.currentCommandIndex < this.commands.length; this.currentCommandIndex++)
@@ -400,15 +401,24 @@ FBL.ns(function() { with (FBL) {
 
             if(this.tryStack.length > 0)
             {
+                if(ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command))
+                {
+                    var expressionValue = this.executionContextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument);
+
+                    if(expressionValue != null)
+                    {
+                        exceptionGeneratingArgument = expressionValue;
+                    }
+                }
+
                 ValueTypeHelper.insertElementsIntoArrayAtIndex
                 (
                     this.commands,
                     CommandGenerator.generateCatchStatementExecutionCommands
                     (
                         this.tryStack[this.tryStack.length - 1],
-                        ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) ? this.executionContextStack.getExpressionValue(exceptionGeneratingArgument.codeConstruct.argument)
-                            : exceptionGeneratingArgument,
-                        exceptionGeneratingArgument
+                        exceptionGeneratingArgument,
+                        this.commands[this.currentCommandIndex]
                     ),
                     i
                 );

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script>
+    var a1 = 0;
+    var e = function()
+    {
+        a1++;
+    };
+
+    try
+    {
+        document.querySelector(":first")
+    }
+    catch(e)
+    {
+        a1++;
+    }
+
+    e();
+    a1;
+</script>
+
+</body>
+</html>

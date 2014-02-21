@@ -42,11 +42,13 @@ fcModel.Identifier.notifyError = function(message) { alert("Identifier - " + mes
 
 fcModel.Identifier.prototype =
 {
-    setValue: function(newValue, modificationConstruct)
+    setValue: function(newValue, modificationConstruct, keepOldValue)
     {
         try
         {
             if(this.writable === false) { return; }
+
+            if(keepOldValue) { this.oldValue = this.value; }
 
             this.value = newValue;
 
@@ -60,9 +62,16 @@ fcModel.Identifier.prototype =
             {
                 this.declarationPosition = { codeConstruct: modificationConstruct, evaluationPositionId: this.globalObject.getPreciseEvaluationPositionId()};
             }
-
         }
         catch(e) { Firecrow.Interpreter.Model.Identifier.notifyError("Error when setting value: " + e); }
+    },
+
+    restoreOldValue: function()
+    {
+        if(this.oldValue)
+        {
+            this.value = this.oldValue;
+        }
     }
 };
 
