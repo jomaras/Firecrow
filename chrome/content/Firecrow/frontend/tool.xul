@@ -55,7 +55,7 @@
                                     </menupopup>
                                 </toolbarbutton>
                                 <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model" disabled="false" id="saveModelButton"/>
-                                <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model and trace" disabled="false" id="saveModelAndTraceButton"/>
+                                <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model, selected trace and selectors" disabled="false" id="saveModelAndTraceButton"/>
                             </hbox>
                         </toolbar>
 
