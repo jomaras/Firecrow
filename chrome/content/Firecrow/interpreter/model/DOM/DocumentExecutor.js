@@ -50,12 +50,10 @@ fcModel.DocumentExecutor =
         catch(e)
         {
             globalObject.executionContextStack.callExceptionCallbacks
-            (
-                {
-                    exceptionGeneratingConstruct: callExpression,
-                    isDomStringException: true
-                }
-            );
+            ({
+                exceptionGeneratingConstruct: callExpression,
+                isDomStringException: true
+            });
         }
 
         for(var i = 0, length = elements.length; i < length; i++)
@@ -81,12 +79,10 @@ fcModel.DocumentExecutor =
         catch(e)
         {
             globalObject.executionContextStack.callExceptionCallbacks
-            (
-                {
-                    exceptionGeneratingConstruct: callExpression,
-                    isDomStringException: true
-                }
-            );
+            ({
+                exceptionGeneratingConstruct: callExpression,
+                isDomStringException: true
+            });
         }
 
         if(element == null) { return new fcModel.fcValue(null, null, callExpression); }

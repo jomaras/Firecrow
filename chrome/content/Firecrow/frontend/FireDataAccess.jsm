@@ -143,6 +143,33 @@ var FireDataAccess =
         }
     },
 
+    saveModelAndTrace: function(selectedFolder, pageUrl, eventTraces, selectors, iFrame)
+    {
+        var pageName = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, pageUrl.indexOf("."));
+
+        if(pageName == "") { pageName = "model"; }
+
+        pageName += Date.now();
+
+        if(selectedFolder)
+        {
+            this.asyncGetPageModel(pageUrl, iFrame, function(window, htmlJson)
+            {
+                htmlJson.eventTraces = eventTraces;
+                htmlJson.trackedElementsSelectors = selectors;
+
+                FileHelper.writeToFile(selectedFolder + "\\" + pageName + ".json", this._wrapModelAndTraces(JSON.stringify(htmlJson, function(key, value)
+                {
+                    if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
+                    {
+                        return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
+                    }
+                    return value;
+                }), pageUrl));
+            }.bind(this));
+        }
+    },
+
     asyncGetPageModel: function(url, iFrame, callback)
     {
         try
@@ -184,6 +211,11 @@ var FireDataAccess =
         //return "var fullPageModel = { pageModel:" + model + "};";
         return model;
         //return "HtmlModelMapping.push({url: '',results: [], model: " + model + "});"
+    },
+
+    _wrapModelAndTraces: function(model, url)
+    {
+        return "HtmlModelMapping.push({url: '" + url +"',results: [], model: " + model + "});"
     },
 
     getExternalScripts: function(document)

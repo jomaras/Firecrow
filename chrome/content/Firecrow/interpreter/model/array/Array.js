@@ -65,12 +65,10 @@ fcModel.Array.prototype.push = function(jsArray, args, codeConstruct, fcValue, d
         if(args != null && args.isNodeList && this.globalObject.throwsExceptionOnPushWithNodeList)
         {
             this.globalObject.executionContextStack.callExceptionCallbacks
-            (
-                {
-                    exceptionGeneratingConstruct: codeConstruct,
-                    isPushExpectedException: true
-                }
-            );
+            ({
+                exceptionGeneratingConstruct: codeConstruct,
+                isPushExpectedException: true
+            });
 
             return;
         }

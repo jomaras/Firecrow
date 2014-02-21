@@ -141,7 +141,7 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var htmlElementContent = "";
 
-            if(this.isSlicing && !htmlElement.shouldBeIncluded){ return htmlElementContent; }
+            if(this.isSlicing && !htmlElement.shouldBeIncluded && htmlElement.type != "textNode"){ return htmlElementContent; }
 
             var htmlElementType = htmlElement.type != "link" ? htmlElement.type : "style";
 
@@ -153,8 +153,6 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 code += this.newLine;
             }
-
-            var hasOnlyTextContent = false;
 
             if(htmlElement.type == "script")
             {
@@ -183,6 +181,11 @@ Firecrow.CodeTextGenerator.prototype =
                         htmlElementContent += this.generateCodeFromHtmlElement(children[i], "parent");
                     }
                 }
+            }
+
+            if(htmlElement.type == "h3")
+            {
+
             }
 
             return code + htmlElementContent + (htmlElementType == "html" ? this.newLine : "") + this.generateEndHtmlTagString(htmlElementType);
@@ -1155,7 +1158,7 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var cssText = "";
 
-            var rules = styleElement.cssRules;
+            var rules = styleElement.cssRules || [];
 
             this.indent();
 

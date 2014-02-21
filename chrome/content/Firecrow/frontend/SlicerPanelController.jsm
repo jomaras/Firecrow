@@ -11,7 +11,6 @@ Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 
 
-
 var SlicerPanelController = function(extensionWindow, extensionDocument, getCurrentPageWindowFunction, getCurrentPageDocumentFunction)
 {
     this._extensionDocument = extensionDocument;
@@ -50,6 +49,9 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
 
     this._saveModelButton = extensionDocument.getElementById("saveModelButton");
     this._saveModelButton.onclick = function(e) { this._onSaveModelClick(e); }.bind(this);
+
+    this._saveModelAndTraceButton = extensionDocument.getElementById("saveModelAndTraceButton");
+    this._saveModelAndTraceButton.onclick = function(e) { this._onSaveModelAndTraceClick(e);}.bind(this);
 
     FireDataAccess._window = this._extensionWindow;
     FireDataAccess.setBrowser(extensionDocument.getElementById("invisibleBrowser"));
@@ -235,6 +237,15 @@ SlicerPanelController.prototype =
         if(selectedFolder == "" || selectedFolder == null) { return; }
 
         FireDataAccess.saveModel(selectedFolder, this._getCurrentPageDocument().baseURI, this._hiddenIFrame);
+    },
+
+    _onSaveModelAndTraceClick: function()
+    {
+        var selectedFolder = FirefoxHelper.promptUserForFolder(this._extensionWindow, "Select destination folder");
+
+        if(selectedFolder == "" || selectedFolder == null) { return; }
+
+        FireDataAccess.saveModelAndTrace(selectedFolder, this._getCurrentPageDocument().baseURI, this._getSelectedEventTraces(), this._selectors, this._hiddenIFrame);
     },
 
     _onRecordClick: function(e)

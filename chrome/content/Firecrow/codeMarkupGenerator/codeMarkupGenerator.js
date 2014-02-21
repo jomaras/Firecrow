@@ -141,6 +141,7 @@ FBL.ns(function () { with (FBL) {
                     html += this.generateClosingTags(element.type);
                 }
 
+
                 html += '</div>';
 
                 return html;

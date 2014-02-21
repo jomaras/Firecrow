@@ -271,12 +271,10 @@ fcModel.HtmlElementExecutor =
             else
             {
                 globalObject.executionContextStack.callExceptionCallbacks
-                (
-                    {
-                        exceptionGeneratingConstruct: callExpression,
-                        isDomStringException: true
-                    }
-                );
+                ({
+                    exceptionGeneratingConstruct: callExpression,
+                    isDomStringException: true
+                });
             }
         }
 
