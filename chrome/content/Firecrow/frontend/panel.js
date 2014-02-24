@@ -35,13 +35,15 @@ FirecrowPanel.prototype =
 {
     _onBeforeNavigate: function()
     {
+        var newUrl = arguments[1] != null ? arguments[1].url : "";
+
         if(this._slicerPanelController != null)
         {
-            this._slicerPanelController.reset();
+            this._slicerPanelController.reset(newUrl);
         }
         else if(this.panelWin != null && this.panelWin.slicerPanelController != null && this.panelWin.slicerPanelController.reset != null)
         {
-            this.panelWin.slicerPanelController.reset();
+            this.panelWin.slicerPanelController.reset(newUrl);
         }
     },
 

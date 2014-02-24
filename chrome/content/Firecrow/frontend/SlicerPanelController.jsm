@@ -70,7 +70,7 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
 
 SlicerPanelController.prototype =
 {
-    reset: function()
+    reset: function(newPageUrl)
     {
         this._sourcesMenuPopup.innerHTML = "";
 
@@ -78,7 +78,7 @@ SlicerPanelController.prototype =
 
         this.editor.setText("---- SELECT SOURCE FILE ----");
 
-        this._updateCurrentRecordings();
+        this._updateCurrentRecordings(newPageUrl);
     },
 
     _onSlicingClick: function(e)
@@ -86,7 +86,7 @@ SlicerPanelController.prototype =
         if(e.target == this._slicingButton
         && e.currentTarget == this._slicingButton && e.originalTarget != this._slicingButton)
         {
-            if(this._slicingResultOptions.value == "ExtractSlicedCode") { this._extractAndShowSlicedCode(); }
+                 if (this._slicingResultOptions.value == "ExtractSlicedCode") { this._extractAndShowSlicedCode(); }
             else if (this._slicingResultOptions.value == "MarkSlicedCode") { this._extractAndMarkSlicedCode(); }
         }
 
@@ -531,11 +531,11 @@ SlicerPanelController.prototype =
         this._slicingCriteriaList.innerHTML = "";
     },
 
-    _updateCurrentRecordings: function()
+    _updateCurrentRecordings: function(newPageUrl)
     {
         this._clearRecordingInfoDisplay();
 
-        this._recordingsFiles = FileHelper.getEventRecordingsFiles(encodeURIComponent(this._getCurrentPageDocument().baseURI));
+        this._recordingsFiles = FileHelper.getEventRecordingsFiles(encodeURIComponent(newPageUrl || this._getCurrentPageDocument().baseURI));
 
         for(var i = 0; i < this._recordingsFiles.length; i++)
         {

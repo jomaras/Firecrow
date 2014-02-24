@@ -64,7 +64,7 @@ var FirecrowUI = {
                     FirecrowUI.contentWindow = toolbox._target.window;
                 }
                 _FirecrowUIOpened = true;
-                return (new global.FirecrowPanel(iframeWindow, toolbox, function()
+                return (new global.FirecrowPanel(iframeWindow, toolbox, global.Firecrow._window.gBrowser, function()
                 {
                 _FirecrowUIOpened = false;
                 })).open();

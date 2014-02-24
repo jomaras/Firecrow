@@ -44,7 +44,7 @@
                                         <radiogroup id="slicingOptions">
                                             <radio label="Firefox" selected="true" value="Firefox"/>
                                             <radio label="PhantomJs" value="PhantomJs"/>
-                                            <radio label="SlimerJs" value="SlimerJs"/>
+                                            <!--<radio label="SlimerJs" value="SlimerJs"/>-->
                                         </radiogroup>
                                         <separator class="groove-thin"/>
                                         <label>Result:</label>

@@ -6,8 +6,6 @@ var currentFilePath = system.args[0];
 var shouldProduceMarkup = system.args[1];
 var currentDirectoryPath = currentFilePath.replace(/[a-zA-Z]+\.[a-zA-Z]+$/,"");
 
-fs.changeWorkingDirectory(currentDirectoryPath);
-
 var page = webPage.create();
 
 var resultFilePath = currentDirectoryPath + "result.txt";
@@ -39,7 +37,7 @@ function onLoadFinished()
         if(slicedCodeContainer != null)
         {
             return slicedCodeContainer.nodeName == "DIV" ? slicedCodeContainer.innerHTML
-                                                         : slicedCodeContainer.textContent;
+                                                         : slicedCodeContainer.textContent || slicedCodeContainer.value;
         }
 
         return "ERROR WHEN SLICING WITH EXTERNAL TOOL!"

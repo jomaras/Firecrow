@@ -4,12 +4,12 @@
     <list default="true" id="44d4204f-2d27-49b8-baa8-e9232bac656a" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/beautifier/beautify-All.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirecrowUI.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirecrowUI.jsm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicedMarker.html" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicedMarker.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicer.html" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO" afterPath="$PROJECT_DIR$/TODO" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicerScript.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicerScript.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -33,37 +33,57 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="panel.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="43" selection-start="1484" selection-end="1484" vertical-scroll-proportion="0.0" vertical-offset="422" max-vertical-offset="2635">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SlicerPanelController.jsm" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="178" column="64" selection-start="7343" selection-end="7343" vertical-scroll-proportion="0.74608696" vertical-offset="2597" max-vertical-offset="12342">
+            <state line="543" column="61" selection-start="19707" selection-end="19707" vertical-scroll-proportion="0.78249335" vertical-offset="8936" max-vertical-offset="12342">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="externalSlicedMarker.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/externalSlicedMarker.html">
+      <file leaf-file-name="slicingDialog.xul" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/slicingDialog.xul">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="39" selection-start="2040" selection-end="2059" vertical-scroll-proportion="-26.692308" vertical-offset="530" max-vertical-offset="1462">
+            <state line="20" column="48" selection-start="1231" selection-end="1260" vertical-scroll-proportion="0.0" vertical-offset="93" max-vertical-offset="1853">
+              <folding>
+                <marker date="1392143564729" expanded="true" signature="1753:2856" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="1888:2174" placeholder="{&quot;readOnly&quot;: true...}" />
+                <marker date="1392143564729" expanded="true" signature="2219:2287" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="2441:2845" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="2666:2831" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="2903:3179" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="3232:3630" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="3391:3450" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="3484:3620" placeholder="{...}" />
+                <marker date="1392143564729" expanded="true" signature="3674:3999" placeholder="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FirecrowUI.jsm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirecrowUI.jsm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="66" column="105" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.0" vertical-offset="873" max-vertical-offset="3859">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="externalSlicerScript.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/externalSlicerScript.js">
+      <file leaf-file-name="TODO" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TODO">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="1368" selection-end="1368" vertical-scroll-proportion="0.0" vertical-offset="428" max-vertical-offset="1020">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="externalSlicer.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/externalSlicer.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="4" selection-start="1691" selection-end="1809" vertical-scroll-proportion="-20.807692" vertical-offset="445" max-vertical-offset="1530">
+            <state line="4" column="66" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
               <folding />
             </state>
           </provider>
@@ -82,9 +102,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/evaluation/fullPages/17-oracle/styles/ocom-homeStyle.css" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/17-oracle/scripts/elqCfg.min.js" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/17-oracle/scripts/notice2.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/17-oracle/scripts/get.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/17-oracle/scripts/ora_ocom.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/17-oracle/scripts/notice.js" />
@@ -114,8 +131,6 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/12-idt/example.html" />
         <option value="$PROJECT_DIR$/chrome/skin/Firecrow.css" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul" />
-        <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirefoxHelper.jsm" />
         <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
         <option value="$PROJECT_DIR$/nodejs/utils/mimifier.js" />
@@ -132,15 +147,20 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicer.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicedMarker.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/externalSlicerScript.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
+        <option value="$PROJECT_DIR$/TODO" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirecrowUI.jsm" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1358" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1696" />
-    <option name="height" value="1026" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -196,20 +216,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="phantomJs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="chrome" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -258,7 +264,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="beautifier" />
+              <option name="myItemId" value="frontend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -289,14 +295,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Node.js.mimifyAndMergeFirecrowFiles">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -307,15 +305,23 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -379,31 +385,35 @@
       <created>1393248406510</created>
       <updated>1393248406510</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="PhantomJs now working">
+      <created>1393253102002</created>
+      <updated>1393253102002</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1696" height="1026" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3247768" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32247558" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17299578" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1724907" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -425,37 +435,13 @@
     <MESSAGE value="Working on a problem with catch expression variables overriding existing variables even when exiting the catch expression" />
     <MESSAGE value="Minor changes to plugin code and css" />
     <MESSAGE value="Working on enabling phantomJs calling" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on enabling phantomJs calling" />
+    <MESSAGE value="PhantomJs now working" />
+    <option name="LAST_COMMIT_MESSAGE" value="PhantomJs now working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="27" selection-start="874" selection-end="874" vertical-scroll-proportion="0.0" vertical-offset="288" max-vertical-offset="22117" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="14" selection-start="135" selection-end="161" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="19091" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/Identifier.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="25" selection-start="2562" selection-end="2562" vertical-scroll-proportion="0.0" vertical-offset="713" max-vertical-offset="1445" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="4" selection-start="9091" selection-end="9091" vertical-scroll-proportion="0.33333334" vertical-offset="3224" max-vertical-offset="6545" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="591" column="0" selection-start="24173" selection-end="24173" vertical-scroll-proportion="0.0" vertical-offset="9978" max-vertical-offset="19142" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="38" column="4" selection-start="2096" selection-end="2096" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7905" />
@@ -524,35 +510,6 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/markSlicedCodeDialog.xul">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
-          <folding>
-            <marker date="1392148945575" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392148945575" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392148945575" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/slicingDialog.xul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1853">
-          <folding>
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{&quot;readOnly&quot;: true...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1392143564729" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="57" selection-start="4180" selection-end="4180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2924">
           <folding />
         </state>
       </provider>
@@ -560,46 +517,28 @@
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirefoxHelper.jsm">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="50" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.0" vertical-offset="388" max-vertical-offset="1292">
-          <folding>
-            <marker date="1393228073542" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1393228073542" expanded="true" signature="-1:-1" placeholder="{&quot;ID&quot;: &quot;programExecutorObserver&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/helperPages/slicer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="37" selection-start="810" selection-end="810" vertical-scroll-proportion="-0.6445498" vertical-offset="816" max-vertical-offset="3179">
-          <folding />
-        </state>
+        <state line="16" column="37" selection-start="810" selection-end="810" vertical-scroll-proportion="-0.6445498" vertical-offset="816" max-vertical-offset="3179" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/automaticTestExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="13" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1394">
-          <folding />
-        </state>
+        <state line="31" column="13" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1394" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="91" selection-start="2305" selection-end="2305" vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="7684">
-          <folding />
-        </state>
+        <state line="34" column="91" selection-start="2305" selection-end="2305" vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="7684" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="79" selection-start="8830" selection-end="8830" vertical-scroll-proportion="0.69402987" vertical-offset="2212" max-vertical-offset="3604">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="22" selection-start="213" selection-end="213" vertical-scroll-proportion="0.14782609" vertical-offset="0" max-vertical-offset="575">
-          <folding />
-        </state>
+        <state line="152" column="79" selection-start="8830" selection-end="8830" vertical-scroll-proportion="0.69402987" vertical-offset="2212" max-vertical-offset="3604" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm">
@@ -611,23 +550,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/singlePageSlicer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="326" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="326" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/scenarioExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="130" selection-end="153" vertical-scroll-proportion="0.14680484" vertical-offset="0" max-vertical-offset="646">
-          <folding />
-        </state>
+        <state line="5" column="0" selection-start="130" selection-end="153" vertical-scroll-proportion="0.14680484" vertical-offset="0" max-vertical-offset="646" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/comparator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.88082904" vertical-offset="510" max-vertical-offset="1105">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.88082904" vertical-offset="510" max-vertical-offset="1105" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/sliceFullPage.js">
@@ -639,46 +572,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/profiler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/pageModeler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2635">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2635" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/slicer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.27031803" vertical-offset="153" max-vertical-offset="1802">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.27031803" vertical-offset="153" max-vertical-offset="1802" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phantomJs/evaluationHelpers/reuserScenarioExecutorAnalyzer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="35" selection-end="66" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
-          <folding />
-        </state>
+        <state line="2" column="0" selection-start="35" selection-end="66" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/utils/fileJoiner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="1" selection-start="7659" selection-end="7659" vertical-scroll-proportion="0.33274022" vertical-offset="0" max-vertical-offset="562">
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="13" column="1" selection-start="7659" selection-end="7659" vertical-scroll-proportion="0.33274022" vertical-offset="0" max-vertical-offset="562" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/initFBL.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="28" selection-start="4711" selection-end="4711" vertical-scroll-proportion="0.8521739" vertical-offset="1601" max-vertical-offset="2193">
-          <folding />
-        </state>
+        <state line="123" column="28" selection-start="4711" selection-end="4711" vertical-scroll-proportion="0.8521739" vertical-offset="1601" max-vertical-offset="2193" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Firecrow-all.js">
@@ -697,43 +616,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/beautifier/beautify-css.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="12579" vertical-scroll-proportion="0.0" vertical-offset="6004" max-vertical-offset="6579">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="12579" vertical-scroll-proportion="0.0" vertical-offset="6004" max-vertical-offset="6579" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/beautifier/beautify-html.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="55" selection-start="0" selection-end="39448" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14348">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
+        <state line="24" column="55" selection-start="0" selection-end="39448" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14348" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/beautifier/beautify-All.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2862" column="5" selection-start="117756" selection-end="117756" vertical-scroll-proportion="0.93950176" vertical-offset="48126" max-vertical-offset="48756">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
+        <state line="2862" column="5" selection-start="117756" selection-end="117756" vertical-scroll-proportion="0.93950176" vertical-offset="48126" max-vertical-offset="48756" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/beautifier/beautify.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1623" column="15" selection-start="0" selection-end="65724" vertical-scroll-proportion="0.36476868" vertical-offset="27386" max-vertical-offset="27948">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/slicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="139" column="41" selection-start="6783" selection-end="6783" vertical-scroll-proportion="-5.423077" vertical-offset="2222" max-vertical-offset="2771">
-          <folding />
-        </state>
+        <state line="1623" column="15" selection-start="0" selection-end="65724" vertical-scroll-proportion="0.36476868" vertical-offset="27386" max-vertical-offset="27948" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/Slicer.js">
@@ -757,13 +655,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/externalSlicerScript.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1368" selection-end="1368" vertical-scroll-proportion="0.0" vertical-offset="428" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/externalSlicedMarker.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="72" column="39" selection-start="2040" selection-end="2059" vertical-scroll-proportion="-26.692308" vertical-offset="530" max-vertical-offset="1462">
@@ -771,9 +662,92 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/externalSlicerScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="57" selection-start="986" selection-end="986" vertical-scroll-proportion="0.47959185" vertical-offset="296" max-vertical-offset="986">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="44" selection-start="3402" selection-end="3402" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2924">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="588">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="844" column="39" selection-start="27887" selection-end="27887" vertical-scroll-proportion="0.0" vertical-offset="14205" max-vertical-offset="18734">
+          <folding>
+            <marker date="1391675222525" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/windows/firecrowWindow.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="60.807693" vertical-offset="1581" max-vertical-offset="3553">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/slicer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="66" selection-start="5251" selection-end="5251" vertical-scroll-proportion="-61.653847" vertical-offset="46" max-vertical-offset="2771">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TODO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="66" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirecrowUI.jsm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="105" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.0" vertical-offset="873" max-vertical-offset="3859">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/slicingDialog.xul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="48" selection-start="1231" selection-end="1260" vertical-scroll-proportion="0.0" vertical-offset="93" max-vertical-offset="1853">
+          <folding>
+            <marker date="1392143564729" expanded="true" signature="1753:2856" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="1888:2174" placeholder="{&quot;readOnly&quot;: true...}" />
+            <marker date="1392143564729" expanded="true" signature="2219:2287" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="2441:2845" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="2666:2831" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="2903:3179" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="3232:3630" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="3391:3450" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="3484:3620" placeholder="{...}" />
+            <marker date="1392143564729" expanded="true" signature="3674:3999" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="43" selection-start="1484" selection-end="1484" vertical-scroll-proportion="0.0" vertical-offset="422" max-vertical-offset="2635">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="178" column="64" selection-start="7343" selection-end="7343" vertical-scroll-proportion="0.74608696" vertical-offset="2597" max-vertical-offset="12342">
+        <state line="543" column="61" selection-start="19707" selection-end="19707" vertical-scroll-proportion="0.78249335" vertical-offset="8936" max-vertical-offset="12342">
           <folding />
         </state>
       </provider>
