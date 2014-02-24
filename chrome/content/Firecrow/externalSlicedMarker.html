@@ -51,9 +51,16 @@ Eval Expr:<span id="noEvaluatedExpressions"></span><br>
     var url = htmlModel.url;
     var slicingCriteria =  [];
 
-    if(htmlModel.model.trackedElementsSelectors != null)
+    var selectors = htmlModel.model.trackedElementsSelectors || htmlModel.trackedElementsSelectors || [];
+
+    if(htmlModel.model.eventTraces == null)
     {
-        htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+        htmlModel.model.eventTraces = htmlModel.eventTraces || [];
+    }
+
+    if( selectors != null)
+    {
+        selectors.forEach(function(selector)
         {
             slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
         });

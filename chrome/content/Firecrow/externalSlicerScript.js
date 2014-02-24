@@ -3,6 +3,7 @@ var system = require('system');
 var fs = require('fs');
 
 var currentFilePath = system.args[0];
+var shouldProduceMarkup = system.args[1];
 var currentDirectoryPath = currentFilePath.replace(/[a-zA-Z]+\.[a-zA-Z]+$/,"");
 
 fs.changeWorkingDirectory(currentDirectoryPath);
@@ -10,7 +11,7 @@ fs.changeWorkingDirectory(currentDirectoryPath);
 var page = webPage.create();
 
 var resultFilePath = currentDirectoryPath + "result.txt";
-var slicerUrl = currentDirectoryPath + "externalSlicer.html";
+var slicerUrl = currentDirectoryPath + (!shouldProduceMarkup ? "externalSlicer.html" : "externalSlicedMarker.html");
 
 console.log("Single page slicer starting..");
 
@@ -35,18 +36,20 @@ function onLoadFinished()
     {
         var slicedCodeContainer = document.getElementById("slicedCodeContainer");
 
-        var result = "";
-
         if(slicedCodeContainer != null)
         {
-            result = slicedCodeContainer.textContent.trim() || slicedCodeContainer.innerHTML;
+            return slicedCodeContainer.nodeName == "DIV" ? slicedCodeContainer.innerHTML
+                                                         : slicedCodeContainer.textContent;
         }
 
-        return result.trim() || "ERROR WHEN SLICING WITH EXTERNAL TOOL!"
+        return "ERROR WHEN SLICING WITH EXTERNAL TOOL!"
     });
 
     console.log("Writing result to: " + resultFilePath);
     fs.write(resultFilePath, result);
 
-    phantom.exit();
+    setTimeout(function()
+    {
+        phantom.exit();
+    }, 2000);
 };

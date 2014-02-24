@@ -98,6 +98,7 @@ Firecrow.FileHelper = FileHelper =
                 { fromLocation: "chrome://Firecrow/content/externalSlicerScript.js", toLocation: phantomJsModelFolder.concat(["externalSlicerScript.js"])},
                 { fromLocation: "chrome://Firecrow/content/externalSlicedMarker.html", toLocation: phantomJsModelFolder.concat(["externalSlicedMarker.html"])},
                 { fromLocation: "chrome://Firecrow/content/externalSlicer.html", toLocation: phantomJsModelFolder.concat(["externalSlicer.html"])},
+                { fromLocation: "chrome://Firecrow/content/beautifier/beautify-All.js", toLocation: phantomJsModelFolder.concat(["beautify-All.js"])},
                 { fromLocation: "chrome://Firecrow/content/Firecrow-all.js", toLocation: phantomJsModelFolder.concat(["Firecrow-all.js"])}
             ],
             function(copiedFilesInformation)

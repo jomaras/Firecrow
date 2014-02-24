@@ -112,6 +112,7 @@ SlicerPanelController.prototype =
             switch(this._slicingOptionsElement.value)
             {
                 case "PhantomJs":
+                    return this._performMarkSlicedCodeInPhantomJs(model, dialog);
                 case "SlimerJs":
                 case "Firefox":
                 default:
@@ -136,11 +137,9 @@ SlicerPanelController.prototype =
             switch(this._slicingOptionsElement.value)
             {
                 case "PhantomJs":
-                    this._performSlicingInPhantomJs(model, dialog);
-                    break;
+                    return this._performSlicingInPhantomJs(model, dialog);
                 case "SlimerJs":
-                    this._performSlicingInSlimerJs(model, dialog);
-                    break;
+                    return this._performSlicingInSlimerJs(model, dialog);
                 case "Firefox":
                 default:
                     this._performSlicingInFirefox(model, dialog);
@@ -148,7 +147,23 @@ SlicerPanelController.prototype =
         }.bind(this));
     },
 
+    _performMarkSlicedCodeInPhantomJs: function(model, dialog)
+    {
+        this._performOperationInPhantomJs(model, dialog, [true], function(resultText)
+        {
+            dialog.setSourceMarkup(resultText);
+        });
+    },
+
     _performSlicingInPhantomJs: function(model, dialog)
+    {
+        this._performOperationInPhantomJs(model, dialog, [], function(resultText)
+        {
+            dialog.setSourceCode(resultText);
+        });
+    },
+
+    _performOperationInPhantomJs: function(model, dialog, additionalArguments, processPhantomJsResultFunction)
     {
         var phantomJsFilePath = this._getPhantomJsFilePath();
 
@@ -163,12 +178,12 @@ SlicerPanelController.prototype =
 
             FileHelper.savePhantomJsScripts(function(scriptPath)
             {
-                FirefoxHelper.executeAsyncProgram(phantomJsFilePath, [scriptPath], function()
+                FirefoxHelper.executeAsyncProgram(phantomJsFilePath, [scriptPath].concat(additionalArguments), function()
                 {
                     dialog.logMessage("Phantom js finished!");
                     var resultFile = scriptPath.replace(/[a-zA-Z]+\.[a-zA-Z]+$/, "result.txt");
                     dialog.logMessage("Reading result from: " + resultFile);
-                    dialog.setSourceCode(FileHelper.readFromFile(resultFile));
+                    processPhantomJsResultFunction && processPhantomJsResultFunction(FileHelper.readFromFile(resultFile));
                 });
             }.bind(this));
         }.bind(this));
