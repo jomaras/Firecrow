@@ -63,7 +63,7 @@ Firecrow.FileHelper = FileHelper =
         this.createFirecrowPhantomJsDirs();
         this.deleteFilesInFolder(FileUtils.getFile("ProfD", phantomJsModelFolder).path);
 
-        var file = FileUtils.getFile("ProfD", phantomJsModelFolder.concat(["model.json"]));
+        var file = FileUtils.getFile("ProfD", phantomJsModelFolder.concat(["model.js"]));
         if(!file.exists())
         {
             file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
@@ -73,7 +73,7 @@ Firecrow.FileHelper = FileHelper =
 
         var converter = CC["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(CI.nsIScriptableUnicodeConverter);
         converter.charset = "UTF-8";
-        var istream = converter.convertToInputStream(JSON.stringify(model, function(key, value)
+        var istream = converter.convertToInputStream("var htmlModel = " + JSON.stringify(model, function(key, value)
         {
             if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
             {
@@ -90,13 +90,60 @@ Firecrow.FileHelper = FileHelper =
         });
     },
 
-    savePhantomJsScript: function(callbackFunction)
+    savePhantomJsScripts: function(callbackFunction)
     {
-        NetUtil.asyncFetch("chrome://Firecrow/content/slicer.js", function(aInputStream, aResult)
-        {
-            if (!Components.isSuccessCode(aResult))  { return; }
+        this.copyFiles
+        (
+            [
+                { fromLocation: "chrome://Firecrow/content/externalSlicerScript.js", toLocation: phantomJsModelFolder.concat(["externalSlicerScript.js"])},
+                { fromLocation: "chrome://Firecrow/content/externalSlicedMarker.html", toLocation: phantomJsModelFolder.concat(["externalSlicedMarker.html"])},
+                { fromLocation: "chrome://Firecrow/content/externalSlicer.html", toLocation: phantomJsModelFolder.concat(["externalSlicer.html"])},
+                { fromLocation: "chrome://Firecrow/content/Firecrow-all.js", toLocation: phantomJsModelFolder.concat(["Firecrow-all.js"])}
+            ],
+            function(copiedFilesInformation)
+            {
+                for(var i = 0; i < copiedFilesInformation.length; i++)
+                {
+                    if(copiedFilesInformation[i].path.indexOf("externalSlicerScript.js") != -1)
+                    {
+                        callbackFunction && callbackFunction(copiedFilesInformation[i].path);
+                        return;
+                    }
+                }
+            }
+        );
+    },
 
-            var file = FileUtils.getFile("ProfD", phantomJsModelFolder.concat(["phantomJsScript.js"]));
+    copyFiles: function(copyFilesInformation, callbackFunction)
+    {
+        var copiedFilesInformation = [];
+
+        copyFilesInformation.forEach(function(copyFileInformation)
+        {
+            FileHelper.copyFile(copyFileInformation.fromLocation, copyFileInformation.toLocation, function(copiedFileInformation)
+            {
+                copiedFilesInformation.push(copiedFileInformation);
+
+                if(copiedFilesInformation.length >= copyFilesInformation.length)
+                {
+                    callbackFunction && callbackFunction(copiedFilesInformation);
+                }
+            });
+        });
+    },
+
+    copyFile: function(fromLocation, toLocation, callbackFunction)
+    {
+        NetUtil.asyncFetch(fromLocation, function(aInputStream, aResult)
+        {
+            if (!Components.isSuccessCode(aResult))
+            {
+                callbackFunction && callbackFunction({success: false, path: fromLocation});
+                return;
+            }
+
+            var file = FileUtils.getFile("ProfD", toLocation);
+
             if(!file.exists())
             {
                 file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
@@ -107,7 +154,7 @@ Firecrow.FileHelper = FileHelper =
             NetUtil.asyncCopy(aInputStream, ostream, function()
             {
                 FileUtils.closeSafeFileOutputStream(ostream);
-                callbackFunction && callbackFunction(file.path);
+                callbackFunction && callbackFunction({success: false, path: file.path});
             });
         });
     },

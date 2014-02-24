@@ -8,7 +8,7 @@
     <script src="../chrome/content/Firecrow/initFBL.js"></script>
 
     <script src="pages/modelMapping.js"></script>
-    <script src="http://localhost/CodeModels/evaluation/fullPages/17-oracle/codeModel/featureModel1.json"></script>
+    <script src="http://localhost/CodeModels/evaluation/fullPages/17-oracle/codeModel/featureModel3.json"></script>
 
     <script>
         var profile = false;
@@ -136,6 +136,31 @@ Eval Expr:<span id="noEvaluatedExpressions"></span><br>
     <textarea id="slicedSourceTextContainer"></textarea>
 </div>
 <div style="clear:both"/>
+
+<script>
+    window.getYuiCompressorArguments = function()
+    {
+        var allScripts = document.querySelectorAll("script[src]");
+        var sourceFiles = [];
+
+        for(var i = 0; i < allScripts.length; i++)
+        {
+            var script = allScripts[i];
+            var source = script.src;
+
+            if(source.indexOf(".json") != -1 || source.indexOf("modelMapping") != -1) { continue; }
+
+            source = '"' + source.replace("file:///", "").replace(/\//gi, "\\\\") + '"';
+
+            sourceFiles.push(source);
+        };
+
+        var yuiString = "java -jar C:\\Users\\Josip\\Desktop\\programs\\yuicompressor-2.4.7\\build\\yuicompressor-2.4.7.jar " + sourceFiles.join(", ") +" --type js -o Firecrow-all.js";
+        console.log(yuiString);
+
+        return yuiString;
+    };
+</script>
 
 <script>
     var Firecrow = FBL.Firecrow;

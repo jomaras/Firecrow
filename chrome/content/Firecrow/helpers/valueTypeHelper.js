@@ -1,4 +1,4 @@
-﻿var usesModule = typeof module !== 'undefined' && module.exports
+var usesModule = typeof module !== 'undefined' && module.exports
 if(usesModule)
 {
     FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};

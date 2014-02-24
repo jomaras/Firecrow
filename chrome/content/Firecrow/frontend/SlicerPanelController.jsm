@@ -89,6 +89,9 @@ SlicerPanelController.prototype =
             if(this._slicingResultOptions.value == "ExtractSlicedCode") { this._extractAndShowSlicedCode(); }
             else if (this._slicingResultOptions.value == "MarkSlicedCode") { this._extractAndMarkSlicedCode(); }
         }
+
+        e.preventDefault();
+        e.stopPropagation();
     },
 
     _extractAndMarkSlicedCode: function()
@@ -153,16 +156,20 @@ SlicerPanelController.prototype =
 
         dialog.logMessage("Started slicing in Phantom Js..");
         dialog.logMessage("Serializing model..");
+
         FileHelper.saveModelForPhantomJs(model, function(modelPath)
         {
             dialog.logMessage("Model saved to:" + modelPath);
 
-            FileHelper.savePhantomJsScript(function(scriptPath)
+            FileHelper.savePhantomJsScripts(function(scriptPath)
             {
-                dialog.logMessage("PhantomJs script saved to:" + scriptPath);
-                dialog.setSourceCode("PhantomJs not yet implemented!");
-
-                //https://developer.mozilla.org/en-US/docs/XPCOM_Interface_Reference/nsIProcess?redirectlocale=en-US&redirectslug=nsIProcess
+                FirefoxHelper.executeAsyncProgram(phantomJsFilePath, [scriptPath], function()
+                {
+                    dialog.logMessage("Phantom js finished!");
+                    var resultFile = scriptPath.replace(/[a-zA-Z]+\.[a-zA-Z]+$/, "result.txt");
+                    dialog.logMessage("Reading result from: " + resultFile);
+                    dialog.setSourceCode(FileHelper.readFromFile(resultFile));
+                });
             }.bind(this));
         }.bind(this));
     },
@@ -171,7 +178,7 @@ SlicerPanelController.prototype =
     {
         var loggedPath = FireDataAccess.getPhantomJsPath();
 
-        if(loggedPath != null && loggedPath == "") { return loggedPath; }
+        if(loggedPath != null && loggedPath != "") { return loggedPath; }
 
         var phantomJsPath = FileHelper.userPickFile(this._extensionWindow, "Select PhantomJs path", "phantomjs.exe");
 

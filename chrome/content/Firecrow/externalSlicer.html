@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slicer</title>
+    <script src="Firecrow-all.js" type="application/javascript"></script>
+    <script src="model.js" type="application/javascript"></script>
+</head>
+<body>
+<h1>Firecrow - Debugging Test pages</h1>
+<iframe id="firecrowFrame" height="800" width="1300"></iframe>
+<div>
+    <a id="testIdContainer"></a>
+</div>
+
+<br/>
+<span id="resultTitle">Result:</span>
+Time: <span id="timeContainer"></span><br/>
+SC: <span id="slicingCriteriaCount"></span><br>
+Eval Expr:<span id="noEvaluatedExpressions"></span><br>
+<br/>
+<div>
+    <textarea id="slicedCodeContainer"></textarea>
+</div>
+<div style="clear:both"/>
+
+<script>
+    //Bug with phantomJs - does not load relative script paths, so if it fails,
+    //add apsolute paths dynamically
+    if(typeof FBL == "undefined")
+    {
+        var folder = window.location.href.replace(/[a-zA-Z]+\.[a-zA-Z]+$/, "");
+
+        var previousScripts = document.querySelectorAll("script[src]");
+
+        var absolutePaths = [];
+
+        for(var i = 0; i <previousScripts.length; i++)
+        {
+            absolutePaths.push(folder + previousScripts[i].getAttribute("src"));
+        }
+
+        for(var i = 0; i < absolutePaths.length; i++)
+        {
+            document.write("<script src=" + absolutePaths[i] + "></scr" + "ipt>");
+        }
+    }
+</script>
+
+<script>
+    var Firecrow = FBL.Firecrow;
+    var timeContainer = document.getElementById("timeContainer");
+
+    var url = htmlModel.url;
+    var slicingCriteria =  [];
+
+    if(htmlModel.model.trackedElementsSelectors != null)
+    {
+        htmlModel.model.trackedElementsSelectors.forEach(function(selector)
+        {
+            slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
+        });
+    }
+
+    var timer = Firecrow.TimerHelper.createTimer();
+
+    var browser = Firecrow.Slicer.slice(htmlModel.model, slicingCriteria, url).browser;
+
+    document.getElementById("slicedCodeContainer").textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(htmlModel.model);
+
+    document.getElementById("slicingCriteriaCount").textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
+    document.getElementById("noEvaluatedExpressions").textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
+
+    timeContainer.textContent = timer.getElapsedTimeInSeconds();
+
+</script>
+</body>
+</html>

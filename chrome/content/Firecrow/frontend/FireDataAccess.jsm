@@ -182,11 +182,11 @@ var FireDataAccess =
             iFrame.webNavigation.allowPlugins = false;
             iFrame.webNavigation.allowSubframes = false;
 
-            iFrame.addEventListener("load", function listener(e)
+            var onLoadFunction = function(e)
             {
                 var document = e.originalTarget.wrappedJSObject;
 
-                iFrame.removeEventListener("load", listener, true);
+                iFrame.removeEventListener("load", onLoadFunction, true);
 
                 this.cacheAllExternalFilesContent(document, function()
                 {
@@ -199,7 +199,9 @@ var FireDataAccess =
 
                     callback(document.defaultView, htmlJson);
                 }.bind(this));
-            }.bind(this), true);
+            }.bind(this)
+
+            iFrame.addEventListener("load", onLoadFunction, true);
 
             iFrame.webNavigation.loadURI(url, Ci.nsIWebNavigation, null, null, null);
         }

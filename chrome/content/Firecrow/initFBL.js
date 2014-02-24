@@ -120,5 +120,4 @@ FBL.ns(function () { with (FBL)
         }
     };
 }});
-
 var Firecrow = FBL.Firecrow;
