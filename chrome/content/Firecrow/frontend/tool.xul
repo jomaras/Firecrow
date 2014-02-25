@@ -89,9 +89,17 @@
                             <label style="margin-top: 5px;">Feature descriptors:</label>
                             <span style="margin-top: 5px;" id="featureDescriptorContainer"></span>
                         </hbox>
-                        <vbox flex="1" id="scenarioMarkupViewerElement">
-
-                        </vbox>
+                        <hbox flex="1">
+                            <vbox>
+                                <div class="devtools-toolbar">
+                                    <h2 class="toolbarTitle" flex="1"><label>Included sources</label></h2>
+                                </div>
+                                <vbox flex="1" id="sourcesContainer">
+                                </vbox>
+                            </vbox>
+                            <splitter id="sources-and-editor-splitter" class="devtools-side-splitter"/>
+                            <vbox flex="1" id="markupViewerContainer"></vbox>
+                        </hbox>
                     </vbox>
 
                     <splitter class="devtools-side-splitter"/>
@@ -145,10 +153,10 @@
 
 
 
-                <tabpanel id="dependencyViewerTabPanel" class="tabpanel-content">
+                <!--<tabpanel id="dependencyViewerTabPanel" class="tabpanel-content">
                     <vbox flex="1">
                     </vbox>
-                </tabpanel>
+                </tabpanel>-->
 
 
 
@@ -159,7 +167,7 @@
                 <tab label="Slicer" style="max-width: 100px" id="slicerTabButton"/>
                 <tab label="Scenario Generator" style="max-width: 150px" id="scenarioTabButton"/>
                 <tab label="Reuser" style="max-width: 100px" id="reuserTabButton"/>
-                <tab label="Dependency Viewer" style="max-width: 150px" id="dependencyViewerTabButton"/>
+                <!--<tab label="Dependency Viewer" style="max-width: 150px" id="dependencyViewerTabButton"/>-->
                 <tab label="" disabled="true" style="min-width:5px !important;max-width:5px !important;"/>
             </tabs>
         </tabbox>

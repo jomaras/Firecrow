@@ -10,7 +10,6 @@ Cu.import("chrome://Firecrow/content/frontend/JsRecorder.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 
-
 var SlicerPanelController = function(extensionWindow, extensionDocument, getCurrentPageWindowFunction, getCurrentPageDocumentFunction)
 {
     this._extensionDocument = extensionDocument;

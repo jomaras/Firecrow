@@ -103,7 +103,7 @@ FirecrowView.prototype =
 
         this._editorContainer = this.$("editor");
         this._slicerMarkupViewerElement = this.$("slicerMarkupViewerElement");
-        this._scenarioMarkupViewerElement = this.$("scenarioMarkupViewerElement");
+        this._markupViewerContainer = this.$("scenarioMarkupViewerElement");
 
         this._keptScenariosContainer = this.$("keptScenariosContainer");
         this._generatedScenariosContainer = this.$("generatedScenariosContainer");
@@ -145,12 +145,12 @@ FirecrowView.prototype =
 
     _slicerTabClick: function()
     {
-        this.selection = this.slicerSelection;
+        this.selection = this.selection;
     },
 
     _scenarioTabClick: function()
     {
-        this.selection = this.scenarioSelection;
+        this.selection = this.selection;
     },
 
     _slicingClick: function()
@@ -319,7 +319,7 @@ FirecrowView.prototype =
 
     _featureSelectorClick: function()
     {
-        this._featureSelectorsMap[CssLogic.findCssSelector(this.scenarioSelection.node)] = true;
+        this._featureSelectorsMap[CssLogic.findCssSelector(this.selection.node)] = true;
         this._updateFeatureSelectorsDisplay();
     },
 
@@ -327,7 +327,7 @@ FirecrowView.prototype =
     {
         if(!this._isMarkupView()) { return; }
 
-        this._slicingCriteriaMap.DOM[CssLogic.findCssSelector(this.slicerSelection.node)] = true;
+        this._slicingCriteriaMap.DOM[CssLogic.findCssSelector(this.selection.node)] = true;
         this._updateSlicingCriteriaDisplay();
     },
 
@@ -754,7 +754,7 @@ FirecrowView.prototype =
     _createMarkupViewer: function()
     {
         this._slicerMarkupViewerElement.setAttribute("hidden", true);
-        this._scenarioMarkupViewerElement.setAttribute("hidden", true);
+        this._markupViewerContainer.setAttribute("hidden", true);
 
         this._createSlicerMarkupSelection();
         this._createSlicerMarkupFrame();
@@ -765,32 +765,32 @@ FirecrowView.prototype =
 
     _createSlicerMarkupSelection: function()
     {
-        this.slicerSelection = new Selection();
+        this.selection = new Selection();
         this.onNewSelection = this.onNewSelection.bind(this);
-        this.slicerSelection.on("new-node", this.onNewSelection);
+        this.selection.on("new-node", this.onNewSelection);
 
         this.onBeforeNewSelection = this.onBeforeNewSelection.bind(this);
-        this.slicerSelection.on("before-new-node", this.onBeforeNewSelection);
+        this.selection.on("before-new-node", this.onBeforeNewSelection);
 
-        this.selection = this.slicerSelection;
+        this.selection = this.selection;
     },
 
     _createScenarioMarkupSelection: function()
     {
-        this.scenarioSelection = new Selection();
+        this.selection = new Selection();
 
-        this.scenarioSelection.on("new-node", this.onNewSelection);
-        this.scenarioSelection.on("before-new-node", this.onBeforeNewSelection);
+        this.selection.on("new-node", this.onNewSelection);
+        this.selection.on("before-new-node", this.onBeforeNewSelection);
     },
 
     _destroyMarkupSelection: function()
     {
-        if(this.slicerSelection == null) { return; }
+        if(this.selection == null) { return; }
 
-        this.slicerSelection.off("new-node", this.onNewSelection);
-        this.slicerSelection.off("before-new-node", this.onBeforeNewSelection);
+        this.selection.off("new-node", this.onNewSelection);
+        this.selection.off("before-new-node", this.onBeforeNewSelection);
 
-        this.slicerSelection = null;
+        this.selection = null;
     },
 
     _createSlicerMarkupFrame: function()
@@ -830,7 +830,7 @@ FirecrowView.prototype =
         this._scenarioMarkupFrame.addEventListener("load", this._boundScenarioMarkupFrameLoad, true);
         this._scenarioMarkupFrame.setAttribute("src", "chrome://browser/content/devtools/markup-view.xhtml");
 
-        this._scenarioMarkupViewerElement.appendChild(this._scenarioMarkupFrame);
+        this._markupViewerContainer.appendChild(this._scenarioMarkupFrame);
     },
 
     _destroyMarkupFrame: function()
@@ -838,7 +838,7 @@ FirecrowView.prototype =
         this._slicerMarkupViewerElement.removeChild(this._slicerMarkupFrame);
         this._slicerMarkupFrame = null;
 
-        this._scenarioMarkupViewerElement.removeChild(this._scenarioMarkupFrame);
+        this._markupViewerContainer.removeChild(this._scenarioMarkupFrame);
         this._scenarioMarkupFrame = null;
     },
 
@@ -852,7 +852,7 @@ FirecrowView.prototype =
         this.markup = new MarkupView(this, this._slicerMarkupFrame, this._window);
 
         var root = this._getCurrentPageDocument().documentElement;
-        this.slicerSelection.setNode(root);
+        this.selection.setNode(root);
     },
 
     _onScenarioMarkupFrameLoad: function()
@@ -860,12 +860,12 @@ FirecrowView.prototype =
         this._scenarioMarkupFrame.removeEventListener("load", this._boundScenarioMarkupFrameLoad, true);
         delete this._boundScenarioMarkupFrameLoad;
 
-        this._scenarioMarkupViewerElement.removeAttribute("hidden");
+        this._markupViewerContainer.removeAttribute("hidden");
 
         this.markup = new MarkupView(this, this._scenarioMarkupFrame, this._window);
 
         var root = this._getCurrentPageDocument().documentElement;
-        this.scenarioSelection.setNode(root);
+        this.selection.setNode(root);
     },
 
     _currentSelectedNode: null,
@@ -883,8 +883,8 @@ FirecrowView.prototype =
 
             this._markNodeAsSelected(this._currentSelectedNode);
 
-            if(this.selection != this.slicerSelection) { this.slicerSelection.setNode(this.selection.node); }
-            else { this.scenarioSelection.setNode(this.selection.node); }
+            if(this.selection != this.selection) { this.selection.setNode(this.selection.node); }
+            else { this.selection.setNode(this.selection.node); }
         }
     },
 
