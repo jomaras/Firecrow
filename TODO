@@ -1,5 +1,7 @@
 ******************   0. Programming  ******************
  - enable Scenario Generator
+    - causes crashing of Inspector panel (they cancel each other out, possibly due to promises, check out events called on panel switch)
+    + add context menu on node - add feature selector
  - enable Reuser
 
  - download whole page (substitute resources with full page url)

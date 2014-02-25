@@ -12,6 +12,13 @@
         ]>
 
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <popupset>
+        <menupopup id="scenarioGeneratorNodePopup">
+            <menuitem id="setAsFeatureDescriptorMenuItem" label="Set as feature descriptor"/>
+        </menupopup>
+    </popupset>
+
     <script type="application/javascript" src="tool.js"/>
     <box id="FirecrowContent" flex="1" class="devtools-responsive-container">
         <browser id="invisibleBrowser" collapsed="true" type="content"/>
@@ -84,7 +91,7 @@
                 <tabpanel id="scenarioGeneratorTabPanel" class="tabpanel-content">
                     <vbox flex="1">
                         <hbox class="devtools-toolbar">
-                            <toolbarbutton class="devtools-toolbarbutton featureSelectorButton" tooltiptext="Set as feature descriptor" disabled="false" id="setFeatureSelectorButton"/>
+                            <toolbarbutton class="devtools-toolbarbutton featureSelectorButton" tooltiptext="Add feature selector" disabled="false" id="setFeatureSelectorButton"/>
                             <toolbarbutton class="devtools-toolbarbutton gearsButton" tooltiptext="Generate Scenarios" disabled="false" id="generateScenariosButton"/>
                             <label style="margin-top: 5px;">Feature descriptors:</label>
                             <span style="margin-top: 5px;" id="featureDescriptorContainer"></span>
@@ -92,7 +99,7 @@
                         <hbox flex="1">
                             <vbox>
                                 <div class="devtools-toolbar">
-                                    <h2 class="toolbarTitle" flex="1"><label>Included sources</label></h2>
+                                    <h2 class="toolbarTitle" flex="1"><label>Targeted sources</label></h2>
                                 </div>
                                 <vbox flex="1" id="sourcesContainer">
                                 </vbox>

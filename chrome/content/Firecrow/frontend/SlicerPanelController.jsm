@@ -341,7 +341,7 @@ SlicerPanelController.prototype =
 
     _onSourcesPopupShowing: function()
     {
-        var scriptNameAndPaths = this._getContentScriptNameAndPaths(this._getCurrentPageDocument());
+        var scriptNameAndPaths = FireDataAccess.getContentScriptNameAndPaths(this._getCurrentPageDocument());
 
         this._sourcesMenuPopup.innerHTML = "";
 
@@ -674,28 +674,6 @@ SlicerPanelController.prototype =
         }
 
         this._recordingsGroup.innerHTML = "";
-    },
-
-    _getContentScriptNameAndPaths: function(document)
-    {
-        var scriptPaths = [];
-
-        scriptPaths.push({name: "* - " + (FireDataAccess.getScriptName(document.baseURI) || "index"), path: document.baseURI });
-        /*scriptPaths.push({name: "DOM - " + (FireDataAccess.getScriptName(document.baseURI) || "index"), path: document.baseURI });*/
-
-        var scriptElements = document.scripts;
-
-        for(var i = 0; i < scriptElements.length; i++)
-        {
-            var src = scriptElements[i].src;
-
-            if(src != "")
-            {
-                scriptPaths.push({name: FireDataAccess.getScriptName(src), path: src });
-            }
-        }
-
-        return scriptPaths;
     },
 
     _createMenuItem: function(menuPopupParent, menuItemName, menuItemPath, isSelected)

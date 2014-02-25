@@ -7,6 +7,8 @@ const Cc = Components.classes;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
 
+Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
+
 var loader = { lazyGetter: XPCOMUtils.defineLazyGetter.bind(XPCOMUtils) };
 var require = Cu.import("resource://gre/modules/devtools/Loader.jsm", {}).devtools.require;
 
@@ -16,6 +18,7 @@ var EventEmitter = require("devtools/shared/event-emitter");
 loader.lazyGetter(this, "MarkupView", function() { return require("devtools/markupview/markup-view").MarkupView; });
 loader.lazyGetter(this, "Selection", function() { return require("devtools/inspector/selection").Selection; });
 loader.lazyGetter(this, "InspectorFront", function() { return require("devtools/server/actors/inspector").InspectorFront; });
+loader.lazyGetter(this, "CssLogic", function() { return require("devtools/styleinspector/css-logic").CssLogic; });
 
 var ScenarioGeneratorPanelController = function(extensionWindow, extensionDocument, toolbox, getCurrentPageWindowFunction, getCurrentPageDocumentFunction)
 {
@@ -34,15 +37,46 @@ var ScenarioGeneratorPanelController = function(extensionWindow, extensionDocume
 
     this._setFeatureSelectorButton = this._extensionDocument.getElementById("setFeatureSelectorButton");
     this._generateScenariosButton = this._extensionDocument.getElementById("generateScenariosButton");
+    this._setAsFeatureDescriptorMenuItem = this._extensionDocument.getElementById("setAsFeatureDescriptorMenuItem");
+
+    this._sourcesContainer = this._extensionDocument.getElementById("sourcesContainer");
 
     this.onNewSelection = this.onNewSelection.bind(this);
     this.onBeforeNewSelection = this.onBeforeNewSelection.bind(this);
+    this._populateScriptsTimeout = this._populateScriptsTimeout.bind(this);
+    this._deleteSelectorClickHandler = this._deleteSelectorClickHandler.bind(this);
+
+    this.selectors = [];
+
+    this._setFeatureSelectorButton.onclick = function()
+    {
+        var selector = this._extensionWindow.prompt("Enter selector");
+
+        if(selector)
+        {
+            this._addSelector(selector);
+        }
+    }.bind(this);
+
+    this._generateScenariosButton.onclick = function()
+    {
+
+    }.bind(this);
+
+    this._setAsFeatureDescriptorMenuItem.onclick = function()
+    {
+        if(!this._currentSelectedNode) { return; }
+
+        this._addSelector(CssLogic.findCssSelector(this._currentSelectedNode));
+    }.bind(this);
 
     this.updating = function(){ return function(){};};
 
     EventEmitter.decorate(this);
 
     this.open();
+
+    this._populateScripts();
 };
 
 ScenarioGeneratorPanelController.prototype =
@@ -50,6 +84,117 @@ ScenarioGeneratorPanelController.prototype =
     reset: function()
     {
         this._destroyMarkup();
+        this._clearScripts();
+
+        this._extensionWindow.clearTimeout(this._populateScriptsTimeoutId);
+
+        this._populateScriptsTimeoutId = this._extensionWindow.setTimeout(this._populateScriptsTimeout, 1500);
+    },
+
+    destroy: function()
+    {
+        if (this._destroyPromise) {
+            return this._destroyPromise;
+        }
+
+        if (this.walker)
+        {
+            this.walker.off("new-root", this.onNewRoot);
+            this._destroyPromise = this.walker.release().then(function()
+            {
+                this._inspector.destroy()
+            }.bind(this)).then(function()
+            {
+                this._inspector = null;
+            }.bind(this), Cu.reportError);
+
+            delete this.walker;
+            delete this.pageStyle;
+        }
+        else
+        {
+            this._destroyPromise = promise.resolve(null);
+        }
+
+        this.selection.off("new-node-front", this.onNewSelection);
+        this.selection.off("before-new-node", this.onBeforeNewSelection);
+        this.selection.off("before-new-node-front", this.onBeforeNewSelection);
+        this._destroyMarkup();
+    },
+
+    _populateScriptsTimeoutId: -1,
+    _populateScriptsTimeout: function() { this._populateScripts(); },
+
+    _clearScripts: function()
+    {
+        while(this._sourcesContainer.hasChildNodes()) { this._sourcesContainer.removeChild(this._sourcesContainer.firstChild); }
+    },
+
+    _populateScripts: function()
+    {
+        var scriptNameAndPaths = FireDataAccess.getContentScriptNameAndPaths(this._getCurrentPageDocument());
+
+        for(var i = 0; i < scriptNameAndPaths.length; i++)
+        {
+            var scriptNameAndPath = scriptNameAndPaths[i];
+            this._createCheckbox(this._sourcesContainer, scriptNameAndPath.name, scriptNameAndPath.path);
+        }
+    },
+
+    _createCheckbox: function(container, label, path)
+    {
+        const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+        var checkbox = this._extensionDocument.createElementNS(XUL_NS, "checkbox");
+
+        if (label != undefined) { checkbox.setAttribute("label", label); }
+        if (path != undefined) { checkbox.setAttribute("value", path); }
+
+        container.appendChild(checkbox);
+    },
+
+    _addSelector: function(selector)
+    {
+        if(this.selectors.indexOf(selector) == -1)
+        {
+            this.selectors.push(selector);
+
+            this._updateSelectorsDisplay();
+        }
+    },
+
+    _updateSelectorsDisplay: function()
+    {
+        while(this._featureDescriptorContainer.hasChildNodes())
+        {
+            this._featureDescriptorContainer.removeChild(this._featureDescriptorContainer.firstChild);
+        }
+
+        for(var i = 0; i < this.selectors.length; i++)
+        {
+            var container = this._extensionDocument.createElement("div");
+
+            container.className = "slicingCriteriaElement";
+
+            container.innerHTML = "<span class='deleteContainer'/><label>" + this.selectors[i] + "</label>";
+
+            this._featureDescriptorContainer.appendChild(container);
+
+            container.firstChild.onclick = this._deleteSelectorClickHandler;
+        }
+    },
+
+    _deleteSelectorClickHandler: function(e)
+    {
+        var button = e.target;
+        var label = button.nextSibling;
+        var selector = label.textContent;
+
+        this.selectors.splice(this.selectors.indexOf(selector), 1);
+
+        button.onclick = null;
+
+        button.parentElement.parentElement.removeChild(button.parentElement);
     },
 
     _currentSelectedNode: null,
@@ -154,7 +299,7 @@ ScenarioGeneratorPanelController.prototype =
             this.selection.setNodeFront(defaultNode, "navigateaway");
 
             this._initMarkup();
-            this.once("markuploaded", function()
+            this.once("markuploaded_ScenarioGenerator", function()
             {
                 if (this._destroyPromise)
                 {
@@ -162,7 +307,7 @@ ScenarioGeneratorPanelController.prototype =
                 }
 
                 this.markup.expandNode(this.selection.nodeFront);
-                this.emit("new-root");
+                this.emit("new-root_ScenarioGenerator");
             }.bind(this));
         }.bind(this));
     },
@@ -186,7 +331,7 @@ ScenarioGeneratorPanelController.prototype =
         this._initMarkup();
         this.isReady = false;
 
-        this.once("markuploaded", function()
+        this.once("markuploaded_ScenarioGenerator", function()
         {
             this.isReady = true;
 
@@ -195,7 +340,7 @@ ScenarioGeneratorPanelController.prototype =
 
             this.markup.expandNode(this.selection.nodeFront);
 
-            this.emit("ready");
+            this.emit("ready_ScenarioGenerator");
             deferred.resolve(this);
         }.bind(this));
 
@@ -211,6 +356,7 @@ ScenarioGeneratorPanelController.prototype =
         this._markupFrame = doc.createElement("iframe");
         this._markupFrame.setAttribute("flex", "1");
         this._markupFrame.setAttribute("tooltip", "aHTMLTooltip");
+        this._markupFrame.setAttribute("context", "scenarioGeneratorNodePopup");
 
         this._boundMarkupFrameLoad = function ()
         {
@@ -232,7 +378,7 @@ ScenarioGeneratorPanelController.prototype =
         var controllerWindow = this._toolbox.doc.defaultView;
         this.markup = new MarkupView(this, this._markupFrame, controllerWindow);
 
-        this.emit("markuploaded");
+        this.emit("markuploaded_ScenarioGenerator");
     },
 
     _destroyMarkup: function()

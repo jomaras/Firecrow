@@ -220,6 +220,28 @@ var FireDataAccess =
         return "HtmlModelMapping.push({url: '" + url +"',results: [], model: " + model + "});"
     },
 
+    getContentScriptNameAndPaths: function(document)
+    {
+        var scriptPaths = [];
+
+        scriptPaths.push({name: "* - " + (FireDataAccess.getScriptName(document.baseURI) || "index"), path: document.baseURI });
+        /*scriptPaths.push({name: "DOM - " + (FireDataAccess.getScriptName(document.baseURI) || "index"), path: document.baseURI });*/
+
+        var scriptElements = document.scripts;
+
+        for(var i = 0; i < scriptElements.length; i++)
+        {
+            var src = scriptElements[i].src;
+
+            if(src != "")
+            {
+                scriptPaths.push({name: FireDataAccess.getScriptName(src), path: src });
+            }
+        }
+
+        return scriptPaths;
+    },
+
     getExternalScripts: function(document)
     {
         var scripts = document.scripts;
@@ -421,28 +443,6 @@ var FireDataAccess =
         if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
 
         return url;
-    },
-
-    getContentScriptNameAndPaths: function(document)
-    {
-        var scriptPaths = [];
-
-        scriptPaths.push({name: "* - " + FireDataAccess.getScriptName(document.baseURI), path: document.baseURI });
-        scriptPaths.push({name: "DOM - " + FireDataAccess.getScriptName(document.baseURI), path: document.baseURI });
-
-        var scriptElements = document.scripts;
-
-        for(var i = 0; i < scriptElements.length; i++)
-        {
-            var src = scriptElements[i].src;
-
-            if(src != "")
-            {
-                scriptPaths.push({name: FireDataAccess.getScriptName(src), path: src });
-            }
-        }
-
-        return scriptPaths;
     },
 
     parseSourceCode: function(sourceCode, path, startLine)
