@@ -5,6 +5,7 @@
 <?xml-stylesheet href="chrome://browser/content/splitview.css" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/content/profiler.css" type="text/css"?>
 <?xml-stylesheet href="chrome://Firecrow/skin/Firecrow.css" type="text/css"?>
+<?xml-stylesheet href="chrome://Firecrow/skin/CodeMarkup.css" type="text/css"?>
 
 <!DOCTYPE window [
         <!ENTITY % FirecrowDTD SYSTEM "chrome://Firecrow/locale/Firecrow.dtd" >
@@ -12,13 +13,6 @@
         ]>
 
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-    <popupset>
-        <menupopup id="scenarioGeneratorNodePopup">
-            <menuitem id="setAsFeatureDescriptorMenuItem" label="Set as feature descriptor"/>
-        </menupopup>
-    </popupset>
-
     <script type="application/javascript" src="tool.js"/>
     <box id="FirecrowContent" flex="1" class="devtools-responsive-container">
         <browser id="invisibleBrowser" collapsed="true" type="content"/>
@@ -105,7 +99,7 @@
                                 </vbox>
                             </vbox>
                             <splitter id="sources-and-editor-splitter" class="devtools-side-splitter"/>
-                            <vbox flex="1" id="markupViewerContainer"></vbox>
+                            <div flex="1" id="markupViewerContainer"></div>
                         </hbox>
                     </vbox>
 

@@ -12,6 +12,7 @@ Cu.import("resource://gre/modules/NetUtil.jsm");
 
 var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 var phantomJsPreference = "Firecrow.phantomJsPath";
+var nodeJsPreference = "Firecrow.nodeJsPath";
 var slimerJsPreference = "Firecrow.slimerJsPath";
 
 var FireDataAccess =
@@ -20,14 +21,24 @@ var FireDataAccess =
     _pathSourceLoadedCallbackMap: {},
     _externalScripts: [],
 
-    getPhantomJsPath: function()
+    getPhantomJsPathFromPreferences: function()
     {
         return this.getPreference(phantomJsPreference);
     },
 
-    savePhantomJsPath: function(path)
+    getNodeJsPathFromPreferences: function()
+    {
+        return this.getPreference(nodeJsPreference);
+    },
+
+    savePhantomJsPathToPreferences: function(path)
     {
         return this.savePreference(phantomJsPreference, path);
+    },
+
+    saveNodeJsPathToPreferences: function(path)
+    {
+        return this.savePreference(nodeJsPreference, path);
     },
 
     getPreference: function(preference)
@@ -443,6 +454,32 @@ var FireDataAccess =
         if(lastIndexOfSlash != -1) { return url.substring(lastIndexOfSlash + 1); }
 
         return url;
+    },
+
+    getPhantomJsFilePath: function(window)
+    {
+        var loggedPath = this.getPhantomJsPathFromPreferences();
+
+        if(loggedPath != null && loggedPath != "") { return loggedPath; }
+
+        var phantomJsPath = FileHelper.userPickFile(window, "Select PhantomJs path", "phantomjs.exe");
+
+        this.savePhantomJsPathToPreferences(phantomJsPath);
+
+        return phantomJsPath;
+    },
+
+    getNodeJsFilePath: function(window)
+    {
+        var loggedPath = this.getNodeJsPathFromPreferences();
+
+        if(loggedPath != null && loggedPath != "") { return loggedPath; }
+
+        var nodeJsPath = FileHelper.userPickFile(window, "Select nodeJs path", "node.exe");
+
+        this.saveNodeJsPathToPreferences(nodeJsPath);
+
+        return nodeJsPath;
     },
 
     parseSourceCode: function(sourceCode, path, startLine)

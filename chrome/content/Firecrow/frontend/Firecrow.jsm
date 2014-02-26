@@ -25,7 +25,7 @@ Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 
 XPCOMUtils.defineLazyModuleGetter(this, "MarkupView", "resource:///modules/devtools/MarkupView.jsm");
 
-var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Components.interfaces.mozIJSSubScriptLoader);
+var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Ci.mozIJSSubScriptLoader);
 
 scriptLoader.loadSubScript("chrome://Firecrow/content/initFBL.js", this, "UTF-8");
 scriptLoader.loadSubScript("chrome://Firecrow/content/helpers/valueTypeHelper.js", this, "UTF-8");

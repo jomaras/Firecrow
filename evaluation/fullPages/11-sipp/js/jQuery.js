@@ -4325,7 +4325,7 @@
             return ret;
         };
 
-        var Expr = Sizzle.selectors = {
+        var Expr = Sizzle._selectors = {
             order: ["ID", "NAME", "TAG"],
 
             match: {
@@ -5394,9 +5394,9 @@
         // EXPOSE
         // Override sizzle attribute retrieval
         Sizzle.attr = jQuery.attr;
-        Sizzle.selectors.attrMap = {};
+        Sizzle._selectors.attrMap = {};
         jQuery.find = Sizzle;
-        jQuery.expr = Sizzle.selectors;
+        jQuery.expr = Sizzle._selectors;
         jQuery.expr[":"] = jQuery.expr.filters;
         jQuery.unique = Sizzle.uniqueSort;
         jQuery.text = Sizzle.getText;

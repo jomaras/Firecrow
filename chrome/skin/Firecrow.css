@@ -16,6 +16,13 @@
     cursor: pointer;
 }
 
+#markupViewerContainer
+{
+    overflow:auto;
+    font-family: "Segoe UI Semibold", "Segoe UI", monospace;
+    font-size:1.1em;
+}
+
 .featureSelectorButton
 {
     list-style-image: url("images/setSlicingCriteria.png");

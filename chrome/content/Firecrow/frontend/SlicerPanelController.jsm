@@ -164,7 +164,7 @@ SlicerPanelController.prototype =
 
     _performOperationInPhantomJs: function(model, dialog, additionalArguments, processPhantomJsResultFunction)
     {
-        var phantomJsFilePath = this._getPhantomJsFilePath();
+        var phantomJsFilePath = FireDataAccess.getPhantomJsFilePath(this._extensionWindow);
 
         if(phantomJsFilePath == null || phantomJsFilePath == "") { Cu.reportError("Unknown phantomjs location"); return; }
 
@@ -186,19 +186,6 @@ SlicerPanelController.prototype =
                 });
             }.bind(this));
         }.bind(this));
-    },
-
-    _getPhantomJsFilePath: function()
-    {
-        var loggedPath = FireDataAccess.getPhantomJsPath();
-
-        if(loggedPath != null && loggedPath != "") { return loggedPath; }
-
-        var phantomJsPath = FileHelper.userPickFile(this._extensionWindow, "Select PhantomJs path", "phantomjs.exe");
-
-        FireDataAccess.savePhantomJsPath(phantomJsPath);
-
-        return phantomJsPath;
     },
 
     _performSlicingInSlimerJs: function(model, dialog)

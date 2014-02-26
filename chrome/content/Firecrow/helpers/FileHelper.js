@@ -17,6 +17,7 @@ FBL.ns(function () { with (FBL) {
 var firecrowFolderPath = ["Firecrow"];
 var recordingsFolderPath = firecrowFolderPath.concat(["profiles"]);
 var phantomJsModelFolder = firecrowFolderPath.concat(["phantomJs"]);
+var nodeJsModelFolder = firecrowFolderPath.concat(["nodeJs"]);
 
 Firecrow.FileHelper = FileHelper =
 {
@@ -40,12 +41,22 @@ Firecrow.FileHelper = FileHelper =
 
     createFirecrowDirs: function()
     {
-        FileUtils.getDir("ProfD", recordingsFolderPath, true);
+        this._createDirsIfNotExists("ProfD", recordingsFolderPath);
     },
 
     createFirecrowPhantomJsDirs: function()
     {
-        FileUtils.getDir("ProfD", phantomJsModelFolder, true);
+        this._createDirsIfNotExists("ProfD", phantomJsModelFolder);
+    },
+
+    createFirecrowNodeJsDirs: function()
+    {
+        this._createDirsIfNotExists("ProfD", nodeJsModelFolder);
+    },
+
+    _createDirsIfNotExists: function(key, pathArray)
+    {
+        FileUtils.getDir(key, pathArray, true);
     },
 
     createEventProfilingFile: function(siteName, recordingId, eventProfilingInfo)
@@ -61,9 +72,20 @@ Firecrow.FileHelper = FileHelper =
     saveModelForPhantomJs: function(model, callbackFunction)
     {
         this.createFirecrowPhantomJsDirs();
-        this.deleteFilesInFolder(FileUtils.getFile("ProfD", phantomJsModelFolder).path);
+        this._saveModelInFirecrowFolder(phantomJsModelFolder, model, callbackFunction);
+    },
 
-        var file = FileUtils.getFile("ProfD", phantomJsModelFolder.concat(["model.js"]));
+    saveModelForNodeJs: function(model, callbackFunction)
+    {
+        this.createFirecrowNodeJsDirs();
+        this._saveModelInFirecrowFolder(nodeJsModelFolder, model, callbackFunction);
+    },
+
+    _saveModelInFirecrowFolder: function(pathArray, model, callbackFunction)
+    {
+        this.deleteFilesInFolder(FileUtils.getFile("ProfD", pathArray).path);
+
+        var file = FileUtils.getFile("ProfD", pathArray.concat(["model.js"]));
         if(!file.exists())
         {
             file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
@@ -95,17 +117,38 @@ Firecrow.FileHelper = FileHelper =
         this.copyFiles
         (
             [
-                { fromLocation: "chrome://Firecrow/content/externalSlicerScript.js", toLocation: phantomJsModelFolder.concat(["externalSlicerScript.js"])},
-                { fromLocation: "chrome://Firecrow/content/externalSlicedMarker.html", toLocation: phantomJsModelFolder.concat(["externalSlicedMarker.html"])},
-                { fromLocation: "chrome://Firecrow/content/externalSlicer.html", toLocation: phantomJsModelFolder.concat(["externalSlicer.html"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/externalSlicerScript.js", toLocation: phantomJsModelFolder.concat(["externalSlicerScript.js"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/externalSlicedMarker.html", toLocation: phantomJsModelFolder.concat(["externalSlicedMarker.html"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/externalSlicer.html", toLocation: phantomJsModelFolder.concat(["externalSlicer.html"])},
                 { fromLocation: "chrome://Firecrow/content/beautifier/beautify-All.js", toLocation: phantomJsModelFolder.concat(["beautify-All.js"])},
-                { fromLocation: "chrome://Firecrow/content/Firecrow-all.js", toLocation: phantomJsModelFolder.concat(["Firecrow-all.js"])}
+                { fromLocation: "chrome://Firecrow/content/phantomJs/Firecrow-all.js", toLocation: phantomJsModelFolder.concat(["Firecrow-all.js"])}
             ],
             function(copiedFilesInformation)
             {
                 for(var i = 0; i < copiedFilesInformation.length; i++)
                 {
                     if(copiedFilesInformation[i].path.indexOf("externalSlicerScript.js") != -1)
+                    {
+                        callbackFunction && callbackFunction(copiedFilesInformation[i].path);
+                        return;
+                    }
+                }
+            }
+        );
+    },
+
+    saveNodeJsScripts: function(callbackFunction)
+    {
+        this.copyFiles
+        (
+            [
+                { fromLocation: "chrome://Firecrow/content/scenarioGeneratorScript.js", toLocation: nodeJsModelFolder.concat(["scenarioGeneratorScript.js"])}
+            ],
+            function(copiedFilesInformation)
+            {
+                for(var i = 0; i < copiedFilesInformation.length; i++)
+                {
+                    if(copiedFilesInformation[i].path.indexOf("scenarioGeneratorScript.js") != -1)
                     {
                         callbackFunction && callbackFunction(copiedFilesInformation[i].path);
                         return;

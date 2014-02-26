@@ -1,6 +1,7 @@
 ******************   0. Programming  ******************
  - enable Scenario Generator
     - causes crashing of Inspector panel (they cancel each other out, possibly due to promises, check out events called on panel switch)
+    - possibly problem with the (InspectorFront in the actor/inspector file), promises can not be realized
     + add context menu on node - add feature selector
  - enable Reuser
 

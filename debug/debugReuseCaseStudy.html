@@ -192,9 +192,9 @@
 
     var startTimer = Firecrow.TimerHelper.createTimer();
 
-    if(htmlModel.selectors != null)
+    if(htmlModel._selectors != null)
     {
-        htmlModel.selectors.forEach(function(selector)
+        htmlModel._selectors.forEach(function(selector)
         {
             slicingCriteria.push(Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector));
         });
