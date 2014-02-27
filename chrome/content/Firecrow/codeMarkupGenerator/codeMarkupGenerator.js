@@ -13,7 +13,20 @@ var CodeMarkupGenerator;
 FBL.ns(function () { with (FBL) {
     /*******/
     var ASTHelper = Firecrow.ASTHelper;
-    var report = typeof alert == "undefined" ? console.log : alert;
+    var report = function(){};
+
+    if(typeof alert == "undefined")
+    {
+        if(typeof console != "undefined")
+        {
+            report = console.log();
+        }
+    }
+    else
+    {
+        report = alert;
+    }
+
     var ValueTypeHelper =
     {
         isArray: function (arrayOfElements)

@@ -41,7 +41,7 @@ Scenario.prototype =
         for(var i = 0; i < this.parametrizedEvents.length; i++)
         {
             if(i != 0) { queryComponent += ","; }
-            queryComponent += this.parametrizedEvents[i].generateQueryString()
+            queryComponent += this.parametrizedEvents[i].generateQueryString();
         }
 
         queryComponent += "]";
@@ -301,6 +301,16 @@ Scenario.prototype =
     isCreatedByNewEvent: function()
     {
         return this.creationType == Scenario.CREATION_TYPE.newEvent;
+    },
+
+    toJSON: function()
+    {
+        return {
+            id: this.id,
+            parametrizedEvents: this.parametrizedEvents,
+            cookie: this.cookie,
+            browser: this.browser
+        };
     }
 };
 

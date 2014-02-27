@@ -44,6 +44,7 @@ var generatedScenariosFile = path.resolve(__dirname, "generatedScenarios.txt");
 var filteredScenariosFile = path.resolve(__dirname, "filteredScenarios.txt");
 var coverageFile = path.resolve(__dirname, "achievedCoverage.txt");
 var visitedCodeTemplatePath = path.resolve(__dirname, "viewExecutedCode.html")
+var achievedCoveragePath = path.resolve(__dirname, "achievedCoverage.txt");
 
 var startTime = Date.now();
 
@@ -55,17 +56,8 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
 
     fs.writeFileSync(coverageFile, getCoverageData());
 
-    var filteredScenarios = scenarios.getSubsumedProcessedScenarios();
-
-    var numberOfEvents = 0;
-
-    for(var i = 0; i < filteredScenarios.length; i++)
-    {
-        numberOfEvents += filteredScenarios[i].events.length;
-    }
-
-    console.log("Kept scenarios: ", filteredScenarios.length, "with ", numberOfEvents, " of events");
-    fs.writeFileSync(filteredScenariosFile, filteredScenarios.length + " - " + numberOfEvents);
+    fs.writeFileSync(generatedScenariosFile, JSON.stringify(scenarios.getAllScenarios()));
+    fs.writeFileSync(filteredScenariosFile, JSON.stringify(scenarios.getSubsumedProcessedScenarios()));
 
     var markupCode = ScenarioGenerator.generateVisitedMarkup();
 
@@ -73,6 +65,7 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
     var content = template.replace("{SOURCE_CODE}", markupCode);
 
     fs.writeFileSync(visitedCodeTemplatePath , content);
+    fs.writeFileSync(achievedCoveragePath, ScenarioGenerator.coverages[ScenarioGenerator.coverages.length - 1].statementCoverage);
 });
 
 function getCoverageData()

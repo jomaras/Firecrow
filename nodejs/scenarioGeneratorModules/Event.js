@@ -221,7 +221,16 @@ ParametrizedEvent.prototype =
         return new ParametrizedEvent(this.baseEvent, JSON.parse(JSON.stringify(this.parameters)));
     },
 
-    _mousePositionProperties: ["pageX", "pageY", "clientX", "clientY", "screenX", "screenY"]
+    _mousePositionProperties: ["pageX", "pageY", "clientX", "clientY", "screenX", "screenY"],
+
+    toJSON: function()
+    {
+        return {
+            type: this.baseEvent.eventType,
+            thisObjectDescriptor: this.baseEvent.thisObjectDescriptor,
+            parameters: this.parameters
+        };
+    }
 };
 
 exports.Event = Event;

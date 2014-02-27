@@ -22,9 +22,12 @@ var ScenarioGeneratorPanelController = function(extensionWindow, extensionDocume
     this._getCurrentPageDocument = getCurrentPageDocumentFunction;
 
     this._markupViewerContainer = this._extensionDocument.getElementById("markupViewerContainer");
+    this._markupViewerFrame = this._extensionDocument.getElementById("markupViewerFrame");
     this._generatedScenariosContainer = this._extensionDocument.getElementById("generatedScenariosContainer");
     this._keptScenariosContainer = this._extensionDocument.getElementById("keptScenariosContainer");
     this._featureDescriptorContainer = this._extensionDocument.getElementById("featureDescriptorContainer");
+
+    this._achievedCoverageContainer = this._extensionDocument.getElementById("achievedCoverageContainer");
 
     this._hiddenIFrame = this._extensionDocument.getElementById("fdHiddenIFrame");
 
@@ -73,25 +76,29 @@ ScenarioGeneratorPanelController.prototype =
 
         this._selectors = [];
         this._updateSelectorsDisplay();
+
+        this._clearScenarios(this._keptScenariosContainer);
+        this._clearScenarios(this._generatedScenariosContainer);
+        this._showAchievedCoverage("");
+
+        this._markupViewerFrame.setAttribute("collapsed", "true");
+        this._markupViewerContainer.setAttribute("collapsed", "false");
     },
 
     _waitTimeoutId: -1,
     _waitTimeout: function()
     {
         this._populateScripts();
+
         FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
-            var codeHtml = FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlJson);
-
-            var injectHTML = htmlParser.parseFragment(codeHtml, false, null, this._markupViewerContainer);
-
-            this._markupViewerContainer.appendChild(injectHTML);
+            this._addMarkupToMarkupViewer(FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlJson))
         }.bind(this));
     },
 
     _clearScripts: function()
     {
-        while(this._sourcesContainer.hasChildNodes()) { this._sourcesContainer.removeChild(this._sourcesContainer.firstChild); }
+        this._deleteAllChildren(this._sourcesContainer);
     },
 
     _populateScripts: function()
@@ -165,32 +172,102 @@ ScenarioGeneratorPanelController.prototype =
 
     _generateScenarios: function()
     {
+        var that = this;
+
         FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
             var nodeJsPath = FireDataAccess.getNodeJsFilePath(this._extensionWindow);
             var phantomJsPath = FireDataAccess.getPhantomJsFilePath(this._extensionWindow);
-            var ignoredScriptPaths = this._getIgnoredScriptPaths();
+            var ignoredScriptPaths = that._getIgnoredScriptPaths();
 
             var model =
             {
-                url: this._getCurrentPageDocument().baseURI,
+                url: that._getCurrentPageDocument().baseURI,
                 model: htmlJson,
-                trackedElementsSelectors: this._selectors
+                trackedElementsSelectors: that._selectors
             };
 
             FileHelper.saveModelForNodeJs(model, function()
             {
                 FileHelper.saveNodeJsScriptsForScenarioGenerator(function(scriptPath)
                 {
-                    FirefoxHelper.executeAsyncProgram(nodeJsPath, [scriptPath, "random", phantomJsPath, 50].concat(ignoredScriptPaths),
+                    FirefoxHelper.executeAsyncProgram(nodeJsPath, [scriptPath, "symbolicNewCoverageSequential", phantomJsPath, 100].concat(ignoredScriptPaths),
                     function()
                     {
-
+                        that._populateScenarios(that._generatedScenariosContainer, FileHelper.getGeneratedScenarios());
+                        that._populateScenarios(that._keptScenariosContainer, FileHelper.getKeptScenarios());
+                        that._showAchievedCoverage("( Statement Cov: " + FileHelper.getAchievedCoverage() + ")");
+                        that._showExecutedCode(FileHelper.getExecutedCodeMarkupPath());
                     });
-                }.bind(this));
-            }.bind(this));
-        }.bind(this));
+                });
+            });
+        });
     },
+
+    _showExecutedCode: function(markupPath)
+    {
+        this._markupViewerFrame.webNavigation.loadURI(markupPath, Ci.nsIWebNavigation, null, null, null);
+        this._markupViewerFrame.setAttribute("collapsed", "false");
+        this._markupViewerContainer.setAttribute("collapsed", "true");
+    },
+
+    _addMarkupToMarkupViewer: function(markup)
+    {
+        this._deleteAllChildren(this._markupViewerContainer);
+
+        var injectHTML = htmlParser.parseFragment(markup, false, null, this._markupViewerContainer);
+
+        this._markupViewerContainer.appendChild(injectHTML);
+    },
+
+    _showAchievedCoverage: function(achievedCoverageMessage)
+    {
+        this._achievedCoverageContainer.textContent = achievedCoverageMessage;
+    },
+
+    _populateScenarios: function(scenarioContainer, scenarios)
+    {
+        var htmlNs = "http://www.w3.org/1999/xhtml";
+
+        for(var i = 0; i < scenarios.length; i++)
+        {
+            var scenario = scenarios[i];
+
+            var label = this._extensionDocument.createElement("label");
+            label.textContent = "Scenario " + scenario.id;
+
+            scenarioContainer.appendChild(label);
+
+            var ul = this._extensionDocument.createElementNS(htmlNs, "ul");
+            scenarioContainer.appendChild(ul);
+
+            var events = scenario.parametrizedEvents;
+
+            for(var j = 0; j < events.length; j++)
+            {
+                var event = events[j];
+
+                var li = this._extensionDocument.createElementNS(htmlNs, "li");
+
+                li.textContent = event.type + " : " + event.thisObjectDescriptor + " " + JSON.stringify(event.parameters);
+
+                ul.appendChild(li);
+            }
+        }
+    },
+
+    _clearScenarios: function(scenarioContainer)
+    {
+        this._deleteAllChildren(scenarioContainer);
+    },
+
+    _deleteAllChildren: function(element)
+    {
+        if(element == null) { return; }
+
+        while(element.hasChildNodes()) { element.removeChild(element.firstChild); }
+    },
+
 
     _getIgnoredScriptPaths: function()
     {

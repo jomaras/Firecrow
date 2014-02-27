@@ -198,6 +198,42 @@ Firecrow.FileHelper = FileHelper =
         );
     },
 
+    getExecutedCodeMarkupPath: function()
+    {
+        return FileUtils.getFile("ProfD", nodeJsModelFolder.concat(["viewExecutedCode.html"])).path;
+    },
+
+    getAchievedCoverage: function()
+    {
+        var fileContent = this.readFromFile(FileUtils.getFile("ProfD", nodeJsModelFolder.concat(["achievedCoverage.txt"])).path);
+
+        return (parseFloat(fileContent) * 100) + "%";
+    },
+
+    getGeneratedScenarios: function()
+    {
+        return this._getScenarios(nodeJsModelFolder.concat(["generatedScenarios.txt"]))
+    },
+
+    getKeptScenarios: function()
+    {
+        return this._getScenarios(nodeJsModelFolder.concat(["filteredScenarios.txt"]))
+    },
+
+    _getScenarios: function(pathArray)
+    {
+        var scenariosJSON = FileHelper.readFromFile(FileUtils.getFile("ProfD", pathArray).path);
+
+        try
+        {
+            return JSON.parse(scenariosJSON);
+        }
+        catch(e)
+        {
+            Cu.reportError("Error when converting generated scenarios to objects: " + e);
+        }
+    },
+
     copyFiles: function(copyFilesInformation, callbackFunction)
     {
         var copiedFilesInformation = [];
