@@ -8,17 +8,99 @@ var CodeTextGenerator;
 FBL.ns(function () { with (FBL) {
 /*******/
 var ASTHelper = Firecrow.ASTHelper;
-var ValueTypeHelper = Firecrow.ValueTypeHelper;
-
-if(ValueTypeHelper == null && usesModule)
+var ValueTypeHelper =
 {
-    var path = require('path');
-    ValueTypeHelper = require(path.resolve(__dirname, "../helpers/valueTypeHelper.js")).ValueTypeHelper;
-}
+    isArray: function (arrayOfElements)
+    {
+        if (this.isNull(arrayOfElements)) { return false; }
+
+        var result = (typeof arrayOfElements) == "array" || arrayOfElements instanceof Array;
+
+        if(result) { return true; }
+
+        if(Array != null && Array.isArray != null) { return Array.isArray(arrayOfElements); }
+
+        return result;
+    },
+
+    isBoolean: function(variable)
+    {
+        if (this.isNull(variable)) { return false; }
+
+        return typeof(variable) == "boolean";
+    },
+
+    isString: function (variable)
+    {
+        if (this.isNull(variable)) { return false; }
+
+        return (typeof variable) == "string" || variable instanceof String;
+    },
+
+    isNumber: function(variable)
+    {
+        if (this.isNull(variable)) { return false; }
+
+        return (typeof variable) == "number";
+    },
+
+    isInteger: function (variable)
+    {
+        if (this.isNull(variable)) { return false; }
+
+        return (typeof variable) == "number" && variable == parseInt(variable,10);
+    },
+
+    isStringInteger: function(variable)
+    {
+        if (this.isNull(variable)) { return false; }
+
+        return variable == parseInt(variable,10);
+    },
+
+    isNull: function (variable)
+    {
+        return variable === null;
+    },
+
+    isObject: function(potentialObject)
+    {
+        if(potentialObject == null) { return false; }
+
+        return 'object' == typeof potentialObject;
+    },
+
+    adjustForRegExBug: function(regExElement, regExString)
+    {
+        if(regExElement == null || regExElement.parent == null
+        || regExElement.parent.loc == null || regExElement.parent.loc.source == null || regExElement.parent.loc.source.indexOf("medialize") == -1)
+        {
+            return regExString;
+        }
+
+        //IT seems that Firefox regEx functionality differs if it /someRegEx/gi or /someRegEx/ig -> bug, iritating bug
+        //but in the parse tree it does not show //ig but //gi regardless of what is put
+        //So if it is part of the medialize library that i'm testing do that replacement
+        return regExString.replace(/\/gi$/, "/ig");
+    }
+};
 
 if(ASTHelper == null && usesModule)
 {
-    ASTHelper = require(path.resolve(__dirname, "../helpers/ASTHelper.js")).ASTHelper;
+    var path = require('path');
+    var fs = require("fs");
+
+    if(ASTHelper == null && usesModule)
+    {
+        if(fs.existsSync(path.resolve(__dirname, "../helpers/ASTHelper.js")))
+        {
+            ASTHelper = require(path.resolve(__dirname, "../helpers/ASTHelper.js")).ASTHelper;
+        }
+        else
+        {
+            ASTHelper = require(path.resolve(__dirname, "ASTHelper.js")).ASTHelper;
+        }
+    }
 }
 
 Firecrow.CodeTextGenerator = CodeTextGenerator = function(isSlicing)

@@ -5,6 +5,8 @@ const Ci = Components.interfaces;
 const Cc = Components.classes;
 
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
+Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
+Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
 
 var htmlParser = Cc["@mozilla.org/feed-unescapehtml;1"].getService(Ci.nsIScriptableUnescapeHTML);
 var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Ci.mozIJSSubScriptLoader);
@@ -112,6 +114,8 @@ ScenarioGeneratorPanelController.prototype =
         if (label != undefined) { checkbox.setAttribute("label", label); }
         if (path != undefined) { checkbox.setAttribute("value", path); }
 
+        checkbox.setAttribute("checked", true);
+
         container.appendChild(checkbox);
     },
 
@@ -164,6 +168,8 @@ ScenarioGeneratorPanelController.prototype =
         FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
             var nodeJsPath = FireDataAccess.getNodeJsFilePath(this._extensionWindow);
+            var phantomJsPath = FireDataAccess.getPhantomJsFilePath(this._extensionWindow);
+            var ignoredScriptPaths = this._getIgnoredScriptPaths();
 
             var model =
             {
@@ -174,14 +180,29 @@ ScenarioGeneratorPanelController.prototype =
 
             FileHelper.saveModelForNodeJs(model, function()
             {
-                FileHelper.saveNodeJsScripts(function(scriptPath)
+                FileHelper.saveNodeJsScriptsForScenarioGenerator(function(scriptPath)
                 {
-                    FirefoxHelper.executeAsyncProgram(nodeJsPath, [scriptPath], function()
+                    FirefoxHelper.executeAsyncProgram(nodeJsPath, [scriptPath, "random", phantomJsPath, 50].concat(ignoredScriptPaths),
+                    function()
                     {
 
                     });
                 }.bind(this));
             }.bind(this));
         }.bind(this));
+    },
+
+    _getIgnoredScriptPaths: function()
+    {
+        var notChecked = this._sourcesContainer.querySelectorAll("checkbox:not([checked])");
+
+        var ignored = [];
+
+        for(var i = 0; i < notChecked.length; i++)
+        {
+            ignored.push(notChecked[i].getAttribute("value"));
+        }
+
+        return ignored;
     }
 };

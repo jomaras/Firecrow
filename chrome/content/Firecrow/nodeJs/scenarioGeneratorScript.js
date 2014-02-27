@@ -1,9 +1,33 @@
 var fs = require('fs');
 var path = require('path');
 
-var ScenarioGenerator = require(path.resolve(__dirname, "ScenarioGenerator.js")).ScenarioGenerator;
+/*
+ process.argv[0] - node.exe
+ process.argv[1] - file location
+ process.argv[2] - coverageType
+ process.argv[3] - phantomJs path
+ process.argv[4] - number of analyzed scenarios
+ process.argv[5]... - script paths to ignore
+* */
+
+var ScenarioGenerator = require(path.resolve(__dirname, "scenarioGeneratorModules/ScenarioGenerator.js")).ScenarioGenerator;
+
+ScenarioGenerator.includeNecessaryFilesPlugin();
+
+ScenarioGenerator.prioritization = process.argv[2] || "test";
+ScenarioGenerator.phantomJsPath = process.argv[3] || "";
+ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 100;
+
+var i = 5;
 
 ScenarioGenerator.scriptPathsToIgnore = [];
+
+while(process.argv[i] != null)
+{
+    ScenarioGenerator.scriptPathsToIgnore.push(process.argv[i]);
+    i++;
+}
+
 ScenarioGenerator.shouldPrintDetailedMessages = true;
 
 ScenarioGenerator.generateAdditionalMouseMoveEvents = true;
@@ -17,6 +41,7 @@ console.log("Starting scenario generator: ", ScenarioGenerator.prioritization, S
 
 var scenarioModelPath = path.resolve(__dirname, "model.js");
 var generatedScenariosFile = path.resolve(__dirname, "generatedScenarios.txt");
+var filteredScenariosFile = path.resolve(__dirname, "filteredScenarios.txt");
 var coverageFile = path.resolve(__dirname, "achievedCoverage.txt");
 var visitedCodeTemplatePath = path.resolve(__dirname, "viewExecutedCode.html")
 
@@ -33,13 +58,14 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
     var filteredScenarios = scenarios.getSubsumedProcessedScenarios();
 
     var numberOfEvents = 0;
+
     for(var i = 0; i < filteredScenarios.length; i++)
     {
         numberOfEvents += filteredScenarios[i].events.length;
     }
 
     console.log("Kept scenarios: ", filteredScenarios.length, "with ", numberOfEvents, " of events");
-    fs.writeFileSync(generatedScenariosFile, filteredScenarios.length + " - " + numberOfEvents);
+    fs.writeFileSync(filteredScenariosFile, filteredScenarios.length + " - " + numberOfEvents);
 
     var markupCode = ScenarioGenerator.generateVisitedMarkup();
 
@@ -47,7 +73,6 @@ ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenar
     var content = template.replace("{SOURCE_CODE}", markupCode);
 
     fs.writeFileSync(visitedCodeTemplatePath , content);
-    console.log("Covered code html: ", visitedCodeTemplatePath);
 });
 
 function getCoverageData()

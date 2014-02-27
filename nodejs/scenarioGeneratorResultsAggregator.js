@@ -287,7 +287,7 @@ for(var applicationName in coverageSummary)
 
     var name = applicationName.replace(".txt", "").replace("_", "\\_").replace(/[0-9]+-/, "");
     var maxCoverage = coverageSummary[applicationName].maxCoverage.type.join(", ");
-    maxCoverage = maxCoverage.replace("eventLength", "EL").replace("fifo", "F").replace("symbolicNewCoverageSequential", "CU").replace("pathCoverageSequential", "COV").replace("random", "R");
+    maxCoverage = maxCoverage.replace("eventLength", "EL").replace("fifo", "F").replace("symbolicNewCoverageSequential", "Cu").replace("pathCoverageSequential", "COV").replace("random", "R");
 
     summaryHtml += name + "\t\t&" + Math.round(coverageSummary[applicationName].maxCoverage.value) + "\\%"
                 + "\t\t&" + maxCoverage

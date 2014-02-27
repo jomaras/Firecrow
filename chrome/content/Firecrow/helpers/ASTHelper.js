@@ -43,6 +43,8 @@ Firecrow.ASTHelper = ASTHelper =
 
     calculateCoverage: function(pageModel, scriptPathsToIgnore)
     {
+        if(pageModel.htmlElement == null && pageModel.model != null) { pageModel = pageModel.model; }
+
         var scripts = ASTHelper.getScriptElements(pageModel.htmlElement);
         scriptPathsToIgnore = scriptPathsToIgnore || [];
 

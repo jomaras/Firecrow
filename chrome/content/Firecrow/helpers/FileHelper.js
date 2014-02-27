@@ -1,9 +1,9 @@
-Components.utils.import("resource://gre/modules/NetUtil.jsm");
-Components.utils.import("resource://gre/modules/FileUtils.jsm");
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cu = Components.utils;
 
-const CC = Components.classes;
-const CI = Components.interfaces;
-const CU = Components.utils;
+Cu.import("resource://gre/modules/NetUtil.jsm");
+Cu.import("resource://gre/modules/FileUtils.jsm");
 
 var FileHelper;
 if(typeof FBL == "undefined")
@@ -88,12 +88,12 @@ Firecrow.FileHelper = FileHelper =
         var file = FileUtils.getFile("ProfD", pathArray.concat(["model.js"]));
         if(!file.exists())
         {
-            file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+            file.createUnique(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
         }
 
         var ostream = FileUtils.openSafeFileOutputStream(file);
 
-        var converter = CC["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(CI.nsIScriptableUnicodeConverter);
+        var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
         converter.charset = "UTF-8";
         var istream = converter.convertToInputStream("var htmlModel = " + JSON.stringify(model, function(key, value)
         {
@@ -137,12 +137,52 @@ Firecrow.FileHelper = FileHelper =
         );
     },
 
-    saveNodeJsScripts: function(callbackFunction)
+    saveNodeJsScriptsForScenarioGenerator: function(callbackFunction)
     {
+        var nodeJsScenarioGeneratorModules = nodeJsModelFolder.concat(["scenarioGeneratorModules"]);
+        var constraintSolverFolder = nodeJsModelFolder.concat(["constraintSolver"]);
+        var constraintSolverJsonFolder = constraintSolverFolder.concat(["jsonFiles"]);
+
+        this._createDirsIfNotExists("ProfD", nodeJsScenarioGeneratorModules);
+        this._createDirsIfNotExists("ProfD", constraintSolverFolder);
+        this._createDirsIfNotExists("ProfD", constraintSolverJsonFolder);
+        this._createDirsIfNotExists("ProfD", nodeJsModelFolder.concat(["eventExecutions"]));
+
         this.copyFiles
         (
             [
-                { fromLocation: "chrome://Firecrow/content/scenarioGeneratorScript.js", toLocation: nodeJsModelFolder.concat(["scenarioGeneratorScript.js"])}
+                { fromLocation: "chrome://Firecrow/content/nodeJs/scenarioGeneratorScript.js", toLocation: nodeJsModelFolder.concat(["scenarioGeneratorScript.js"])},
+                { fromLocation: "chrome://Firecrow/content/nodeJs/viewExecutedCode.html", toLocation: nodeJsModelFolder.concat(["viewExecutedCode.html"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/Firecrow-all.js", toLocation: nodeJsModelFolder.concat(["Firecrow-all.js"])},
+
+                { fromLocation: "chrome://Firecrow/content/phantomJs/scenarioExecutor.js", toLocation: nodeJsModelFolder.concat(["scenarioExecutor.js"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/scenarioExecutor.html", toLocation: nodeJsModelFolder.concat(["scenarioExecutor.html"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/scenarioExecutor.txt", toLocation: nodeJsModelFolder.concat(["scenarioExecutor.txt"])},
+
+                { fromLocation: "chrome://Firecrow/content/helpers/ASTHelper.js", toLocation: nodeJsModelFolder.concat(["ASTHelper.js"])},
+                { fromLocation: "chrome://Firecrow/content/helpers/valueTypeHelper.js", toLocation: nodeJsModelFolder.concat(["valueTypeHelper.js"])},
+                { fromLocation: "chrome://Firecrow/content/codeMarkupGenerator/codeMarkupGenerator.js", toLocation: nodeJsModelFolder.concat(["codeMarkupGenerator.js"])},
+                { fromLocation: "chrome://Firecrow/content/codeMarkupGenerator/codeTextGenerator.js", toLocation: nodeJsModelFolder.concat(["codeTextGenerator.js"])},
+
+
+                { fromLocation: "chrome://FirecrowConstraintSolver/content/constraintSolver.jar", toLocation: constraintSolverFolder.concat(["constraintSolver.jar"])},
+
+                { fromLocation: "chrome://FirecrowConstraintSolver/content/jsonFiles/input.txt", toLocation: constraintSolverJsonFolder.concat(["input.txt"])},
+                { fromLocation: "chrome://FirecrowConstraintSolver/content/jsonFiles/input.txt", toLocation: constraintSolverJsonFolder.concat(["output.txt"])},
+
+
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ConstraintResolver.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ConstraintResolver.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Event.js", toLocation: nodeJsScenarioGeneratorModules.concat(["Event.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Expression.js", toLocation: nodeJsScenarioGeneratorModules.concat(["Expression.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/NumberRange.js", toLocation: nodeJsScenarioGeneratorModules.concat(["NumberRange.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ObjectConverter.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ObjectConverter.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/PathConstraint.js", toLocation: nodeJsScenarioGeneratorModules.concat(["PathConstraint.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Scenario.js", toLocation: nodeJsScenarioGeneratorModules.concat(["Scenario.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioCollection.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ScenarioCollection.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioGenerator.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ScenarioGenerator.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioGeneratorHelper.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ScenarioGeneratorHelper.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/StringConstraint.js", toLocation: nodeJsScenarioGeneratorModules.concat(["StringConstraint.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ValueTypeHelper.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ValueTypeHelper.js"])}
             ],
             function(copiedFilesInformation)
             {
@@ -190,7 +230,7 @@ Firecrow.FileHelper = FileHelper =
 
             if(!file.exists())
             {
-                file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+                file.createUnique(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
             }
 
             var ostream = FileUtils.openSafeFileOutputStream(file);
@@ -211,11 +251,11 @@ Firecrow.FileHelper = FileHelper =
         recordingId += "-" + profilingType + ".json";
 
         var file = FileUtils.getFile("ProfD", recordingsFolderPath.concat([siteName, recordingId]));
-        file.createUnique(CI.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
+        file.createUnique(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
 
         var ostream = FileUtils.openSafeFileOutputStream(file)
 
-        var converter = CC["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(CI.nsIScriptableUnicodeConverter);
+        var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
         converter.charset = "UTF-8";
         var istream = converter.convertToInputStream(info);
 
@@ -224,7 +264,7 @@ Firecrow.FileHelper = FileHelper =
             FileUtils.closeSafeFileOutputStream(ostream);
         });
 
-        CU.reportError("Profiling file written to:" + file.path);
+        Cu.reportError("Profiling file written to:" + file.path);
     },
 
     getEventRecordingsFiles: function(siteName, callbackFunction)
@@ -253,15 +293,15 @@ Firecrow.FileHelper = FileHelper =
     {
         try
         {
-            var file = CC["@mozilla.org/file/local;1"].createInstance(CI.nsILocalFile);
+            var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
 
             file.initWithPath(absoluteFilePath);
 
-            if (!file.exists()) { CU.reportError("File not found:" + absoluteFilePath); return ""; }
+            if (!file.exists()) { Cu.reportError("File not found:" + absoluteFilePath); return ""; }
 
             var data = "";
-            var fstream = CC["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
-            var cstream = CC["@mozilla.org/intl/converter-input-stream;1"].createInstance(Components.interfaces.nsIConverterInputStream);
+            var fstream = Cc["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
+            var cstream = Cc["@mozilla.org/intl/converter-input-stream;1"].createInstance(Components.interfaces.nsIConverterInputStream);
 
             fstream.init(file, -1, 0, 0);
             cstream.init(fstream, "UTF-8", 0, 0); // you can use another encoding here if you wish
@@ -320,11 +360,11 @@ Firecrow.FileHelper = FileHelper =
             
             absoluteFilePath = absoluteFilePath.replace(new RegExp("/", "g"), "\\");
 
-            var stream = CC["@mozilla.org/network/file-output-stream;1"].createInstance(CI.nsIFileOutputStream);
+            var stream = Cc["@mozilla.org/network/file-output-stream;1"].createInstance(Ci.nsIFileOutputStream);
 
             stream.init(this.getFile(absoluteFilePath), 0x02 | 0x08 | 0x20, 0666, 0);
 
-            var converter = CC["@mozilla.org/intl/converter-output-stream;1"].createInstance(CI.nsIConverterOutputStream);
+            var converter = Cc["@mozilla.org/intl/converter-output-stream;1"].createInstance(Ci.nsIConverterOutputStream);
 
             converter.init(stream, charSet, 0, 0);
             converter.writeString(content);
@@ -332,7 +372,7 @@ Firecrow.FileHelper = FileHelper =
             converter.close();
             stream.close();
         }
-        catch (e) { CU.reportError("Error while writing to file:" + e); }
+        catch (e) { Cu.reportError("Error while writing to file:" + e); }
     },
 
     appendToFile: function (absoluteFilePath, content)
@@ -364,12 +404,12 @@ Firecrow.FileHelper = FileHelper =
         {
             downloadToLocation = downloadToLocation.replace(new RegExp("/", "g"), "\\");
 
-            var wbp = CC['@mozilla.org/embedding/browser/nsWebBrowserPersist;1'].createInstance(CI.nsIWebBrowserPersist);
-            var ios = CC['@mozilla.org/network/io-service;1'].getService(CI.nsIIOService);
+            var wbp = Cc['@mozilla.org/embedding/browser/nsWebBrowserPersist;1'].createInstance(Ci.nsIWebBrowserPersist);
+            var ios = Cc['@mozilla.org/network/io-service;1'].getService(Ci.nsIIOService);
 
             var uri = ios.newURI(downloadFromLocation, null, null);
 
-            wbp.persistFlags &= ~CI.nsIWebBrowserPersist.PERSIST_FLAGS_NO_CONVERSION; // don't save gzipped  
+            wbp.persistFlags &= ~Ci.nsIWebBrowserPersist.PERSIST_FLAGS_NO_CONVERSION; // don't save gzipped
 
             wbp.saveURI(uri, null, null, null, null, this.getFile(downloadToLocation));
         }
@@ -380,16 +420,16 @@ Firecrow.FileHelper = FileHelper =
     {
         try
         {
-            var ioserv = CC["@mozilla.org/network/io-service;1"].getService(CI.nsIIOService);
+            var ioserv = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
             var channel = ioserv.newChannel(url, 0, null);
             var stream = channel.open();
 
-            if (channel instanceof CI.nsIHttpChannel && channel.responseStatus != 200)
+            if (channel instanceof Ci.nsIHttpChannel && channel.responseStatus != 200)
             {
                 return "";
             }
 
-            var bstream = CC["@mozilla.org/binaryinputstream;1"].createInstance(CI.nsIBinaryInputStream);
+            var bstream = Cc["@mozilla.org/binaryinputstream;1"].createInstance(Ci.nsIBinaryInputStream);
             bstream.setInputStream(stream);
 
             var size = 0;
@@ -419,18 +459,18 @@ Firecrow.FileHelper = FileHelper =
     {
         try
         {
-            var file = CC["@mozilla.org/file/local;1"].createInstance(CI.nsILocalFile);
+            var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
 
             file.initWithPath(absoluteFilePath);
 
             if (file.exists() == false)
             {
-                file.create(CI.nsIFile.NORMAL_FILE_TYPE, 420);
+                file.create(Ci.nsIFile.NORMAL_FILE_TYPE, 420);
             }
 
             return file;
         }
-        catch (e) { CU.reportError("Trying to get file:" + absoluteFilePath + " " + e); }
+        catch (e) { Cu.reportError("Trying to get file:" + absoluteFilePath + " " + e); }
     },
 
     getDirectoriesFromFolder: function(folderPath)
@@ -479,7 +519,7 @@ Firecrow.FileHelper = FileHelper =
                 }
             }
         }
-        catch (e) { CU.reportError("Error while deleting files in a folder " + e); }
+        catch (e) { Cu.reportError("Error while deleting files in a folder " + e); }
     },
 
     deleteFile: function(path)

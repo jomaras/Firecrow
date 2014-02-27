@@ -6,15 +6,25 @@ var os = require('os');
 var isWin = os.platform().indexOf("win") != -1 ? true : false;
 var chainCommandSeparator = isWin ? "&" : ";";
 
-var constraintSolverRootFolder = path.resolve(__dirname, "../../constraintSolver");
-
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
-
 var ExpressionModule = require(path.resolve(__dirname, "Expression.js"));
+var ValueTypeHelper = require(path.resolve(__dirname, "ValueTypeHelper.js")).ValueTypeHelper;
 
-var constraintInputDataFile = path.resolve(__dirname, "../../constraintSolver/jsonFiles/input.txt");
-var constraintSolutionDataFile = path.resolve(__dirname, "../../constraintSolver/jsonFiles/output.txt");
+var constraintSolverRootFolder, constraintInputDataFile, constraintSolutionDataFile;
+
+if(fs.existsSync(path.resolve(__dirname, "../../constraintSolver"))) //Standalone
+{
+    constraintSolverRootFolder = path.resolve(__dirname, "../../constraintSolver");
+
+    constraintInputDataFile = path.resolve(__dirname, "../../constraintSolver/jsonFiles/input.txt");
+    constraintSolutionDataFile = path.resolve(__dirname, "../../constraintSolver/jsonFiles/output.txt");
+}
+else
+{
+    constraintSolverRootFolder = path.resolve(__dirname, "../constraintSolver");
+
+    constraintInputDataFile = path.resolve(__dirname, "../constraintSolver/jsonFiles/input.txt");
+    constraintSolutionDataFile = path.resolve(__dirname, "../constraintSolver/jsonFiles/output.txt");
+}
 
 var ConstraintResolver =
 {
@@ -278,8 +288,8 @@ var ConstraintResolver =
     {
         if(symbolicExpression == null) { return null; }
 
-        if(symbolicExpression.isBinary()) { return this._getBinaryInverse(symbolicExpression); }
-        else if(symbolicExpression.isLogical()) { return this._getLogicalInverse(symbolicExpression); }
+             if (symbolicExpression.isBinary()) { return this._getBinaryInverse(symbolicExpression); }
+        else if (symbolicExpression.isLogical()) { return this._getLogicalInverse(symbolicExpression); }
         else if (symbolicExpression.isLiteral() || symbolicExpression.isIdentifier()) { return null; }
         else
         {
@@ -335,8 +345,6 @@ var ConstraintResolver =
 
     _getLogicalInverse: function(symbolicExpression)
     {
-        //DEMORGAN'S LAW: !(A && B) = !A || !B; !(A || B) = !A && !B
-
         var leftInverse = this.getInverseConstraint(symbolicExpression.left);
         var rightInverse = this.getInverseConstraint(symbolicExpression.right);
 

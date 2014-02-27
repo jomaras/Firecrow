@@ -4,6 +4,7 @@ if(usesModule)
     FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
 
     var path = require('path');
+    var fs = require('fs');
     var CodeTextGenerator = require(path.resolve(__dirname, "codeTextGenerator.js")).CodeTextGenerator;
     atob = require('atob');
 }
@@ -12,22 +13,102 @@ var CodeMarkupGenerator;
 FBL.ns(function () { with (FBL) {
     /*******/
     var ASTHelper = Firecrow.ASTHelper;
-    var ValueTypeHelper = Firecrow.ValueTypeHelper;
-
-    if(ValueTypeHelper == null && usesModule)
+    var report = typeof alert == "undefined" ? console.log : alert;
+    var ValueTypeHelper =
     {
-        ValueTypeHelper = require(path.resolve(__dirname, "../helpers/valueTypeHelper.js")).ValueTypeHelper;
-    }
+        isArray: function (arrayOfElements)
+        {
+            if (this.isNull(arrayOfElements)) { return false; }
+
+            var result = (typeof arrayOfElements) == "array" || arrayOfElements instanceof Array;
+
+            if(result) { return true; }
+
+            if(Array != null && Array.isArray != null) { return Array.isArray(arrayOfElements); }
+
+            return result;
+        },
+
+        isBoolean: function(variable)
+        {
+            if (this.isNull(variable)) { return false; }
+
+            return typeof(variable) == "boolean";
+        },
+
+        isString: function (variable)
+        {
+            if (this.isNull(variable)) { return false; }
+
+            return (typeof variable) == "string" || variable instanceof String;
+        },
+
+        isNumber: function(variable)
+        {
+            if (this.isNull(variable)) { return false; }
+
+            return (typeof variable) == "number";
+        },
+
+        isInteger: function (variable)
+        {
+            if (this.isNull(variable)) { return false; }
+
+            return (typeof variable) == "number" && variable == parseInt(variable,10);
+        },
+
+        isStringInteger: function(variable)
+        {
+            if (this.isNull(variable)) { return false; }
+
+            return variable == parseInt(variable,10);
+        },
+
+        isNull: function (variable)
+        {
+            return variable === null;
+        },
+
+        isObject: function(potentialObject)
+        {
+            if(potentialObject == null) { return false; }
+
+            return 'object' == typeof potentialObject;
+        },
+
+        adjustForRegExBug: function(regExElement, regExString)
+        {
+            if(regExElement == null || regExElement.parent == null
+                || regExElement.parent.loc == null || regExElement.parent.loc.source == null || regExElement.parent.loc.source.indexOf("medialize") == -1)
+            {
+                return regExString;
+            }
+
+            //IT seems that Firefox regEx functionality differs if it /someRegEx/gi or /someRegEx/ig -> bug, iritating bug
+            //but in the parse tree it does not show //ig but //gi regardless of what is put
+            //So if it is part of the medialize library that i'm testing do that replacement
+            return regExString.replace(/\/gi$/, "/ig");
+        }
+    };
 
     if(ASTHelper == null && usesModule)
     {
-        ASTHelper = require(path.resolve(__dirname, "../helpers/ASTHelper.js")).ASTHelper;
+        if(fs.existsSync(path.resolve(__dirname, "../helpers/ASTHelper.js")))
+        {
+            ASTHelper = require(path.resolve(__dirname, "../helpers/ASTHelper.js")).ASTHelper;
+        }
+        else
+        {
+            ASTHelper = require(path.resolve(__dirname, "ASTHelper.js")).ASTHelper;
+        }
     }
 
     Firecrow.CodeMarkupGenerator = CodeMarkupGenerator =
     {
         generateHtmlRepresentation: function(root)
         {
+            var root = root.htmlElement != null ? root : root.model;
+
             try
             {
                 return "<div class='htmlRepresentation'>" //generate the main container
@@ -149,7 +230,7 @@ FBL.ns(function () { with (FBL) {
             catch(e)
             {
                 debugger;
-                alert("Error while generating a html element: " + e);
+                report("Error while generating a html element: " + e);
             }
         },
 
@@ -176,7 +257,7 @@ FBL.ns(function () { with (FBL) {
                         while(cssRules[0] === " ")
                             cssRules = cssRules.replace(" ", "");
 
-                        html += '<div class="node cssRule" id="node' + FBL.Firecrow.CodeMarkupGenerator.formatId(cssModel.rules[i].nodeId) +'">';
+                        html += '<div class="node cssRule" id="node' + CodeMarkupGenerator.formatId(cssModel.rules[i].nodeId) +'">';
                         //html += '<span class="node cssSelector">' + cssModel.rules[i].selector + "</span><br>";
                         html += '<span class="node cssSelector">' + cssModel.rules[i].selector + '</span><br>';
                         html += "{ <br>";
@@ -197,7 +278,7 @@ FBL.ns(function () { with (FBL) {
             }
             catch(e)
             {
-                alert("Error while generating HTML representation of CSS: " + e);
+                report("Error while generating HTML representation of CSS: " + e);
             }
         },
 
@@ -234,14 +315,14 @@ FBL.ns(function () { with (FBL) {
                 else if (ASTHelper.isIdentifier(element)) { return this.generateFromIdentifier(element); }
                 else
                 {
-                    alert("Error while generating HTML in codeMarkupGenerator: unidentified ast element.");
+                    report("Error while generating HTML in codeMarkupGenerator: unidentified ast element.");
                     return "";
                 }
             }
             catch(e)
             {
                 debugger;
-                alert("Error while generating HTML in codeMarkupGenerator: " + e);
+                report("Error while generating HTML in codeMarkupGenerator: " + e);
             }
         },
 
@@ -261,7 +342,7 @@ FBL.ns(function () { with (FBL) {
             }
             catch(e)
             {
-                alert("Error when generating program HTML");
+                report("Error when generating program HTML");
             }
         },
 
@@ -287,14 +368,14 @@ FBL.ns(function () { with (FBL) {
                 else if (ASTHelper.isSwitchStatement(statement)) { return this.generateFromSwitchStatement(statement); }
                 else
                 {
-                    alert("Error: AST Statement element not defined: " + statement.type);
+                    report("Error: AST Statement element not defined: " + statement.type);
                     return "";
                 }
             }
             catch(e)
             {
                 debugger;
-                alert("Error when generating HTML from a statement: " + e);
+                report("Error when generating HTML from a statement: " + e);
             }
         },
 
@@ -320,12 +401,12 @@ FBL.ns(function () { with (FBL) {
                 else if (ASTHelper.isFunctionExpression(expression)) { return this.generateFromFunction(expression, true); }
                 else
                 {
-                    alert("Error: AST Expression element not defined: " + expression.type);  return "";
+                    report("Error: AST Expression element not defined: " + expression.type);  return "";
                 }
             }
             catch(e)
             {
-                alert("Error when generating HTML from an expression:" + e);
+                report("Error when generating HTML from an expression:" + e);
             }
         },
 
@@ -352,7 +433,7 @@ FBL.ns(function () { with (FBL) {
             }
             catch(e)
             {
-                alert("Error when generating HTML from a function:" + e);
+                report("Error when generating HTML from a function:" + e);
             }
         },
 
@@ -795,7 +876,7 @@ FBL.ns(function () { with (FBL) {
         {
             if(!ASTHelper.isForInStatement(forInStatement))
             {
-                alert("Invalid element when generating for...in statement html code!");
+                report("Invalid element when generating for...in statement html code!");
                 return "";
             }
 
@@ -825,7 +906,7 @@ FBL.ns(function () { with (FBL) {
         {
             if(!ASTHelper.isBreakStatement(breakStatement))
             {
-                alert("Invalid element when generating break statement html code!");
+                report("Invalid element when generating break statement html code!");
                 return "";
             }
 
@@ -1182,11 +1263,11 @@ FBL.ns(function () { with (FBL) {
         {
             if(currentId < 0)
             {
-                alert("Invalid Node Identification: ID cannot be negative.)");
+                report("Invalid Node Identification: ID cannot be negative.)");
             }
             if(currentId > 999999)
             {
-                alert("Invalid Node Identification: ID exceeds, but is limited to,  6 characters");
+                report("Invalid Node Identification: ID exceeds, but is limited to,  6 characters");
             }
             return ("00000" + currentId).slice(-6);
         },

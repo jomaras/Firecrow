@@ -1,7 +1,6 @@
 var path = require('path');
 
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+var ValueTypeHelper = require(path.resolve(__dirname, "ValueTypeHelper.js")).ValueTypeHelper;
 var ScenarioGeneratorHelper = require(path.resolve(__dirname, "ScenarioGeneratorHelper.js")).ScenarioGeneratorHelper;
 var ConstraintResolverModule = require(path.resolve(__dirname, "ConstraintResolver.js"));
 var ExpressionModule = require(path.resolve(__dirname, "Expression.js"));

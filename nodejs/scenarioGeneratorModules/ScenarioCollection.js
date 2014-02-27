@@ -1,10 +1,6 @@
 var path = require('path');
 
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
-var ScenarioModule = require(path.resolve(__dirname, "Scenario.js"));
-
-var ScenarioCollection = function ScenarioCollection(prioritization)
+var ScenarioCollection = function(prioritization)
 {
     this.lengthGroups = [];
     this.scenarios = [];
@@ -20,6 +16,20 @@ ScenarioCollection.prototype =
     typeCoverageInfo: {},
     compareEvents: false,
     waitInterval: -1,
+
+    initStandalone: function()
+    {
+        this.ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+        this.ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+        this.ScenarioModule = require(path.resolve(__dirname, "Scenario.js"));
+    },
+
+    initPlugin: function()
+    {
+        this.ASTHelper = require(path.resolve(__dirname, "../ASTHelper.js")).ASTHelper;
+        this.ValueTypeHelper = require(path.resolve(__dirname, "../valueTypeHelper.js")).ValueTypeHelper;
+        this.ScenarioModule = require(path.resolve(__dirname, "Scenario.js"));
+    },
 
     setEmpiricalData: function(empiricalData)
     {
@@ -94,7 +104,7 @@ ScenarioCollection.prototype =
 
         if(nonExecutedScenarios.length == 0) { return null;}
 
-        return ValueTypeHelper.getRandomElementFromArray(nonExecutedScenarios);
+        return this.ValueTypeHelper.getRandomElementFromArray(nonExecutedScenarios);
     },
 
     _getNextByMaximizingPathCoverage: function()
@@ -256,7 +266,7 @@ ScenarioCollection.prototype =
 
         if(weightedIndexes.length == 0) { return null; }
 
-        var weightedList = new ValueTypeHelper.WeightedList(weightedIndexes);
+        var weightedList = new this.ValueTypeHelper.WeightedList(weightedIndexes);
 
         var result = weightedList.peek();
 
@@ -344,7 +354,7 @@ ScenarioCollection.prototype =
     {
         if(this._containsScenarioByComponents(this.scenarios, events, inputConstraint, parentScenarios)) { return; }
 
-        var scenario = new ScenarioModule.Scenario(events, inputConstraint, parentScenarios);
+        var scenario = new this.ScenarioModule.Scenario(events, inputConstraint, parentScenarios);
 
         this._addScenario(scenario);
 
@@ -509,7 +519,7 @@ ScenarioCollection.prototype =
             }
             else
             {
-                ValueTypeHelper.expand(this.typeVisitedFunctionsInfo[typeDescriptor], executionInfo.typeExecutionMap[typeDescriptor]);
+                this.ValueTypeHelper.expand(this.typeVisitedFunctionsInfo[typeDescriptor], executionInfo.typeExecutionMap[typeDescriptor]);
             }
 
             this.typeCoverageInfo[typeDescriptor].scenarios[scenario.id] = scenario;
@@ -520,7 +530,7 @@ ScenarioCollection.prototype =
 
             for(var visitedFunctionId in visitedFunctions)
             {
-                var coverage = ASTHelper.getFunctionCoverageInfo(visitedFunctions[visitedFunctionId]);
+                var coverage = this.ASTHelper.getFunctionCoverageInfo(visitedFunctions[visitedFunctionId]);
 
                 totalNumber += coverage.totalNumberOfBranches;
                 executedNumber += coverage.executedNumberOfBranches;

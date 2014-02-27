@@ -35,6 +35,7 @@ function deleteEventExecutionFiles()
 }
 var startTime = Date.now();
 
+ScenarioGenerator.includeNecessaryFilesDefault();
 ScenarioGenerator.generateScenarios(scenarioModelPath, pageName, function(scenarios, message, coverage)
 {
     console.log("ScenarioGenerator", message);

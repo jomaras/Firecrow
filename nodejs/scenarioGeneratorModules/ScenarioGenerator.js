@@ -4,35 +4,11 @@ var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
 var path = require('path');
 
-/**/
-var os = require('os');
-var isWin = os.platform().indexOf("win") != -1 ? true : false;
-
-var scenarioExecutorLocation = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
-
-var phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe'
-                          : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
-
-/*******************  my modules inclusions ************/
 var ScenarioCollectionModule = require(path.resolve(__dirname, "ScenarioCollection.js"));
 var EventModule = require(path.resolve(__dirname, 'Event.js'));
 var ScenarioModule = require(path.resolve(__dirname, 'Scenario.js'));
 var ScenarioGeneratorHelper = require(path.resolve(__dirname, 'ScenarioGeneratorHelper.js')).ScenarioGeneratorHelper;
 var ObjectConverter = require(path.resolve(__dirname, 'ObjectConverter.js')).ObjectConverter;
-
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
-var CodeMarkupGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js")).CodeMarkupGenerator;
-var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
-/*******************************************************/
-var scenarioExecutorPhantomScriptPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/scenarioExecutor.js");
-var scenarioExecutorDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/scenarioExecutor.txt");
-var memoryOutputDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/memoryOutput.txt");
-var scenarioDataFile = path.resolve(__dirname, "../../phantomJs/helperPages/scenarioData.js");
-
-var eventExecutionsFolder = path.resolve(__dirname, "../../phantomJs/dataFiles/eventExecutions") + path.sep;
-var outputFile = path.resolve(__dirname, "../../phantomJs/dataFiles/output.txt");
-/*******************************************************/
 
 var ScenarioGenerator =
 {
@@ -59,6 +35,51 @@ var ScenarioGenerator =
     prioritization: "symbolicNewCoverage",
     coverages: [],
 
+    includeNecessaryFilesPlugin: function()
+    {
+        this.scenarioExecutorLocation = path.resolve(__dirname, "../scenarioExecutor.html");
+
+        this.ASTHelper = require(path.resolve(__dirname, "../ASTHelper.js")).ASTHelper;
+        this.ValueTypeHelper = require(path.resolve(__dirname, "ValueTypeHelper.js")).ValueTypeHelper;
+        this.CodeMarkupGenerator = require(path.resolve(__dirname, "../codeMarkupGenerator.js")).CodeMarkupGenerator;
+        this.CodeTextGenerator = require(path.resolve(__dirname, "../codeTextGenerator.js")).CodeTextGenerator;
+
+        this.scenarioExecutorPhantomScriptPath = path.resolve(__dirname, "../scenarioExecutor.js");
+        this.scenarioExecutorDataFile = path.resolve(__dirname, "../scenarioExecutor.txt");
+        this.scenarioDataFile = path.resolve(__dirname, "../scenarioData.js");
+
+        this.eventExecutionsFolder = path.resolve(__dirname, "../eventExecutions") + path.sep;
+
+        this.outputFile = path.resolve(__dirname, "../output.txt");
+
+        this.isPlugin = true;
+    },
+
+    includeNecessaryFilesDefault: function()
+    {
+        var os = require('os');
+        var isWin = os.platform().indexOf("win") != -1 ? true : false;
+
+        this.scenarioExecutorLocation = "http://localhost/Firecrow/phantomJs/helperPages/scenarioExecutor.html";
+
+        this.phantomJsPath = isWin ? 'C:\\phantomJs\\phantomjs.exe'
+                                   : "/home/jomaras/phantomJs/phantomjs/bin/phantomjs";
+
+        /*******************  my modules inclusions ************/
+        this.ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+        this.ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+        this.CodeMarkupGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeMarkupGenerator.js")).CodeMarkupGenerator;
+        this.CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
+        /*******************************************************/
+        this.scenarioExecutorPhantomScriptPath = path.resolve(__dirname, "../../phantomJs/evaluationHelpers/scenarioExecutor.js");
+        this.scenarioExecutorDataFile = path.resolve(__dirname, "../../phantomJs/dataFiles/scenarioExecutor.txt");
+        this.scenarioDataFile = path.resolve(__dirname, "../../phantomJs/helperPages/scenarioData.js");
+
+        this.eventExecutionsFolder = path.resolve(__dirname, "../../phantomJs/dataFiles/eventExecutions") + path.sep;
+        this.outputFile = path.resolve(__dirname, "../../phantomJs/dataFiles/output.txt");
+        /*******************************************************/
+    },
+
     setEmpiricalData: function(empiricalData)
     {
         this.empiricalData = empiricalData;
@@ -69,7 +90,10 @@ var ScenarioGenerator =
         this.pageModelUrl = pageModelUrl;
         this.pageName = pageName;
         this.scenarios = new ScenarioCollectionModule.ScenarioCollection(ScenarioGenerator.prioritization);
-        this.scenarios.setEmpiricalData(this.empiricalData);
+
+        this.isPlugin ? this.scenarios.initPlugin()
+                      : this.scenarios.initStandalone();
+
         this.completedCallback = completedCallback;
         this.lastCoverage = null;
 
@@ -80,13 +104,12 @@ var ScenarioGenerator =
         this._dependencyCache = {};
         this._traversedDependencies = {};
 
-        fs.writeFileSync(memoryOutputDataFile, "");
         this._getPageModelContent();
     },
 
     generateVisitedMarkup: function()
     {
-        return CodeMarkupGenerator.generateHtmlRepresentation(this.pageModel);
+        return this.CodeMarkupGenerator.generateHtmlRepresentation(this.pageModel);
     },
 
     _callCallback: function(message)
@@ -96,9 +119,9 @@ var ScenarioGenerator =
 
     _setUpPageModel: function()
     {
-        ASTHelper.setParentsChildRelationships(this.pageModel);
+        this.ASTHelper.setParentsChildRelationships(this.pageModel);
 
-        ASTHelper.traverseAst(this.pageModel, function(astNode)
+        this.ASTHelper.traverseAst(this.pageModel, function(astNode)
         {
             ScenarioGenerator._pageModelMapping[astNode.nodeId] = astNode;
         });
@@ -107,6 +130,11 @@ var ScenarioGenerator =
     _getPageModelContent: function()
     {
         var modelContent = fs.readFileSync(this.pageModelUrl, {encoding:"utf8"});
+
+        if(modelContent.indexOf("var htmlModel = ") == 0)
+        {
+            modelContent = modelContent.replace("var htmlModel = ", "");
+        }
 
         ScenarioGenerator.pageModel = JSON.parse(modelContent);
 
@@ -167,7 +195,7 @@ var ScenarioGenerator =
 
             if(!currentConstruct.hasBeenExecuted)
             {
-                var statement = ASTHelper.getParentStatement(currentConstruct);
+                var statement = this.ASTHelper.getParentStatement(currentConstruct);
 
                 if(statement)
                 {
@@ -208,30 +236,6 @@ var ScenarioGenerator =
         return;
     },
 
-    _memoryLimitReached: function()
-    {
-        ScenarioGenerator._callCallback("Memory limit has been reached: " + ScenarioGenerator.pageModelUrl);
-        return;
-    },
-
-    _hasUsedTooMuchMemory: function()
-    {
-        return false;
-        sh.run('tasklist /fi "memusage gt 1200000" > ' + memoryOutputDataFile);
-
-        var fileContent = fs.readFileSync(memoryOutputDataFile, { encoding:"utf8"});
-
-        var containsInfo = fileContent.indexOf("INFO:") != -1;
-
-        if(!containsInfo)
-        {
-            console.log("Memory limit: ", fileContent);
-        }
-
-        return !containsInfo;
-    },
-
-
     _generateScenarios: function()
     {
         this._generateInitialScenarios();
@@ -239,7 +243,7 @@ var ScenarioGenerator =
 
     _generateInitialScenarios: function()
     {
-        var scenarioExecutorUrl = this._getScenarioExecutorUrl(scenarioExecutorLocation, this.pageModelUrl);
+        var scenarioExecutorUrl = this._getScenarioExecutorUrl(this.scenarioExecutorLocation, this.pageModelUrl);
 
         console.log("Executing empty scenario: ", scenarioExecutorUrl);
 
@@ -247,7 +251,7 @@ var ScenarioGenerator =
 
         spawnPhantomJsProcess
         (
-            scenarioExecutorPhantomScriptPath,
+            ScenarioGenerator.scenarioExecutorPhantomScriptPath,
             [scenarioExecutorUrl],
             function(data)
             {
@@ -255,13 +259,15 @@ var ScenarioGenerator =
             },
             function()
             {
-                var scenarioExecutorStringData = fs.readFileSync(scenarioExecutorDataFile, {encoding:"utf8"});
+                var scenarioExecutorStringData = fs.readFileSync(ScenarioGenerator.scenarioExecutorDataFile, {encoding:"utf8"});
 
                 if(scenarioExecutorStringData == "" && scenarioExecutorStringData.indexOf("ERROR") == 0)
                 {
                     console.log("Error when executing scenario: ", scenarioExecutorStringData);
                     return;
                 }
+
+                console.log("Turning to JSON: " + scenarioExecutorStringData);
 
                 var executionInfoSummary = ObjectConverter.convertToFullObjects(JSON.parse(scenarioExecutorStringData), ScenarioGenerator._pageModelMapping);
 
@@ -277,7 +283,7 @@ var ScenarioGenerator =
 
                     ScenarioGenerator._updateTotalCoverage(executionInfoSummary.executedConstructsIdMap);
 
-                    var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel, ScenarioGenerator.scriptPathsToIgnore);
+                    var totalCoverage = ScenarioGenerator.ASTHelper.calculateCoverage(ScenarioGenerator.pageModel, ScenarioGenerator.scriptPathsToIgnore);
                     ScenarioGenerator.coverages.push(totalCoverage);
 
                     if(ScenarioGenerator._hasAchievedFullCoverage(achievedCoverage))
@@ -342,14 +348,8 @@ var ScenarioGenerator =
             return;
         }
 
-        if(ScenarioGenerator._hasUsedTooMuchMemory())
-        {
-            ScenarioGenerator._memoryLimitReached();
-            return;
-        }
-
         var startTime = Date.now();
-        var pageUrl = ScenarioGenerator._getScenarioExecutorUrl(scenarioExecutorLocation, ScenarioGenerator.pageModelUrl);
+        var pageUrl = ScenarioGenerator._getScenarioExecutorUrl(this.scenarioExecutorLocation, ScenarioGenerator.pageModelUrl);
 
         ScenarioGenerator._saveScenarioInfoToFile(scenario);
 
@@ -365,7 +365,7 @@ var ScenarioGenerator =
 
         spawnPhantomJsProcess
         (
-            scenarioExecutorPhantomScriptPath,
+            ScenarioGenerator.scenarioExecutorPhantomScriptPath,
             [pageUrl],
             function(data)
             {
@@ -373,7 +373,7 @@ var ScenarioGenerator =
             },
             function()
             {
-                fs.readFile(scenarioExecutorDataFile, {encoding:"utf8"}, function(err, data)
+                fs.readFile(ScenarioGenerator.scenarioExecutorDataFile, {encoding:"utf8"}, function(err, data)
                 {
                     if(err)
                     {
@@ -407,7 +407,7 @@ var ScenarioGenerator =
                         }
                         catch(e)
                         {
-                            console.log("!!!!!!!!!!!!!ScenarioGenerator could not parse scenarioExecutor data: " + e + scenarioExecutorStringData);
+                            console.log("!!!!!!!!!!!!!ScenarioGenerator could not parse scenarioExecutor data: " + e + "\r\n" +  scenarioExecutorStringData);
                         }
 
                         if(executionInfo != null)
@@ -417,7 +417,7 @@ var ScenarioGenerator =
                             var achievedCoverage = executionInfo.achievedCoverage;
                             ScenarioGenerator._updateTotalCoverage(executionInfo.executedConstructsIdMap);
 
-                            var totalCoverage = ASTHelper.calculateCoverage(ScenarioGenerator.pageModel, ScenarioGenerator.scriptPathsToIgnore);
+                            var totalCoverage = ScenarioGenerator.ASTHelper.calculateCoverage(ScenarioGenerator.pageModel, ScenarioGenerator.scriptPathsToIgnore);
                             ScenarioGenerator.coverages.push(totalCoverage);
 
                             if(ScenarioGenerator._hasAchievedFullCoverage(totalCoverage)) { return; }
@@ -432,7 +432,6 @@ var ScenarioGenerator =
 
                             ScenarioGenerator._createInvertedPathScenarios(scenario);
 
-                            //MEMORY
                             scenario.executionInfo.eventExecutions = null;
 
                             ScenarioGenerator._createRegisteredEventsScenarios(scenario);
@@ -463,7 +462,7 @@ var ScenarioGenerator =
 
         for(var i = 0; i < eventExecutions.length; i++)
         {
-            var filePath = eventExecutionsFolder + scenario.id + "-" + i + ".txt";
+            var filePath = this.eventExecutionsFolder + scenario.id + "-" + i + ".txt";
             scenario.eventExecutionFiles.push(filePath);
             fs.writeFileSync(filePath, JSON.stringify(eventExecutions[i]));
         }
@@ -473,7 +472,7 @@ var ScenarioGenerator =
     {
         fs.writeFileSync
         (
-            scenarioDataFile,
+            this.scenarioDataFile,
             "var scenarioData = " + JSON.stringify
             ({
                 events: scenario != null ? scenario.getEventsQuery() : "[]",
@@ -534,7 +533,7 @@ var ScenarioGenerator =
         {
             var invertedPath = invertedPaths[i];
 
-            var highestIndexProperty = ValueTypeHelper.getHighestIndexProperty(invertedPath.resolvedResult);
+            var highestIndexProperty = this.ValueTypeHelper.getHighestIndexProperty(invertedPath.resolvedResult);
 
             if(highestIndexProperty !== null)
             {
@@ -565,7 +564,7 @@ var ScenarioGenerator =
         {
             var eventRegistration = eventRegistrations[i];
 
-            if(!ASTHelper.isFunction(eventRegistration.handlerConstruct)) { return; }
+            if(!this.ASTHelper.isFunction(eventRegistration.handlerConstruct)) { return; }
 
             var eventRegistrationFingerprint = eventRegistration.thisObjectDescriptor + eventRegistration.eventType + eventRegistration.handlerConstruct.nodeId;
 
@@ -641,7 +640,6 @@ var ScenarioGenerator =
                     }
                 }
 
-                //MEMORY
                 if(scenarioWithParametrizedEvent.executionInfo != null)
                 {
                     scenarioWithParametrizedEvent.executionInfo.eventExecutions = [];
@@ -844,31 +842,30 @@ var ScenarioGenerator =
         //can be if, loop, conditionalExpression
         var parent = branchingConditionConstruct.parent;
 
-        if(ASTHelper.isLoopStatement(parent))
+        if(this.ASTHelper.isLoopStatement(parent))
         {
-            return ASTHelper.isLoopStatementExecuted(parent);
+            return this.ASTHelper.isLoopStatementExecuted(parent);
         }
-        else if(ASTHelper.isIfStatement(parent))
+        else if(this.ASTHelper.isIfStatement(parent))
         {
-            return ASTHelper.isIfStatementBodyExecuted(parent) && (parent.alternate != null && ASTHelper.isIfStatementElseExecuted(parent));
+            return this.ASTHelper.isIfStatementBodyExecuted(parent) && (parent.alternate != null && this.ASTHelper.isIfStatementElseExecuted(parent));
         }
-        else if(ASTHelper.isSwitchStatement(parent))
+        else if(this.ASTHelper.isSwitchStatement(parent))
         {
             return false;
         }
-        else if(ASTHelper.isConditionalExpression(parent))
+        else if(this.ASTHelper.isConditionalExpression(parent))
         {
             return parent.consequent.hasBeenExecuted && parent.alternate.hasBeenExecuted;
         }
-        else if(ASTHelper.isSwitchCase(parent))
+        else if(this.ASTHelper.isSwitchCase(parent))
         {
-            return ASTHelper.isSwitchCaseExecuted(parent);
+            return this.ASTHelper.isSwitchCaseExecuted(parent);
         }
         else
         {
             console.log("Unrecognized construct when checking is body executed!");
-            console.log(CodeTextGenerator.generateJsCode(parent));
-            phantom.exit(-1);
+            console.log(this.CodeTextGenerator.generateJsCode(parent));
         }
 
         return false;
@@ -913,8 +910,8 @@ var ScenarioGenerator =
 
     _logToOutput: function(message)
     {
-        var logContent = fs.readFileSync(outputFile, {encoding:"utf8"});
-        fs.writeFileSync(outputFile, logContent + "\n" + message);
+        var logContent = fs.readFileSync(this.outputFile, {encoding:"utf8"});
+        fs.writeFileSync(this.outputFile, logContent + "\n" + message);
     },
 
     _getDifferentBrowsers: function(executionInfoSummary)
@@ -923,7 +920,7 @@ var ScenarioGenerator =
 
         var browsers = [];
 
-        if(ValueTypeHelper.getArraysIntersection(ScenarioGenerator._IE_PROPERTIES, accessedProperties).length != 0)
+        if(this.ValueTypeHelper.getArraysIntersection(ScenarioGenerator._IE_PROPERTIES, accessedProperties).length != 0)
         {
             browsers.push("IE");
         }
@@ -964,7 +961,7 @@ var ScenarioGenerator =
 
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction, onErrorFunction)
 {
-    var command = phantomJsPath + " " + pathToFile + " " + args.join(" ");
+    var command = ScenarioGenerator.phantomJsPath + " " + pathToFile + " " + args.join(" ");
     var prc = exec( command, { maxBuffer: 100000*1024}, onErrorFunction);
 
     prc.stdout.setEncoding('utf8');

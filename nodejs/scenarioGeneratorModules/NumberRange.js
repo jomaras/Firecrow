@@ -1,6 +1,6 @@
 var path = require('path');
 
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+var ValueTypeHelper = require(path.resolve(__dirname, "ValueTypeHelper.js")).ValueTypeHelper;
 
 var NumberRangeChain = function(chain)
 {
