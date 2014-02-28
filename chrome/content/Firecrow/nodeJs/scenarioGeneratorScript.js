@@ -18,10 +18,9 @@ ScenarioGenerator.prioritization = process.argv[2] || "test";
 ScenarioGenerator.phantomJsPath = process.argv[3] || "";
 ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 100;
 
-var i = 5;
-
 ScenarioGenerator.scriptPathsToIgnore = [];
 
+var i = 5;
 while(process.argv[i] != null)
 {
     ScenarioGenerator.scriptPathsToIgnore.push(process.argv[i]);

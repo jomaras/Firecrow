@@ -60,9 +60,10 @@ Firecrow.ASTHelper = ASTHelper =
         for(var i = 0; i < scripts.length; i++)
         {
             var script = scripts[i];
+
             if(scriptPathsToIgnore.indexOf(ASTHelper.getAttributeValue(script, "src")) != -1)
             {
-                //console.log("Skipping when calculating coverage", ASTHelper.getAttributeValue(script, "src"));
+                console.log("Skipping when calculating coverage", ASTHelper.getAttributeValue(script, "src"));
                 continue;
             }
 

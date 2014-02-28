@@ -21,6 +21,15 @@
 
                 mainContainer.textContent += goal;
 
+                if(e.which == 1)
+                {
+                    mainContainer.textContent += "Left click";
+                }
+                else if(e.which == 2)
+                {
+                    mainContainer.textContent += "Right click";
+                }
+
                 setTimeout(function()
                 {
                     var message = "";

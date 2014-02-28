@@ -227,6 +227,8 @@ ScenarioGeneratorPanelController.prototype =
 
     _populateScenarios: function(scenarioContainer, scenarios)
     {
+        this._deleteAllChildren(scenarioContainer);
+
         var htmlNs = "http://www.w3.org/1999/xhtml";
 
         for(var i = 0; i < scenarios.length; i++)
@@ -277,7 +279,7 @@ ScenarioGeneratorPanelController.prototype =
 
         for(var i = 0; i < notChecked.length; i++)
         {
-            ignored.push(notChecked[i].getAttribute("value"));
+            ignored.push(notChecked[i].getAttribute("label"));
         }
 
         return ignored;

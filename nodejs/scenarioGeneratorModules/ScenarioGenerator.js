@@ -141,7 +141,7 @@ var ScenarioGenerator =
         ScenarioGenerator._setUpPageModel();
         ScenarioGenerator._generateScenarios();
 
-        ScenarioGenerator.scriptPathsToIgnore = ScenarioGenerator.pageModel.scriptPathsToIgnore || [];
+        ScenarioGenerator.scriptPathsToIgnore = ScenarioGenerator.scriptPathsToIgnore || ScenarioGenerator.pageModel.scriptPathsToIgnore || [];
     },
 
     _getScenarioExecutorUrl: function(scenarioExecutorPageUrl, pageModelUrl)
