@@ -108,11 +108,11 @@
 
                     <vbox id="scenariosTabBox">
                         <div class="devtools-toolbar">
-                            <h2 class="toolbarTitle" flex="1"><label>Generated scenarios</label></h2>
+                            <h2 class="toolbarTitle" flex="1"><label>Generated scenarios</label><label id="achievedCoverageContainer"></label></h2>
                         </div>
                         <vbox flex="1" id="generatedScenariosContainer">
                         </vbox>
-                        <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1"><label>Kept scenarios</label><label id="achievedCoverageContainer"></label></h2></div>
+                        <div class="devtools-toolbar"> <h2 class="toolbarTitle" flex="1"><label>Kept scenarios</label></h2></div>
                         <vbox flex="1" id="keptScenariosContainer">
                         </vbox>
                     </vbox>

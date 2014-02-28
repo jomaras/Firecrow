@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        #firstContainer
+        {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+
+        #secondContainer
+        {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="firstContainer"></div>
+    <div id="secondContainer"></div>
+
+    <script>
+        var firstContainer = document.getElementById("firstContainer");
+        var secondContainer = document.getElementById("secondContainer");
+
+        firstContainer.onclick = function()
+        {
+            firstContainer.textContent = "Click on first container";
+        };
+
+        secondContainer.onclick = function()
+        {
+            secondContainer.textContent = "Click on second container";
+        };
+    </script>
+</body>
+</html>

@@ -400,6 +400,11 @@ var eventDescriptors = JSON.parse(eventsJSON);
 var browserVersion = scenarioData.browser || "";
 var selector = window.queryString["selector"] || "*";
 
+if(htmlModel != null && htmlModel.trackedElementsSelectors != null)
+{
+    selector = htmlModel.trackedElementsSelectors.join(",") || "*";
+}
+
 var pageModel = htmlModel.model;
 
 var pageModelMapping = {};

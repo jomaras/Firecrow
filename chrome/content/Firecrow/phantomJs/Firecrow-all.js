@@ -30269,7 +30269,7 @@ fcBrowser.ExecutionInfo.prototype =
 
             dataDependencies: this.dataDependencies,
             achievedCoverage: this.achievedCoverage,
-            hasImportantModifications: ValueTypeHelper.objectHasProperties(this.importantModifications),
+            hasImportantModifications: this.lastExecutionSummaryModifiesDom(),
             undefinedGlobalProperties: this.undefinedGlobalProperties,
             postProcessorInclusions: this.postProcessorInclusions,
             cookie: this.cookie

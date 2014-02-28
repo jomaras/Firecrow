@@ -156,7 +156,7 @@ var ScenarioGenerator =
             pageModelUrl = pageModelUrl.replace("/home/jomaras/", "http://localhost/");
         }
 
-        return encodeURI(scenarioExecutorPageUrl + "?url=" + pageModelUrl);
+        return encodeURI(scenarioExecutorPageUrl + "?url=" + pageModelUrl + "&selector=\"" + ScenarioGenerator.selector + "\"");
     },
 
     _trimReportNum: function(str)

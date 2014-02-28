@@ -505,7 +505,7 @@ ScenarioCollection.prototype =
 
     _isEventChainRelatedToUiControls: function(scenario)
     {
-        return scenario.executionInfo.hasImportantModifications != null;
+        return scenario.executionInfo.hasImportantModifications;
     },
 
     aggregateEventCoverageInfo: function(scenario, executionInfo)

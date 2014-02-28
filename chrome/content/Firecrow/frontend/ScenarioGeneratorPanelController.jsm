@@ -202,7 +202,7 @@ ScenarioGeneratorPanelController.prototype =
             {
                 FileHelper.saveNodeJsScriptsForScenarioGenerator(function(scriptPath)
                 {
-                    FirefoxHelper.executeAsyncProgram(nodeJsPath, [scriptPath, "symbolicNewCoverageSequential", phantomJsPath, 100].concat(ignoredScriptPaths),
+                    FirefoxHelper.executeAsyncProgram(nodeJsPath, [scriptPath, "symbolicNewCoverageSequential", phantomJsPath, 100, that._selectors.join(", ") || "*"].concat(ignoredScriptPaths),
                     function()
                     {
                         that._populateScenarios(that._generatedScenariosContainer, FileHelper.getGeneratedScenarios());
@@ -262,7 +262,10 @@ ScenarioGeneratorPanelController.prototype =
 
                 var li = this._extensionDocument.createElementNS(htmlNs, "li");
 
-                li.textContent = event.type + " : " + event.thisObjectDescriptor + " " + JSON.stringify(event.parameters);
+                var params = JSON.stringify(event.parameters);
+                if(params == "{}") { params = "";}
+
+                li.textContent = event.type + " : " + event.thisObjectDescriptor + " " + params;
 
                 ul.appendChild(li);
             }

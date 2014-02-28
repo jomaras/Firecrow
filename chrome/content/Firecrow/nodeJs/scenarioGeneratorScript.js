@@ -7,7 +7,8 @@ var path = require('path');
  process.argv[2] - coverageType
  process.argv[3] - phantomJs path
  process.argv[4] - number of analyzed scenarios
- process.argv[5]... - script paths to ignore
+ process.argv[5] - feature selectors
+ process.argv[6]... - script paths to ignore
 * */
 
 var ScenarioGenerator = require(path.resolve(__dirname, "scenarioGeneratorModules/ScenarioGenerator.js")).ScenarioGenerator;
@@ -17,10 +18,11 @@ ScenarioGenerator.includeNecessaryFilesPlugin();
 ScenarioGenerator.prioritization = process.argv[2] || "test";
 ScenarioGenerator.phantomJsPath = process.argv[3] || "";
 ScenarioGenerator.MAX_NUMBER_OF_SCENARIOS = process.argv[4] != null ? parseInt(process.argv[4]) : 100;
+ScenarioGenerator.selector = process.argv[5] || "*";
 
 ScenarioGenerator.scriptPathsToIgnore = [];
 
-var i = 5;
+var i = 6;
 while(process.argv[i] != null)
 {
     ScenarioGenerator.scriptPathsToIgnore.push(process.argv[i]);
