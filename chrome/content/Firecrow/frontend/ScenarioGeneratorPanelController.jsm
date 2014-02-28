@@ -83,6 +83,8 @@ ScenarioGeneratorPanelController.prototype =
 
         this._markupViewerFrame.setAttribute("collapsed", "true");
         this._markupViewerContainer.setAttribute("collapsed", "false");
+
+        this._addMarkupToMarkupViewer("<div>&nbsp;LOADING MARKUP ...</div>");
     },
 
     _waitTimeoutId: -1,
@@ -108,20 +110,29 @@ ScenarioGeneratorPanelController.prototype =
         for(var i = 0; i < scriptNameAndPaths.length; i++)
         {
             var scriptNameAndPath = scriptNameAndPaths[i];
-            this._createCheckbox(this._sourcesContainer, scriptNameAndPath.name, scriptNameAndPath.path);
+
+            this._createSourceCheckbox(this._sourcesContainer, scriptNameAndPath.name, scriptNameAndPath.path);
         }
     },
 
-    _createCheckbox: function(container, label, path)
+    _createSourceCheckbox: function(container, label, path)
     {
         const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
         var checkbox = this._extensionDocument.createElementNS(XUL_NS, "checkbox");
 
-        if (label != undefined) { checkbox.setAttribute("label", label); }
+        if (label != undefined)
+        {
+            checkbox.setAttribute("label", label);
+            if(label.indexOf("*") == 0) //mainHtmlFile
+            {
+                checkbox.setAttribute("disabled", "true");
+            }
+        }
         if (path != undefined) { checkbox.setAttribute("value", path); }
 
         checkbox.setAttribute("checked", true);
+
 
         container.appendChild(checkbox);
     },
