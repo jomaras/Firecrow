@@ -50,6 +50,16 @@ ReuserPanelController.prototype =
         this._featureCssSelectorInput.value = "";
     },
 
+    markAsSelected: function()
+    {
+        this.isSelected = true;
+    },
+
+    markAsDeselected: function()
+    {
+        this.isSelected = false;
+    },
+
     _performReuse: function()
     {
         if(!this._isNonDefaultItemSelected(this._featurePageSelectorElement)) { this._extensionWindow.alert("Select the page to reuse from"); return; }

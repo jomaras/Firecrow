@@ -80,6 +80,16 @@ SlicerPanelController.prototype =
         this._updateCurrentRecordings(newPageUrl);
     },
 
+    markAsSelected: function()
+    {
+        this.isSelected = true;
+    },
+
+    markAsDeselected: function()
+    {
+        this.isSelected = false;
+    },
+
     _onSlicingClick: function(e)
     {
         if(e.target == this._slicingButton

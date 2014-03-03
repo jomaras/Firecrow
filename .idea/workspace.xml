@@ -4,9 +4,10 @@
     <list default="true" id="44d4204f-2d27-49b8-baa8-e9232bac656a" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ScenarioGeneratorPanelController.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ScenarioGeneratorPanelController.jsm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/status.txt" afterPath="$PROJECT_DIR$/evaluation/fullPages/status.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -30,28 +31,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ReuserPanelController.jsm" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm">
+      <file leaf-file-name="status.txt" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/evaluation/fullPages/status.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="8" selection-start="2221" selection-end="2221" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="5287">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="panel.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="120" column="8" selection-start="4436" selection-end="4436" vertical-scroll-proportion="0.0" vertical-offset="1754" max-vertical-offset="3094">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScenarioGeneratorPanelController.jsm" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/ScenarioGeneratorPanelController.jsm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="88" column="0" selection-start="3674" selection-end="3674" vertical-scroll-proportion="0.49591598" vertical-offset="1071" max-vertical-offset="5253">
+            <state line="9" column="2" selection-start="101" selection-end="101" vertical-scroll-proportion="0.17586207" vertical-offset="0" max-vertical-offset="870">
               <folding />
             </state>
           </provider>
@@ -112,13 +95,13 @@
         <option value="$PROJECT_DIR$/nodejs/reuserModules/Reuser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/nodeJs/reuser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/reuserScenarioExecutorAnalyzer.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/js/ds22.min.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced3.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/status.txt" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ScenarioGeneratorPanelController.jsm" />
       </list>
@@ -401,7 +384,11 @@
       <created>1393839285443</created>
       <updated>1393839285443</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Fixed a recording scenario bug caused by the scenario generator">
+      <created>1393841562220</created>
+      <updated>1393841562220</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -413,7 +400,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24954791" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20614828" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20614828" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -458,7 +445,8 @@
     <MESSAGE value="In plugin - the main html page source file can not be deselected" />
     <MESSAGE value="In plugin - enabled targeting scenario generation for particular features&#10;" />
     <MESSAGE value="Reuser plugin working, more tests needed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reuser plugin working, more tests needed" />
+    <MESSAGE value="Fixed a recording scenario bug caused by the scenario generator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a recording scenario bug caused by the scenario generator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -466,11 +454,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/constraintSolver/FileAccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.59013605" vertical-offset="347" max-vertical-offset="935" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nodejs/reuser.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="4" selection-start="603" selection-end="603" vertical-scroll-proportion="0.26594466" vertical-offset="0" max-vertical-offset="7684">
@@ -584,13 +567,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="20" selection-start="7464" selection-end="7739" vertical-scroll-proportion="0.0" vertical-offset="2481" max-vertical-offset="11696">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="161" column="48" selection-start="5831" selection-end="5831" vertical-scroll-proportion="0.31388566" vertical-offset="2468" max-vertical-offset="11441">
@@ -657,13 +633,6 @@
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="19533">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870">
           <folding />
         </state>
       </provider>
@@ -808,30 +777,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/status.txt">
+    <entry file="file://$PROJECT_DIR$/TODO">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="2" selection-start="101" selection-end="101" vertical-scroll-proportion="0.17586207" vertical-offset="0" max-vertical-offset="870">
+        <state line="10" column="28" selection-start="556" selection-end="556" vertical-scroll-proportion="0.1954023" vertical-offset="0" max-vertical-offset="870">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="201" column="75" selection-start="12326" selection-end="12341" vertical-scroll-proportion="0.0" vertical-offset="2186" max-vertical-offset="3043">
+          <folding>
+            <element signature="tag#toolbar#0;tag#vbox#0;tag#tabpanel#0;tag#tabpanels#0;tag#tabbox#0;tag#box#0;tag#window#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="8" selection-start="2221" selection-end="2221" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="5287">
+        <state line="52" column="4" selection-start="2332" selection-end="2483" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="5457">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="8" selection-start="4436" selection-end="4436" vertical-scroll-proportion="0.0" vertical-offset="1754" max-vertical-offset="3094">
+        <state line="90" column="6" selection-start="3758" selection-end="3758" vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="11866">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/ScenarioGeneratorPanelController.jsm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="0" selection-start="3674" selection-end="3674" vertical-scroll-proportion="0.49591598" vertical-offset="1071" max-vertical-offset="5253">
+        <state line="81" column="0" selection-start="3389" selection-end="3389" vertical-scroll-proportion="0.4562427" vertical-offset="986" max-vertical-offset="5559">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/panel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="131" column="48" selection-start="4757" selection-end="4757" vertical-scroll-proportion="0.6907818" vertical-offset="1635" max-vertical-offset="3400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/status.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="2" selection-start="101" selection-end="101" vertical-scroll-proportion="0.17586207" vertical-offset="0" max-vertical-offset="870">
           <folding />
         </state>
       </provider>

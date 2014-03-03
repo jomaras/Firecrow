@@ -61,7 +61,7 @@ var ScenarioGeneratorPanelController = function(extensionWindow, extensionDocume
         this._generateScenarios();
     }.bind(this);
 
-    this.reset();
+    this.reset("");
 };
 
 ScenarioGeneratorPanelController.prototype =
@@ -72,7 +72,7 @@ ScenarioGeneratorPanelController.prototype =
 
         this._extensionWindow.clearTimeout(this._waitTimeoutId);
 
-        if(url != this._getCurrentPageDocument().baseURI)
+        if(url != this._getCurrentPageDocument().baseURI && this.isSelected)
         {
             this._waitTimeoutId = this._extensionWindow.setTimeout(this._waitTimeout, 1500);
         }
@@ -88,6 +88,23 @@ ScenarioGeneratorPanelController.prototype =
         this._markupViewerContainer.setAttribute("collapsed", "false");
 
         this._addMarkupToMarkupViewer("<div>&nbsp;LOADING MARKUP ...</div>");
+
+        this._hasLoadedMarkup = false;
+    },
+
+    markAsSelected: function()
+    {
+        this.isSelected = true;
+
+        if(!this._hasLoadedMarkup)
+        {
+            this.reset("");
+        }
+    },
+
+    markAsDeselected: function()
+    {
+        this.isSelected = false;
     },
 
     _waitTimeoutId: -1,
@@ -98,6 +115,7 @@ ScenarioGeneratorPanelController.prototype =
         FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
             this._addMarkupToMarkupViewer(FBL.Firecrow.CodeMarkupGenerator.generateHtmlRepresentation(htmlJson))
+            this._hasLoadedMarkup = true;
         }.bind(this));
     },
 

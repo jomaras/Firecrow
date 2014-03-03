@@ -108,14 +108,30 @@ FirecrowPanel.prototype =
 
         this._hiddenIFrame = this.$("fdHiddenIFrame");
 
-        this._featureDescriptorContainer = this.$("featureDescriptorContainer");
+        this._slicerTabButton = this.$("slicerTabButton");
+        this._scenarioTabButton = this.$("scenarioTabButton");
+        this._reuserTabButton = this.$("reuserTabButton");
 
-        this._keptScenariosContainer = this.$("keptScenariosContainer");
-        this._generatedScenariosContainer = this.$("generatedScenariosContainer");
+        this._slicerTabButton.onclick = function()
+        {
+            this._slicerPanelController.markAsSelected();
+            this._scenarioGeneratorPanelController.markAsDeselected();
+            this.reuserPanelController.markAsDeselected();
+        }.bind(this);
 
-        this._setFeatureSelectorButton = this.$("setFeatureSelectorButton");
+        this._scenarioTabButton.onclick = function()
+        {
+            this._slicerPanelController.markAsDeselected();
+            this._scenarioGeneratorPanelController.markAsSelected();
+            this._reuserPanelController.markAsDeselected();
+        }.bind(this);
 
-        this._generateScenariosButton = this.$("generateScenariosButton");
+        this._reuserTabButton.onclick = function()
+        {
+            this._slicerPanelController.markAsDeselected();
+            this._scenarioGeneratorPanelController.markAsDeselected();
+            this._reuserPanelController.markAsSelected();
+        }.bind(this);
 
         this._slicerPanelController = new SlicerPanelController(this.panelWin, this._frameDoc, this._getCurrentPageWindow.bind(this), this._getCurrentPageDocument.bind(this));
         this._scenarioGeneratorPanelController = new ScenarioGeneratorPanelController(this.panelWin, this._frameDoc, this._toolbox, this._getCurrentPageWindow.bind(this), this._getCurrentPageDocument.bind(this));
@@ -130,6 +146,8 @@ FirecrowPanel.prototype =
         FireDataAccess.reset(this.panelWin, null);
         FireDataAccess.setBrowser(this.$("invisibleBrowser"));
         FireDataAccess.cacheExternalScriptsContent(this._getCurrentPageDocument());
+
+        this._slicerPanelController.markAsSelected();
     },
 
     _getCurrentPageDocument: function()
