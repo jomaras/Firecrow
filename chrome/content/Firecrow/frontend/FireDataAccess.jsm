@@ -408,7 +408,14 @@ var FireDataAccess =
         {
             var cssRule = cssRules[i];
 
-            if(cssRule.type == 3)//import command
+            //type :
+            // 3 - import command
+            // 4 - media
+            // 5 - fontface
+            // 6 - pagerule
+            // 7,8 - keyframe
+
+            if(cssRule.type == 3)
             {
                 this._fillStyleSheetModel(model, cssRule.styleSheet, UriHelper.getAbsoluteUrl(cssRule.href, path))
             }
@@ -420,7 +427,8 @@ var FireDataAccess =
                 ({
                     selector: cssRule.selectorText,
                     cssText: result.cssText,
-                    declarations: result.declarations
+                    declarations: result.declarations,
+                    shouldBeIncluded: cssRule.type == 5 || cssRule.type == 7 || cssRule.type == 8
                 });
             }
         }

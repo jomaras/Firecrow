@@ -322,7 +322,7 @@ fcModel.HtmlElementExecutor =
             var childNode = documentFragment.childNodes[i];
             var matchesSelector = false;
 
-            if(childNode.webkitMatchesSelector) { matchesSelector = childNode.webkitMatchesSelector(selector); }
+                 if(childNode.webkitMatchesSelector) { matchesSelector = childNode.webkitMatchesSelector(selector); }
             else if(childNode.mozMatchesSelector) { matchesSelector = childNode.mozMatchesSelector(selector); }
             else if(childNode.oMatchesSelector) { matchesSelector = childNode.oMatchesSelector(selector); }
             else if(childNode.msMatchesSelector) { matchesSelector = childNode.msMatchesSelector(selector); }
@@ -375,6 +375,12 @@ fcModel.HtmlElementExecutor =
         thisObjectValue[functionName].apply(thisObjectValue, jsArguments);
         thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
+
+        if(jsArguments.length >= 2
+        && (jsArguments[0] == "class" || jsArguments[0] == "id"))
+        {
+            globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(thisObjectValue.modelElement);
+        }
 
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
     },

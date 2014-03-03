@@ -10,12 +10,12 @@
     body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; text-align: center; line-height: 26px; margin: 0px; padding: 0px; }
     #container { width: 960px; margin: 0px auto; text-align: left; color: rgb(204, 204, 204); text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.15); }
     #footer { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/hr.png") repeat-x scroll 0% 0% rgba(0, 0, 0, 0.1); text-align: left; color: rgb(255, 255, 255); }
-    a { color: rgb(255, 255, 255); text-decoration: none; border-bottom: 1px dotted rgb(255, 255, 255); -moz-transition-property: color; -moz-transition-duration: 0.25s; }
-    a:hover { border-bottom: medium none; color: rgb(235, 26, 92); -moz-transition-property: color; -moz-transition-duration: 0.25s; }
+    a { color: rgb(255, 255, 255); text-decoration: none; border-bottom: 1px dotted rgb(255, 255, 255); transition-property: color; transition-duration: 0.25s; }
+    a:hover { border-bottom: medium none; color: rgb(235, 26, 92); transition-property: color; transition-duration: 0.25s; }
     #footer, #footer p, #footer h4 { text-align: left; }
     input { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/input210.png") repeat-x scroll 0% 0% transparent; color: rgb(170, 170, 170); text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.35); font-family: 'Helvetica Neue',HelveticaNeue,Arial,sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; border: medium none; height: 21px; width: 190px; margin-left: 10px; padding: 5px 10px; margin-top: 10px; }
-    .button { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/buttonbg.png") repeat scroll 0% 0% transparent; display: inline-block; width: 72px; height: 34px; margin-top: 0px; color: white; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); font-weight: bold; padding-bottom: 7px; font-family: 'Helvetica Neue',HelveticaNeue,Arial,sans-serif; -moz-transition-property: color; -moz-transition-duration: 0.1s; cursor: pointer; }
-    .button:hover { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/buttonbg2.png") repeat scroll 0% 0% transparent; color: rgb(235, 26, 92); -moz-transition-property: color; -moz-transition-duration: 0.1s; }
+    .button { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/buttonbg.png") repeat scroll 0% 0% transparent; display: inline-block; width: 72px; height: 34px; margin-top: 0px; color: white; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); font-weight: bold; padding-bottom: 7px; font-family: 'Helvetica Neue',HelveticaNeue,Arial,sans-serif; transition-property: color; transition-duration: 0.1s; cursor: pointer; }
+    .button:hover { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/buttonbg2.png") repeat scroll 0% 0% transparent; color: rgb(235, 26, 92); transition-property: color; transition-duration: 0.1s; }
     textarea { background: url("http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/textarea_bg.png") repeat-x scroll 0% 0% transparent; color: rgb(170, 170, 170); text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.35); font-family: 'Helvetica Neue',HelveticaNeue,Arial,sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; border: medium none; height: 168px; width: 190px; margin-left: 10px; padding: 10px; margin-top: 10px; line-height: 20px; }
     .shadow { box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.35); }
     #top_menu, #project_menu { float: right; width: 592px; padding-top: 62px; font-size: 16px; margin-bottom: 8px; padding-bottom: 0px; position: relative; }
@@ -305,7 +305,7 @@
 
         return obj;
       }, 
-      trim: core_trim && !(core_trim.call('? ')) ? 0 : function(text)
+      trim: core_trim && !(core_trim.call('ď»żÂ ')) ? 0 : function(text)
       {
         return text == null ? 0 : (text + '').replace(rtrim, '');
       }, 
@@ -558,7 +558,7 @@
         });
         if(support.getById)
         {
-          Expr.filter.ID = function(id){};
+          Expr.filter['ID'] = function(id){};
         }
 
         rbuggyQSA = [];
@@ -2407,9 +2407,9 @@
             
             <div id="showcase" class="grid_12">
                 <ul class="roundabout" id="main_roundabout">
-                    <li><img alt="Bison Fitness Screenshot" src="images/bison1.jpg"/></li>
-                    <li><img alt="Bison Fitness Screenshot" src="images/mls1.jpg"/></li>
-                    <li><img alt="Bison Fitness Screenshot" src="images/michelle1.jpg"/></li>
+                    <li><img alt="Bison Fitness Screenshot" src="http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/bison1.jpg"/></li>
+                    <li><img alt="Bison Fitness Screenshot" src="http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/mls1.jpg"/></li>
+                    <li><img alt="Bison Fitness Screenshot" src="http://localhost/Firecrow/evaluation/fullPages/01-ds22/images/michelle1.jpg"/></li>
                 </ul>
                 <div class="clear"> </div>
             </div>
@@ -3028,7 +3028,7 @@
     {
       this._mainDivId = 'ui-datepicker-div';
       this.regional = [];
-      this.regional = {
+      this.regional[''] = {
         closeText: 'Done', 
         prevText: 'Prev', 
         nextText: 'Next', 
@@ -3046,7 +3046,7 @@
         yearSuffix: ''
       };
       this._defaults = {};
-      d.extend(this._defaults, this.regional);
+      d.extend(this._defaults, this.regional['']);
       N(d(('<div id="' + this._mainDivId) + '" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>'));
     }
     function N(a)
@@ -3455,12 +3455,7 @@
 
           g.children(h.childSelector).each(function(c)
           {
-            var e;
-            if(d.isChildBackDegreesBetween.apply(a(this), [b, i]))
-            {
-              e = i > b ? 'Clockwise' : 0;
-              a(this).trigger(('move' + e) + 'ThroughBack');
-            }
+            if(d.isChildBackDegreesBetween.apply(a(this), [b, i]));
           });
         });
         c.apply(this);
@@ -3477,7 +3472,10 @@
 
         this.each(function()
         {
-          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration, o = e ? e : m.easing || "swing";
+          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration, o = e;
+          if(!o)
+          o = m.easing;
+
           f || (f = {
             timerStart: h, 
             start: m.bearing, 

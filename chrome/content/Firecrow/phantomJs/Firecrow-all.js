@@ -23512,6 +23512,12 @@ fcModel.HtmlElementExecutor =
         thisObjectValue.elementModificationPoints.push({ codeConstruct: callExpression, evaluationPositionId: globalObject.getPreciseEvaluationPositionId()});
         fcModel.HtmlElementExecutor.addDependencyIfImportantElement(thisObjectValue, globalObject, callExpression);
 
+        if(jsArguments.length >= 2
+        && (jsArguments[0] == "class" || jsArguments[0] == "id"))
+        {
+            globalObject.browser.createDependenciesBetweenHtmlNodeAndCssNodes(thisObjectValue.modelElement);
+        }
+
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
     },
 

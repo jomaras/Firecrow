@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        @keyframes myfirst
+        {
+            from {background: red;}
+            to {background: yellow;}
+        }
+
+        .animatedMyContainer
+        {
+            animation: myfirst 2s;
+        }
+
+        #mainContainer
+        {
+            width: 500px;
+            height: 500px;
+            background-color: red;;
+        }
+    </style>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+
+        mainContainer.onclick = function()
+        {
+            mainContainer.className = "animatedMyContainer";
+        };
+    </script>
+</body>
+</html>

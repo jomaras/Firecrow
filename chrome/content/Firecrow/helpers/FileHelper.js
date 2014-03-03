@@ -72,7 +72,7 @@ Firecrow.FileHelper = FileHelper =
     saveModelForPhantomJs: function(model, callback)
     {
         this.createFirecrowPhantomJsDirs();
-        this._saveModelInFirecrowFolder(phantomJsModelFolder, "model.js", model, callback);
+        this._saveModelInFirecrowFolder(phantomJsModelFolder, model, "model.js", callback);
     },
 
     saveModelsForExternalApplications: function(models, wrapModelFunction, callback)
