@@ -66,13 +66,16 @@ var ScenarioGeneratorPanelController = function(extensionWindow, extensionDocume
 
 ScenarioGeneratorPanelController.prototype =
 {
-    reset: function()
+    reset: function(url)
     {
         this._clearScripts();
 
         this._extensionWindow.clearTimeout(this._waitTimeoutId);
 
-        this._waitTimeoutId = this._extensionWindow.setTimeout(this._waitTimeout, 1500);
+        if(url != this._getCurrentPageDocument().baseURI)
+        {
+            this._waitTimeoutId = this._extensionWindow.setTimeout(this._waitTimeout, 1500);
+        }
 
         this._selectors = [];
         this._updateSelectorsDisplay();

@@ -3477,7 +3477,7 @@
 
         this.each(function()
         {
-          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration, o = e ? 0 : m.easing;
+          var i, j, k, l = a(this), m = l.data('roundabout'), n = c ? c : m.duration, o = e ? e : m.easing || "swing";
           f || (f = {
             timerStart: h, 
             start: m.bearing, 
