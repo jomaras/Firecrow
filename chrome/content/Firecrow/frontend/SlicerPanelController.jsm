@@ -95,9 +95,7 @@ SlicerPanelController.prototype =
 
     _extractAndMarkSlicedCode: function()
     {
-        //CONTINUE HERE, CREATE a dialog similar to slicingDialog that will generate the markup of the whole code, and will mark the
-        //sliced code. Group into files.
-        var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/markSlicedCodeDialog.xul', '', 'chrome,dialog,centerscreen');
+        var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/codeMarkupDialog.xul', '', 'chrome,dialog,centerscreen');
 
         FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
@@ -122,7 +120,7 @@ SlicerPanelController.prototype =
 
     _extractAndShowSlicedCode: function()
     {
-        var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/slicingDialog.xul', '', 'chrome,dialog,centerscreen');
+        var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/codeTextDialog.xul', '', 'chrome,dialog,centerscreen');
 
         FireDataAccess.asyncGetPageModel(this._getCurrentPageDocument().baseURI, this._hiddenIFrame, function(window, htmlJson)
         {
@@ -175,7 +173,7 @@ SlicerPanelController.prototype =
         {
             dialog.logMessage("Model saved to:" + modelPath);
 
-            FileHelper.savePhantomJsScripts(function(scriptPath)
+            FileHelper.transferScriptsForSlicing(function(scriptPath)
             {
                 FirefoxHelper.executeAsyncProgram(phantomJsFilePath, [scriptPath].concat(additionalArguments), function()
                 {

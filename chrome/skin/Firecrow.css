@@ -33,6 +33,11 @@
     list-style-image: url("images/gears.png");
 }
 
+#performReuseButton
+{
+    list-style-image: url("images/reuse.png");
+}
+
 #slicingButton
 {
     list-style-image: url("images/slicing.png");
@@ -176,7 +181,7 @@
 
 .eventRecordingElement
 {
-    padding-left: 55px;
+    padding-left: 20px;
 }
 
 .sources, .sources > menupopup

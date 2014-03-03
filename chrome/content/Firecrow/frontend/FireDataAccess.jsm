@@ -181,6 +181,31 @@ var FireDataAccess =
         }
     },
 
+    asyncGetPageModels: function(urls, iFrame, callback)
+    {
+        var models = [];
+
+        var currentModelIndex = 0;
+
+        var modelLoadedFunction = function(window, htmlJson)
+        {
+            models.push(htmlJson);
+
+            currentModelIndex++;
+
+            if(models.length == urls.length)
+            {
+                callback && callback(models);
+            }
+            else
+            {
+                this.asyncGetPageModel(urls[currentModelIndex], iFrame, modelLoadedFunction);
+            }
+        }.bind(this);
+
+        this.asyncGetPageModel(urls[currentModelIndex], iFrame, modelLoadedFunction);
+    },
+
     asyncGetPageModel: function(url, iFrame, callback)
     {
         try
@@ -207,6 +232,8 @@ var FireDataAccess =
                         this._getScriptsPathsAndModels(document),
                         this._getStylesPathsAndModels(document)
                     );
+
+                    htmlJson.url = url;
 
                     callback(document.defaultView, htmlJson);
                 }.bind(this));

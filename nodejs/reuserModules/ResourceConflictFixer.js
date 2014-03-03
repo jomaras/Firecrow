@@ -1,8 +1,20 @@
 var path = require('path');
 
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+var fs = require('fs');
+
+if(fs.existsSync(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js"))) //Standalone
+{
+    var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+    var UriHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/UriHelper.js")).UriHelper;
+}
+else
+{
+    var ASTHelper = require(path.resolve(__dirname, "../ASTHelper.js")).ASTHelper;
+    var UriHelper = require(path.resolve(__dirname, "../UriHelper.js")).UriHelper;
+}
+
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
-var UriHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/UriHelper.js")).UriHelper;
+
 
 var Change = {
     html: 0,

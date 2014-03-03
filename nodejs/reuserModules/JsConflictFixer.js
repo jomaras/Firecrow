@@ -1,11 +1,24 @@
 var path = require('path');
 var atob = require("atob");
 
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
-var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Firecrow/parsers/CssSelectorParser.js")).CssSelectorParser;
-var ReuserTemplates = require(path.resolve(__dirname, "../../chrome/content/Firecrow/templates/reuserTemplates.js")).ReuserTemplates;
-var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
+var fs = require('fs');
+
+if(fs.existsSync(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js"))) //Standalone
+{
+    var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+    var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+    var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Firecrow/parsers/CssSelectorParser.js")).CssSelectorParser;
+    var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
+    var ReuserTemplates = require(path.resolve(__dirname, "../../chrome/content/Firecrow/templates/reuserTemplates.js")).ReuserTemplates;
+}
+else
+{
+    var ValueTypeHelper = require(path.resolve(__dirname, "../valueTypeHelper.js")).ValueTypeHelper;
+    var ASTHelper = require(path.resolve(__dirname, "../ASTHelper.js")).ASTHelper;
+    var CssSelectorParser = require(path.resolve(__dirname, "../CssSelectorParser.js")).CssSelectorParser;
+    var CodeTextGenerator = require(path.resolve(__dirname, "../codeTextGenerator.js")).CodeTextGenerator;
+    var ReuserTemplates = require(path.resolve(__dirname, "../reuserTemplates.js")).ReuserTemplates;
+}
 
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
 

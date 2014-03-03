@@ -56,7 +56,7 @@ Firecrow.FileHelper = FileHelper =
 
     _createDirsIfNotExists: function(key, pathArray)
     {
-        FileUtils.getDir(key, pathArray, true);
+        return FileUtils.getDir(key, pathArray, true);
     },
 
     createEventProfilingFile: function(siteName, recordingId, eventProfilingInfo)
@@ -69,23 +69,45 @@ Firecrow.FileHelper = FileHelper =
         this._createProfilingFile(siteName, "executions", recordingId, executionProfilingInfo);
     },
 
-    saveModelForPhantomJs: function(model, callbackFunction)
+    saveModelForPhantomJs: function(model, callback)
     {
         this.createFirecrowPhantomJsDirs();
-        this._saveModelInFirecrowFolder(phantomJsModelFolder, model, callbackFunction);
+        this._saveModelInFirecrowFolder(phantomJsModelFolder, "model.js", model, callback);
     },
 
-    saveModelForNodeJs: function(model, callbackFunction)
+    saveModelsForExternalApplications: function(models, wrapModelFunction, callback)
+    {
+        this.createFirecrowPhantomJsDirs();
+
+        var modelFileLocations = [];
+        models.forEach(function (model, index)
+        {
+            this.saveModelForExternalApplications(model, "model" + (index + 1) + ".js",
+            wrapModelFunction,
+            function(filePath)
+            {
+                modelFileLocations.push(filePath);
+                if(modelFileLocations.length == models.length)
+                {
+                    callback && callback(modelFileLocations);
+                }
+            });
+        }, this);
+    },
+
+    saveModelForExternalApplications: function(model, modelName, wrapModelFunction, callback)
     {
         this.createFirecrowNodeJsDirs();
-        this._saveModelInFirecrowFolder(nodeJsModelFolder, model, callbackFunction);
+        this._saveModelInFirecrowFolder(nodeJsModelFolder, modelName, model, wrapModelFunction, callback);
     },
 
-    _saveModelInFirecrowFolder: function(pathArray, model, callbackFunction)
+    _saveModelInFirecrowFolder: function(pathArray, modelName, model, wrapModelFunction, callback)
     {
         this.deleteFilesInFolder(FileUtils.getFile("ProfD", pathArray).path);
 
-        var file = FileUtils.getFile("ProfD", pathArray.concat(["model.js"]));
+        wrapModelFunction = wrapModelFunction || function(x) { return x; }
+
+        var file = FileUtils.getFile("ProfD", pathArray.concat([modelName]));
         if(!file.exists())
         {
             file.createUnique(Ci.nsIFile.NORMAL_FILE_TYPE, FileUtils.PERMS_FILE);
@@ -95,7 +117,7 @@ Firecrow.FileHelper = FileHelper =
 
         var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
         converter.charset = "UTF-8";
-        var istream = converter.convertToInputStream("var htmlModel = " + JSON.stringify(model, function(key, value)
+        var istream = converter.convertToInputStream(wrapModelFunction(JSON.stringify(model, function(key, value)
         {
             if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
             {
@@ -103,16 +125,16 @@ Firecrow.FileHelper = FileHelper =
             }
 
             return value;
-        }));
+        })));
 
         NetUtil.asyncCopy(istream, ostream, function()
         {
             FileUtils.closeSafeFileOutputStream(ostream);
-            callbackFunction && callbackFunction(file.path);
+            callback && callback(file.path);
         });
     },
 
-    savePhantomJsScripts: function(callbackFunction)
+    transferScriptsForSlicing: function(callback)
     {
         this.copyFiles
         (
@@ -129,7 +151,7 @@ Firecrow.FileHelper = FileHelper =
                 {
                     if(copiedFilesInformation[i].path.indexOf("externalSlicerScript.js") != -1)
                     {
-                        callbackFunction && callbackFunction(copiedFilesInformation[i].path);
+                        callback && callback(copiedFilesInformation[i].path);
                         return;
                     }
                 }
@@ -137,13 +159,61 @@ Firecrow.FileHelper = FileHelper =
         );
     },
 
-    saveNodeJsScriptsForScenarioGenerator: function(callbackFunction)
+    transferScriptsForReuser: function(callback)
     {
-        var nodeJsScenarioGeneratorModules = nodeJsModelFolder.concat(["scenarioGeneratorModules"]);
+        var reuserModules = nodeJsModelFolder.concat(["reuserModules"]);
+
+        this._createDirsIfNotExists("ProfD", reuserModules);
+
+        this.copyFiles
+        (
+            [
+                { fromLocation: "chrome://FirecrowNode/content/reuserModules/ConflictFixer.js", toLocation: reuserModules.concat(["ConflictFixer.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/reuserModules/ConflictFixerCommon.js", toLocation: reuserModules.concat(["ConflictFixerCommon.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/reuserModules/CssConflictFixer.js", toLocation: reuserModules.concat(["CssConflictFixer.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/reuserModules/HtmlConflictFixer.js", toLocation: reuserModules.concat(["HtmlConflictFixer.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/reuserModules/JsConflictFixer.js", toLocation: reuserModules.concat(["JsConflictFixer.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/reuserModules/ResourceConflictFixer.js", toLocation: reuserModules.concat(["ResourceConflictFixer.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/reuserModules/Reuser.js", toLocation: reuserModules.concat(["Reuser.js"])},
+
+                { fromLocation: "chrome://Firecrow/content/helpers/ASTHelper.js", toLocation: nodeJsModelFolder.concat(["ASTHelper.js"])},
+                { fromLocation: "chrome://Firecrow/content/helpers/UriHelper.js", toLocation: nodeJsModelFolder.concat(["UriHelper.js"])},
+                { fromLocation: "chrome://Firecrow/content/helpers/valueTypeHelper.js", toLocation: nodeJsModelFolder.concat(["valueTypeHelper.js"])},
+
+                { fromLocation: "chrome://Firecrow/content/templates/reuserTemplates.js", toLocation: nodeJsModelFolder.concat(["reuserTemplates.js"])},
+
+                { fromLocation: "chrome://Firecrow/content/codeMarkupGenerator/codeMarkupGenerator.js", toLocation: nodeJsModelFolder.concat(["codeMarkupGenerator.js"])},
+                { fromLocation: "chrome://Firecrow/content/codeMarkupGenerator/codeTextGenerator.js", toLocation: nodeJsModelFolder.concat(["codeTextGenerator.js"])},
+                { fromLocation: "chrome://Firecrow/content/parsers/CssSelectorParser.js", toLocation: nodeJsModelFolder.concat(["CssSelectorParser.js"])},
+
+                { fromLocation: "chrome://Firecrow/content/nodeJs/reuser.js", toLocation: nodeJsModelFolder.concat(["reuser.js"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/Firecrow-all.js", toLocation: nodeJsModelFolder.concat(["Firecrow-all.js"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/reuserScenarioExecutorAnalyzer.html", toLocation: nodeJsModelFolder.concat(["reuserScenarioExecutorAnalyzer.html"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/reuserScenarioExecutorAnalyzer.js", toLocation: nodeJsModelFolder.concat(["reuserScenarioExecutorAnalyzer.js"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/reuserScenarioExecutorSlicer.html", toLocation: nodeJsModelFolder.concat(["reuserScenarioExecutorSlicer.html"])},
+                { fromLocation: "chrome://Firecrow/content/phantomJs/reuserScenarioExecutorSlicer.js", toLocation: nodeJsModelFolder.concat(["reuserScenarioExecutorSlicer.js"])}
+            ],
+            function(copiedFilesInformation)
+            {
+                for(var i = 0; i < copiedFilesInformation.length; i++)
+                {
+                    if(copiedFilesInformation[i].path.indexOf("reuser.js") != -1)
+                    {
+                        callback && callback(copiedFilesInformation[i].path);
+                        return;
+                    }
+                }
+            }
+        );
+    },
+
+    transferScriptsForScenarioGenerator: function(callback)
+    {
+        var scenarioGeneratorModules = nodeJsModelFolder.concat(["scenarioGeneratorModules"]);
         var constraintSolverFolder = nodeJsModelFolder.concat(["constraintSolver"]);
         var constraintSolverJsonFolder = constraintSolverFolder.concat(["jsonFiles"]);
 
-        this._createDirsIfNotExists("ProfD", nodeJsScenarioGeneratorModules);
+        this._createDirsIfNotExists("ProfD", scenarioGeneratorModules);
         this._createDirsIfNotExists("ProfD", constraintSolverFolder);
         this._createDirsIfNotExists("ProfD", constraintSolverJsonFolder);
         this._createDirsIfNotExists("ProfD", nodeJsModelFolder.concat(["eventExecutions"]));
@@ -171,18 +241,18 @@ Firecrow.FileHelper = FileHelper =
                 { fromLocation: "chrome://FirecrowConstraintSolver/content/jsonFiles/input.txt", toLocation: constraintSolverJsonFolder.concat(["output.txt"])},
 
 
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ConstraintResolver.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ConstraintResolver.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Event.js", toLocation: nodeJsScenarioGeneratorModules.concat(["Event.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Expression.js", toLocation: nodeJsScenarioGeneratorModules.concat(["Expression.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/NumberRange.js", toLocation: nodeJsScenarioGeneratorModules.concat(["NumberRange.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ObjectConverter.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ObjectConverter.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/PathConstraint.js", toLocation: nodeJsScenarioGeneratorModules.concat(["PathConstraint.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Scenario.js", toLocation: nodeJsScenarioGeneratorModules.concat(["Scenario.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioCollection.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ScenarioCollection.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioGenerator.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ScenarioGenerator.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioGeneratorHelper.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ScenarioGeneratorHelper.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/StringConstraint.js", toLocation: nodeJsScenarioGeneratorModules.concat(["StringConstraint.js"])},
-                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ValueTypeHelper.js", toLocation: nodeJsScenarioGeneratorModules.concat(["ValueTypeHelper.js"])}
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ConstraintResolver.js", toLocation: scenarioGeneratorModules.concat(["ConstraintResolver.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Event.js", toLocation: scenarioGeneratorModules.concat(["Event.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Expression.js", toLocation: scenarioGeneratorModules.concat(["Expression.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/NumberRange.js", toLocation: scenarioGeneratorModules.concat(["NumberRange.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ObjectConverter.js", toLocation: scenarioGeneratorModules.concat(["ObjectConverter.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/PathConstraint.js", toLocation: scenarioGeneratorModules.concat(["PathConstraint.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/Scenario.js", toLocation: scenarioGeneratorModules.concat(["Scenario.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioCollection.js", toLocation: scenarioGeneratorModules.concat(["ScenarioCollection.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioGenerator.js", toLocation: scenarioGeneratorModules.concat(["ScenarioGenerator.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ScenarioGeneratorHelper.js", toLocation: scenarioGeneratorModules.concat(["ScenarioGeneratorHelper.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/StringConstraint.js", toLocation: scenarioGeneratorModules.concat(["StringConstraint.js"])},
+                { fromLocation: "chrome://FirecrowNode/content/scenarioGeneratorModules/ValueTypeHelper.js", toLocation: scenarioGeneratorModules.concat(["ValueTypeHelper.js"])}
             ],
             function(copiedFilesInformation)
             {
@@ -190,7 +260,7 @@ Firecrow.FileHelper = FileHelper =
                 {
                     if(copiedFilesInformation[i].path.indexOf("scenarioGeneratorScript.js") != -1)
                     {
-                        callbackFunction && callbackFunction(copiedFilesInformation[i].path);
+                        callback && callback(copiedFilesInformation[i].path);
                         return;
                     }
                 }
@@ -234,7 +304,7 @@ Firecrow.FileHelper = FileHelper =
         }
     },
 
-    copyFiles: function(copyFilesInformation, callbackFunction)
+    copyFiles: function(copyFilesInformation, callback)
     {
         var copiedFilesInformation = [];
 
@@ -246,19 +316,19 @@ Firecrow.FileHelper = FileHelper =
 
                 if(copiedFilesInformation.length >= copyFilesInformation.length)
                 {
-                    callbackFunction && callbackFunction(copiedFilesInformation);
+                    callback && callback(copiedFilesInformation);
                 }
             });
         });
     },
 
-    copyFile: function(fromLocation, toLocation, callbackFunction)
+    copyFile: function(fromLocation, toLocation, callback)
     {
         NetUtil.asyncFetch(fromLocation, function(aInputStream, aResult)
         {
             if (!Components.isSuccessCode(aResult))
             {
-                callbackFunction && callbackFunction({success: false, path: fromLocation});
+                callback && callback({success: false, path: fromLocation});
                 return;
             }
 
@@ -274,7 +344,7 @@ Firecrow.FileHelper = FileHelper =
             NetUtil.asyncCopy(aInputStream, ostream, function()
             {
                 FileUtils.closeSafeFileOutputStream(ostream);
-                callbackFunction && callbackFunction({success: false, path: file.path});
+                callback && callback({success: false, path: file.path});
             });
         });
     },
@@ -303,7 +373,7 @@ Firecrow.FileHelper = FileHelper =
         Cu.reportError("Profiling file written to:" + file.path);
     },
 
-    getEventRecordingsFiles: function(siteName, callbackFunction)
+    getEventRecordingsFiles: function(siteName)
     {
         var dir = FileUtils.getDir("ProfD", recordingsFolderPath.concat(siteName), true);
 
@@ -314,11 +384,33 @@ Firecrow.FileHelper = FileHelper =
         {
             var entry = entries.getNext();
 
-            entry.QueryInterface(Components.interfaces.nsIFile);
+            entry.QueryInterface(Ci.nsIFile);
 
             if(!entry.isDirectory() && entry.path.indexOf("allExecutions.json") == -1)
             {
                 files.push({path: entry.path, name: entry.leafName, content: this.readFromFile(entry.path)});
+            }
+        }
+
+        return files;
+    },
+
+    getSavedPagesWithEventRecordings: function()
+    {
+        var dir = FileUtils.getDir("ProfD", recordingsFolderPath, true);
+
+        var entries = dir.directoryEntries;
+        var files = [];
+
+        while(entries.hasMoreElements())
+        {
+            var entry = entries.getNext();
+
+            entry.QueryInterface(Components.interfaces.nsIFile);
+
+            if(entry.isDirectory())
+            {
+                files.push({path: entry.path, name: entry.leafName});
             }
         }
 

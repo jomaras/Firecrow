@@ -198,9 +198,9 @@ ScenarioGeneratorPanelController.prototype =
                 trackedElementsSelectors: that._selectors
             };
 
-            FileHelper.saveModelForNodeJs(model, function()
+            FileHelper.saveModelForExternalApplications(model, "model.js", function(code) { return code; }, function()
             {
-                FileHelper.saveNodeJsScriptsForScenarioGenerator(function(scriptPath)
+                FileHelper.transferScriptsForScenarioGenerator(function(scriptPath)
                 {
                     FirefoxHelper.executeAsyncProgram(nodeJsPath, [scriptPath, "symbolicNewCoverageSequential", phantomJsPath, 100, that._selectors.join(", ") || "*"].concat(ignoredScriptPaths),
                     function()

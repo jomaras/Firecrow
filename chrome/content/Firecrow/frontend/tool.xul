@@ -119,49 +119,80 @@
                 </tabpanel>
 
 
-
-
                 <tabpanel id="reuserTabPanel" class="tabpanel-content">
                     <vbox flex="1">
                         <hbox class="devtools-toolbar">
-                            <toolbarbutton class="devtools-toolbarbutton featureSelectorButton" tooltiptext="Set as feature descriptor" disabled="false" id="setFeatureSelectorButton"/>
-                            <toolbarbutton class="devtools-toolbarbutton gearsButton" tooltiptext="Generate Scenarios" disabled="false" id="generateScenariosButton"/>
-                            <span style="margin-top: 5px;"><b>Feature descriptors</b></span>
-                            <span style="margin-top: 5px;"><b>Reuse Position</b></span>
+                            <toolbarbutton class="devtools-toolbarbutton gearsButton" tooltiptext="Perform Reuse" disabled="false" id="performReuseButton"/>
                         </hbox>
-                        <vbox flex="1" id="scenarioMarkupViewerElement">
+                        <vbox flex="1">
+                            <grid id="reuseFormGrid">
+                                <columns>
+                                    <column/>
+                                    <column flex="3"/>
+                                    <column flex="1"/>
+                                </columns>
+
+                                <rows>
+                                    <row align="center">
+                                        <label control="featureUrlBox">Feature page:</label>
+                                        <menulist id="featurePageSelectorElement" crop="left">
+                                            <menupopup class="pagesWithRecordedScenariosMenuPopup">
+                                                <menuitem label="Select page"></menuitem>
+                                            </menupopup>
+                                        </menulist>
+                                        <textbox id="featureCssSelectorInput" class="cssSelectorInputElement" placeholder="CSS selector"></textbox>
+                                    </row>
+                                    <row align="center">
+                                        <label control="targetPageUrlBox">Reuse into page:</label>
+                                        <menulist id="reuserPageSelectorElement" crop="left">
+                                            <menupopup class="pagesWithRecordedScenariosMenuPopup">
+                                                <menuitem label="Select page"></menuitem>
+                                            </menupopup>
+                                        </menulist>
+                                        <textbox id="reuserPositionCssSelectorInput" class="cssSelectorInputElement" placeholder="CSS selector"></textbox>
+                                    </row>
+                                </rows>
+                            </grid>
                         </vbox>
-                    </vbox>
+                        <vbox flex="2">
+                            <grid>
+                                <columns>
+                                    <column flex="1"></column>
+                                    <column flex="1"></column>
+                                </columns>
 
-                    <splitter class="devtools-side-splitter"/>
+                                <rows>
+                                    <row>
+                                        <vbox>
+                                            <div class="devtools-toolbar">
+                                                <h2 class="toolbarTitle" flex="1"><label>Feature scenarios</label></h2>
+                                            </div>
+                                            <vbox style="overflow: auto;">
+                                                <radiogroup id="featureScenariosContainer">
+                                                </radiogroup>
+                                            </vbox>
+                                        </vbox>
 
-                    <vbox id="scenariosTabBox">
-                        <div class="devtools-toolbar">
-                            <h2 class="toolbarTitle" flex="1"><label>Feature scenarios</label></h2>
-                            <toolbarbutton class="devtools-toolbarbutton addButton" tooltiptext="Add Slicing Criteria Button" disabled="false"/>
-                        </div>
-                        <vbox flex="1" id="generatedScenariosContainer">
-
-                        </vbox>
-                        <div class="devtools-toolbar">
-                            <h2 class="toolbarTitle" flex="1"><label>Application scenarios</label></h2>
-                            <toolbarbutton class="devtools-toolbarbutton addButton" tooltiptext="Add Slicing Criteria Button" disabled="false"/>
-                        </div>
-                        <vbox flex="1" id="keptScenariosContainer">
+                                        <vbox>
+                                            <div class="devtools-toolbar">
+                                                <h2 class="toolbarTitle"><label>Application scenarios</label></h2>
+                                            </div>
+                                            <vbox style="overflow: auto;">
+                                                <radiogroup id="reuseIntoApplicationScenariosContainer">
+                                                </radiogroup>
+                                            </vbox>
+                                        </vbox>
+                                    </row>
+                                </rows>
+                            </grid>
                         </vbox>
                     </vbox>
                 </tabpanel>
-
-
-
 
                 <!--<tabpanel id="dependencyViewerTabPanel" class="tabpanel-content">
                     <vbox flex="1">
                     </vbox>
                 </tabpanel>-->
-
-
-
 
             </tabpanels>
 

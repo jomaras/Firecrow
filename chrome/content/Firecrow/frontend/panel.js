@@ -13,6 +13,7 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 Cu.import("chrome://Firecrow/content/frontend/SlicerPanelController.jsm");
 Cu.import("chrome://Firecrow/content/frontend/ScenarioGeneratorPanelController.jsm");
+Cu.import("chrome://Firecrow/content/frontend/ReuserPanelController.jsm");
 
 Cu.import("resource://gre/modules/devtools/Require.jsm");
 
@@ -54,6 +55,15 @@ FirecrowPanel.prototype =
         else if(this.panelWin != null && this.panelWin.scenarioGeneratorPanelController != null && this.panelWin.scenarioGeneratorPanelController.reset != null)
         {
             this.panelWin.scenarioGeneratorPanelController.reset(newUrl);
+        }
+
+        if(this._reuserPanelController != null)
+        {
+            this._reuserPanelController.reset(newUrl);
+        }
+        else if(this.panelWin != null && this.panelWin.reuserPanelController != null && this.panelWin.reuserPanelController.reset != null)
+        {
+            this.panelWin.reuserPanelController.reset(newUrl);
         }
     },
 
@@ -109,9 +119,11 @@ FirecrowPanel.prototype =
 
         this._slicerPanelController = new SlicerPanelController(this.panelWin, this._frameDoc, this._getCurrentPageWindow.bind(this), this._getCurrentPageDocument.bind(this));
         this._scenarioGeneratorPanelController = new ScenarioGeneratorPanelController(this.panelWin, this._frameDoc, this._toolbox, this._getCurrentPageWindow.bind(this), this._getCurrentPageDocument.bind(this));
+        this._reuserPanelController = new ReuserPanelController(this.panelWin, this._frameDoc, this._getCurrentPageWindow.bind(this), this._getCurrentPageDocument.bind(this));
 
         this.panelWin.slicerPanelController = this._slicerPanelController;
         this.panelWin.scenarioGeneratorPanelController = this._slicerPanelController;
+        this.panelWin.reuserPanelController = this._reuserPanelController;
 
         this._window = this._getCurrentPageWindow();
 

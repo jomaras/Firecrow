@@ -6,7 +6,15 @@ if(usesModule)
     var CssSelectorParser;
     FBL =  { Firecrow: {}, ns:  function(namespaceFunction){ namespaceFunction(); }};
     var path = require('path');
-    FBL.Firecrow.ValueTypeHelper = require(path.resolve(__dirname, "../helpers/valueTypeHelper.js")).ValueTypeHelper;
+    var fs = require('fs');
+    if(fs.existsSync(path.resolve(__dirname, "../helpers/valueTypeHelper.js")))
+    {
+        FBL.Firecrow.ValueTypeHelper = require(path.resolve(__dirname, "../helpers/valueTypeHelper.js")).ValueTypeHelper;
+    }
+    else
+    {
+        FBL.Firecrow.ValueTypeHelper = require(path.resolve(__dirname, "valueTypeHelper.js")).ValueTypeHelper;
+    }
 }
 
 FBL.ns(function() { with (FBL) {

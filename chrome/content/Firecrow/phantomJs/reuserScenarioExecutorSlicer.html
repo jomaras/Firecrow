@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <script src="Firecrow-all.js"></script>
+    <script>
+        var HtmlModelMapping = [];
+    </script>
+    <script src="model1.js"></script>
+    <style>
+        textarea
+        {
+            vertical-align: top;
+        }
+        #slicingResultTextArea, #wholeCodeTextArea
+        {
+            width: 70%;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+<iframe id="firecrowFrame" height="800" width="1000"></iframe>
+<textarea id="wholeCodeTextArea"></textarea>
+<textarea id="slicingResultTextArea"></textarea>
+<textarea id="loadingTimeTextArea"></textarea>
+<textarea id="astNodesTextArea"></textarea>
+<textarea id="slicingCriteriaCountTextArea"></textarea>
+<textarea id="noEvaluatedExpressionsTextArea"></textarea>
+<textarea id="executionInfo"></textarea>
+<script>
+    var dateNow = Date.now;
+
+    var slicingResultTextArea = document.getElementById("slicingResultTextArea");
+    var loadingTimeTextArea = document.getElementById("loadingTimeTextArea");
+    var astNodesTextArea = document.getElementById("astNodesTextArea");
+    var slicingCriteriaCountTextArea = document.getElementById("slicingCriteriaCountTextArea");
+    var noEvaluatedExpressionsTextArea = document.getElementById("noEvaluatedExpressionsTextArea");
+    var executionInfoTextArea = document.getElementById("executionInfo");
+    var wholeCodeTextArea = document.getElementById("wholeCodeTextArea");
+
+    var pageModel = HtmlModelMapping[0].model;
+
+    var Firecrow = FBL.Firecrow;
+    //Firecrow.DoppelBrowser.ExecutionInfo.shouldKeepAllSimpleDependencies = true;
+
+    pageModel.trackedElementsSelectors = pageModel.trackedElementsSelectors || [];
+
+    var slicingCriteria = pageModel.trackedElementsSelectors.map(function(selector)
+    {
+        return Firecrow.DependencyGraph.SlicingCriterion.createModifyDomCriterion(selector);
+    });
+
+
+    var startTime = dateNow();
+    var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
+    var browser = result.browser;
+    var executionInfo = browser.getExecutionInfo();
+
+    slicingResultTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateSlicedCode(pageModel);
+    wholeCodeTextArea.textContent = FBL.Firecrow.CodeTextGenerator.generateStandAloneCode(pageModel.htmlElement);
+
+    loadingTimeTextArea.textContent = dateNow() - startTime;
+    slicingCriteriaCountTextArea.textContent = Firecrow.DependencyGraph.DependencyGraph.noOfSlicingCriteria;
+    noEvaluatedExpressionsTextArea.textContent = Firecrow.Interpreter.InterpreterSimulator.noOfEvaluatedExpressions;
+    executionInfo.setSerializeToReuseJson();
+    executionInfo.dependencyGraph = result.dependencyGraph.getSimplified();
+    var includedNodeIdMap = {};
+    var includedNodeIds = [];
+    Firecrow.ASTHelper.traverseAst(pageModel, function(element)
+    {
+        if(!includedNodeIdMap[element.nodeId] && element.shouldBeIncluded)
+        {
+            includedNodeIds.push(element.nodeId);
+            includedNodeIdMap[element.nodeId] = true;
+        }
+    });
+
+    executionInfo.includedNodeIds = includedNodeIds;
+    executionInfo.domQueriesMap = browser.domQueriesMap;
+    executionInfo.dynamicIdMap = browser.dynamicIdMap;
+    executionInfo.dynamicClassMap = browser.dynamicClassMap;
+    executionInfo.userSetGlobalProperties = browser.globalObject.getSimplifiedUserSetGlobalProperties();
+    executionInfo.userSetDocumentProperties = browser.globalObject.getSimplifiedUserSetDocumentProperties();
+    executionInfo.undefinedGlobalProperties = browser.getSimplifiedUndefinedGlobalPropertiesAccessMap();
+    executionInfo.eventHandlerPropertiesMap = browser.globalObject.getSimplifiedEventHandlerPropertiesMap();
+    executionInfo.resourceSetterMap = browser.getSimplifiedResourceSetterMap();
+    executionInfo.prototypeExtensions = browser.getInternalPrototypeExtensions();
+    executionInfo.forInIterations = browser.getSimplifiedForInIterations();
+    executionInfo.postProcessorInclusions = FBL.Firecrow.postProcessorInclusions;
+
+    executionInfoTextArea.textContent = JSON.stringify(executionInfo);
+</script>
+
+</body>
+</html>

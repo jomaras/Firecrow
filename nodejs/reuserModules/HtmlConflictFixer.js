@@ -1,7 +1,17 @@
 var path = require('path');
+var fs = require('fs');
 
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+if(fs.existsSync(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js"))) //Standalone
+{
+    var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+    var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+}
+else
+{
+    var ValueTypeHelper = require(path.resolve(__dirname, "../valueTypeHelper.js")).ValueTypeHelper;
+    var ASTHelper = require(path.resolve(__dirname, "../ASTHelper.js")).ASTHelper;
+}
+
 var ConflictFixerCommon = require(path.resolve(__dirname, "ConflictFixerCommon.js")).ConflictFixerCommon;
 
 var Changes = { html: 0, js: 0, css: 0};

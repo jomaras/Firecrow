@@ -1,10 +1,22 @@
 var path = require('path');
+var fs = require('fs');
 
-var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
-var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Firecrow/parsers/CssSelectorParser.js")).CssSelectorParser;
-var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+if(fs.existsSync(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js"))) //Standalone
+{
+    var ValueTypeHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/valueTypeHelper.js")).ValueTypeHelper;
+    var ASTHelper = require(path.resolve(__dirname, "../../chrome/content/Firecrow/helpers/ASTHelper.js")).ASTHelper;
+    var CssSelectorParser = require(path.resolve(__dirname, "../../chrome/content/Firecrow/parsers/CssSelectorParser.js")).CssSelectorParser;
+    var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
+}
+else
+{
+    var ValueTypeHelper = require(path.resolve(__dirname, "../valueTypeHelper.js")).ValueTypeHelper;
+    var ASTHelper = require(path.resolve(__dirname, "../ASTHelper.js")).ASTHelper;
+    var CssSelectorParser = require(path.resolve(__dirname, "../CssSelectorParser.js")).CssSelectorParser;
+    var CodeTextGenerator = require(path.resolve(__dirname, "../codeTextGenerator.js")).CodeTextGenerator;
+}
+
 var ConflictFixer = require(path.resolve(__dirname, "ConflictFixer.js")).ConflictFixer;
-var CodeTextGenerator = require(path.resolve(__dirname, "../../chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js")).CodeTextGenerator;
 
 var Changes =
 {
