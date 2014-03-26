@@ -319,7 +319,6 @@ fcSimulator.Evaluator.prototype =
     _evalReturnCommand: function(returnCommand)
     {
         this.dependencyCreator.createReturnDependencies(returnCommand);
-        if(returnCommand.codeConstruct.loc.start.line == 101) debugger;
 
         this.globalObject.browser.logConstructExecuted(returnCommand.codeConstruct);
         this.globalObject.browser.callBreakContinueReturnEventCallbacks
@@ -511,7 +510,7 @@ fcSimulator.Evaluator.prototype =
         this.executionContextStack.setExpressionValue
         (
             finishEvalCommand.codeConstruct,
-            this.executionContextStack.getExpressionValue(finishEvalCommand.previousCommand.codeConstruct)
+            this.executionContextStack.getExpressionValue(finishEvalCommand.lastEvaluatedConstruct)
         );
     },
 

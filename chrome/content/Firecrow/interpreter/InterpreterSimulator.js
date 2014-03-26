@@ -152,7 +152,7 @@ FBL.ns(function() { with (FBL) {
             }
             if(command.isFinishEvalCommand(command))
             {
-                command.previousCommand = this.commands[this.currentCommandIndex - 1];
+                command.lastEvaluatedConstruct = this._getLastEvaluatedConstruct();
             }
 
             this.executionContextStack.executeCommand(command);
@@ -160,6 +160,28 @@ FBL.ns(function() { with (FBL) {
 
             if (command.removesCommands) { this._processRemovingCommandsCommand(command); }
             if (command.generatesNewCommands) { this._processGeneratingNewCommandsCommand(command); }
+        },
+
+        _getLastEvaluatedConstruct: function()
+        {
+            for(var i = this.currentCommandIndex - 1; i > 0 ; i--)
+            {
+                var currentCommand = this.commands[i];
+
+                if(currentCommand.isExitFunctionContextCommand())
+                {
+                    return currentCommand.callExpressionCommand.codeConstruct;
+                }
+
+                if(!ASTHelper.isLoopStatement(currentCommand.codeConstruct)
+                && !ASTHelper.isIfStatement(currentCommand.codeConstruct)
+                && !ASTHelper.isSwitchCase(currentCommand.codeConstruct))
+                {
+                    return currentCommand.codeConstruct;
+                }
+            }
+
+            return null;
         },
 
         _processThrowCommand: function(throwCommand)

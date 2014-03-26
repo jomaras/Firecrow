@@ -276,6 +276,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isConvertToPrimitiveCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive; },
 
+    isEndCommand: function() { return this.type.indexOf("End") == 0 || this.type.indexOf("Exit") == 0; },
+
     setCallbackFunction: function(callbackFunction)
     {
         this.callbackFunction = callbackFunction;

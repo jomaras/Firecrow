@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var str = "if ( a ) { 1+1; } else { 1+2; }";
+        var a = true;
+        var b = eval(str);  // returns 2
+
+        var a1 = b;
+
+        a = false;
+        var a2 = eval(str);  // returns 3
+
+        var mainContainer = document.getElementById("mainContainer");
+        mainContainer.textContent += "a1 = " + a1 + " a2 = " + a2;
+        a1; a2;
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    <div id="mainContainer"></div>
+
+    <script>
+        var mainContainer = document.getElementById("mainContainer");
+
+        var result = eval("(function(){ return 3; })()");
+
+        var a1 = result;
+
+        mainContainer.textContent = "a1 = " + a1;
+    </script>
+</body>
+</html>
