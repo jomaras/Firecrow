@@ -46,6 +46,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         catch(e) { this.notifyError("Error while generating commands: " + e);}
     },
 
+    generateFinishEvalCommand: function(callExpression)
+    {
+        return new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.FinishEval, null);
+    },
+
     generateDeclarationCommands: function(sourceElement, parentFunctionCommand)
     {
         var declarationCommands = [];

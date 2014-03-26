@@ -353,7 +353,7 @@ FBL.ns(function() { with (FBL) {
         _isExternalStyleLink: function(htmlModelElement)
         {
             if(htmlModelElement == null || htmlModelElement.type != "link"
-                || htmlModelElement.attributes == null || htmlModelElement.attributes.length == 0) { return false; }
+            || htmlModelElement.attributes == null || htmlModelElement.attributes.length == 0) { return false; }
 
             for(var i = 0; i < htmlModelElement.attributes.length; i++)
             {
@@ -364,6 +364,20 @@ FBL.ns(function() { with (FBL) {
             }
 
             return false;
+        },
+
+        generateEvalCommands: function(callExpression, codeModel)
+        {
+            if(!this.interpreter) { return; }
+
+            var that = this;
+            ASTHelper.traverseAst(codeModel, function(currentNode, nodeName, parentNode)
+            {
+                that.callNodeCreatedCallbacks(currentNode, "js", false);
+                that._callNodeInsertedCallbacks(currentNode, ASTHelper.isProgram(parentNode) ? callExpression : parentNode);
+            });
+
+            this.interpreter.generateEvalCommands(callExpression, codeModel);
         },
 
         _interpretJsCode: function(codeModel, handlerInfo)

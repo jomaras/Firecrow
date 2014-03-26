@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        var Point = function()
+        {
+            var x = 0, y = 0;
+
+            return function(o, f, v)
+            {
+                if(o == "r") return eval(f);
+                else return eval(f + "=" + v);
+            };
+        }
+
+        var p = Point();
+        p("w", "x", 42);
+        var a1 = p("r", "x");
+
+        p("w", "x", 87);
+        var a2 = p("r", "x");
+
+        a1; a2;
+
+        var mainContainer = document.getElementById("mainContainer");
+        mainContainer.textContent = "a1=" + a1 + "; a2=" + a2;
+        a1; a2;
+    </script>
+</body>
+</html>

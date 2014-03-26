@@ -3,7 +3,7 @@
 <head>
         <meta charset="UTF-8"/>
         <title>Makalu Aerospace</title>
-        <link href="css/makalu.css" rel="stylesheet"/>
+        <style href="css/makalu.css" rel="stylesheet">
     html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin: 0px; padding: 0px; border: 0px none; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
     article, aside, dialog, figure, footer, header, hgroup, nav, section { display: block; }
     table { border-collapse: separate; border-spacing: 0px; }
@@ -12,18 +12,10 @@
     blockquote:before, blockquote:after, q:before, q:after { content: ""; }
     blockquote, q { quotes: "" ""; }
     a img { border: medium none; }
-    @font-face {
-  font-family: "SyntaxBlack";
-  src: local("@"), local("@"), url("../fonts/SyntaxLTStd-Black.woff") format("woff"), url("../fonts/SyntaxLTStd-Black.ttf") format("truetype"), url("../fonts/SyntaxLTStd-Black.svg#SyntaxLTStd-Black") format("svg");
-}
-    @font-face {
-  font-family: "SyntaxBold";
-  src: local("@"), local("@"), url("../fonts/SyntaxLTStd-Bold.woff") format("woff"), url("../fonts/SyntaxLTStd-Bold.ttf") format("truetype"), url("../fonts/SyntaxLTStd-Bold.svg#SyntaxLTStd-Bold") format("svg");
-}
     body { margin: 0px; padding: 0px; font: 14px/20px Georgia,serif; color: rgb(68, 68, 68); background: none repeat scroll 0% 0% rgb(233, 233, 233); }
     h1, h2, h3, h4 { color: rgb(34, 34, 34); font-family: 'SyntaxBlack','Helvetica Neue','Helvetica','Arial',sans-serif; }
     h2 { position: absolute; top: -10px; left: 20px; z-index: 1; }
-    h2 span { border-radius: 3px 3px 3px 3px; display: block; padding: 10px 15px; color: rgb(255, 255, 255); font-family: 'SyntaxBold'; font-size: 18px; line-height: 20px; text-transform: uppercase; background: none repeat scroll 0% 0% rgb(239, 0, 0); }
+    h2 span { border-radius: 3px; display: block; padding: 10px 15px; color: rgb(255, 255, 255); font-family: 'SyntaxBold'; font-size: 18px; line-height: 20px; text-transform: uppercase; background: none repeat scroll 0% 0% rgb(239, 0, 0); }
     .safari h2 span, .gecko h2 span { padding-top: 11px; padding-bottom: 9px; }
     h3 { font-size: 18px; line-height: 20px; color: rgb(68, 68, 68); }
     h4 { font-size: 18px; font-family: 'SyntaxBold'; }
@@ -38,7 +30,7 @@
     .container:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
     .ie .container {  }
     #wrapper { position: relative; padding: 30px 20px 20px; }
-    #header { position: relative; height: 180px; width: 400px; margin: 0px auto; background: url("http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/header.png") no-repeat scroll 50% 120px transparent; }
+    #header { position: relative; height: 180px; width: 400px; margin: 0px auto; }
     #header h1 { position: absolute; top: 0px; left: 0px; width: 180px; height: 190px; text-indent: -9999px; background: url("http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/logo.png") no-repeat scroll 50% 50% transparent; }
     #header p { position: absolute; top: 0px; right: 0px; margin: 40px 0px; padding-left: 20px; text-align: left; color: rgb(100, 100, 100); border-left: 5px solid rgb(227, 227, 227); }
     #header p strong { display: block; font-family: 'SyntaxBold'; font-size: 18px; color: rgb(34, 34, 34); }
@@ -48,12 +40,12 @@
     #intro:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
     .ie #intro {  }
     #top { margin-bottom: 0px; }
-    #news-article { display: none; opacity: 0; border-radius: 5px 5px 5px 5px; position: absolute; top: 50%; left: 280px; margin-left: -25px; z-index: 2; float: left; width: 20px; height: 20px; margin-top: -270px; padding: 20px 0px 0px; border: 10px solid rgb(207, 207, 207); background: none repeat scroll 0% 0% rgb(223, 223, 223); }
+    #news-article { display: none; opacity: 0; border-radius: 5px; position: absolute; top: 50%; left: 280px; margin-left: -25px; z-index: 2; float: left; width: 20px; height: 20px; margin-top: -270px; padding: 20px 0px 0px; border: 10px solid rgb(207, 207, 207); background: none repeat scroll 0% 0% rgb(223, 223, 223); }
     #news-article .arrow { position: absolute; top: 20px; font-size: 18px; font-weight: bold; text-decoration: none; color: rgb(153, 153, 153); }
     #news-article .arrow:hover { color: rgb(51, 51, 51); }
     #news-article .prev { left: 190px; }
     #news-article .next { right: 190px; }
-    #news-article .close { opacity: 0.5; border-radius: 3px 3px 3px 3px; position: absolute; top: -12px; right: -12px; width: 24px; height: 24px; text-indent: -9999px; outline: medium none; background: url("http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/close.png") no-repeat scroll 50% 6px rgb(68, 68, 68); }
+    #news-article .close { opacity: 0.5; border-radius: 3px; position: absolute; top: -12px; right: -12px; width: 24px; height: 24px; text-indent: -9999px; outline: medium none; background: url("http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/close.png") no-repeat scroll 50% 6px rgb(68, 68, 68); }
     #news-article .close:hover { opacity: 1; }
     #news-article .post { opacity: 0; height: 100%; padding: 0px 10px; }
     #news-article .post em.date { display: block; text-align: center; font-size: 16px; color: rgb(136, 136, 136); }
@@ -64,7 +56,7 @@
     #news-article .post .entry p { margin: 0px 0px 20px; }
     #news-article .post .entry ul, #news-article .post .entry ol { margin-left: 20px; }
     #news-article .post .entry ul p, #news-article .post .entry ol p { margin: 10px 0px; }
-    #expertise { border-radius: 5px 5px 5px 5px; position: relative; z-index: 1; float: left; width: 540px; margin-top: -270px; padding: 0px; border: 10px solid rgb(207, 207, 207); background: none repeat scroll 0% 0% rgb(223, 223, 223); }
+    #expertise { border-radius: 5px; position: relative; z-index: 1; float: left; width: 540px; margin-top: -270px; padding: 0px; border: 10px solid rgb(207, 207, 207); background: none repeat scroll 0% 0% rgb(223, 223, 223); }
     #expertise ol { list-style: none outside none; }
     #expertise ol li { padding: 19px 20px; font-size: 16px; line-height: 20px; border-bottom: 1px solid rgb(207, 207, 207); border-top: 1px solid rgb(233, 233, 233); }
     #expertise ol li h3 { margin-bottom: 6px; }
@@ -82,18 +74,18 @@
     #news ul { position: relative; list-style: none outside none; }
     #news ul li { margin-bottom: 20px; padding-left: 65px; font-family: 'SyntaxBold'; }
     #news ul li a { text-decoration: none; color: rgb(84, 84, 84); font-size: 16px; border-bottom: 2px solid rgb(227, 227, 227); }
-    #news ul li a span.date { border-radius: 3px 3px 3px 3px; float: left; width: 45px; padding: 2px 5px 0px; margin-left: -65px; text-align: center; font-size: 12px; color: rgb(132, 132, 132); white-space: nowrap; text-transform: uppercase; background: none repeat scroll 0% 0% rgb(223, 223, 223); }
+    #news ul li a span.date { border-radius: 3px; float: left; width: 45px; padding: 2px 5px 0px; margin-left: -65px; text-align: center; font-size: 12px; color: rgb(132, 132, 132); white-space: nowrap; text-transform: uppercase; background: none repeat scroll 0% 0% rgb(223, 223, 223); }
     #news ul li a:hover, #news ul li a.active { color: rgb(34, 34, 34); border-color: rgb(207, 207, 207); }
     #news ul li a:hover span.date, #news ul li a.active span.date { color: rgb(255, 255, 255); background-color: rgb(239, 0, 0); }
     #news ul li.thatsall { opacity: 0; padding: 0px; font-family: Georgia,serif; font-style: italic; font-size: 20px; color: rgb(196, 196, 196); text-align: center; }
     #people { position: relative; padding-top: 50px; background: url("http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/stripes.png") repeat-x scroll left top transparent; }
-    #people #speechbubble { border-radius: 10px 10px 10px 10px; box-shadow: 0px 0px 10px rgb(68, 68, 68); display: none; opacity: 0; z-index: 10; position: absolute; top: 30px; left: -20px; padding: 20px; width: 265px; font-size: 16px; background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+    #people #speechbubble { border-radius: 10px; box-shadow: 0px 0px 10px rgb(68, 68, 68); display: none; opacity: 0; z-index: 10; position: absolute; top: 30px; left: -20px; padding: 20px; width: 265px; font-size: 16px; background: none repeat scroll 0% 0% rgb(255, 255, 255); }
     #people #speechbubble img { position: absolute; top: 50px; left: -30px; }
     #people #speechbubble strong { display: block; margin-bottom: 5px; font-family: 'SyntaxBold'; }
     #people #speechbubble .name { text-transform: capitalize; }
     #people img.tinylittle { position: absolute; top: 145px; right: -20px; }
     #people h2 { left: 50%; margin-left: -72px; padding: 0px 10px; background: none repeat scroll 0% 0% rgb(233, 233, 233); }
-    #people ul { width: 100%; list-style: none outside none; margin: 0px; padding: 0px; background: url("http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/ampersand.png") no-repeat scroll 160px 10px transparent; }
+    #people ul { width: 100%; list-style: none outside none; margin: 0px; padding: 0px; }
     #people ul:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
     .ie #people ul {  }
     #people ul li { float: left; width: 313px; margin-bottom: 9px; padding-bottom: 9px; border-bottom: 2px solid rgb(227, 227, 227); }
@@ -104,20 +96,20 @@
     #people ul li p a { color: rgb(100, 100, 100); text-decoration: none; border-bottom: 2px solid rgb(227, 227, 227); }
     #people ul li p a:hover { color: rgb(68, 68, 68); border-color: rgb(207, 207, 207); }
     #people ul li.row2 { padding-bottom: 0px; margin-bottom: 0px; border-bottom: medium none; }
-    #bottom { position: relative; padding: 20px; margin: 0px -20px; border-style: solid; border-color: rgb(68, 68, 68); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; border-width: 10px 0px; background: none repeat scroll 0% 0% rgb(51, 51, 51); }
+    #bottom { position: relative; padding: 20px; margin: 0px -20px; border-style: solid; border-color: rgb(68, 68, 68); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 10px 0px; background: none repeat scroll 0% 0% rgb(51, 51, 51); }
     #bottom:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
     .ie #bottom {  }
     #bottom .container { margin-top: 0px; margin-bottom: 0px; }
     #portfolio { position: relative; float: right; width: 360px; }
-    #portfolio h3 { border-radius: 3px 3px 3px 3px; margin-left: -30px; padding: 10px 10px 10px 30px; color: rgb(233, 233, 233); font-family: 'SyntaxBold'; font-size: 18px; line-height: 20px; text-transform: uppercase; background: none repeat scroll 0% 0% rgb(68, 68, 68); }
+    #portfolio h3 { border-radius: 3px; margin-left: -30px; padding: 10px 10px 10px 30px; color: rgb(233, 233, 233); font-family: 'SyntaxBold'; font-size: 18px; line-height: 20px; text-transform: uppercase; background: none repeat scroll 0% 0% rgb(68, 68, 68); }
     #portfolio h3.dimmed { color: rgb(136, 136, 136); }
     .safari #portfolio h3, .gecko #portfolio h3 { padding-top: 11px; padding-bottom: 9px; }
     #portfolio ul.paginator { position: absolute; top: 11px; right: 15px; list-style: none outside none; }
     #portfolio ul.paginator li { float: left; margin-left: 9px; padding-top: 2px; }
-    #portfolio ul.paginator li a { border-radius: 7px 7px 7px 7px; display: block; width: 14px; height: 14px; text-indent: -9999px; outline: medium none; background: none repeat scroll 0% 0% rgb(102, 102, 102); }
+    #portfolio ul.paginator li a { border-radius: 7px; display: block; width: 14px; height: 14px; text-indent: -9999px; outline: medium none; background: none repeat scroll 0% 0% rgb(102, 102, 102); }
     #portfolio ul.paginator li a:hover { background: none repeat scroll 0% 0% rgb(136, 136, 136); }
     #portfolio ul.paginator li.active { padding: 0px; }
-    #portfolio ul.paginator li.active a { border-radius: 9px 9px 9px 9px; width: 18px; height: 18px; background: none repeat scroll 0% 0% rgb(239, 0, 0); }
+    #portfolio ul.paginator li.active a { border-radius: 9px; width: 18px; height: 18px; background: none repeat scroll 0% 0% rgb(239, 0, 0); }
     #portfolio #portfolio-mask { position: relative; width: 100%; height: 100%; overflow: hidden; }
     #portfolio ul.projects { position: relative; left: 0px; width: 2880px; height: 100%; list-style: none outside none; margin: 0px; padding: 0px; color: rgb(196, 196, 196); }
     #portfolio ul.projects li.project, #portfolio ul.projects li.index { float: left; width: 360px; height: 360px; overflow: hidden; }
@@ -135,7 +127,7 @@
     #portfolio ul.projects li.project.index ol li a img, #portfolio ul.projects li.index.index ol li a img { width: 100%; opacity: 0.65; }
     #portfolio ul.projects li.project.index ol li a:hover, #portfolio ul.projects li.index.index ol li a:hover { border-color: rgb(102, 102, 102); }
     #portfolio ul.projects li.project.index ol li a:hover img, #portfolio ul.projects li.index.index ol li a:hover img { opacity: 1; }
-    #contact { border-radius: 5px 5px 5px 5px; position: relative; width: 880px; margin: 40px auto; padding: 20px; border: 10px solid rgb(207, 207, 207); background: none repeat scroll 0% 0% rgb(223, 223, 223); }
+    #contact { border-radius: 5px; position: relative; width: 880px; margin: 40px auto; padding: 10px; border: 10px solid rgb(207, 207, 207); background: none repeat scroll 0% 0% rgb(223, 223, 223); }
     #contact:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
     .ie #contact {  }
     #contact .success { padding: 20px 0px; text-align: center; }
@@ -147,11 +139,11 @@
     #contact form p label { position: absolute; top: 8px; left: 11px; color: rgb(148, 148, 148); font-style: italic; font-size: 18px; line-height: 1; }
     #contact form p label.dimmed { opacity: 0.75; }
     .ie #contact form p label.dimmed { display: none; }
-    #contact form p input { border-radius: 3px 3px 3px 3px; width: 400px; margin: 0px; padding: 7px 10px; font-size: 18px; color: rgb(68, 68, 68); line-height: 1; font-family: Georgia,serif; border: medium none; background: none repeat scroll 0% 0% rgb(207, 207, 207); }
-    #contact form p textarea { border-radius: 3px 3px 3px 3px; width: 400px; height: 100px; padding: 7px 10px; margin: 0px; color: rgb(68, 68, 68); font-size: 18px; line-height: 20px; font-family: Georgia,serif; border: medium none; background: none repeat scroll 0% 0% rgb(207, 207, 207); }
+    #contact form p input { border-radius: 3px; width: 400px; margin: 0px; padding: 7px 10px; font-size: 18px; color: rgb(68, 68, 68); line-height: 1; font-family: Georgia,serif; border: medium none; background: none repeat scroll 0% 0% rgb(207, 207, 207); }
+    #contact form p textarea { border-radius: 3px; width: 400px; height: 100px; padding: 7px 10px; margin: 0px; color: rgb(68, 68, 68); font-size: 18px; line-height: 20px; font-family: Georgia,serif; border: medium none; background: none repeat scroll 0% 0% rgb(207, 207, 207); }
     .ie #contact form p textarea { overflow: hidden; }
     #contact form p.textarea { height: 114px; margin: 0px; }
-    #contact form p.textarea a.submit { border-radius: 3px 3px 3px 3px; cursor: default; position: absolute; bottom: 0px; right: 0px; padding: 4px 12px 0px; line-height: 31px; font-size: 14px; font-family: 'SyntaxBlack'; text-transform: uppercase; text-decoration: none; color: rgb(233, 233, 233); background: none repeat scroll 0% 0% rgb(170, 170, 170); }
+    #contact form p.textarea a.submit { border-radius: 3px; cursor: default; position: absolute; bottom: 0px; right: 0px; padding: 4px 12px 0px; line-height: 31px; font-size: 14px; font-family: 'SyntaxBlack'; text-transform: uppercase; text-decoration: none; color: rgb(233, 233, 233); background: none repeat scroll 0% 0% rgb(170, 170, 170); }
     #contact form p.textarea a.submit span { padding-right: 17px; background: url("http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/raquo-white.png") no-repeat scroll 100% 1px transparent; }
     #contact form p.textarea a.submit.active { cursor: pointer; background-color: rgb(239, 0, 0); }
     #contact form p.textarea a.submit.active:hover { color: rgb(255, 255, 255); background: none repeat scroll 0% 0% rgb(255, 16, 16); }
@@ -175,7 +167,7 @@
     #corner-top-right.corner { top: 20px; right: 20px; width: 160px; height: 160px; background-position: 0px -160px; }
     #corner-bottom-left.corner { bottom: 20px; left: 20px; width: 120px; height: 100px; background-position: 0px -320px; }
     #corner-bottom-right.corner { bottom: 20px; right: 20px; width: 120px; height: 100px; background-position: 0px -430px; }
-
+</style>
         <script charset="utf-8" type="text/javascript">
   (function(window, undefined)
   {
@@ -251,7 +243,10 @@
         pushStack: function(elems, name, selector)
         {
           var ret = this.constructor();
-          if(jQuery.isArray(elems));
+          if(jQuery.isArray(elems))
+          {
+            push.apply(ret, elems);
+          }
           else 
           {
             jQuery.merge(ret, elems);
@@ -263,6 +258,11 @@
           {
             ret.selector = (this.selector + (this.selector ? ' ' : '')) + selector;
           }
+          else if(name)
+          {
+            ret.selector = ((((this.selector + '.') + name) + '(') + selector) + ')';
+          }
+
 
           return ret;
         }, 
@@ -276,10 +276,17 @@
           readyList.add(fn);
           return this;
         }, 
-        eq: function(i){}, 
+        eq: function(i)
+        {
+          i = +i;
+          return i === -1 ? 0 : this.slice(i, i + 1);
+        }, 
         first: function(){}, 
         last: function(){}, 
-        slice: function(){}, 
+        slice: function()
+        {
+          return this.pushStack(slice.apply(this, arguments), 'slice', slice.call(arguments).join(','));
+        }, 
         map: function(callback){}, 
         end: function(){}, 
         push: push, 
@@ -495,7 +502,15 @@
         map: function(elems, callback, arg){}, 
         guid: 1, 
         proxy: function(fn, context){}, 
-        access: function(elems, fn, key, value, chainable, emptyGet, pass){}, 
+        access: function(elems, fn, key, value, chainable, emptyGet, pass)
+        {
+          var exec, bulk = key == null, i = 0, length = elems.length;
+          if(key);
+          else if(value !== undefined);
+
+
+          return chainable ? 0 : bulk ? fn.call(elems) : 0;
+        }, 
         now: function()
         {
           return (new Date()).getTime();
@@ -528,7 +543,11 @@
         jQuery.browser.safari = true;
       }
 
-      if(rnotwhite.test(' '));
+      if(rnotwhite.test('Â '))
+      {
+        trimLeft = /^[\s\xA0]+/;
+        trimRight = /[\s\xA0]+$/;
+      }
 
       rootjQuery = jQuery(document);
       if(document.addEventListener)
@@ -889,9 +908,13 @@
           q = jQuery._data(elem, type);
           if(data)
           {
-            if(!q)
+            if(!q || jQuery.isArray(data))
             {
               q = jQuery._data(elem, type, jQuery.makeArray(data));
+            }
+            else 
+            {
+              q.push(data);
             }
           }
 
@@ -949,8 +972,68 @@
       removeAttr: function(name){}, 
       prop: function(name, value){}, 
       removeProp: function(name){}, 
-      addClass: function(value){}, 
-      removeClass: function(value){}, 
+      addClass: function(value)
+      {
+        var classNames, i, l, elem, setClass, c, cl;
+        if(jQuery.isFunction(value));
+
+        if(value && typeof value === 'string')
+        {
+          classNames = value.split(rspace);
+          for(i = 0, l = this.length;i < l;i++)
+          {
+            elem = this[i];
+            if(elem.nodeType === 1)
+            {
+              if(!(elem.className) && classNames.length === 1)
+              {
+                elem.className = value;
+              }
+              else 
+              {
+                setClass = (' ' + elem.className) + ' ';
+                for(c = 0, cl = classNames.length;c < cl;c++)
+                {
+                  if(!(~(setClass.indexOf((' ' + classNames[c]) + ' '))));
+                }
+
+                elem.className = jQuery.trim(setClass);
+              }
+            }
+          }
+        }
+
+        return this;
+      }, 
+      removeClass: function(value)
+      {
+        var classNames, i, l, elem, className, c, cl;
+        if(jQuery.isFunction(value));
+
+        if((value && typeof value === 'string'))
+        {
+          classNames = (value).split(rspace);
+          for(i = 0, l = this.length;i < l;i++)
+          {
+            elem = this[i];
+            if(elem.nodeType === 1 && elem.className)
+            {
+              if(value)
+              {
+                className = ((' ' + elem.className) + ' ').replace(rclass, ' ');
+                for(c = 0, cl = classNames.length;c < cl;c++)
+                {
+                  className = className.replace((' ' + classNames[c]) + ' ', ' ');
+                }
+
+                elem.className = jQuery.trim(className);
+              }
+            }
+          }
+        }
+
+        return this;
+      }, 
       toggleClass: function(value, stateVal){}, 
       hasClass: function(selector){}, 
       val: function(value)
@@ -1217,37 +1300,33 @@
         event.delegateTarget = this;
         if(special.preDispatch);
 
-        if(delegateCount && !(event.button))
+        if(delegateCount);
+
+        if(handlers.length > delegateCount)
         {
-          jqcur = jQuery(this);
-          jqcur.context = this.ownerDocument || this;
-          for(cur = event.target;cur != this;cur = cur.parentNode)
+          handlerQueue.push({
+            elem: this, 
+            matches: handlers.slice(delegateCount)
+          });
+        }
+
+        for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
+        {
+          matched = handlerQueue[i];
+          event.currentTarget = matched.elem;
+          for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
           {
-            if(cur.disabled !== true)
+            handleObj = matched.matches[j];
+            if(run_all)
             {
-              selMatch = {};
-              matches = [];
-              jqcur[0] = cur;
-              for(i = 0;i < delegateCount;i++)
-              {
-                handleObj = handlers[i];
-                sel = handleObj.selector;
-                if(selMatch[sel] === undefined)
-                {
-                  selMatch[sel] = handleObj.quick ? 0 : jqcur.is(sel);
-                }
-
-                if(selMatch[sel]);
-              }
-
-              if(matches.length);
+              event.data = handleObj.data;
+              event.handleObj = handleObj;
+              ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+              if(ret !== undefined);
             }
           }
         }
 
-        if(handlers.length > delegateCount);
-
-        for(i = 0;i < handlerQueue.length;i++);
         if(special.postDispatch);
 
         return event.result;
@@ -1263,14 +1342,7 @@
         filter: function(event, original)
         {
           var eventDoc, doc, body, button = original.button, fromElement = original.fromElement;
-          if(event.pageX == null && original.clientX != null)
-          {
-            eventDoc = event.target.ownerDocument;
-            doc = eventDoc.documentElement;
-            body = eventDoc.body;
-            event.pageX = (original.clientX + ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0)) - ((doc && doc.clientLeft) || (body && body.clientLeft) || 0);
-            event.pageY = (original.clientY + ((doc && doc.scrollTop) || (body && body.scrollTop) || 0)) - ((doc && doc.clientTop) || (body && body.clientTop) || 0);
-          }
+          if(event.pageX == null);
 
           if(!(event.relatedTarget) && fromElement);
 
@@ -1346,7 +1418,17 @@
       return false;
     }
     function returnTrue(){}    jQuery.Event.prototype = {
-      preventDefault: function(){}, 
+      preventDefault: function()
+      {
+        this.isDefaultPrevented = returnTrue;
+        var e = this.originalEvent;
+        if(!e);
+
+        if(e.preventDefault)
+        {
+          e.preventDefault();
+        }
+      }, 
       stopPropagation: function(){}, 
       stopImmediatePropagation: function(){}, 
       isDefaultPrevented: returnFalse, 
@@ -1850,9 +1932,10 @@
             matches.call(document.documentElement, '[test!=\'\']:sizzle');
           }
           catch(pseudoError)
-          {
+                    {
             pseudoWorks = true;
           }
+
           Sizzle.matchesSelector = function(node, expr)
           {
             expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, '=\'$1\']');
@@ -1863,10 +1946,6 @@
                 if(pseudoWorks)
                 {
                   var ret = matches.call(node, expr);
-                  if(ret || !disconnectedMatch)
-                  {
-                    return ret;
-                  }
                 }
               }
               catch(e){}
@@ -2011,7 +2090,17 @@
       remove: function(selector, keepData){}, 
       empty: function(){}, 
       clone: function(dataAndEvents, deepDataAndEvents){}, 
-      html: function(value){}, 
+      html: function(value)
+      {
+        return jQuery.access(this, function(value)
+        {
+          var elem = this[0], i = 0, l = this.length;
+          if(value === undefined)
+          {
+            return elem.nodeType === 1 ? elem.innerHTML.replace(rinlinejQuery, '') : 0;
+          }
+        }, null, value, arguments.length);
+      }, 
       replaceWith: function(value){}, 
       detach: function(selector){}, 
       domManip: function(args, table, callback)
@@ -2812,7 +2901,7 @@
       yellow: [255, 255, 0]
     };
   })(jQuery);
-  jQuery.easing.jswing = jQuery.easing.swing;
+  jQuery.easing['jswing'] = jQuery.easing['swing'];
   jQuery.extend(jQuery.easing, {
     def: 'easeOutQuad', 
     swing: function(x, t, b, c, d)
@@ -2867,9 +2956,32 @@
     $('#news-article .arrow').live('click', function(e){});
     function closeNewsArticle(){}    $('#footer .interactive').hover(function(){}, function(){});
     var newsPosition = 0;
-    $('#news a.more').animate({bottom: 10}, 400).click(function(e){});
-    $('#portfolio').find('.paginator a').click(function(e){});
-    function gotoPortfolioPage(i){}    $('#speechbubble .inner').append(unescape('%3C%62%72%3E%3C%62%72%3E%3C%73%6D%61%6C%6C%3E%54%68%69%73%20%69%73%20%74%68%65%20%6D%69%6E%69%6D%61%6C%20%74%77%69%73%74%21%3C%2F%73%6D%61%6C%6C%3E'));
+    var newsMore = $('#news a.more');
+    newsMore.animate({bottom: 10}, 400);
+    newsMore.click(function(e){});
+    $('#portfolio').find('.paginator a').click(function(e)
+    {
+      e.preventDefault();
+      gotoPortfolioPage(parseInt($(this).html()));
+    });
+    function gotoPortfolioPage(i)
+    {
+      if(i == 1)
+      {
+        $('#portfolio h3').removeClass('dimmed');
+      }
+      else 
+      {
+        $('#portfolio h3').addClass('dimmed');
+      }
+
+      $('#portfolio-mask .projects').animate({
+        left: -((i - 1) * 360)
+      }, 250);
+      $('#portfolio .paginator li.active').removeClass('active');
+      $('#portfolio .paginator li').eq(i - 1).addClass('active');
+    }
+    $('#speechbubble .inner').append(unescape('%3C%62%72%3E%3C%62%72%3E%3C%73%6D%61%6C%6C%3E%54%68%69%73%20%69%73%20%74%68%65%20%6D%69%6E%69%6D%61%6C%20%74%77%69%73%74%21%3C%2F%73%6D%61%6C%6C%3E'));
     $('#contact form').ajaxForm({
       success: function(data){}
     });
@@ -2905,7 +3017,7 @@
     #wpcf p.button { text-align: right; padding: 0px 5px 0px 0px; }
     #wpcf textarea { font-size: 100%; width: 240px; height: 50px; }
     #wpcf .error { background-color: rgb(255, 255, 0); }
-    #wpcf .challenge { font-size: 100%; display: -moz-inline-stack; text-align: left; width: 240px; }
+    #wpcf .challenge { font-size: 100%; display: inline-block; text-align: left; width: 240px; }
     #wpcf p.alert { color: rgb(255, 0, 0); font-weight: 700; text-align: center; padding: 5px 0px 10px; }
 </style>
     </head>
@@ -2994,7 +3106,7 @@ Robert-Bosch Str. 7
                                  <h3>Engineering & Scientific Consultancy</h3>
 
                                 <p>
-                                    </p><p>Makalu is a recognized provider of permanent-basis, on-site engineering consultancy. At EUMETSAT, we provide consultancy services ranging from spacecraft operations, to multi-platform software engineering, to scientific research support. At ESA’s operations
+                                    </p><p>Makalu is a recognized provider of permanent-basis, on-site engineering consultancy. At EUMETSAT, we provide consultancy services ranging from spacecraft operations, to multi-platform software engineering, to scientific research support. At ESAâ€™s operations
                                         center (ESOC), we provide ground segment engineering and software validation & verification consultancy through multiple, long-term service frame-contracts.</p>
                                 <p></p>
                             </li>
@@ -3002,7 +3114,7 @@ Robert-Bosch Str. 7
                                  <h3>Ground-Segment Systems & Communications</h3>
 
                                 <p>
-                                    </p><p>Makalu has considerable expertise in the satellite ground segment. We developed the embedded software for ESA’s globally-deployed satellite tracking system, as well as an advanced telemetry distribution, archiving and visualization system for Eutelsat.
+                                    </p><p>Makalu has considerable expertise in the satellite ground segment. We developed the embedded software for ESAâ€™s globally-deployed satellite tracking system, as well as an advanced telemetry distribution, archiving and visualization system for Eutelsat.
                                         We have participated in studies related to monitoring and control systems, ground segment communications technologies and modern satellite tracking techniques.</p>
                                 <p></p>
                             </li>
@@ -3020,43 +3132,43 @@ Robert-Bosch Str. 7
                                     <ol>
                                         <li>
                                             <a title="TT&C Baseband Equipment" href="#">
-                                                <img alt="TT&C Baseband Equipment" src="images/1.png"/>
+                                                <img alt="TT&C Baseband Equipment" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/1.png"/>
                                             </a>
                                         </li>
                                         <li>
                                             <a title="Engineering Consultancy" href="#">
-                                                <img alt="Engineering Consultancy" src="images/2.png"/>
+                                                <img alt="Engineering Consultancy" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/2.png"/>
                                             </a>
                                         </li>
                                         <li>
                                             <a title="Satellite Telemetry Distribution" href="#">
-                                                <img alt="Satellite Telemetry Distribution" src="images/3.png"/>
+                                                <img alt="Satellite Telemetry Distribution" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/3.png"/>
                                             </a>
                                         </li>
                                         <li>
                                             <a title="Satellite Telemetry Archiving & Visualization" href="#">
-                                                <img alt="Satellite Telemetry Archiving & Visualization" src="images/4.png"/>
+                                                <img alt="Satellite Telemetry Archiving & Visualization" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/4.png"/>
                                             </a>
                                         </li>
                                         <li>
                                             <a title="Centralized Event Logging & Access" href="#">
-                                                <img alt="Centralized Event Logging & Access" src="images/5.png"/>
+                                                <img alt="Centralized Event Logging & Access" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/5.png"/>
                                             </a>
                                         </li>
                                         <li>
                                             <a title="Quality Assurance, Issue Management & Resolution" href="#">
-                                                <img alt="Quality Assurance, Issue Management & Resolution" src="images/6.png"/>
+                                                <img alt="Quality Assurance, Issue Management & Resolution" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/6.png"/>
                                             </a>
                                         </li>
                                         <li>
                                             <a title="Scientific Meteorogical Research" href="#">
-                                                <img alt="Scientific Meteorogical Research" src="images/7.png"/>
+                                                <img alt="Scientific Meteorogical Research" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/7.png"/>
                                             </a>
                                         </li>
                                     </ol>
                                 </li>
                                 <li class="project">
-                                     <h4>IFMS — ESA’s Intermediate Frequency & Modem System</h4>
+                                     <h4>IFMS â€” ESAâ€™s Intermediate Frequency & Modem System</h4>
 
                                     <p>
                                         </p><p>Makalu developed and maintain the embedded software running inside the satellite tracking system in use today by the European Space Agency (ESA), to control and track all of its presently operational satellite missions.</p>
@@ -3066,12 +3178,12 @@ Robert-Bosch Str. 7
                                      <h4>Engineering Consultancy</h4>
 
                                     <p>
-                                        </p><p>For more than a decade, Makalu has provided permanent-basis engineering support to Europe’s principal aerospace organizations — including verification & validation software engineering support to ESA’s mission & ground systems development efforts,
+                                        </p><p>For more than a decade, Makalu has provided permanent-basis engineering support to Europeâ€™s principal aerospace organizations â€” including verification & validation software engineering support to ESAâ€™s mission & ground systems development efforts,
                                             as well as systems integration and power systems engineering support, through multiple, long-term consultancy frame-contracts.</p>
                                     <p></p>
                                 </li>
                                 <li class="project">
-                                     <h4>TEDIS — Eutelsat’s Telemetry Distribution System</h4>
+                                     <h4>TEDIS â€” Eutelsatâ€™s Telemetry Distribution System</h4>
 
                                     <p>
                                         </p><p>Makalu developed and maintain the TEDIS system for Eutelsat. This web-based software application allows Eutelsat engineers and partners to retrieve real-time and archived raw telemetry frames from its fleet of more than 20 satellites. The system has
@@ -3079,7 +3191,7 @@ Robert-Bosch Str. 7
                                     <p></p>
                                 </li>
                                 <li class="project">
-                                     <h4>TeleViews — Eutelsat’s Telemetry Archive & Visualization System</h4>
+                                     <h4>TeleViews â€” Eutelsatâ€™s Telemetry Archive & Visualization System</h4>
 
                                     <p>
                                         </p><p>Makalu developed the TeleViews system for Eutelsat, providing satellite engineers access to telemetry, telecommands and satellite events outside of the control centre. For this system, Makalu developed an advanced, high-performance archive that stores
@@ -3087,18 +3199,18 @@ Robert-Bosch Str. 7
                                     <p></p>
                                 </li>
                                 <li class="project">
-                                     <h4>eLogBook — Eutelsat’s Central Event Log & Access Facility</h4>
+                                     <h4>eLogBook â€” Eutelsatâ€™s Central Event Log & Access Facility</h4>
 
                                     <p>
-                                        </p><p>Makalu are presently developing the eLogBook system for Eutelsat, replacing the current paper-based logbook for tracking all significant satellite control center events. The design of the system allows other applications — via an open API — to log events
+                                        </p><p>Makalu are presently developing the eLogBook system for Eutelsat, replacing the current paper-based logbook for tracking all significant satellite control center events. The design of the system allows other applications â€” via an open API â€” to log events
                                             centrall, and to replicate thee data from the highly secure operational network to the office environment.</p>
                                     <p></p>
                                 </li>
                                 <li class="project">
-                                     <h4>ARTS — ESA’s Issue Tracking, Management & Resolution Tool</h4>
+                                     <h4>ARTS â€” ESAâ€™s Issue Tracking, Management & Resolution Tool</h4>
 
                                     <p>
-                                        </p><p>In support of ESA’s ISO-9001 certification, Makalu developed ARTS, a web-based tool providing full lifecycle support for issue and action management — providing compliance with ECSS Standard Q-20-09B. ARTS is deployed across the enterprise at ESA,
+                                        </p><p>In support of ESAâ€™s ISO-9001 certification, Makalu developed ARTS, a web-based tool providing full lifecycle support for issue and action management â€” providing compliance with ECSS Standard Q-20-09B. ARTS is deployed across the enterprise at ESA,
                                             and extending to its industrial partners, and is used concurrently by thousands of users within the context of hundreds of projects.</p>
                                     <p></p>
                                 </li>
@@ -3139,7 +3251,7 @@ Robert-Bosch Str. 7
                 <ul>
                     <li class="row1">
                         <div class="avatar">
-                            <img alt="Matt Henderson" class="color" src="images/matt.jpg"/>
+                            <img alt="Matt Henderson" class="color" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/matt.jpg"/>
                         </div>
                          <h4>Matt Henderson</h4>
 
@@ -3150,7 +3262,7 @@ Robert-Bosch Str. 7
                     </li>
                     <li class="row1">
                         <div class="avatar">
-                            <img alt="Pino de la Fuente" class="color" src="images/pino.jpg"/>
+                            <img alt="Pino de la Fuente" class="color" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/pino.jpg"/>
                         </div>
                          <h4>Pino de la Fuente</h4>
 
@@ -3161,7 +3273,7 @@ Robert-Bosch Str. 7
                     </li>
                     <li class="row1">
                         <div class="avatar">
-                            <img alt="Jim Holme" class="color" src="images/jim.jpg"/>
+                            <img alt="Jim Holme" class="color" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/jim.jpg"/>
                         </div>
                          <h4>Jim Holme</h4>
 
@@ -3172,7 +3284,7 @@ Robert-Bosch Str. 7
                     </li>
                     <li class="row2">
                         <div class="avatar">
-                            <img alt="Rob Foweraker" class="color" src="images/rob.jpg"/>
+                            <img alt="Rob Foweraker" class="color" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/rob.jpg"/>
                         </div>
                          <h4>Rob Foweraker</h4>
 
@@ -3183,7 +3295,7 @@ Robert-Bosch Str. 7
                     </li>
                     <li class="row2">
                         <div class="avatar">
-                            <img alt="Michel Ricart" class="color" src="images/michel.jpg"/>
+                            <img alt="Michel Ricart" class="color" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/michel.jpg"/>
                         </div>
                          <h4>Michel Ricart</h4>
 
@@ -3193,18 +3305,18 @@ Robert-Bosch Str. 7
                         </p>
                     </li>
                 </ul>
-                <img class="tinylittle" alt="" src="images/tinylittle.png"/>
+                <img class="tinylittle" alt="" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/tinylittle.png"/>
                 <div id="speechbubble">
                     <div class="inner"> <strong>Hello <span class="name"></span>!</strong>
 Nice to meet you and thanks for your message! You should receive a reply from us within two business days.
-                        <img alt="" src="images/speechbubble-tail.png"/>
+                        <img alt="" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/speechbubble-tail.png"/>
                     </div>
                 </div>
             </div>
             <div class="container" id="contact">
                 <div class="form">
                     <div class="content">
-                        <p><strong>Contact Makalu.</strong> Please feel free to contact us using the form at the right. We’ll reply within two business days (usually earlier). Or drop by our offices between 9am and 6pm Monday through Friday. We’re located in the TIZ
+                        <p><strong>Contact Makalu.</strong> Please feel free to contact us using the form at the right. Weâ€™ll reply within two business days (usually earlier). Or drop by our offices between 9am and 6pm Monday through Friday. Weâ€™re located in the TIZ
                             Building, next door to the European Space Operations Centre (ESOC), in Darmstadt, Germany.</p>
                     </div>
                     <form method="post" action="/contact.php">
@@ -3233,9 +3345,9 @@ Nice to meet you and thanks for your message! You should receive a reply from us
                     <li><a class="interactive" title="Go to Makalu Interactive" href="http://www.makalumedia.com/interactive">Makalu Interactive</a>
                     </li>
                 </ul>
-                <p>© 2010 MakaluMedia GmbH. All Rights Reserved.</p>
-                <img alt="Makalu Aerospace" src="images/logo-mini.png" class="aerospace"/>
-                <img alt="Makalu Interactive" src="images/logo-interactive-mini.png" class="interactive"/>
+                <p>Â© 2010 MakaluMedia GmbH. All Rights Reserved.</p>
+                <img alt="Makalu Aerospace" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/logo-mini.png" class="aerospace"/>
+                <img alt="Makalu Interactive" src="http://localhost/Firecrow/evaluation/fullPages/08-makalu/images/logo-interactive-mini.png" class="interactive"/>
                 <a href="http://www.twitter.com/makalu" class="twitter"> <span>Follow us on Twitter</span>
 
                 </a>

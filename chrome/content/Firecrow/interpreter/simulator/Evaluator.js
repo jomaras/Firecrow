@@ -67,6 +67,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isEvalCallbackFunctionCommand()) { this._evalCallbackFunctionCommand(command); }
             else if (command.isEvalSequenceExpressionCommand()) { this._evalSequence(command); }
             else if (command.isEvalThrowExpressionCommand()) { this._evalThrowExpressionCommand(command); }
+            else if (command.isFinishEvalCommand()) { this._evalFinishEvalCommand(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -503,6 +504,15 @@ fcSimulator.Evaluator.prototype =
             throwCommand.codeConstruct.argument,
             this.globalObject.getPreciseEvaluationPositionId()
         )
+    },
+
+    _evalFinishEvalCommand: function(finishEvalCommand)
+    {
+        this.executionContextStack.setExpressionValue
+        (
+            finishEvalCommand.codeConstruct,
+            this.executionContextStack.getExpressionValue(finishEvalCommand.previousCommand.codeConstruct)
+        );
     },
 
     _evalStartCatchStatementCommand: function(startCatchCommand)

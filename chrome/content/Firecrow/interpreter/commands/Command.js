@@ -270,6 +270,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isExecuteCallbackCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExecuteCallback; },
 
+    isFinishEvalCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.FinishEval; },
+
     isLabelCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.Label; },
 
     isConvertToPrimitiveCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive; },
@@ -373,7 +375,9 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     ConvertToPrimitive: "ConvertToPrimitive",
 
-    Label: "Label"
+    Label: "Label",
+
+    FinishEval: "FinishEval"
 };
 /*************************************************************************************/
 }});

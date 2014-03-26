@@ -7,8 +7,22 @@ if(usesModule)
 
 FBL.ns(function () { with (FBL) {
 
+var DYNAMIC_CODE_ID = 0;
+
 Firecrow.ASTHelper = ASTHelper =
 {
+    setNodeIdsAndParentChildRelationshipForEvaldCode: function(evalConstruct, programAST)
+    {
+        this.traverseAst(programAST, function (element)
+        {
+            element.nodeId = "E" + DYNAMIC_CODE_ID++;
+            element.isEvalCreatedNode = true;
+            element.evalConstruct = evalConstruct;
+        });
+
+        this.setParentsChildRelationships(programAST);
+    },
+
     parseSourceCodeToAST: function(sourceCode, sourceCodePath, startLine)
     {
         try
@@ -812,6 +826,7 @@ Firecrow.ASTHelper = ASTHelper =
                 || propName == "globalObject"
                 || propName == "dependencies"
                 || propName == "reverseDependencies"
+                || propName == "evalConstruct"
                 || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
             var propertyValue = astElement[propName];

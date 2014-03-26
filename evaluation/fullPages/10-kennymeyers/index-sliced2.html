@@ -25,24 +25,25 @@
     .ui-tooltip .ui-tooltip-tip { margin: 0px auto; overflow: hidden; background: none repeat scroll 0% 0% transparent ! important; border: 0px dashed transparent ! important; z-index: 10; }
     .ui-tooltip .ui-tooltip-tip, .ui-tooltip .ui-tooltip-tip * { position: absolute; line-height: 0.1px ! important; font-size: 0.1px ! important; color: rgb(18, 52, 86); background: none repeat scroll 0% 0% transparent; border: 0px dashed transparent; }
     .ui-tooltip .ui-tooltip-tip canvas { top: 0px; left: 0px; }
-    .ui-tooltip-rounded, .ui-tooltip-rounded .ui-tooltip-content, .ui-tooltip-tipsy, .ui-tooltip-tipsy .ui-tooltip-content, .ui-tooltip-youtube, .ui-tooltip-youtube .ui-tooltip-content { border-radius: 4px 4px 4px 4px; }
+    .ui-tooltip-rounded, .ui-tooltip-rounded .ui-tooltip-content, .ui-tooltip-tipsy, .ui-tooltip-tipsy .ui-tooltip-content, .ui-tooltip-youtube, .ui-tooltip-youtube .ui-tooltip-content { border-radius: 4px; }
     .ui-tooltip:not(.ie9haxors) div.ui-tooltip-content, .ui-tooltip:not(.ie9haxors) div.ui-tooltip-titlebar { filter: none; }
 </style>
     <style type="text/css" href="css/styles.css" rel="stylesheet">
     body { background: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/bg.jpg") repeat scroll 0% 0% transparent; color: rgb(51, 50, 46); font: 16px/20px 'Helvetica Neue',Helvetica,Arial,sans-serif; text-align: center; }
     .container_12 { clear: left; overflow: hidden; }
     .wrapper { background: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/bg_wrapper.png") no-repeat scroll 50% 0px transparent; }
-    .projects, .projects li { margin-bottom: 40px; }
+    .gutter { background: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/bg_ribbon.png") repeat scroll 0% 0% rgb(153, 0, 0); box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.4) inset; height: 10px; }
+    .projects, .projects li { margin-bottom: 40px; margin-top: 15px; }
     .projects li { position: relative; }
     .projects a { color: rgba(0, 0, 0, 0.4); display: block; font-size: 11px; font-weight: bold; line-height: 15px; text-decoration: none; text-shadow: 0px 1px rgba(255, 255, 255, 0.6); text-transform: uppercase; }
-    .projects .asset { background-repeat: no-repeat; display: block; height: 140px; margin-bottom: 20px; position: relative; top: 0px; transition: all 0.25s ease 0s ; width: 140px; }
+    .projects .asset { background-repeat: no-repeat; display: block; height: 140px; margin-bottom: 20px; position: relative; top: 0px; transition: all 0.25s ease 0s; width: 140px; }
     .clients .asset { background-image: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/sprite_clients.png"); }
     .clients .turks_caicos_sc .asset { background-position: 0px 0px; }
     .clients .date { color: rgba(0, 0, 0, 0.2); display: block; }
     .projects a:hover { color: rgba(0, 0, 0, 0.8); }
     .projects a:hover .asset { top: -4px; }
     .projects a:active .asset { top: -3px; }
-    .tag { background-image: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/sprite_tags.png"); background-repeat: no-repeat; height: 30px; position: absolute; right: -5px; margin-left: -16px; opacity: 0.15; text-indent: -9999px; top: -5px; transition: all 0.5s ease 0s ; width: 30px; }
+    .tag { background-image: url("http://localhost/Firecrow/evaluation/fullPages/10-kennymeyers/images/sprite_tags.png"); background-repeat: no-repeat; height: 30px; position: absolute; right: -5px; margin-left: -16px; opacity: 0.15; text-indent: -9999px; top: -5px; transition: all 0.5s ease 0s; width: 30px; }
     .suffix_1 .tag { right: 75px; }
     .blue_flavor { background-position: 0px 0px; }
     .be_good_not_bad { background-position: -30px 0px; }
@@ -52,7 +53,7 @@
     .butter_label { background-position: -150px 0px; }
     .e_house_studio { background-position: -180px 0px; }
     .tag:hover { opacity: 1; }
-    .ui-tooltip-kenny .ui-tooltip-content { background-color: rgb(221, 221, 221); background-image: linear-gradient(center top , rgb(255, 255, 255), rgb(221, 221, 221)); border: 1px solid rgb(187, 187, 187); color: rgba(48, 47, 43, 0.8); font-weight: bold; padding: 10px; text-shadow: 0px 1px rgb(255, 255, 255); }
+    .ui-tooltip-kenny .ui-tooltip-content { background-color: rgb(221, 221, 221); border: 1px solid rgb(187, 187, 187); color: rgba(48, 47, 43, 0.8); font-weight: bold; padding: 10px; text-shadow: 0px 1px rgb(255, 255, 255); }
 </style>
     <script type="text/javascript">
   (function(window, undefined)
@@ -559,13 +560,26 @@
     });
     jQuery.support = (function()
     {
-      var support, tds, isSupported, div = document.createElement('div');
+      var support, input, fragment, tds, isSupported, div = document.createElement('div');
       div.setAttribute('className', 't');
       div.innerHTML = '   <link/><table></table><a href=\'/a\' style=\'top:1px;float:left;opacity:.55;\'>a</a><input type=\'checkbox\'/>';
+      input = div.getElementsByTagName('input')[0];
       support = {
         leadingWhitespace: div.firstChild.nodeType === 3
       };
       support.boxModel = document.compatMode === 'CSS1Compat';
+      input.checked = true;
+      input = document.createElement('input');
+      input.value = 't';
+      input.setAttribute('type', 'radio');
+      input.setAttribute('checked', 'checked');
+      input.setAttribute('name', 't');
+      div.appendChild(input);
+      fragment = document.createDocumentFragment();
+      fragment.appendChild(div.lastChild);
+      fragment.removeChild(input);
+      fragment.appendChild(div);
+      fragment.removeChild(div);
       jQuery(function()
       {
         var container, outer, inner, td, offsetSupport, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
@@ -1002,7 +1016,7 @@
         {
           tns = rtypenamespace.exec(types[t]);
           type = tns[1];
-          namespaces = (tns[2]).split('.').sort();
+          namespaces = (tns[2] || '').split('.').sort();
           special = jQuery.event.special[type] || {};
           type = (selector ? 0 : special.bindType) || type;
           special = jQuery.event.special[type] || {};
@@ -1161,16 +1175,6 @@
         props: ('button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement').split(' '), 
         filter: function(event, original)
         {
-          var eventDoc, doc, body;
-          if(event.pageX == null && original.clientX != null)
-          {
-            eventDoc = event.target.ownerDocument;
-            doc = eventDoc.documentElement;
-            body = eventDoc.body;
-            event.pageX = (original.clientX + ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0)) - ((doc && doc.clientLeft) || (body && body.clientLeft) || 0);
-            event.pageY = (original.clientY + ((doc && doc.scrollTop) || (body && body.scrollTop) || 0)) - ((doc && doc.clientTop) || (body && body.clientTop) || 0);
-          }
-
           return event;
         }
       }, 
@@ -1181,7 +1185,10 @@
           return event;
         }
 
-        var i, prop, originalEvent = event, fixHook = jQuery.event.fixHooks[event.type], copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
+        var i, prop;
+        var originalEvent = event;
+        var fixHook = jQuery.event.fixHooks[event.type];
+        var copy = fixHook.props ? this.props.concat(fixHook.props) : 0;
         event = jQuery.Event(originalEvent);
         for(i = copy.length;i;)
         {
@@ -2193,7 +2200,7 @@
             if(elem.style)
             {
               display = elem.style.display;
-              if((display === '' && jQuery.css(elem, 'display') === 'none'))
+              if((display === '' && jQuery.css(elem, 'display') === 'none') || !(jQuery.contains(elem.ownerDocument.documentElement, elem)))
               {
                 jQuery._data(elem, 'olddisplay', defaultDisplay(elem.nodeName));
               }
@@ -2208,7 +2215,7 @@
               display = elem.style.display;
               if(display === '')
               {
-                elem.style.display = jQuery._data(elem, 'olddisplay');
+                elem.style.display = jQuery._data(elem, 'olddisplay') || '';
               }
             }
           }
@@ -2226,7 +2233,8 @@
         {
           this.each(function()
           {
-            jQuery(this);
+            var state = bool ? fn : 0;
+            jQuery(this)[state ? 'show' : 0]();
           });
         }
 
@@ -2609,8 +2617,11 @@
         }, 
         detectColours: function()
         {
-          var e, f = k.tip.css({backgroundColor: '', border: ''}), g = i.corner, h = g[g.precedance], m = ('border-' + h) + '-color', p, q = /rgba?\(0, 0, 0(, 0)?\)|transparent/i, s = 'background-color', t = 'transparent', u = a(document.body).css('color'), w = k.titlebar, x = w ? 0 : k.content;
-          (l.addClass(r), null, e = f[0].style[p] || l.css(m));
+          var d, e, f = k.tip.css({backgroundColor: '', border: ''}), g = i.corner, h = g[g.precedance], m = ('border-' + h) + '-color', p, q = /rgba?\(0, 0, 0(, 0)?\)|transparent/i, s = 'background-color', t = 'transparent', u = a(document.body).css('color'), w = k.titlebar, x = w ? 0 : k.content;
+          (l.addClass(r), d = f.css(s), e = f[0].style[p] || l.css(m));
+          if(!d || q.test(d))
+          (o.fill = x.css(s), null);
+
           if(!e || q.test(e) || e === u)
           {
             o.border = x.css(m);
@@ -2628,8 +2639,8 @@
         }, 
         update: function(b, c)
         {
-          var g = k.tip, l = g.children(), D;
-          (b || (b = i.corner), null, null, i.detectColours(), o.border !== 'transparent' && o.border !== '#123456' ? (p = u(b, f, d), null, p = j.border !== d ? 0 : p) : 0, null, D = w(b), g.css(D), null, null, i.position(b));
+          var g = k.tip, l = g.children(), m = n.width, q = n.height, v = j.mimic, x = Math.round, z, B, C, D;
+          (b || (b = i.corner), v === e ? v = b : 0, null, i.detectColours(), o.border !== 'transparent' && o.border !== '#123456' ? (p = u(b, f, d), null, p = j.border !== d ? 0 : p) : 0, B = A(v, m, q), D = w(b), g.css(D), b.precedance === 'y' ? C = [x(v.x === 'left' ? 0 : v.x === 'right' ? 0 : (D.width - m) / 2), x(v.y === 'top' ? 0 : 0)] : 0, s ? (l.attr(D), z = l[0].getContext('2d'), z.restore(), z.save(), z.clearRect(0, 0, 3000, 3000), z.translate(C[0], C[1]), z.beginPath(), z.moveTo(B[0][0], B[0][1]), z.lineTo(B[1][0], B[1][1]), z.lineTo(B[2][0], B[2][1]), z.closePath(), z.fillStyle = o.fill, z.strokeStyle = o.border, z.lineWidth = p * 2, z.lineJoin = 'miter', z.miterLimit = 100, p && z.stroke(), z.fill()) : 0, i.position(b));
         }, 
         position: function(b)
         {
@@ -2643,6 +2654,13 @@
         }, 
         destroy: function(){}
       }), i.init());
+    }
+    function A(a, b, c)
+    {
+      var d = Math.ceil(b / 2), f = {
+        bottomcenter: [[0, 0], [b, 0], [d, c]]
+      };
+      return f[a.string()];
     }
     function z(b, c)
     {
@@ -2683,7 +2701,9 @@
           show: a.trim('' + s.show.event).split(' '), 
           hide: a.trim('' + s.hide.event).split(' ')
         };
-        (D.bind((('mouseenter' + E) + ' mouseleave') + E, function(a){}), null, (/mouse(out|leave)/i).test(s.hide.event) ? h.window.bind('mouseout' + E, function(a){}) : 0, null, null, a.each(j.hide, function(b, c)
+        D.bind('mouseenter', function(a){});
+        D.bind('mouseleave', function(a){});
+        (null, (/mouse(out|leave)/i).test(s.hide.event) ? h.window.bind('mouseout' + E, function(a){}) : 0, null, null, a.each(j.hide, function(b, c)
         {
           var d = a.inArray(c, j.show), e = a(h.hide);
           d > -1 || c === 'unfocus' ? 0 : h.hide.bind(c + E, o);
@@ -2737,7 +2757,10 @@
             'aria-atomic': d
           })), y.rendered = -1, null, null, O(s.content.text, e), null, I(), null, a.each(h, function()
           {
-            this.initialize === 'render' && this(y);
+            if(this.initialize === 'render')
+            {
+              this(y);
+            }
           }), P(), D.queue('fx', function(a)
           {
             (null, D.trigger(i, [y]), null, y.redraw(), y.toggle(d, G.event), a());
@@ -2864,14 +2887,19 @@
     }, h = g.plugins = {
       Corner: function(a)
       {
-        (a = ("" + a).replace(/([A-Z])/, " $1").replace(/middle/gi, "center").toLowerCase(), this.x = (a.match(/left|right/i) || a.match(/center/) || ["inherit"])[0].toLowerCase(), this.y = (a.match(/top|bottom|center/i) || ["inherit"])[0].toLowerCase(), this.precedance = a.charAt(0).search(/^(t|b)/) > -1 ? "y" : "x", this.string = function ()
+        a = ('' + a).replace(/([A-Z])/, ' $1').replace(/middle/gi, 'center').toLowerCase();
+        this.x = (a.match(/left|right/i) || a.match(/center/))[0].toLowerCase();
+        this.y = (a.match(/top|bottom|center/i))[0].toLowerCase();
+        this.precedance = a.charAt(0).search(/^(t|b)/) > -1 ? 'y' : 0;
+        this.string = function()
         {
           return this.precedance === 'y' ? this.y + this.x : 0;
-        }, this.abbreviation = function()
+        };
+        this.abbreviation = function()
         {
           var a = this.x.substr(0, 1), b = this.y.substr(0, 1);
           return a === b ? 0 : a === 'c' ? b + a : 0;
-        });
+        };
       }, 
       offset: function(c, d, e)
       {
@@ -2980,7 +3008,7 @@
     {
       var b = a.plugins.tip;
       return 'object' === typeof b ? 0 : a.plugins.tip = new B(a);
-    }, null, null, a.extend(d, g.defaults, {
+    }, h.tip.initialize = 'render', null, a.extend(d, g.defaults, {
       style: {
         tip: {
           corner: d, 
@@ -2997,7 +3025,7 @@
 </head>
 <body>
 <div class="wrapper">
-    
+    <div class="gutter"></div>
     
 
     

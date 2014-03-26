@@ -35,6 +35,14 @@ FBL.ns(function() { with (FBL) {
 
     fcSimulator.prototype = dummy =
     {
+        generateEvalCommands: function(callExpression, programAST)
+        {
+            var evalCommands = CommandGenerator.generateCommands(programAST);
+            evalCommands.push(CommandGenerator.generateFinishEvalCommand(callExpression));
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, evalCommands, this.currentCommandIndex + 1);
+        },
+
         runSync: function()
         {
             try
@@ -141,6 +149,10 @@ FBL.ns(function() { with (FBL) {
             {
                 this._processThrowCommand(command);
                 this._removeCommandsAfterException(command);
+            }
+            if(command.isFinishEvalCommand(command))
+            {
+                command.previousCommand = this.commands[this.currentCommandIndex - 1];
             }
 
             this.executionContextStack.executeCommand(command);

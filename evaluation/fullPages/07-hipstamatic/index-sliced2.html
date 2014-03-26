@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
-
-
-
-
-
-
-
-
-
-
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <style href="css/glisse.css" rel="stylesheet">
     html { height: 100%; }
     @keyframes shake {
@@ -56,23 +56,21 @@
 80% { transform: rotate(60deg) translateY(0px); opacity: 1; transform-origin: left top 0px; animation-timing-function: ease-in-out; }
 100% { transform: translateY(700px); opacity: 0; display: none; }
 }
-    .app-fea .iPhone { float: right; position: relative; background: url("http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/iPhone.png") repeat scroll center top transparent; width: 366px; height: 721px; }
     .feature-list { width: 595px; float: left; }
     .feature-list ul { background: url("http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/bullet-marker.png") no-repeat scroll 0px 12px / 100% auto transparent; transition: all 500ms cubic-bezier(1, -0.5, 0.14, 1.345) 0s; }
     .feature-list ul li, .feature-list ul { margin: 0px; padding: 0px; list-style-type: none; text-shadow: 0px 1px rgb(255, 255, 255); }
     .feature-list ul li { padding: 20px 0px 20px 20px; width: 500px; cursor: pointer; }
     .feature-list ul li:hover { opacity: 0.7; }
-    .feature-list h4 { font-size: 25px; color: rgb(45, 44, 44); margin: 0px; letter-spacing: -1px; }
     .feature-list ul li.active { cursor: default; }
-    .feature-list ul li.active h4 { color: rgb(255, 255, 255); text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.8); }
     .feature-list ul li.active:hover { opacity: 1; }
-    .feature-list p { font-size: 14px; margin: 3px 0px; line-height: 20px; }
-    #screenshots { width: 309px; height: 464px; position: absolute; overflow: hidden; top: 127px; left: 30px; }
-    #screenshots img { width: 309px; height: 464px; float: left; }
-    #t_jakobs { width: 1464px; position: relative; transition: all 900ms cubic-bezier(1, -0.5, 0.14, 1.345) 0s; }
     .photo-effects { overflow: hidden; background: url("http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/light-wood-bg.jpg") repeat scroll left top rgb(250, 233, 215); height: 666px; border-bottom: 1px solid rgb(255, 255, 255); position: relative; border-top: 1px solid rgba(0, 0, 0, 0.6); min-width: 1000px; }
+    .photo-effects .killer { height: 70px; position: absolute; width: 584px; left: 114px; z-index: 3; }
+    .photo-effects .k-b { bottom: 0px; }
     .photo-effects #photo-reel { width: 599px; float: left; transition: all 700ms cubic-bezier(1, -0.5, 0.14, 1.345) 0s; }
+    .photo-effects .blackkeys { top: -857px; position: relative; }
+    .photo-effects .dreamy { top: -256px; position: relative; }
     .photo-effects .foxy { top: -1450px; position: relative; }
+    .photo-effects .rodney { top: -2050px; position: relative; }
     #photo-reel .set img, #photo-reel .set a { float: left; width: 284px; height: 284px; margin: 0px 15px 15px 0px; }
     @keyframes swing {
 20% { transform: rotate(5deg); }
@@ -84,7 +82,9 @@
     #photo-reel img { box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4); z-index: 0; position: relative; }
     #photo-reel .set img { background: none repeat scroll 0% 0% rgb(255, 255, 255); opacity: 1; cursor: pointer; transition: all 200ms cubic-bezier(1, 0.41, 0, 0.98) 0s; }
     #photo-reel .set img:hover { box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.9); z-index: 3; animation-iteration-count: 0; }
+    #photo-reel .dud-set img:hover, #photo-reel .dud-set img, #photo-reel .dud-set img:nth-child(3n+1), #photo-reel .dud-set img:nth-child(3n+2) { box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4); cursor: default; }
     .effect-select { text-align: center; color: rgb(255, 255, 255); float: right; width: 418px; margin: 0px -40px 0px 0px; }
+    .effect-select h3 { font-size: 19px; color: rgba(0, 0, 0, 0.8); text-shadow: 0px 1px 0px rgb(255, 255, 255); margin: 30px 0px; }
     .effect-select nav ul { clear: both; width: 444px; height: 549px; margin: 28px 0px 0px; overflow: hidden; }
     .effect-select nav ul li { float: left; padding: 6px 5px 7px 7px; margin: 0px 20px 47px 0px; background: none repeat scroll 0% 0% rgba(155, 75, 21, 0); box-shadow: 0px 2px 20px transparent inset; transition: all 200ms cubic-bezier(1, 0.41, 0, 0.98) 0s; }
     .effect-select nav ul li.active, .effect-select nav ul li.active:hover { background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.25); border-radius: 10px; box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.8) inset, 0px 1px 0px rgba(255, 255, 255, 0.5); cursor: default; }
@@ -97,83 +97,69 @@
     .effect-select nav ul a.c-dreamy { background-position: -192px 0px; }
     .effect-select nav ul a.c-foxy { background-position: -386px 0px; }
     .effect-select nav ul a.c-rodney { background-position: -578px 0px; }
-    a.dl-ds { display: block; width: 336px; color: rgb(255, 255, 255); font-weight: 700; background: url("http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/download-icon.png") no-repeat scroll 295px 7px rgba(0, 0, 0, 0.4); float: left; text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8); text-align: left; height: 45px; line-height: 47px; font-size: 18px; border-radius: 3em; box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 3px 13px rgba(0, 0, 0, 0.4) inset; text-indent: 18px; margin: 20px 400px 0px; }
-    a.dl-ds:hover { background: url("http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/download-icon.png") no-repeat scroll 295px 7px rgba(0, 0, 0, 0.7); }
-    .app-fea a.dl-ds { margin: 35px 0px 0px 43px; width: 360px; background: url("http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/download-icon.png") no-repeat scroll 318px 7px rgba(0, 0, 0, 0.4); }
-    .app-fea a.dl-ds:hover { background: url("http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/download-icon.png") no-repeat scroll 318px 7px rgba(0, 0, 0, 0.7); }
-    a.dl-ds:active { position: relative; top: 1px; }
-    .feature-list ul.f-if {
-                background-position: 0 134px
-            }
 </style>
     </head>
-
+    
     <body>
         <div id="d-series">
             <header>
                 <div class="row">
                     <div class="col span_12">
                         <nav id="product-nav">
-
+                            
                         </nav>
                         <div class="syn"> <a class="sprite synthetic" href="http://heysynthetic.com/">Synthetic</a>
 
-
+                            
                         </div>
                     </div>
                 </div>
             </header>
             <div class="feature">
-
+                
             </div>
             <div role="main">
                 <div class="app-fea row clearfix">
                     <div class="feature-list">
                         <ul id="fl">
                             <li class="us us-i active">
-                                 <h4>Unique Shooting Experience</h4>
+                                 
 
-                                <p>You and your friends can take photos with your iPhone like no other app out there. Itâ€™s quick, easy and awesome.</p>
+                                
                             </li>
                             <li class="if">
-                                 <h4>Invite your friends to join a camera</h4>
+                                 
 
-                                <p>Itâ€™s so easy to invite your buddies to your camera. They even get a push notification to say a new camera is ready to join!</p>
+                                
                             </li>
                             <li class="cl">
-                                 <h4>Design your own camera label</h4>
+                                 
 
-                                <p>Fully customise your group camera label with colors, designs and your specific text for your event.</p>
+                                
                             </li>
                             <li class="es">
-                                 <h4>Easily share your finished camera</h4>
+                                 
 
-                                <p>Export a roll of films you have your friends have taken to Facebook, E-mail or quickly save to your camera roll, easy!</p>
+                                
                             </li>
                         </ul>
                         <div class="video">
                             <div class="play">An introduction to the D-Series</div>
-                            <div class="iframe"></div>
+                            
                         </div>
                     </div>
-                    <div class="iPhone">
-                        <div id="screenshots">
-                            <div id="t_jakobs">
-                                <img alt="Camera" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/camera.jpg"/>
-                                <img alt="Invite" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/invite.jpg"/>
-                                <img alt="Create Label" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/create-label.jpg"/>
-                                <img alt="Share" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/share.jpg"/>
-                            </div>
-                        </div>
-                    </div> <a title="Download Hipstamatic D-series" class="dl-ds" href="http://itunes.apple.com/us/app/hipstamatic-disposable/id480528686?mt=8">Download Hipstamatic D-Series</a>
+                     
 
                 </div>
             </div>
             <div class="photo-effects">
-
+                <div class="killer"></div>
                 <div class="row">
                     <div class="foxy" id="photo-reel">
-
+                        <div class="set dud-set">
+                            <img src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_mario-1.jpg"/>
+                            <img src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_unicorn-1.jpg"/>
+                        </div>
                         <div class="set dreamy-set">
                             <img rel="dreamy-set" alt="Dreamy Effect" data-glisse-big="images/dcam_dreamy-1.jpg" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_dreamy-1-thumb.jpg"/>
                             <img rel="dreamy-set" alt="Dreamy Effect" data-glisse-big="images/dcam_dreamy-2.jpg" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_dreamy-2-thumb.jpg"/>
@@ -198,10 +184,13 @@
                             <img rel="rodney-set" alt="Rodney" data-glisse-big="images/dcam_rodney-3.jpg" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_rodney-3-thumb.jpg"/>
                             <img rel="rodney-set" alt="Rodney" data-glisse-big="images/dcam_rodney-4.jpg" src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_rodney-4-thumb.jpg"/>
                         </div>
-
+                        <div class="set dud-set">
+                            <img src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_greg-1.jpg"/>
+                            <img src="http://localhost/Firecrow/evaluation/fullPages/07-hipstamatic/images/dcam_unicorn-4.jpg"/>
+                        </div>
                     </div>
                     <div class="effect-select clearfix">
-
+                         <h3>D-Series comes packed with cameras that will help make your photos look awesome.</h3>
 
                         <nav>
                             <ul>
@@ -215,15 +204,15 @@
                                 </li>
                             </ul>
                         </nav>
-
+                        
                     </div>
                 </div>
-
+                <div class="killer k-b"></div>
             </div>
         </div>
-
-
-
+        
+        
+        
         <script>
   (function(window, undefined)
   {
@@ -235,7 +224,7 @@
         return new jQuery.fn.init(selector, context, rootjQuery);
       }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, readyList, DOMContentLoaded, toString = Object.prototype.toString, hasOwn = Object.prototype.hasOwnProperty, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
       jQuery.fn = jQuery.prototype = {
-        constructor: jQuery,
+        constructor: jQuery, 
         init: function(selector, context, rootjQuery)
         {
           var match, elem;
@@ -254,7 +243,7 @@
           if(typeof selector === 'string')
           {
             if(selector.charAt(0) === '<');
-            else
+            else 
             {
               match = quickExpr.exec(selector);
             }
@@ -262,7 +251,7 @@
             if(match && (match[1] || !context))
             {
               if(match[1]);
-              else
+              else 
               {
                 elem = document.getElementById(match[2]);
                 if(elem && elem.parentNode)
@@ -286,30 +275,30 @@
 
 
           return jQuery.makeArray(selector, this);
-        },
-        jquery: '1.7.2',
-        length: 0,
+        }, 
+        jquery: '1.7.2', 
+        length: 0, 
         pushStack: function(elems, name, selector)
         {
           var ret = this.constructor();
           if(jQuery.isArray(elems));
-          else
+          else 
           {
             jQuery.merge(ret, elems);
           }
 
           return ret;
-        },
+        }, 
         each: function(callback, args)
         {
           return jQuery.each(this, callback, args);
-        },
+        }, 
         ready: function(fn)
         {
           jQuery.bindReady();
           readyList.add(fn);
           return this;
-        },
+        }, 
         push: push
       };
       jQuery.fn.init.prototype = jQuery.fn;
@@ -340,7 +329,7 @@
               if(deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))
               {
                 if(copyIsArray);
-                else
+                else 
                 {
                   clone = src && jQuery.isPlainObject(src) ? src : 0;
                 }
@@ -358,10 +347,10 @@
         return target;
       };
       jQuery.extend({
-        noConflict: function(deep){},
-        isReady: false,
-        readyWait: 1,
-        holdReady: function(hold){},
+        noConflict: function(deep){}, 
+        isReady: false, 
+        readyWait: 1, 
+        holdReady: function(hold){}, 
         ready: function(wait)
         {
           if(wait === true || (wait !== true && !(jQuery.isReady)))
@@ -372,7 +361,7 @@
               jQuery(document);
             }
           }
-        },
+        }, 
         bindReady: function()
         {
           if(readyList)
@@ -385,24 +374,24 @@
           {
             document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
           }
-        },
+        }, 
         isFunction: function(obj)
         {
           return jQuery.type(obj) === 'function';
-        },
+        }, 
         isArray: Array.isArray || function(obj)
         {
           return jQuery.type(obj) === 'array';
-        },
+        }, 
         isWindow: function(obj)
         {
           return obj != null && obj == obj.window;
-        },
-        isNumeric: function(obj){},
+        }, 
+        isNumeric: function(obj){}, 
         type: function(obj)
         {
           return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
-        },
+        }, 
         isPlainObject: function(obj)
         {
           if(!obj || jQuery.type(obj) !== 'object' || obj.nodeType || jQuery.isWindow(obj))
@@ -414,20 +403,20 @@
           for(key in obj)
 ;
           return key === undefined || hasOwn.call(obj, key);
-        },
-        isEmptyObject: function(obj){},
-        error: function(msg){},
-        parseJSON: function(data){},
-        parseXML: function(data){},
-        noop: function(){},
-        globalEval: function(data){},
-        camelCase: function(string){},
-        nodeName: function(elem, name){},
+        }, 
+        isEmptyObject: function(obj){}, 
+        error: function(msg){}, 
+        parseJSON: function(data){}, 
+        parseXML: function(data){}, 
+        noop: function(){}, 
+        globalEval: function(data){}, 
+        camelCase: function(string){}, 
+        nodeName: function(elem, name){}, 
         each: function(object, callback, args)
         {
           var name, i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
           if(args);
-          else
+          else 
           {
             if(isObj)
             {
@@ -436,7 +425,7 @@
                 if(callback.call(object[name], name, object[name]) === false);
               }
             }
-            else
+            else 
             {
               for(;i < length;)
               {
@@ -446,27 +435,27 @@
           }
 
           return object;
-        },
+        }, 
         trim: trim ? function(text)
         {
           return text == null ? 0 : trim.call(text);
-        } : 0,
+        } : 0, 
         makeArray: function(array, results)
         {
           var ret = results;
           return ret;
-        },
-        inArray: function(elem, array, i){},
+        }, 
+        inArray: function(elem, array, i){}, 
         merge: function(first, second)
         {
           var i = first.length;
           first.length = i;
           return first;
-        },
-        grep: function(elems, callback, inv){},
-        map: function(elems, callback, arg){},
-        guid: 1,
-        proxy: function(fn, context){},
+        }, 
+        grep: function(elems, callback, inv){}, 
+        map: function(elems, callback, arg){}, 
+        guid: 1, 
+        proxy: function(fn, context){}, 
         access: function(elems, fn, key, value, chainable, emptyGet, pass)
         {
           var exec, bulk = key == null, i = 0, length = elems.length;
@@ -477,7 +466,7 @@
             if(bulk)
             {
               if(exec);
-              else
+              else 
               {
                 fn.call(elems, value);
                 fn = null;
@@ -497,10 +486,10 @@
 
 
           return chainable ? elems : bulk ? fn.call(elems) : 0;
-        },
-        now: function(){},
-        uaMatch: function(ua){},
-        sub: function(){},
+        }, 
+        now: function(){}, 
+        uaMatch: function(ua){}, 
+        sub: function(){}, 
         browser: {}
       });
       jQuery.each(('Boolean Number String Function Array Date RegExp Object').split(' '), function(i, name)
@@ -567,7 +556,7 @@
           }
 
           return this;
-        },
+        }, 
         fireWith: function(context, args)
         {
           if(stack)
@@ -585,7 +574,7 @@
       return self;
     };
     jQuery.extend({
-      Deferred: function(func){},
+      Deferred: function(func){}, 
       when: function(firstParam){}
     });
     jQuery.support = (function()
@@ -597,11 +586,11 @@
     })();
     var rmultiDash = /([A-Z])/g;
     jQuery.extend({
-      cache: {},
-      uuid: 0,
-      expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''),
-      noData: {},
-      hasData: function(elem){},
+      cache: {}, 
+      uuid: 0, 
+      expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''), 
+      noData: {}, 
+      hasData: function(elem){}, 
       data: function(elem, name, data, pvt)
       {
         var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0, isEvents = name === 'events';
@@ -628,18 +617,18 @@
         {
           ret = thisCache[name];
         }
-        else
+        else 
         {
           ret = thisCache;
         }
 
         return ret;
-      },
-      removeData: function(elem, name, pvt){},
+      }, 
+      removeData: function(elem, name, pvt){}, 
       _data: function(elem, name, data)
       {
         return jQuery.data(elem, name, data, true);
-      },
+      }, 
       acceptData: function(elem){}
     });
     jQuery.fn.extend({
@@ -668,7 +657,7 @@
             var self = jQuery(this);
           });
         }, null, value, arguments.length > 1, null, false);
-      },
+      }, 
       removeData: function(key){}
     });
     function dataAttr(elem, key, data)
@@ -678,7 +667,7 @@
         var name = 'data-' + key.replace(rmultiDash, '-$1').toLowerCase();
         data = elem.getAttribute(name);
         if(typeof data === 'string');
-        else
+        else 
         {
           data = undefined;
         }
@@ -687,16 +676,16 @@
       return data;
     }
     jQuery.extend({
-      _mark: function(elem, type){},
-      _unmark: function(force, elem, type){},
-      queue: function(elem, type, data){},
+      _mark: function(elem, type){}, 
+      _unmark: function(force, elem, type){}, 
+      queue: function(elem, type, data){}, 
       dequeue: function(elem, type){}
     });
     jQuery.fn.extend({
-      queue: function(type, data){},
-      dequeue: function(type){},
-      delay: function(time, type){},
-      clearQueue: function(type){},
+      queue: function(type, data){}, 
+      dequeue: function(type){}, 
+      delay: function(time, type){}, 
+      clearQueue: function(type){}, 
       promise: function(type, object){}
     });
     var rclass = /[\n\t\r]/g, rspace = /\s+/, rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, nodeHook;
@@ -704,10 +693,10 @@
       attr: function(name, value)
       {
         return jQuery.access(this, jQuery.attr, name, value, arguments.length > 1);
-      },
-      removeAttr: function(name){},
-      prop: function(name, value){},
-      removeProp: function(name){},
+      }, 
+      removeAttr: function(name){}, 
+      prop: function(name, value){}, 
+      removeProp: function(name){}, 
       addClass: function(value)
       {
         var classNames, i, l, elem, setClass, c, cl;
@@ -720,7 +709,7 @@
             if(elem.nodeType === 1)
             {
               if(!(elem.className));
-              else
+              else 
               {
                 setClass = (' ' + elem.className) + ' ';
                 for(c = 0, cl = classNames.length;c < cl;c++)
@@ -738,7 +727,7 @@
         }
 
         return this;
-      },
+      }, 
       removeClass: function(value)
       {
         var classNames, i, l, elem, className, c, cl;
@@ -765,14 +754,14 @@
         }
 
         return this;
-      },
-      toggleClass: function(value, stateVal){},
-      hasClass: function(selector){},
+      }, 
+      toggleClass: function(value, stateVal){}, 
+      hasClass: function(selector){}, 
       val: function(value){}
     });
     jQuery.extend({
-      valHooks: {},
-      attrFn: {},
+      valHooks: {}, 
+      attrFn: {}, 
       attr: function(elem, name, value, pass)
       {
         var hooks, notxml, nType = elem.nodeType;
@@ -787,17 +776,17 @@
         {
           if(value === null);
           else if(hooks);
-          else
+          else 
           {
             elem.setAttribute(name, '' + value);
             return value;
           }
         }
-      },
-      removeAttr: function(elem, value){},
-      attrHooks: {},
-      propFix: {},
-      prop: function(elem, name, value){},
+      }, 
+      removeAttr: function(elem, value){}, 
+      attrHooks: {}, 
+      propFix: {}, 
+      prop: function(elem, name, value){}, 
       propHooks: {}
     });
     var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
@@ -835,7 +824,7 @@
           type = (selector ? 0 : special.bindType) || type;
           special = jQuery.event.special[type] || {};
           handleObj = jQuery.extend({
-            origType: tns[1],
+            origType: tns[1], 
             handler: handler
           }, handleObjIn);
           handlers = events[type];
@@ -853,14 +842,14 @@
           }
 
           if(selector);
-          else
+          else 
           {
             handlers.push(handleObj);
           }
         }
-      },
-      global: {},
-      customEvent: {'getData': true},
+      }, 
+      global: {}, 
+      customEvent: {'getData': true}, 
       trigger: function(event, data, elem, onlyHandlers)
       {
         var type = event.type || event;
@@ -873,16 +862,16 @@
         {
           return ;
         }
-      },
+      }, 
       dispatch: function(event)
       {
         event = jQuery.event.fix(event);
-        var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, matched, handleObj;
+        var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, ret, matched, handleObj;
         args[0] = event;
         if(handlers.length > delegateCount)
         {
           handlerQueue.push({
-            elem: this,
+            elem: this, 
             matches: handlers.slice(delegateCount)
           });
         }
@@ -895,26 +884,35 @@
             handleObj = matched.matches[j];
             if(run_all)
             {
-              ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+              ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+              if(ret !== undefined)
+              {
+                event.result = ret;
+                if(ret === false)
+                {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              }
             }
           }
         }
 
         return event.result;
-      },
-      fixHooks: {},
+      }, 
+      fixHooks: {}, 
       mouseHooks: {
         filter: function(event, original)
         {
           return event;
         }
-      },
+      }, 
       fix: function(event)
       {
         var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
         event = jQuery.Event(originalEvent);
         return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
-      },
+      }, 
       special: {}
     };
     jQuery.Event = function(src, props)
@@ -926,6 +924,7 @@
 
       if(src && src.type)
       {
+        this.originalEvent = src;
         this.type = src.type;
       }
     };
@@ -934,7 +933,23 @@
       return false;
     }
     jQuery.Event.prototype = {
-      isPropagationStopped: returnFalse,
+      preventDefault: function()
+      {
+        var e = this.originalEvent;
+        if(e.preventDefault)
+        {
+          e.preventDefault();
+        }
+      }, 
+      stopPropagation: function()
+      {
+        var e = this.originalEvent;
+        if(e.stopPropagation)
+        {
+          e.stopPropagation();
+        }
+      }, 
+      isPropagationStopped: returnFalse, 
       isImmediatePropagationStopped: returnFalse
     };
     jQuery.each({mouseenter: 'mouseover', mouseleave: 'mouseout'}, function(orig, fix)
@@ -956,24 +971,24 @@
         {
           jQuery.event.add(this, types, fn, data, selector);
         });
-      },
-      one: function(types, selector, data, fn){},
-      off: function(types, selector, fn){},
-      bind: function(types, data, fn){},
-      unbind: function(types, fn){},
-      live: function(types, data, fn){},
-      die: function(types, fn){},
-      delegate: function(selector, types, data, fn){},
-      undelegate: function(selector, types, fn){},
-      trigger: function(type, data){},
+      }, 
+      one: function(types, selector, data, fn){}, 
+      off: function(types, selector, fn){}, 
+      bind: function(types, data, fn){}, 
+      unbind: function(types, fn){}, 
+      live: function(types, data, fn){}, 
+      die: function(types, fn){}, 
+      delegate: function(selector, types, data, fn){}, 
+      undelegate: function(selector, types, fn){}, 
+      trigger: function(type, data){}, 
       triggerHandler: function(type, data)
       {
         if(this[0])
         {
           return jQuery.event.trigger(type, data, this[0], true);
         }
-      },
-      toggle: function(fn){},
+      }, 
+      toggle: function(fn){}, 
       hover: function(fnOver, fnOut)
       {
         return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
@@ -1073,51 +1088,51 @@
         }
 
         return ret;
-      },
-      has: function(target){},
-      not: function(selector){},
-      filter: function(selector){},
-      is: function(selector){},
-      closest: function(selectors, context){},
-      index: function(elem){},
-      add: function(selector, context){},
+      }, 
+      has: function(target){}, 
+      not: function(selector){}, 
+      filter: function(selector){}, 
+      is: function(selector){}, 
+      closest: function(selectors, context){}, 
+      index: function(elem){}, 
+      add: function(selector, context){}, 
       andSelf: function(){}
     });
     jQuery.extend({
-      filter: function(expr, elems, not){},
-      dir: function(elem, dir, until){},
-      nth: function(cur, result, dir, elem){},
+      filter: function(expr, elems, not){}, 
+      dir: function(elem, dir, until){}, 
+      nth: function(cur, result, dir, elem){}, 
       sibling: function(n, elem){}
     });
     jQuery.fn.extend({
-      text: function(value){},
-      wrapAll: function(html){},
-      wrapInner: function(html){},
-      wrap: function(html){},
-      unwrap: function(){},
-      append: function(){},
-      prepend: function(){},
-      before: function(){},
-      after: function(){},
-      remove: function(selector, keepData){},
-      empty: function(){},
-      clone: function(dataAndEvents, deepDataAndEvents){},
-      html: function(value){},
-      replaceWith: function(value){},
-      detach: function(selector){},
+      text: function(value){}, 
+      wrapAll: function(html){}, 
+      wrapInner: function(html){}, 
+      wrap: function(html){}, 
+      unwrap: function(){}, 
+      append: function(){}, 
+      prepend: function(){}, 
+      before: function(){}, 
+      after: function(){}, 
+      remove: function(selector, keepData){}, 
+      empty: function(){}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
+      html: function(value){}, 
+      replaceWith: function(value){}, 
+      detach: function(selector){}, 
       domManip: function(args, table, callback){}
     });
     jQuery.extend({
-      clone: function(elem, dataAndEvents, deepDataAndEvents){},
-      clean: function(elems, context, fragment, scripts){},
+      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
+      clean: function(elems, context, fragment, scripts){}, 
       cleanData: function(elems){}
     });
     jQuery.extend({
-      cssHooks: {},
-      cssNumber: {},
-      cssProps: {},
-      style: function(elem, name, value, extra){},
-      css: function(elem, name, extra){},
+      cssHooks: {}, 
+      cssNumber: {}, 
+      cssProps: {}, 
+      style: function(elem, name, value, extra){}, 
+      css: function(elem, name, extra){}, 
       swap: function(elem, options, callback){}
     });
     jQuery(function(){});
@@ -1143,17 +1158,17 @@
       }
     }
     jQuery.fn.extend({
-      load: function(url, params, callback){},
-      serialize: function(){},
+      load: function(url, params, callback){}, 
+      serialize: function(){}, 
       serializeArray: function(){}
     });
     jQuery.extend({
-      getScript: function(url, callback){},
-      getJSON: function(url, data, callback){},
+      getScript: function(url, callback){}, 
+      getJSON: function(url, data, callback){}, 
       ajaxSetup: function(target, settings)
       {
         if(settings);
-        else
+        else 
         {
           settings = target;
           target = jQuery.ajaxSettings;
@@ -1161,36 +1176,36 @@
 
         ajaxExtend(target, settings);
         return target;
-      },
+      }, 
       ajaxSettings: {
         accepts: {
-          xml: 'application/xml, text/xml',
+          xml: 'application/xml, text/xml', 
           '*': allTypes
-        },
-        contents: {xml: /xml/, json: /json/},
+        }, 
+        contents: {xml: /xml/, json: /json/}, 
         converters: {
-          '* text': window.String,
+          '* text': window.String, 
           'text xml': jQuery.parseXML
-        },
+        }, 
         flatOptions: {}
-      },
-      ajaxPrefilter: addToPrefiltersOrTransports(prefilters),
-      ajaxTransport: addToPrefiltersOrTransports(transports),
-      ajax: function(url, options){},
+      }, 
+      ajaxPrefilter: addToPrefiltersOrTransports(prefilters), 
+      ajaxTransport: addToPrefiltersOrTransports(transports), 
+      ajax: function(url, options){}, 
       param: function(a, traditional){}
     });
     jQuery.extend({
-      active: 0,
-      lastModified: {},
+      active: 0, 
+      lastModified: {}, 
       etag: {}
     });
     jQuery.ajaxSetup({
-      jsonp: 'callback',
+      jsonp: 'callback', 
       jsonpCallback: function(){}
     });
     jQuery.ajaxSetup({
-      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'},
-      contents: {script: /javascript|ecmascript/},
+      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
+      contents: {script: /javascript|ecmascript/}, 
       converters: {
         'text script': function(text){}
       }
@@ -1207,34 +1222,34 @@
     (function(xhr)
     {
       jQuery.extend(jQuery.support, {
-        ajax: !(!xhr),
+        ajax: !(!xhr), 
         cors: !(!xhr) && 'withCredentials' in xhr
       });
     })(jQuery.ajaxSettings.xhr());
     jQuery.fn.extend({
-      show: function(speed, easing, callback){},
-      hide: function(speed, easing, callback){},
-      _toggle: jQuery.fn.toggle,
-      toggle: function(fn, fn2, callback){},
-      fadeTo: function(speed, to, easing, callback){},
-      animate: function(prop, speed, easing, callback){},
+      show: function(speed, easing, callback){}, 
+      hide: function(speed, easing, callback){}, 
+      _toggle: jQuery.fn.toggle, 
+      toggle: function(fn, fn2, callback){}, 
+      fadeTo: function(speed, to, easing, callback){}, 
+      animate: function(prop, speed, easing, callback){}, 
       stop: function(type, clearQueue, gotoEnd){}
     });
     jQuery.extend({
-      speed: function(speed, easing, fn){},
-      easing: {},
-      timers: [],
+      speed: function(speed, easing, fn){}, 
+      easing: {}, 
+      timers: [], 
       fx: function(elem, options, prop){}
     });
     jQuery.extend(jQuery.fx, {
-      tick: function(){},
-      interval: 13,
-      stop: function(){},
-      speeds: {},
+      tick: function(){}, 
+      interval: 13, 
+      stop: function(){}, 
+      speeds: {}, 
       step: {}
     });
     jQuery.fn.extend({
-      position: function(){},
+      position: function(){}, 
       offsetParent: function(){}
     });
     window.jQuery = window.$ = jQuery;
@@ -1268,22 +1283,22 @@
         <script>
   $(document).ready(function()
   {
-    ($('a.c-blackeyes').click(function(){}), $('a.c-dreamy').click(function(){}), $('a.c-foxy').click(function(){}), $('a.c-rodney').click(function(){}), $('li.if').click(function()
+    ($('a.c-blackeyes').click(function()
     {
-      $('ul#fl').attr('class', 'f-if');
-      $('ul#fl li').removeClass('active cl-i es-i if-i us-i');
-      $('li.if').addClass('if-i active');
-      $('#t_jakobs').attr('class', 'invite');
-    }), $('li.us').click(function(){}), $('li.cl').click(function()
+      return ($('#photo-reel').attr('class', 'blackkeys'), $('.effect-select nav ul li').removeClass('active'), $('li.cb').addClass('active'), !1);
+    }), $('a.c-dreamy').click(function()
     {
-      ($('ul#fl').attr('class', 'f-cl'), $('ul#fl li').removeClass('active us-i es-i if-i'), $('li.cl').addClass('active cl-i'), $('#t_jakobs').attr('class', 'label'));
-    }), $('li.es').click(function()
+      return ($('#photo-reel').attr('class', 'dreamy'), $('.effect-select nav ul li').removeClass('active'), $('li.cd').addClass('active'), !1);
+    }), $('a.c-foxy').click(function()
     {
-      ($('ul#fl').attr('class', 'f-es'), $('ul#fl li').removeClass('active cl-i es-i if-i'), $('li.es').addClass('es-i active'), $('#t_jakobs').attr('class', 'share'));
-    }), $('.play').click(function(){}), $('a.synthetic').hover(function(){}), $('.feature,#product-nav').hover(function(){}), $('.dreamy-set img,.bk-set img,.foxy-set img,.rodney-set img').glisse({}));
+      return ($('#photo-reel').attr('class', 'foxy'), $('.effect-select nav ul li').removeClass('active'), $('li.cf').addClass('active'), !1);
+    }), $('a.c-rodney').click(function()
+    {
+      return ($('#photo-reel').attr('class', 'rodney'), $('.effect-select nav ul li').removeClass('active'), $('li.cr').addClass('active'), !1);
+    }), $('li.if').click(function(){}), $('li.us').click(function(){}), $('li.cl').click(function(){}), $('li.es').click(function(){}), $('.play').click(function(){}), $('a.synthetic').hover(function(){}), $('.feature,#product-nav').hover(function(){}), $('.dreamy-set img,.bk-set img,.foxy-set img,.rodney-set img').glisse({}));
   });
 </script>
-
+    
 
 </body>
 </html>

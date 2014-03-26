@@ -2,6 +2,8 @@ FBL.ns(function() { with (FBL) {
 /*************************************************************************************/
 var fcModel = Firecrow.Interpreter.Model;
 var ValueTypeHelper = Firecrow.ValueTypeHelper;
+var ASTHelper = Firecrow.ASTHelper;
+var CommandGenerator = Firecrow.Interpreter.Commands.CommandGenerator;
 
 fcModel.GlobalObjectExecutor =
 {
@@ -9,7 +11,7 @@ fcModel.GlobalObjectExecutor =
     {
         try
         {
-                 if (fcFunction.jsValue.name == "eval") { return _handleEval(fcFunction, args, callExpression, globalObject); }
+                 if (fcFunction.jsValue.name == "eval") { return this._handleEval(fcFunction, args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "addEventListener") { return globalObject.addEventListener(args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "removeEventListener") { return globalObject.removeEventListener(args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "setTimeout" || fcFunction.jsValue.name == "setInterval") { return this._setTimingEvents(fcFunction.jsValue.name, args[0], args[1] != null ? args[1].jsValue : 0, args.slice(2), globalObject, callExpression); }
@@ -73,11 +75,29 @@ fcModel.GlobalObjectExecutor =
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
     },
 
-    _handleEval: function(fcFunction, arguments, callExpression, globalObject)
+    _handleEval: function(fcFunction, args, callExpression, globalObject)
     {
-        fcModel.GlobalObject.notifyError("Not handling eval function!");
+        var firstArgument = args[0];
 
-        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, null);
+        if(firstArgument == null) { return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined); }
+
+        var code = firstArgument.jsValue
+
+        if(!ValueTypeHelper.isString(code)) { return firstArgument; }
+
+        try
+        {
+            var programAST = esprima.parse(code);
+
+            ASTHelper.setNodeIdsAndParentChildRelationshipForEvaldCode(callExpression, programAST);
+            ASTHelper.setParentsChildRelationships(programAST);
+
+            globalObject.browser.generateEvalCommands(callExpression, programAST);
+        }
+        catch(e)
+        {
+            fcModel.GlobalObject.notifyError("Error when evaluating eval code: " + e);
+        }
     },
 
     executesFunction: function(globalObject, functionName)

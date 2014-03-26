@@ -122,7 +122,10 @@ FBL.ns(function() { with (FBL) {
         handleDataDependencyEstablished: function(sourceNodeModelObject, targetNodeModelObject, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency, isValueDependency)
         {
             if(sourceNodeModelObject == null || targetNodeModelObject == null) { return; }
-
+            if(targetNodeModelObject.isEvalCreatedNode)
+            {
+                this.handleDataDependencyEstablished(sourceNodeModelObject, targetNodeModelObject.evalConstruct, dependencyCreationInfo, destinationNodeDependencyInfo, shouldNotFollowDependency, isValueDependency)
+            }
             if(ValueTypeHelper.isArray(targetNodeModelObject))
             {
                 for(var i = 0; i < targetNodeModelObject.length; i++)
