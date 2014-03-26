@@ -2,55 +2,85 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44d4204f-2d27-49b8-baa8-e9232bac656a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.jsm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/Firecrow.xul" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/assets/js/flexslider.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/index-profiled1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/index-profiled2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-sliced1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-sliced2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-sliced3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-sliced3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/139/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/js/jquery.qtip.js" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\01-ds22\index-sliced3a.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\100-test\index-sliced.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\100-test\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\100-test\js\jQuery-src.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\13-daypack\index-sliced.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\13-daypack\test.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\GitWebStorm\Firecrow\evaluation\fullPages\14-kmitl\index.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-profiled1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-profiled1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/08-makalu/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-profiled2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/05-dunked/index-profiled3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled3.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index-profiled3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced1.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/index-sliced2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/07-hipstamatic/index-sliced2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced2.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/10-kennymeyers/index-sliced2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index.html" afterPath="$PROJECT_DIR$/evaluation/fullPages/06-virtue/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/fullPages/status.txt" afterPath="$PROJECT_DIR$/evaluation/fullPages/status.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/aboutMe.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/appleGear.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/favTools.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/fourandthree_footerLogo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/homeMadeMUN.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/homeMooseWatch.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/homeNavButtons.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/homeNightlightLullabies.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/html5Badge.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/icons.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/iconsSocialLink.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/imakegreatthings.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/levin.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/levin_skywalk.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/lineDevider.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/noise.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/orangeNoise.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/previousClients.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/shadowDevider.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/sketchBook.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/tailored.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBImages/topBar.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls/1.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls-extracted/1.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls/2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls-extracted/2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls/3.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls-extracted/3.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/jQuery/adjusted/Attributes-AttrString.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/medialize/URI.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/all.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageBScripts/app.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/test/array.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/test/chaining.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/gauss/test/collection.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/test/collections.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/core.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/core.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/culture_info.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/date.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/date2.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/dateAndTime.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/dateMath.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/dst.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/extras.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/04_03_02/featureCodePhantom.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/firecrow.jsm" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/firecrow.xul" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/test/functions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/gauss/gauss.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/test/objects.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/reuseCaseStudies/0/pageB.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/parseExact.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/parser.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/partial.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/relative.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/relativeDateAndTime.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/rememberTheMilk.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phantomJs/evaluationHelpers/sliceFullPage.html.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/sugarpak.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/sugarpak.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/medialize/test/test.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/medialize/test/testFragmentedQuery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/medialize/test/testFragmentedURI.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/medialize/test/testJim.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/medialize/test/testTemplate.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/time.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/time.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/gauss/test/timeseries.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/gauss/test/toDeriveFrom/timeseriesSetup.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/datejs/test/toString.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls/uiControlSuite.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fullPages/01-mailboxing/selenium/uiControls-extracted/uiControlSuite.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/underscore.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/medialize/test/urls.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/underscore/test/utility.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/gauss/test/vector.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/libraries/gauss/test/toDeriveFrom/vectorSetup.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -73,17 +103,7 @@
     <favorites_list name="Firecrow" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="debugSlicing.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="134" column="4" selection-start="8278" selection-end="8278" vertical-scroll-proportion="0.5151515" vertical-offset="1989" max-vertical-offset="4556">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -91,6 +111,7 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -210,7 +231,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
+              <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -224,41 +245,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
+              <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
+              <option name="myItemId" value="fullPages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -443,28 +434,32 @@
       <created>1393855024472</created>
       <updated>1393855024472</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Minor workarounds">
+      <created>1395839279086</created>
+      <updated>1395839279086</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3158482" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3158482" sideWeight="0.4996986" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24954791" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27185053" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27185053" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3158482" sideWeight="0.50030136" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -524,7 +519,8 @@
     <MESSAGE value="Fixed a recording scenario bug caused by the scenario generator" />
     <MESSAGE value="Fixed a recording scenario bug caused by the scenario generator&#10;" />
     <MESSAGE value="CSS dependencies bug fix (didn't create dependencies towards css nodes when seeting class over setAttribute)" />
-    <option name="LAST_COMMIT_MESSAGE" value="CSS dependencies bug fix (didn't create dependencies towards css nodes when seeting class over setAttribute)" />
+    <MESSAGE value="Minor workarounds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor workarounds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

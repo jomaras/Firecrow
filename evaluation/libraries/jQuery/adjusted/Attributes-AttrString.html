@@ -1,0 +1,110 @@
+var extras, body, $body,
+    select, optgroup, option, $img, styleElem,
+    $button, $form, $a;
+
+assertEqual( jQuery("#text1").attr("type"), "text", "Check for type attribute" );
+assertEqual( jQuery("#radio1").attr("type"), "radio", "Check for type attribute" );
+assertEqual( jQuery("#check1").attr("type"), "checkbox", "Check for type attribute" );
+assertEqual( jQuery("#simon1").attr("rel"), "bookmark", "Check for rel attribute" );
+assertEqual( jQuery("#google").attr("title"), "Google!", "Check for title attribute" );
+assertEqual( jQuery("#mark").attr("hreflang"), "en", "Check for hreflang attribute" );
+assertEqual( jQuery("#en").attr("lang"), "en", "Check for lang attribute" );
+assertEqual( jQuery("#simon").attr("class"), "blog link", "Check for class attribute" );
+assertEqual( jQuery("#name").attr("name"), "name", "Check for name attribute" );
+assertEqual( jQuery("#text1").attr("name"), "action", "Check for name attribute" );
+assert( jQuery("#form").attr("action").indexOf("formaction") >= 0, "Check for action attribute" );
+assertEqual( jQuery("#text1").attr("value", "t").attr("value"), "t", "Check setting the value attribute" );
+assertEqual( jQuery("#text1").attr("value", "").attr("value"), "", "Check setting the value attribute to empty string" );
+assertEqual( jQuery("<div value='t'></div>").attr("value"), "t", "Check setting custom attr named 'value' on a div" );
+assertEqual( jQuery("#form").attr("blah", "blah").attr("blah"), "blah", "Set non-existent attribute on a form" );
+assertEqual( jQuery("#foo").attr("height"), undefined, "Non existent height attribute should return undefined" );
+
+// [7472] & [3113] (form contains an input with name="action" or name="id")
+extras = jQuery("<input id='id' name='id' /><input id='name' name='name' /><input id='target' name='target' />").appendTo("#testForm");
+assertEqual( jQuery("#form").attr("action","newformaction").attr("action"), "newformaction", "Check that action attribute was changed" );
+assertEqual( jQuery("#testForm").attr("target"), undefined, "Retrieving target does not assertEqual the input with name=target" );
+assertEqual( jQuery("#testForm").attr("target", "newTarget").attr("target"), "newTarget", "Set target successfully on a form" );
+assertEqual( jQuery("#testForm").removeAttr("id").attr("id"), undefined, "Retrieving id does not assertEqual the input with name=id after id is removed [#7472]" );
+// Bug #3685 (form contains input with name="name")
+assertEqual( jQuery("#testForm").attr("name"), undefined, "Retrieving name does not retrieve input with name=name" );
+extras.remove();
+
+assertEqual( jQuery("#text1").attr("maxlength"), "30", "Check for maxlength attribute" );
+assertEqual( jQuery("#text1").attr("maxLength"), "30", "Check for maxLength attribute" );
+assertEqual( jQuery("#area1").attr("maxLength"), "30", "Check for maxLength attribute" );
+
+// using innerHTML in IE causes href attribute to be serialized to the full path
+jQuery("<a/>").attr({
+    "id": "tAnchor5",
+    "href": "#5"
+}).appendTo("#qunit-fixture");
+assertEqual( jQuery("#tAnchor5").attr("href"), "#5", "Check for non-absolute href (an anchor)" );
+jQuery("<a id='tAnchor6' href='#5' />").appendTo("#qunit-fixture");
+assertEqual( jQuery("#tAnchor5").prop("href"), jQuery("#tAnchor6").prop("href"), "Check for absolute href prop on an anchor" );
+
+$("<script type='jquery/test' src='#5' id='scriptSrc'></script>").appendTo("#qunit-fixture");
+assertEqual( jQuery("#tAnchor5").prop("href"), jQuery("#scriptSrc").prop("src"), "Check for absolute src prop on a script" );
+
+// list attribute is readonly by default in browsers that support it
+jQuery("#list-test").attr( "list", "datalist" );
+assertEqual( jQuery("#list-test").attr("list"), "datalist", "Check setting list attribute" );
+
+// Related to [5574] and [5683]
+body = document.body;
+$body = jQuery( body );
+
+assertEqual( $body.attr("foo"), undefined, "Make sure that a non existent attribute returns undefined" );
+
+body.setAttribute( "foo", "baz" );
+assertEqual( $body.attr("foo"), "baz", "Make sure the dom attribute is retrieved when no expando is found" );
+
+$body.attr( "foo","cool" );
+assertEqual( $body.attr("foo"), "cool", "Make sure that setting works well when both expando and dom attribute are available" );
+
+body.removeAttribute("foo"); // Cleanup
+
+select = document.createElement("select");
+optgroup = document.createElement("optgroup");
+option = document.createElement("option");
+
+optgroup.appendChild( option );
+select.appendChild( optgroup );
+
+assertEqual( jQuery( option ).prop("selected"), true, "Make sure that a single option is selected, even when in an optgroup." );
+
+$img = jQuery("<img style='display:none' width='215' height='53' src='data/1x1.jpg'/>").appendTo("body");
+assertEqual( $img.attr("width"), "215", "Retrieve width attribute an an element with display:none." );
+assertEqual( $img.attr("height"), "53", "Retrieve height attribute an an element with display:none." );
+
+// Check for style support
+styleElem = jQuery("<div/>").appendTo("#qunit-fixture").css({
+    background: "url(UPPERlower.gif)"
+});
+assert( !!~styleElem.attr("style").indexOf("UPPERlower.gif"), "Check style attribute getter" );
+assert( !!~styleElem.attr("style", "position:absolute;").attr("style").indexOf("absolute"), "Check style setter" );
+
+// Check value on button element (#1954)
+$button = jQuery("<button>text</button>").insertAfter("#button");
+assertEqual( $button.attr("value"), undefined, "Absence of value attribute on a button" );
+assertEqual( $button.attr( "value", "foobar" ).attr("value"), "foobar", "Value attribute on a button does not return innerHTML" );
+assertEqual( $button.attr("value", "baz").html(), "text", "Setting the value attribute does not change innerHTML" );
+
+// Attributes with a colon on a table element (#1591)
+assertEqual( jQuery("#table").attr("test:attrib"), undefined, "Retrieving a non-existent attribute on a table with a colon does not throw an error." );
+assertEqual( jQuery("#table").attr( "test:attrib", "foobar" ).attr("test:attrib"), "foobar", "Setting an attribute on a table with a colon does not throw an error." );
+
+$form = jQuery("<form class='something'></form>").appendTo("#qunit-fixture");
+assertEqual( $form.attr("class"), "something", "Retrieve the class attribute on a form." );
+
+$a = jQuery("<a href='#' onclick='something()'>Click</a>").appendTo("#qunit-fixture");
+assertEqual( $a.attr("onclick"), "something()", "Retrieve ^on attribute without anonymous function wrapper." );
+
+assert( jQuery("<div/>").attr("doesntexist") === undefined, "Make sure undefined is returned when no attribute is found." );
+assert( jQuery("<div/>").attr("title") === undefined, "Make sure undefined is returned when no attribute is found." );
+assertEqual( jQuery("<div/>").attr( "title", "something" ).attr("title"), "something", "Set the title attribute." );
+assert( jQuery().attr("doesntexist") === undefined, "Make sure undefined is returned when no element is there." );
+assertEqual( jQuery("<div/>").attr("value"), undefined, "An unset value on a div returns undefined." );
+assertEqual( jQuery("<select><option value='property'></option></select>").attr("value"), undefined, "An unset value on a select returns undefined." );
+
+$form = jQuery("#form").attr( "enctype", "multipart/form-data" );
+assertEqual( $form.prop("enctype"), "multipart/form-data", "Set the enctype of a form (encoding in IE6/7 #6743)" );

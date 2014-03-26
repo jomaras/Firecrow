@@ -1,0 +1,987 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8" />
+    <title>IV & III / Web and Graphic Design</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <style>
+    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline; }
+    article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+        display: block; }
+    body {
+        line-height: 1; }
+    ol, ul {
+        list-style: none; }
+    blockquote, q {
+        quotes: none; }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none; }
+    table {
+        border-collapse: collapse;
+        border-spacing: 0; }
+
+    body {
+        background: #fff;
+        font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #444;
+        -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+        -webkit-text-size-adjust: 100%;
+    }
+
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #212a35;
+        font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: normal; }
+    h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
+    h1 { font-size: 46px; line-height: 50px; margin-bottom: 14px;}
+    h2 { font-size: 35px; line-height: 40px; margin-bottom: 10px; }
+    h3 { font-size: 28px; line-height: 34px; margin-bottom: 8px; }
+    h4 { font-size: 21px; line-height: 30px; margin-bottom: 4px; }
+    h5 { font-size: 17px; line-height: 24px; }
+    h6 { font-size: 14px; line-height: 21px; font-weight: bold !important; padding: 0 0 10px 0; }
+    .subheader { color: #777; }
+
+    p { margin: 0 0 20px 0; }
+    p img { margin: 0; }
+    p.lead { font-size: 21px; line-height: 27px; color: #777;  }
+
+    em { font-style: italic; }
+    strong { font-weight: bold; }
+    small { font-size: 80%; }
+
+
+    blockquote, blockquote p { font-size: 17px; line-height: 24px; color: #777; font-style: italic; }
+    blockquote { margin: 0 0 20px; padding: 9px 20px 0 19px; border-left: 1px solid #ddd; }
+    blockquote cite { display: block; font-size: 12px; color: #555; }
+    blockquote cite:before { content: "\2014 \0020"; }
+    blockquote cite a, blockquote cite a:visited, blockquote cite a:visited { color: #555; }
+
+    hr {clear: both; margin: 0 auto; background-color: none;border-bottom: 1px solid #eee; width: 89%; padding: 0px}
+
+
+    a, a:visited { color: #333; border-bottom: 1px solid #e73c07; outline: 0; text-decoration: none; }
+    a:hover, a:focus { color: #e73c07; }
+    p a, p a:visited { line-height: inherit; }
+
+
+    ul, ol { margin-bottom: 20px; }
+    ul { list-style: none outside; }
+    ol { list-style: decimal; }
+    ol, ul.square, ul.circle, ul.disc { margin-left: 30px; }
+    ul.square { list-style: square outside; }
+    ul.circle { list-style: circle outside; }
+    ul.disc { list-style: disc outside; }
+    ul ul, ul ol,
+    ol ol, ol ul { margin: 4px 0 5px 30px; font-size: 90%;  }
+    ul ul li, ul ol li,
+    ol ol li, ol ul li { margin-bottom: 6px; }
+    li { line-height: 18px; margin-bottom: 12px; }
+    ul.large li { line-height: 21px; }
+    li p { line-height: 21px; }
+
+
+    img.scale-with-grid {
+        max-width: 100%;
+        height: auto; }
+
+
+    a.button,
+    button,
+    input[type="submit"],
+    input[type="reset"],
+    input[type="button"] {
+        background: #eee;
+        background: -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.2)), color-stop(100%,rgba(0,0,0,.2))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Opera11.10+ */
+        background: -ms-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* IE10+ */
+        background: linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* W3C */
+        border: 1px solid #aaa;
+        border-top: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        padding: 4px 12px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        color: #444;
+        display: inline-block;
+        font-size: 11px;
+        font-weight: bold;
+        text-decoration: none;
+        text-shadow: 0 1px rgba(255, 255, 255, .75);
+        cursor: pointer;
+        margin-bottom: 20px;
+        line-height: 21px;
+        font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+    a.button:hover,
+    button:hover,
+    input[type="submit"]:hover,
+    input[type="reset"]:hover,
+    input[type="button"]:hover {
+        color: #222;
+        background: #eee;
+        background: -moz-linear-gradient(top, rgba(255,255,255,.3) 0%, rgba(0,0,0,.3) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.3)), color-stop(100%,rgba(0,0,0,.3))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Opera11.10+ */
+        background: -ms-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* IE10+ */
+        background: linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* W3C */
+        border: 1px solid #888;
+        border-top: 1px solid #aaa;
+        border-left: 1px solid #aaa; }
+
+    a.button:active,
+    button:active,
+    input[type="submit"]:active,
+    input[type="reset"]:active,
+    input[type="button"]:active {
+        background: #eee;
+        background: -moz-linear-gradient(top, rgba(0,0,0,.3) 0%, rgba(255,255,255,.3) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,.3)), color-stop(100%,rgba(255,255,255,.3))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 100%); /* Opera11.10+ */
+        background: -ms-linear-gradient(top, rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 100%); /* IE10+ */
+        background: linear-gradient(top, rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 100%); /* W3C */
+        border: 1px solid #888;
+        border-bottom: 1px solid #aaa;
+        border-right: 1px solid #aaa; }
+
+    .button.full-width,
+    button.full-width,
+    input[type="submit"].full-width,
+    input[type="reset"].full-width,
+    input[type="button"].full-width {
+        width: 100%;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: center; }
+
+
+    ul.tabs {
+        display: block;
+        margin: 0 0 20px 0;
+        padding: 0;
+        border-bottom: solid 1px #ddd; }
+    ul.tabs li {
+        display: block;
+        width: auto;
+        height: 30px;
+        padding: 0;
+        float: left;
+        margin-bottom: 0; }
+    ul.tabs li a {
+        display: block;
+        text-decoration: none;
+        width: auto;
+        height: 29px;
+        padding: 0px 20px;
+        line-height: 30px;
+        border: solid 1px #ddd;
+        border-width: 1px 0 0 1px;
+        margin: 0;
+        background: #f5f5f5;
+        font-size: 13px; }
+    ul.tabs li a.active {
+        background: #fff;
+        height: 30px;
+        position: relative;
+        top: -4px;
+        padding-top: 4px;
+        border-right-width: 1px;
+        margin: 0 -1px 0 0;
+        color: #111;
+        -moz-border-radius-topleft: 2px;
+        -webkit-border-top-left-radius: 2px;
+        border-top-left-radius: 2px;
+        -moz-border-radius-topright: 2px;
+        -webkit-border-top-right-radius: 2px;
+        border-top-right-radius: 2px; }
+    ul.tabs li:first-child a {
+        -moz-border-radius-topleft: 2px;
+        -webkit-border-top-left-radius: 2px;
+        border-top-left-radius: 2px; }
+    ul.tabs li:last-child a {
+        border-width: 1px 1px 0 1px;
+        -moz-border-radius-topright: 2px;
+        -webkit-border-top-right-radius: 2px;
+        border-top-right-radius: 2px; }
+
+    ul.tabs-content { margin: 0; display: block; }
+    ul.tabs-content > li { display:none; }
+    ul.tabs-content > li.active { display: block; }
+
+    ul.tabs:before,
+    ul.tabs:after {
+        content: '\0020';
+        display: block;
+        overflow: hidden;
+        visibility: hidden;
+        width: 0;
+        height: 0; }
+    ul.tabs:after {
+        clear: both; }
+    ul.tabs {
+        zoom: 1; }
+
+
+
+    form {
+        margin-bottom: 20px; }
+    fieldset {
+        margin-bottom: 20px; }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    textarea,
+    select {
+        border: 1px solid #ccc;
+        padding: 6px 4px;
+        outline: none;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        font: 13px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #777;
+        margin: 0;
+        width: 210px;
+        max-width: 100%;
+        display: block;
+        margin-bottom: 20px;
+        background: #fff; }
+    select {
+        padding: 0; }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+        border: 1px solid #aaa;
+        color: #444;
+        -moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
+        -webkit-box-shadow: 0 0 3px rgba(0,0,0,.2);
+        box-shadow:  0 0 3px rgba(0,0,0,.2); }
+    textarea {
+        min-height: 60px; }
+    label,
+    legend {
+        display: block;
+        font-weight: bold;
+        font-size: 13px;  }
+    select {
+        width: 220px; }
+    input[type="checkbox"] {
+        display: inline; }
+    label span,
+    legend span {
+        font-weight: normal;
+        font-size: 13px;
+        color: #444; }
+
+    .remove-bottom { margin-bottom: 0 !important; }
+    .half-bottom { margin-bottom: 10px !important; }
+    .add-bottom { margin-bottom: 20px !important; }
+    </style>
+    <style>
+        .container { position: relative; width: 1024px; margin: 0 auto; padding: 0; }
+        .column, .columns { float: left; display: inline; margin-left: 10px; margin-right: 10px; }
+        .row { margin-bottom: 20px; }
+
+        .column.alpha, .columns.alpha 				{ margin-left: 0; }
+        .column.omega, .columns.omega 				{ margin-right: 0; }
+
+        .container .one.column 							{ width: 40px;  }
+        .container .two.columns 						{ width: 100px; }
+        .container .three.columns 					{ width: 160px; }
+        .container .four.columns 						{ width: 220px; }
+        .container .five.columns 						{ width: 280px; }
+        .container .six.columns 						{ width: 340px; }
+        .container .seven.columns 					{ width: 400px; }
+        .container .eight.columns 					{ width: 460px; }
+        .container .nine.columns 						{ width: 520px; }
+        .container .ten.columns 						{ width: 580px; }
+        .container .eleven.columns 					{ width: 640px; }
+        .container .twelve.columns 					{ width: 700px; }
+        .container .thirteen.columns 				{ width: 760px; }
+        .container .fourteen.columns 				{ width: 820px; }
+        .container .fifteen.columns 				{ width: 880px; }
+        .container .sixteen.columns 				{ width: 940px; }
+
+        .container .one-third.column				{ width: 300px; }
+        .container .two-thirds.column				{ width: 620px; }
+
+        .container .offset-by-one 					{ padding-left: 60px;  }
+        .container .offset-by-two 					{ padding-left: 120px; }
+        .container .offset-by-three 				{ padding-left: 180px; }
+        .container .offset-by-four 					{ padding-left: 240px; }
+        .container .offset-by-five 					{ padding-left: 300px; }
+        .container .offset-by-six 					{ padding-left: 360px; }
+        .container .offset-by-seven 				{ padding-left: 420px; }
+        .container .offset-by-eight 				{ padding-left: 480px; }
+        .container .offset-by-nine 					{ padding-left: 540px; }
+        .container .offset-by-ten 					{ padding-left: 600px; }
+        .container .offset-by-eleven 				{ padding-left: 660px; }
+        .container .offset-by-twelve 				{ padding-left: 720px; }
+        .container .offset-by-thirteen 			{ padding-left: 780px; }
+        .container .offset-by-fourteen 			{ padding-left: 840px; }
+        .container .offset-by-fifteen 			{ padding-left: 900px; }
+
+
+        .container:after { content: "\0020"; display: block; height: 0; clear: both; visibility: hidden; }
+
+
+        .clearfix:before,
+        .clearfix:after,
+        .row:before,
+        .row:after {
+            content: '\0020';
+            display: block;
+            overflow: hidden;
+            visibility: hidden;
+            width: 0;
+            height: 0; }
+        .row:after,
+        .clearfix:after {
+            clear: both; }
+        .row,
+        .clearfix {
+            zoom: 1; }
+
+        .clear {
+            clear: both;
+            display: block;
+            overflow: hidden;
+            visibility: hidden;
+            width: 0;
+            height: 0;
+        }
+    </style>
+    <style>
+    body {
+        position: relative;
+        background: #ddd url(pageAImages/noise.png) repeat;
+    }
+    .headerWrapper {
+        position: absolute;
+        background: transparent url(pageAImages/topBar.png) repeat-x;
+        width: 100%;
+        height: 120px;
+        z-index: 10;
+        top: 0;
+        border-top: 2px solid #e73c07;
+    }
+    .header {
+        margin: 0 auto;
+        padding: 32px 0 0 0;
+        width: 1024px;
+        height: 60px;
+        background: none;
+    }
+    .header a {
+        border: none;
+    }
+    .logo {
+        width: 120px;
+        float: left;
+    }
+    .globalNav {
+        padding: 14px 0 0 0;
+        float: left;
+    }
+    .globalNav ul {
+        display: inline;
+        width: 400px;
+        height: 40px;
+    }
+    .globalNav ul li {
+        float: left;
+        padding: 0 10px;
+    }
+    .globalNav ul li a {
+        color: #d5dbe8;
+        text-decoration: none;
+        font-size: .8em;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    .globalNav ul li a:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    .rightNav {
+        margin: 0px;
+        padding: 8px 0 0 0;
+        width: 92px;
+        height: 30px;
+        float: right;
+    }
+    .rightNav ul {
+
+    }
+    .rightNav ul li {
+        padding: 0 6px;
+        float: left;
+    }
+    ul#emailandtwitter li a {
+        display: block;
+        float: left;
+        height: 30px;
+        background-image: url(pageAImages/icons.png);
+        text-indent: -99999px;
+    }
+    ul#emailandtwitter li a.writeEmail {
+        width: 34px;
+        background-position: -8px -4px;
+    }
+    ul#emailandtwitter li a.followOnTwitter {
+        width: 34px;
+        background-position: -53px -4px;
+    }
+
+    ul#emailandtwitter li a.writeEmail:hover {
+        background-position: -8px -30px;
+    }
+    ul#emailandtwitter li a.followOnTwitter:hover {
+        background-position: -53px -30px;
+    }
+
+    ul#emailandtwitter li a.writeEmail:active {
+        background-position: -8px -58px;
+    }
+    ul#emailandtwitter li a.followOnTwitter:active {
+        background-position: -53px -58px;
+    }
+
+    .container {
+        margin: 0px auto;
+        padding: 105px 0 0 0;
+        background-color: #FAFBFC;
+        z-index: 0;
+        width: 1024px;
+        min-height: 800px;
+        -moz-box-shadow: 0 0px 5px 2px rgba(0, 0, 0, .3);
+        -webkit-box-shadow: 0 0px 5px 2px rgba(0, 0, 0, .3);
+        box-shadow: 0 0px 5px 2px rgba(0, 0, 0, .3);
+        border: 1px solid #fff;
+    }
+    .projectsHomeWorkWrapper {
+        margin: 0px;
+        padding: 0px;
+        width: 1024px;
+        height: 500px;
+    }
+    .projectsHomeContainer {
+        margin: -21px 0 0 0;
+        padding: 0px 0 0 0;
+        width: 1024px;
+        height: 20px;
+        border-top: 1px solid #eee;
+    }
+    .imgTitle {
+        margin: 0 0 35px 0;
+    }
+
+    .hr {
+        background: transparent url(pageAImages/lineDevider.png) no-repeat top center !important;
+        height: 100px;
+    }
+    .shadowDevider {
+        background: transparent url(pageAImages/shadowDevider.png) no-repeat top center !important;
+        height: 100px;
+    }
+    .tailored {
+        height: 500px;
+    }
+    .homeAbout {
+        padding: 0 0 0 50px;
+        height: 270px;
+    }
+    .homeAbout img {
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    .greatThings {
+        margin: -50px 0 0 0;
+        width: 1024px;
+    }
+    .noBorder {
+        border: none !important;
+    }
+
+    .levinBigPic {
+        margin: 0px;
+        padding: 0px;
+        width: 1024px;
+        height: 500px;
+        background: #000 url(pageAImages/levin_skywalk.jpg) top center no-repeat;
+    }
+    .levinBigPic p {
+        margin: 0px;
+        padding: 230px 90px 30px 0;
+        float: right;
+        width: 300px;
+        color: #444;
+    }
+    .methodInfo {
+        margin: 20px 0 0 0;
+        padding: 20px 0 0 0;
+        background-color: #000;
+        height: 560px;
+        border-top: 2px solid #333;
+    }
+    .methodInfo p {
+        color: #fff;
+    }
+    .methodInfo p:first-child {
+        padding: 70px 0 0 0;
+    }
+    .methodInfo a {
+        color: #fff;
+        font-weight: bold;
+    }
+    .methodInfo img {
+        margin: 0px;
+        padding: 35px 0 0 0 !important;
+    }
+        /* PROJECT START */
+
+    #projectWrapper {
+        margin: 0px auto;
+        padding: 0 10px;
+        width: 940px;
+        min-height: 1000px;
+    }
+    .projectTopTitle {
+        margin: 40px 0 30px 0;
+    }
+    .projectContainer {
+        margin: 0 50px 0 50px;
+        height: 470px;
+        float: left;
+    }
+    .projectsDevider {
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 0 50px 0;
+        border-top: 1px solid #eee;
+    }
+    .projectThumb a {
+        border-bottom: none !important;
+    }
+    .projectContainer h4 {
+        margin: 0px;
+        padding: 10px 0 0 0;
+        text-align: center;
+        color: #212a35;
+        font-size: .97em;
+        font-weight: bold;
+        text-shadow: 0 1px 0px #fff;
+        text-shadow: 0 1px 0 #fff;
+        line-height: 1em;
+    }
+    .projectContainer p {
+        margin: 0px;
+        padding: 8px 0 0 0;
+        font-size: 11px;
+        width: 210px;
+    }
+    .projectThumb {
+        margin: 0px;
+        padding: 0px;
+        width: 210px;
+        height: 278px;
+        background-color: #f5f7f8;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        -moz-box-shadow: 0 0px 1px 2px rgba(0, 0, 0, .1);
+        -webkit-box-shadow: 0 0px 1px 2px rgba(0, 0, 0, .1);
+        box-shadow: 0 0px 1px 2px rgba(0, 0, 0, .1);
+        border: 1px solid #fff;
+    }
+    .projectThumb img {
+        padding: 0px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    .contactTitleCenter {
+        margin: 0 auto;
+        padding: 40px 0 30px 0;
+        width: 558px;
+        height: 78px;
+    }
+    .contactMeInfo {
+        margin: 10px 35px 0 70px;
+        width: 260px;
+        height: 585px;
+        float: left;
+        background-color: #fff;
+        -webkit-border-radius: 4px;
+        -webkit-box-shadow:rgba(0,0,0,.6) 0px 0px 2px;
+        -moz-box-shadow:rgba(0,0,0,.6) 0px 0px 2px;
+        -o-box-shadow:rgba(0,0,0,.6) 0px 0px 2px;
+        box-shadow:rgba(0,0,0,.6) 0px 0px 2px;
+        border: 1px solid #fff;
+    }
+    .contactMeInfo h5 {
+        padding: 0 0 10px 0;
+        font-weight: bold;
+        color: #444;
+    }
+    .contactMeInfo ul {
+        margin: 10px 0 0 0;
+        padding: 0 0 0 20px;
+        font-size: .9em;
+    }
+    .contactMeInfo ul li {
+        margin: 4px 0 0 0;
+        padding: 0px;
+    }
+    .contactMeInfo img {
+        margin: 0px;
+        padding: 0px;
+        width: 260px;
+        -webkit-border-radius: 3px 3px 0 0;
+        -moz-border-radius: 3px 3px 0 0;
+        border-radius: 3px 3px 0 0;
+    }
+    .socialLinks {
+        margin: -6px 0 20px 0;
+        padding: 0px;
+        height: 75px;
+        width: 100%;
+        background: #e73c07 url(pageAImages/orangeNoise.png) repeat;
+    }
+    .socialLinks ul#socialLinksMenu {
+        margin: 0px auto;
+        padding: 14px 0 00;
+        width: 200px;
+        height: 30px;
+    }
+    .socialLinks ul#socialLinksMenu li {
+        padding: 0 5px;
+        width: 40px;
+        height: 30px;
+        display: inline;
+        float: left;
+        text-indent: -99999px;
+        border: none;
+    }
+    .socialLinks ul#socialLinksMenu li a {
+        display: block;
+        float: left;
+        height: 30px;
+        border: none;
+        background-image: url(pageAImages/iconsSocialLink.png);
+    }
+    ul#socialLinksMenu li a.twitterSocialLinks {
+        width: 34px;
+        background-position: 0px 0px;
+    }
+    ul#socialLinksMenu li a.dribbbleSocialLinks {
+        width: 34px;
+        background-position: -40px 0px;
+    }
+    ul#socialLinksMenu li a.tumblrSocialLinks {
+        width: 34px;
+        background-position: -80px 0px;
+    }
+    ul#socialLinksMenu li a.behanceSocialLinks {
+        width: 34px;
+        background-position: -120px 0px;
+    }
+
+
+    ul#socialLinksMenu li a.twitterSocialLinks:hover {
+        background-position: 0px -28px;
+    }
+    ul#socialLinksMenu li a.dribbbleSocialLinks:hover {
+        background-position: -40px -29px;
+    }
+    ul#socialLinksMenu li a.tumblrSocialLinks:hover {
+        background-position: -80px -28px;
+    }
+    ul#socialLinksMenu li a.behanceSocialLinks:hover {
+        background-position: -120px -29px;
+    }
+
+
+    ul#socialLinksMenu li a.twitterSocialLinks:active {
+        background-position: 0px -59px;
+    }
+    ul#socialLinksMenu li a.dribbbleSocialLinks:active {
+        background-position: -40px -58px;
+    }
+    ul#socialLinksMenu li a.tumblrSocialLinks:active {
+        background-position: -80px -59px;
+    }
+    ul#socialLinksMenu li a.behanceSocialLinks:active {
+        background-position: -120px -58px;
+    }
+
+
+
+    .contactMeInfo p {
+        margin: 0 auto;
+        padding: 0 5px 15px 5px;
+        width: 80%;
+        font-size: 12px;
+        border-bottom: 1px solid #ccc;
+    }
+    .footer {
+        margin:0;
+        padding: 0px;
+        width: 1024px;
+        height: 320px;
+        background-color: #474951;
+    }
+    .footer h5 {
+        padding: 80px 0 10px 0;
+        color: #fff;
+        font-weight: bold;
+    }
+    .footer ul li {
+        margin: 5px 0;
+        color: #ddd;
+        font-size: .9em;
+    }
+    .footer ul li a {
+        color: #ddd;
+        border: none;
+    }
+    .footer ul li a:hover {
+        color: #f8f8f8;
+        border-bottom: 1px solid #e73c07;
+    }
+    .contentContainer {
+        padding: 0 0 0 50px;
+    }
+    .roundedCorners {
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .leftRoundedCorners {
+        -webkit-border-radius: 3px 0 0 3px;
+        -moz-border-radius: 3px 0 0 3px;
+        border-radius: 3px 0 0 3px;
+    }
+
+    .previousClientsLogos {
+        margin: 40px auto;
+        width: 890px;
+        height: 84px;
+    }
+    </style>
+    <style>
+        .one-third {
+            padding: 0 24px;
+            width: 250px !important;
+        }
+        .projectsHomeContainer ul.tabs {
+            margin: 0 auto;
+            padding: 30px 0 0 50px;
+            border: none;
+            width: 130px;
+        }
+        .projectsHomeContainer ul.tabs li {
+            width: 25px;
+            height: 10px;
+        }
+        .projectsHomeContainer ul.tabs li a {
+            padding: 0px !important;
+            height: 16px;
+            background: transparent url(pageAImages/homeNavButtons.png) no-repeat top center;
+            border: none;
+            text-indent: -99999px;
+        }
+        .projectsHomeContainer ul.tabs li a:hover {
+            background-position: 3px -17px;
+        }
+        .projectsHomeContainer ul.tabs li a.active {
+            margin: 4px 0 0 0 !important;
+            padding: 0px !important;
+            background-position: 4px -34px;
+        }
+        #homeMobileTab a {
+            border: none !important;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="headerWrapper">
+    <div class="header">
+        <div class="logo"><a href="http://www.fourandthree.com"><img src="pageAImages/logo.png" alt="Four and Three logo" /></a>
+        </div>
+
+        <div class="globalNav">
+            <ul>
+                <li><a href="http://www.fourandthree.com">Home</a></li>
+                <li><a href="projects/">Projects</a></li>
+                <li><a href="about/">About</a></li>
+                <li><a href="contact/">Contact</a></li>
+                <li><a href="http://www.fourandthree.tumblr.com">Blog</a></li>
+            </ul>
+        </div>
+
+        <div class="rightNav">
+            <ul id="emailandtwitter">
+                <li><a class="writeEmail" href="mailto:levin@fourandthree.com">Write eMail</a></li>
+                <li><a class="followOnTwitter" href="http://www.twitter.com/fourandthree">Follow</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="container">
+
+    <div id="slider">
+    <div class="projectsHomeWorkWrapper" >
+        <ul class="tabs-content">
+
+            <li id="homeMobileTab" class="active">
+                <a href="http://www.nightlightlullabies.com"><img src="pageAImages/homeNightlightLullabies.jpg" alt="Nightlight Lullabies App"  /></a>
+            </li>
+
+            <li id="homeMooseWatchTab">
+                <a href="projects/moosewatch/"><img src="pageAImages/homeMooseWatch.jpg" alt="Moose Watch" /></a>
+            </li>
+
+            <li id="homeMUNTab">
+                <a href="projects/memorialuniversity/"><img src="pageAImages/homeMadeMUN.jpg" alt="Memorial University" /></a>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div class="projectsHomeContainer">
+
+        <ul class="tabs">
+            <li><a href="#homeMobile" class="active">1</a></li>
+            <li><a href="#homeMooseWatch">2</a></li>
+            <li><a href="#homeMUN">3</a></li>
+
+        </ul>
+
+    </div>
+
+    </div>
+    <div class="hr"></div>
+
+    <div class="tailored">
+        <div class="nine columns alpha" style="padding: 60px 0 0 50px;">
+            <img src="pageAImages/tailored.png" alt="Tailored" class="Tailored imgTitle" />
+            <P>Tired of templates? Yeah, me too. Each project I work on is tailored to you and your project. It all starts with some initial sketches. Even though it might not look pretty at first - it's a great start. <em>The sketch to the right was the initial sketch for this very own site</em>.</P>
+            <p>A great brand or effective and easy-to-use website requires thought and strategy. While I sketch, I get the chance to learn more about you, and you get the chance to ask questions and get answers. Are you a fan of great customer service? Me too - I will always return your calls and reply to emails. Looks like we have a lot in common; I think we would make a great team. <a href="contact/"><strong>Drop me a line</strong></a>.</p>
+        </div>
+
+        <div class="seven columns omega"  style="float: right; margin: 0 -4px 0 0;">
+            <img src="pageAImages/sketchBook.jpg" alt="Sketch Book" />
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+    <div class="shadowDevider"></div>
+
+
+    <div class="homeAbout">
+        <div class="seven columns alpha">
+            <img src="pageAImages/levin.png" alt="Levin Mejia Picture" />
+        </div>
+
+        <div class="nine columns omega" style="padding: 6px 0 0 0;">
+            <img src="pageAImages/aboutMe.png" alt="About Me" class="About Me imgTitle" />
+            <p>My name is Levin Mejia, I'm a freelance graphic and web designer, and I work under the name IV & III (Four and Three). I like to say that I'm passionate about design and the web, but most say that I'm obsessed… </p>
+            <p style="margin: 0 0 8px 0;"><a href="about/"><strong>Continue Reading &rarr;</strong></a></p>
+            <p><a href="projects/"><strong>View the Work &rarr;</strong></a></p>
+
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+    <div class="previousClientsLogos">
+        <img src="pageAImages/previousClients.png" alt="Previous Clients" />
+    </div>
+
+
+    <div class="clear"></div>
+    <div class="shadowDevider"></div>
+
+    <div class="greatThings" style="height: 420px; margin: 0 80px 0 0;">
+        <img src="pageAImages/imakegreatthings.png" alt="I Make Great Things With This Tech" style="margin: 0 0 30px 0;"/>
+
+
+        <div class="one-third column" style="padding: 0 40px 0 50px;">
+            <img src="pageAImages/html5Badge.png" alt="HTML5 Logo">
+            <p><strong>HTML5, CSS3, and Javascript</strong></p>
+            <p>HTML5 and CSS3 is the new standard for the web. It allows us to create great experiences for the web and target mobile devices with javascript. </p>
+        </div>
+        <div class="one-third column">
+            <img src="pageAImages/favTools.png" alt="Photoshop and Espresso"/>
+            <p><strong>Photoshop and Espresso</strong></p>
+            <p>I use Photoshop and Espresso to build brands, design, and code for the web. While I use other tech, these are my favourite and most used tools.</p>
+            </ul>
+        </div>
+        <div class="one-third column">
+            <img src="pageAImages/appleGear.png" alt="Apple Gear"/>
+            <p><strong>Mac, iPad and iPhone</strong></p>
+            <p>The work I produce needs to be tested on a variety of devices; that is why I test on my iPhone and iPad to make the experiences just right.  </p>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="footer">
+        <div class="eight columns alpha" style="padding: 0px; margin: 0px; height: 320px;">
+            <img src="pageAImages/fourandthree_footerLogo.png" alt="Four and Three Logo" />
+        </div>
+
+        <div class="three columns omega" style="padding: 0 20px 0 50px;">
+            <h5>Menu</h5>
+            <ul>
+                <li><a href="http://www.fourandthree.com">Home</a></li>
+                <li><a href="projects/">Projects</a></li>
+                <li><a href="about/index.php">About</a></li>
+                <li><a href="contact/index.php">Contact</a></li>
+                <li><a href="http://www.fourandthree.tumblr.com">Blog</a></li>
+            </ul>
+        </div>
+
+        <div class="four columns omega">
+            <h5>Contact Information</h5>
+            <ul>
+                <li><strong>Cell:</strong> (709) 351-1163</li>
+                <li><strong>eMail:</strong> levin@fourandthree.com</li>
+                <li><strong>Web:</strong> http://www.fourandthree.com</li>
+                <li><strong>Twitter:</strong> @fourandthree</li>
+            </ul>
+        </div>
+</div>
+
+
+<script src="pageAScripts/jQuery.js"></script>
+<script src="pageAScripts/app.js"></script>
+</body>
+</html>
