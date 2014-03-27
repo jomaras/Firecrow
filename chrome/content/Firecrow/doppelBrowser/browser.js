@@ -1041,6 +1041,13 @@ FBL.ns(function() { with (FBL) {
                     element.checked = inputState.checked;
                     element.value = inputState.value;
                 }
+
+                if(wrappedElement != null && wrappedElement.jsValue != null)
+                {
+                    var element = wrappedElement.jsValue;
+                    element.checked = inputState.checked;
+                    element.value = inputState.value;
+                }
             }
         },
 
