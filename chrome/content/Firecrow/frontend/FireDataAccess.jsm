@@ -8,6 +8,7 @@ Cu.import("chrome://Firecrow/content/initFBL.js");
 Cu.import("chrome://Firecrow/content/helpers/UriHelper.js");
 Cu.import("chrome://Firecrow/content/helpers/htmlHelper.js");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
+Cu.import("chrome://Firecrow/content/helpers/esprima.js");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 
 var prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
@@ -130,9 +131,10 @@ var FireDataAccess =
         }.bind(this));
     },
 
-    saveModel: function(selectedFolder, pageUrl, iFrame)
+    saveModel: function(selectedFolder, pageUrl, iFrame, useEsprima)
     {
         var pageName = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, pageUrl.indexOf("."));
+        this.useEsprima = useEsprima;
 
         if(pageName == "") { pageName = "model"; }
 
@@ -144,6 +146,7 @@ var FireDataAccess =
             {
                 FileHelper.writeToFile(selectedFolder + "\\" + pageName + ".json", this._wrapModel(JSON.stringify(htmlJson, function(key, value)
                 {
+                    if(value != null && value.nodeId == 32) debugger;
                     if(key=="value" && value != null && value.constructor != null && value.constructor.name === "RegExp")
                     {
                         return { type: 'RegExpLiteral',  RegExpBase64: btoa(value.toString())};
@@ -154,9 +157,10 @@ var FireDataAccess =
         }
     },
 
-    saveModelAndTrace: function(selectedFolder, pageUrl, eventTraces, selectors, iFrame)
+    saveModelAndTrace: function(selectedFolder, pageUrl, eventTraces, selectors, iFrame, useEsprima)
     {
         var pageName = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, pageUrl.indexOf("."));
+        this.useEsprima = useEsprima;
 
         if(pageName == "") { pageName = "model"; }
 
@@ -525,7 +529,7 @@ var FireDataAccess =
 
         try
         {
-            var model = Reflect.parse(sourceCode);
+            var model = this.useEsprima ? esprima.parse(sourceCode, {loc: true}) : Reflect.parse(sourceCode);
 
             if(model != null)
             {

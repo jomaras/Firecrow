@@ -1,12 +1,18 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/devtools/widgets.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/devtools/inspector/inspector.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/devtools/debugger.css" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/devtools/common.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/dark-theme.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/widgets.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/inspector.css" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/devtools/splitview.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/content/splitview.css" type="text/css"?>
-<?xml-stylesheet href="chrome://browser/content/profiler.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/devtools/splitview.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/devtools/profiler.css" type="text/css"?>
 <?xml-stylesheet href="chrome://Firecrow/skin/Firecrow.css" type="text/css"?>
 <?xml-stylesheet href="chrome://Firecrow/skin/CodeMarkup.css" type="text/css"?>
-
 <!DOCTYPE window [
         <!ENTITY % FirecrowDTD SYSTEM "chrome://Firecrow/locale/Firecrow.dtd" >
         %FirecrowDTD;
@@ -14,13 +20,21 @@
 
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script type="application/javascript" src="tool.js"/>
-    <box id="FirecrowContent" flex="1" class="devtools-responsive-container">
+    <vbox id="FirecrowContent" layout="horizontal" flex="1" class="devtools-responsive-container">
         <browser id="invisibleBrowser" collapsed="true" type="content"/>
         <vbox hidden="false" height="0" collapsed="true">
             <iframe type="content" src="" name="fdHiddenIFrame" hidden="false" id="fdHiddenIFrame" height="0"/>
             <iframe type="content" name="slicingFrame" hidden="false" id="slicingFrame" height="0" src="../slicer.html"/>
         </vbox>
         <tabbox id="FirecrowTabContainer" flex="1" class="devtools-sidebar-tabs">
+            <tabs id="FirecrowTabs">
+                <tab label="Slicer" style="max-width: 100px" id="slicerTabButton"/>
+                <tab label="Scenario Generator" style="max-width: 150px" id="scenarioTabButton"/>
+                <tab label="Reuser" style="max-width: 100px" id="reuserTabButton"/>
+                <!--<tab label="Dependency Viewer" style="max-width: 150px" id="dependencyViewerTabButton"/>-->
+                <tab label="" disabled="true" style="min-width:5px !important;max-width:5px !important;"/>
+            </tabs>
+
             <tabpanels flex="1">
                 <tabpanel id="slicerTabPanel" class="tabpanel-content">
                     <vbox flex="1">
@@ -57,6 +71,7 @@
                                 </toolbarbutton>
                                 <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model" disabled="false" id="saveModelButton"/>
                                 <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model, selected trace and selectors" disabled="false" id="saveModelAndTraceButton"/>
+                                <checkbox label="Use Esprima" checked="false" id="esprimaCheckbox"/>
                             </hbox>
                         </toolbar>
 
@@ -196,13 +211,7 @@
 
             </tabpanels>
 
-            <tabs id="FirecrowTabs">
-                <tab label="Slicer" style="max-width: 100px" id="slicerTabButton"/>
-                <tab label="Scenario Generator" style="max-width: 150px" id="scenarioTabButton"/>
-                <tab label="Reuser" style="max-width: 100px" id="reuserTabButton"/>
-                <!--<tab label="Dependency Viewer" style="max-width: 150px" id="dependencyViewerTabButton"/>-->
-                <tab label="" disabled="true" style="min-width:5px !important;max-width:5px !important;"/>
-            </tabs>
+
         </tabbox>
-    </box>
+    </vbox>
 </window>

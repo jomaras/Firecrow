@@ -4,11 +4,14 @@ const Cu = Components.utils;
 const Ci = Components.interfaces;
 const Cc = Components.classes;
 
-Cu.import("resource:///modules/devtools/sourceeditor/source-editor.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 Cu.import("chrome://Firecrow/content/frontend/JsRecorder.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
+
+const require = Cu.import("resource://gre/modules/devtools/Loader.jsm", {}).devtools.require;
+const promise = require("sdk/core/promise");
+const Editor = require("devtools/sourceeditor/editor");
 
 var SlicerPanelController = function(extensionWindow, extensionDocument, getCurrentPageWindowFunction, getCurrentPageDocumentFunction)
 {
@@ -51,6 +54,8 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
 
     this._saveModelAndTraceButton = extensionDocument.getElementById("saveModelAndTraceButton");
     this._saveModelAndTraceButton.onclick = function(e) { this._onSaveModelAndTraceClick(e);}.bind(this);
+
+    this._esprimaCheckbox = extensionDocument.getElementById("esprimaCheckbox");
 
     FireDataAccess._window = this._extensionWindow;
     FireDataAccess.setBrowser(extensionDocument.getElementById("invisibleBrowser"));
@@ -252,7 +257,7 @@ SlicerPanelController.prototype =
 
         if(selectedFolder == "" || selectedFolder == null) { return; }
 
-        FireDataAccess.saveModel(selectedFolder, this._getCurrentPageDocument().baseURI, this._hiddenIFrame);
+        FireDataAccess.saveModel(selectedFolder, this._getCurrentPageDocument().baseURI, this._hiddenIFrame, this._esprimaCheckbox.checked);
     },
 
     _onSaveModelAndTraceClick: function()
@@ -261,7 +266,7 @@ SlicerPanelController.prototype =
 
         if(selectedFolder == "" || selectedFolder == null) { return; }
 
-        FireDataAccess.saveModelAndTrace(selectedFolder, this._getCurrentPageDocument().baseURI, this._getSelectedEventTraces(), this._selectors, this._hiddenIFrame);
+        FireDataAccess.saveModelAndTrace(selectedFolder, this._getCurrentPageDocument().baseURI, this._getSelectedEventTraces(), this._selectors, this._hiddenIFrame, this._esprimaCheckbox.checked);
     },
 
     _onRecordClick: function(e)
@@ -313,25 +318,23 @@ SlicerPanelController.prototype =
 
     _createSourceCodeViewer: function()
     {
-        this.editor = new SourceEditor();
+        //jar:file:///C:/Program%20Files%20%28x86%29/Mozilla%20Firefox/browser/omni.ja!/modules/devtools/sourceeditor/editor.js
+        this.editor = new Editor
+        ({
+            mode: Editor.modes.html,
+            readOnly: true,
+            lineNumbers: true,
+            showAnnotationRuler: true,
+            gutters: [ "breakpoints" ]
+        });
 
-        this.editor.init
-        (
-            this._editorContainer,
-            {
-                mode: SourceEditor.MODES.JAVASCRIPT,
-                readOnly: true,
-                showLineNumbers: true,
-                showAnnotationRuler: true,
-                showOverviewRuler: true
-            },
-            function()
-            {
-                this.editor.setText("---- SELECT SOURCE FILE ----");
-            }.bind(this)
-        );
+        this.editor.appendTo(this._editorContainer).then(function()
+        {
+            this.editor.setText("---- SELECT SOURCE FILE ----");
+        }.bind(this));
 
-        this.editor.addEventListener(SourceEditor.EVENTS.BREAKPOINT_CHANGE, function(e) { this._onEditorBreakPointChange(e);}.bind(this));
+        //
+        this.editor.on("gutterClick", function(e, line) { this._onEditorBreakPointChange(e, line);}.bind(this));
     },
 
     _onSourcesPopupShowing: function()
@@ -362,6 +365,7 @@ SlicerPanelController.prototype =
 
         if(currentContent != null && currentContent != "SOURCE_UNAVAILABLE")
         {
+            this._setEditorModeByFileExtension(this._currentSelectedFile);
             this.editor.setText(currentContent);
             this._showExistingBreakpoints();
         }
@@ -376,23 +380,16 @@ SlicerPanelController.prototype =
             }.bind(this));
         }
 
-        if(this._sourcesMenuList.selectedItem.label.startsWith("DOM - "))
-        {
-            this._showMarkupEditor();
-        }
-        else
-        {
-            if(this._sourcesMenuList.selectedItem.label.startsWith("* - "))
-            {
-                this.editor.setMode(SourceEditor.MODES.HTML);
-            }
-            else
-            {
-                this.editor.setMode(SourceEditor.MODES.JAVASCRIPT);
-            }
+        this._sourcesMenuList.selectedItem.label.startsWith("DOM - ") ? this._showMarkupEditor()
+                                                                      : this._showSourceEditor();
+    },
 
-            this._showSourceEditor();
-        }
+    _setEditorModeByFileExtension: function(filePath)
+    {
+        if(filePath == null) { this.editor.setMode(Editor.modes.text); }
+        else if(filePath.endsWith(".js")) { this.editor.setMode(Editor.modes.js); }
+        else if(filePath.endsWith(".html")) { this.editor.setMode(Editor.modes.html); }
+        else { this.editor.setMode(Editor.modes.text); }
     },
 
     _showSourceEditor: function()
@@ -414,23 +411,22 @@ SlicerPanelController.prototype =
         this._ignoreBreakpointChanges = false;
     },
 
-    _onEditorBreakPointChange: function(e)
+    _onEditorBreakPointChange: function(e, line)
     {
         if(this._currentSelectedFile == null || this._ignoreBreakpointChanges) { return; }
 
         if(this._slicingCriteriaMap[this._currentSelectedFile] == null) { this._slicingCriteriaMap[this._currentSelectedFile] = {}; }
 
-        for(var i = 0; i < e.added.length; i++)
+        if (this._slicingCriteriaMap[this._currentSelectedFile][line])
         {
-            var addedLine = e.added[i].line;
-            this._slicingCriteriaMap[this._currentSelectedFile][addedLine] = true;
+            this._slicingCriteriaMap[this._currentSelectedFile][line] = null;
+            delete this._slicingCriteriaMap[this._currentSelectedFile][line];
+            this.editor.removeMarker(line, "breakpoints", "breakpoint");
         }
-
-        for(var i = 0; i < e.removed.length; i++)
+        else
         {
-            var removedLine = e.removed[i].line;
-            this._slicingCriteriaMap[this._currentSelectedFile][removedLine] = null;
-            delete this._slicingCriteriaMap[this._currentSelectedFile][removedLine];
+            this._slicingCriteriaMap[this._currentSelectedFile][line] = true;
+            this.editor.addMarker(line, "breakpoints", "breakpoint");
         }
 
         this._updateSlicingCriteriaDisplay();

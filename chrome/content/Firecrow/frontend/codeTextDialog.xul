@@ -18,7 +18,11 @@
         var Cu = Components.utils;
         var Ci = Components.interfaces;
 
-        Cu.import("resource:///modules/devtools/sourceeditor/source-editor.jsm");
+
+        const require = Cu.import("resource://gre/modules/devtools/Loader.jsm", {}).devtools.require;
+        const promise = require("sdk/core/promise");
+        const Editor = require("devtools/sourceeditor/editor");
+
         Cu.import("chrome://Firecrow/content/helpers/FileHelper.js")
 
 
@@ -31,24 +35,18 @@
 
         window.onload = function()
         {
-            editor = new SourceEditor();
+            editor = new Editor
+            ({
+                mode: Editor.modes.html,
+                readOnly: true,
+                lineNumbers: true,
+                showAnnotationRuler: true
+            });
 
-            editor.init
-            (
-                sourceCodeContainer,
-                {
-                    mode: SourceEditor.MODES.HTML,
-                    readOnly: true,
-                    showLineNumbers: true,
-                    showAnnotationRuler: true,
-                    showOverviewRuler: true,
-                    initialText: defaultText
-                },
-                function()
-                {
-                    editor.setText(defaultText);
-                }
-            );
+            this.editor.appendTo(sourceCodeContainer).then(function()
+            {
+                editor.setText(defaultText);
+            });
 
             var saveFileButton = document.getElementById("saveFileButton");
 

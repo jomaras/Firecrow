@@ -1,4 +1,8 @@
 ******************   0. Programming  ******************
+- Mozilla ParserAPI has no way of obtaining raw string values, e.g.
+    var message = "\uFEFF\xA0"; when parsed turns into var message = " ";
+
+
  - enable Scenario Generator
     - causes crashing of Inspector panel (they cancel each other out, possibly due to promises, check out events called on panel switch)
     - possibly problem with the (InspectorFront in the actor/inspector file), promises can not be realized
