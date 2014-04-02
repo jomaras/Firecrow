@@ -1179,10 +1179,7 @@ Firecrow.CodeTextGenerator.prototype =
         if(ValueTypeHelper.isNull(literal.value)) { return "null"; }
         if (ValueTypeHelper.isString(literal.value))
         {
-            if(literal.raw != null)
-            {
-                return literal.raw;
-            }
+            if(literal.raw != null) { return literal.raw; }
 
             return "'" + literal.value.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n").replace(/\r/g, "\\r") + "'";
         }

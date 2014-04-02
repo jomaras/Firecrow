@@ -1175,7 +1175,12 @@ FBL.ns(function () { with (FBL) {
         {
             if (ValueTypeHelper.isString(literal.value))
             {
-                return this.getElementHtml("span", {class: "String", id: "node" + this.formatId(literal.nodeId)}, "\"" + this.escapeHtml(literal.value) + "\"");
+                return this.getElementHtml
+                (
+                    "span",
+                    { class: "String", id: "node" + this.formatId(literal.nodeId) },
+                    literal.raw != null ? this.escapeHtml(literal.raw) : "\"" + this.escapeHtml(literal.value) + "\""
+                );
             }
             else if (ValueTypeHelper.isBoolean(literal.value) || ValueTypeHelper.isNull(literal.value))
             {
