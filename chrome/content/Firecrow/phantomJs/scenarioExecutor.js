@@ -32,5 +32,6 @@ page.open(encodeURI(scenarioExecutorUrl), function(status)
     console.log("Saving scenario execution info to: " + scenarioExecutorDataFile);
 
     fs.write(scenarioExecutorDataFile, executionInfoString);
+    console.log("Exiting from scenarioExecutor phantomJs script!");
     phantom.exit();
 });

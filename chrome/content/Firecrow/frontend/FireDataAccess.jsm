@@ -133,7 +133,7 @@ var FireDataAccess =
 
     saveModel: function(selectedFolder, pageUrl, iFrame, useEsprima)
     {
-        var pageName = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, pageUrl.indexOf("."));
+        var pageName = this._getPageName(pageUrl);
         this.useEsprima = useEsprima;
 
         if(pageName == "") { pageName = "model"; }
@@ -159,7 +159,7 @@ var FireDataAccess =
 
     saveModelAndTrace: function(selectedFolder, pageUrl, eventTraces, selectors, iFrame, useEsprima)
     {
-        var pageName = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, pageUrl.indexOf("."));
+        var pageName = this._getPageName(pageUrl);
         this.useEsprima = useEsprima;
 
         if(pageName == "") { pageName = "model"; }
@@ -183,6 +183,15 @@ var FireDataAccess =
                 }), pageUrl));
             }.bind(this));
         }
+    },
+
+    _getPageName: function(pageUrl)
+    {
+        var indexOfExtension = pageUrl.indexOf(".");
+
+        if(indexOfExtension < 0) { indexOfExtension = pageUrl.length; }
+
+        return pageUrl.substring(pageUrl.lastIndexOf("/") + 1, indexOfExtension);
     },
 
     asyncGetPageModels: function(urls, iFrame, callback)

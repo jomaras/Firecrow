@@ -38,7 +38,6 @@ var ScenarioGenerator =
     includeNecessaryFilesPlugin: function()
     {
         this.scenarioExecutorLocation = path.resolve(__dirname, "../scenarioExecutor.html");
-
         this.ASTHelper = require(path.resolve(__dirname, "../ASTHelper.js")).ASTHelper;
         this.ValueTypeHelper = require(path.resolve(__dirname, "ValueTypeHelper.js")).ValueTypeHelper;
         this.CodeMarkupGenerator = require(path.resolve(__dirname, "../codeMarkupGenerator.js")).CodeMarkupGenerator;
@@ -252,7 +251,7 @@ var ScenarioGenerator =
         spawnPhantomJsProcess
         (
             ScenarioGenerator.scenarioExecutorPhantomScriptPath,
-            [scenarioExecutorUrl],
+            ['"' + scenarioExecutorUrl + '"'],
             function(data)
             {
                 console.log(data.toString());
@@ -349,6 +348,7 @@ var ScenarioGenerator =
         }
 
         var startTime = Date.now();
+
         var pageUrl = ScenarioGenerator._getScenarioExecutorUrl(this.scenarioExecutorLocation, ScenarioGenerator.pageModelUrl);
 
         ScenarioGenerator._saveScenarioInfoToFile(scenario);
@@ -366,7 +366,7 @@ var ScenarioGenerator =
         spawnPhantomJsProcess
         (
             ScenarioGenerator.scenarioExecutorPhantomScriptPath,
-            [pageUrl],
+            ['"' + pageUrl + '"'],
             function(data)
             {
                 console.log("PhantomJs: " + data.toString());
@@ -963,6 +963,8 @@ function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction
 {
     var command = ScenarioGenerator.phantomJsPath + " " + pathToFile + " " + args.join(" ");
     var prc = exec( command, { maxBuffer: 100000*1024}, onErrorFunction);
+
+    console.log("Spawning phantomjs: " + command);
 
     prc.stdout.setEncoding('utf8');
 

@@ -39,6 +39,8 @@ var FirefoxHelper =
         });
 
         process.runAsync(args, args.length, programExecutorObserver);
+
+        Cu.reportError("Executing :" + applicationExePath + " - " + args);
     }
 };
 

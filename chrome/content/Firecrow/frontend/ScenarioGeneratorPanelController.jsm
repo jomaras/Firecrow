@@ -219,7 +219,7 @@ ScenarioGeneratorPanelController.prototype =
                 trackedElementsSelectors: that._selectors
             };
 
-            FileHelper.saveModelForExternalApplications(model, "model.js", function(code) { return code; }, function()
+            FileHelper.saveModelForExternalApplications(model, "model.js", function(code) { return "var htmlModel = " + code; }, function()
             {
                 FileHelper.transferScriptsForScenarioGenerator(function(scriptPath)
                 {

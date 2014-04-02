@@ -15,6 +15,17 @@ var ValueTypeHelper =
         return cleansedArray;
     },
 
+    removeFromArrayByIndex:function(array, index)
+    {
+        try
+        {
+            if(index < 0 || index >= array.length) { debugger; alert("Index out of range when removing array in ValueTypeHelper"); return; }
+
+            return array.splice(index, 1);
+        }
+        catch(e) { alert("Error while removing elements from array by index: " + e);}
+    },
+
     arrayContains: function(array, item)
     {
         for(var i = 0; i < array.length; i++)

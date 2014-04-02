@@ -29,5 +29,6 @@ page.open(encodeURI(scenarioExecutorUrl), function(status)
     });
 
     fs.write(scenarioExecutorDataFile, executionInfoString);
+    console.log("Exiting from scenarioExecutor phantomJs script!");
     phantom.exit();
 });
