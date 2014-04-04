@@ -194,7 +194,7 @@ var FireDataAccess =
         return pageUrl.substring(pageUrl.lastIndexOf("/") + 1, indexOfExtension);
     },
 
-    asyncGetPageModels: function(urls, iFrame, callback)
+    asyncGetPageModels: function(urls, iFrame, callback, useEsprima)
     {
         var models = [];
 
@@ -212,14 +212,14 @@ var FireDataAccess =
             }
             else
             {
-                this.asyncGetPageModel(urls[currentModelIndex], iFrame, modelLoadedFunction);
+                this.asyncGetPageModel(urls[currentModelIndex], iFrame, modelLoadedFunction, useEsprima);
             }
         }.bind(this);
 
         this.asyncGetPageModel(urls[currentModelIndex], iFrame, modelLoadedFunction);
     },
 
-    asyncGetPageModel: function(url, iFrame, callback)
+    asyncGetPageModel: function(url, iFrame, callback, useEsprima)
     {
         try
         {
@@ -230,6 +230,8 @@ var FireDataAccess =
             iFrame.webNavigation.allowMetaRedirects = true;
             iFrame.webNavigation.allowPlugins = false;
             iFrame.webNavigation.allowSubframes = false;
+
+            this.useEsprima = useEsprima;
 
             var onLoadFunction = function(e)
             {

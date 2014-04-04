@@ -130,7 +130,7 @@ SlicerPanelController.prototype =
                 default:
                     this._performMarkSlicedCodeInFirefox(model, dialog);
             }
-        }.bind(this));
+        }.bind(this), this._esprimaCheckbox.checked);
     },
 
     _extractAndShowSlicedCode: function()
@@ -156,7 +156,7 @@ SlicerPanelController.prototype =
                 default:
                     this._performSlicingInFirefox(model, dialog);
             }
-        }.bind(this));
+        }.bind(this), this._esprimaCheckbox.checked);
     },
 
     _performMarkSlicedCodeInPhantomJs: function(model, dialog)
