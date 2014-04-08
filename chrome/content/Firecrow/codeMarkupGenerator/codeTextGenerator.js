@@ -413,13 +413,15 @@ Firecrow.CodeTextGenerator.prototype =
             else if (ASTHelper.isObjectExpressionPropertyValue(element)) { return this.generateFromObjectExpressionProperty(element); }
             else
             {
-                this.notifyError("Error while generating code unidentified ast element: "); return "";
+                this.notifyError("Error while generating code unidentified ast element: ");
             }
         }
         catch(e)
         {
-            this.notifyError("Error while generating code: " + e + e.stack);
+            this.notifyError("Error while generating code: " + e + "@ code line: " + (element != null && element.loc != null) ? element.loc.start.line : "");
         }
+
+        return "";
     },
 
     generateProgram: function(programElement)
@@ -432,9 +434,12 @@ Firecrow.CodeTextGenerator.prototype =
             {
                 var body = programElement.body;
 
-                for(var i = 0, length = body.length; i < length; i++)
+                if(body != null)
                 {
-                    code += this.generateJsCode(body[i]);
+                    for(var i = 0, length = body.length; i < length; i++)
+                    {
+                        code += this.generateJsCode(body[i]);
+                    }
                 }
             }
 
@@ -504,7 +509,7 @@ Firecrow.CodeTextGenerator.prototype =
             else if (ASTHelper.isFunctionExpression(expression)) { return this.generateFromFunction(expression, true); }
             else { this.notifyError("Error: AST Expression element not defined: " + expression.type);  return "";}
         }
-        catch(e) { this.notifyError("Error when generating code from an expression:" + e); }
+        catch(e) { this.notifyError("Error when generating code from an expression:" + e + e.stack); }
     },
 
     generateFromFunction: function(functionDecExp)
@@ -591,8 +596,8 @@ Firecrow.CodeTextGenerator.prototype =
         var leftSide = this.generateJsCode(assignmentExpression.left);
         var rightSide = this.generateJsCode(assignmentExpression.right);
 
-        if(leftSide.length == 0) { return rightSide;}
-        if(rightSide.length == 0) { return leftSide; }
+        if(leftSide == null || leftSide.length == 0) { return rightSide;}
+        if(rightSide == null || rightSide.length == 0) { return leftSide; }
 
         var shouldBeSurrounded = ASTHelper.isBinaryExpression(assignmentExpression.parent)
                               || ASTHelper.isLogicalExpression(assignmentExpression.parent);
@@ -630,13 +635,13 @@ Firecrow.CodeTextGenerator.prototype =
 
         var shouldBeSurrounded = ASTHelper.isBinaryExpression(binaryExpression.parent);
 
-        if(leftCode.length != 0 && rightCode.length != 0)
+        if(leftCode != null && rightCode != null && leftCode.length != 0 && rightCode.length != 0)
         {
             return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + binaryExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
         }
 
-        if(leftCode.length != 0) { return leftCode; }
-        if(rightCode.length != 0) { return rightCode; }
+        if(leftCode != null && leftCode.length != 0) { return leftCode; }
+        if(rightCode != null && rightCode.length != 0) { return rightCode; }
 
         return "";
     },
@@ -650,13 +655,13 @@ Firecrow.CodeTextGenerator.prototype =
                               || (ASTHelper.isLogicalExpression(logicalExpression.parent) && logicalExpression.parent.operator != logicalExpression.operator)
                               || (ASTHelper.isCallExpression(logicalExpression.parent) && logicalExpression.parent.callee == logicalExpression);
 
-        if(leftCode.length != 0 && rightCode.length != 0)
+        if(leftCode != null && rightCode != null && leftCode.length != 0 && rightCode.length != 0)
         {
             return (shouldBeSurrounded ? this._LEFT_PARENTHESIS : "") + leftCode + " " + logicalExpression.operator + " " + rightCode + (shouldBeSurrounded ? this._RIGHT_PARENTHESIS : "");
         }
 
-        if(leftCode.length != 0) { return leftCode; }
-        if(rightCode.length != 0) { return rightCode; }
+        if(leftCode != null && leftCode.length != 0) { return leftCode; }
+        if(rightCode != null && rightCode.length != 0) { return rightCode; }
 
         return "";
     },
@@ -801,21 +806,24 @@ Firecrow.CodeTextGenerator.prototype =
 
         var properties = objectExpression.properties;
         var generatedProperties = 0;
-        for (var i = 0, length = properties.length; i < length; i++)
+        if(properties != null)
         {
-            var property = properties[i];
-
-            if(this.isSlicing && !property.shouldBeIncluded) { continue; }
-
-            if(generatedProperties != 0)
+            for (var i = 0, length = properties.length; i < length; i++)
             {
-                code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace);
+                var property = properties[i];
+
+                if(this.isSlicing && !property.shouldBeIncluded) { continue; }
+
+                if(generatedProperties != 0)
+                {
+                    code += ", " + (containsOnlySimpleProperties ? "" : this.newLine + this.whitespace);
+                }
+
+                code += this.generateFromObjectExpressionProperty(property);
+
+                var lastGeneratedProperty = property;
+                generatedProperties++;
             }
-
-            code += this.generateFromObjectExpressionProperty(property);
-
-            var lastGeneratedProperty = property;
-            generatedProperties++;
         }
 
         if(lastGeneratedProperty != null && !containsOnlySimpleProperties) //&& ASTHelper.isFunctionExpression(lastGeneratedProperty.value))
@@ -875,15 +883,19 @@ Firecrow.CodeTextGenerator.prototype =
         {
             var properties = objectExpression.properties;
             var generatedProperties = 0;
-            for (var i = 0, length = properties.length; i < length; i++)
+
+            if(properties != null)
             {
-                var property = properties[i];
-
-                if(this.isSlicing && !property.shouldBeIncluded) { continue; }
-
-                if(property.value != null && !ASTHelper.isLiteral(property.value))
+                for (var i = 0, length = properties.length; i < length; i++)
                 {
-                    return false
+                    var property = properties[i];
+
+                    if(this.isSlicing && !property.shouldBeIncluded) { continue; }
+
+                    if(property.value != null && !ASTHelper.isLiteral(property.value))
+                    {
+                        return false
+                    }
                 }
             }
 
@@ -894,8 +906,8 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromIfStatement: function(ifStatement)
     {
-        var ifBodyCode = this.generateJsCode(ifStatement.consequent);
-        var testCode = this.generateJsCode(ifStatement.test);
+        var ifBodyCode = this.generateJsCode(ifStatement.consequent) || "";
+        var testCode = this.generateJsCode(ifStatement.test) || "";
         var elseBodyCode = "";
         var code = this._IF_KEYWORD + this._LEFT_PARENTHESIS + (testCode === "" ? "false" : testCode )  + this._RIGHT_PARENTHESIS;
 
@@ -926,8 +938,8 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromWhileStatement: function(whileStatement)
     {
-        var whileBody = this.generateJsCode(whileStatement.body);
-        var whileTest = this.generateJsCode(whileStatement.test);
+        var whileBody = this.generateJsCode(whileStatement.body) || "";
+        var whileTest = this.generateJsCode(whileStatement.test) || "";
 
         if(whileBody === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(whileStatement.test)) { return ""; }
 
@@ -939,8 +951,8 @@ Firecrow.CodeTextGenerator.prototype =
 
     generateFromDoWhileStatement: function(doWhileStatement)
     {
-        var doWhileBody = this.generateJsCode(doWhileStatement.body);
-        var doWhileTest = this.generateJsCode(doWhileStatement.test);
+        var doWhileBody = this.generateJsCode(doWhileStatement.body) || "";
+        var doWhileTest = this.generateJsCode(doWhileStatement.test) || "";
 
         if(doWhileBody === "" && !ASTHelper.containsCallOrUpdateOrAssignmentExpression(doWhileStatement.test)) { return ""; }
         if(doWhileTest === "") { doWhileTest = "false"; }
@@ -1199,6 +1211,8 @@ Firecrow.CodeTextGenerator.prototype =
 
             return ValueTypeHelper.adjustForRegExBug(literal.value, regExString);
         }
+
+        return "null";
     },
 
     getSequenceCode: function(sequence)
