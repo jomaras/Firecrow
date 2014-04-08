@@ -1048,13 +1048,14 @@ Firecrow.CodeTextGenerator.prototype =
     generateFromSwitchCase: function(switchCase)
     {
         var code = "";
-        if(switchCase.test === null)
+        var caseTest = this.generateExpression(switchCase.test);
+        if(switchCase.test === null || caseTest == "")
         {
             code += this.whitespace + this._DEFAULT_KEYWORD + this._COLON + this.newLine;
         }
         else
         {
-            code += this.whitespace + this._CASE_KEYWORD + " " + this.generateExpression(switchCase.test) + this._COLON + this.newLine;
+            code += this.whitespace + this._CASE_KEYWORD + " " + caseTest  + this._COLON + this.newLine;
         }
 
         if(switchCase.consequent)

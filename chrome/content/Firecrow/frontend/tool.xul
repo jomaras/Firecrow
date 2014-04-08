@@ -130,6 +130,7 @@
                     <vbox flex="1">
                         <hbox class="devtools-toolbar">
                             <toolbarbutton class="devtools-toolbarbutton gearsButton" tooltiptext="Perform Reuse" disabled="false" id="performReuseButton"/>
+                            <checkbox label="Use Esprima" checked="false" id="esprimaReuseCheckbox"/>
                         </hbox>
                         <vbox flex="1">
                             <grid id="reuseFormGrid">

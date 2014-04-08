@@ -27,6 +27,8 @@ var ReuserPanelController = function(extensionWindow, extensionDocument, getCurr
     this._featurePageSelectorElement.addEventListener("command", function() { this._featurePageSelected(); }.bind(this));
     this._reuserPageSelectorElement.addEventListener("command", function() { this._reuserPageSelected(); }.bind(this));
 
+    this._esprimaReuseCheckbox = this._extensionDocument.getElementById("esprimaReuseCheckbox");
+
     this._featureScenariosContainer = this._extensionDocument.getElementById("featureScenariosContainer");
     this._reuseIntoApplicationScenariosContainer = this._extensionDocument.getElementById("reuseIntoApplicationScenariosContainer");
 
@@ -107,7 +109,7 @@ ReuserPanelController.prototype =
                 }
             );
 
-        }.bind(this));
+        }.bind(this), this._esprimaCheckbox.checked);
     },
 
     _getSelectedEventTraces: function(url)
