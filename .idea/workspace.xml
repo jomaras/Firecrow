@@ -2,12 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44d4204f-2d27-49b8-baa8-e9232bac656a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/143/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evaluation/reuse/02-01_04/resultAgain.html" afterPath="$PROJECT_DIR$/evaluation/reuse/02-01_04/resultAgain.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/pageAImages/simple-tab-pane.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/pageAScripts/TabPane.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/index-sliced.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/pageAScripts/mootools-1.2.4-core.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/pageAScripts/mootools-1.2.4-more.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/03_01_06/resultAgain.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/04_03_02/resultAgain.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/05_03_04/resultAgain.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/06_03_06/resultAgain.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/07_05_02/resultAgain.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/reuse/08_05_04/resultAgain.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/pageAScripts/script.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugTestPages.html" afterPath="$PROJECT_DIR$/debug/debugTestPages.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -44,15 +55,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/style/style.css" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-profiled1.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-sliced1.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/index-sliced1.html" />
-        <option value="$PROJECT_DIR$/evaluation/fullPages/04-mailboxing/js/jquery.cycle.all.js" />
-        <option value="$PROJECT_DIR$/debug/slicingTests/139/index.html" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/helpers/ASTHelper.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/debug/slicingTests/140/index.html" />
         <option value="$PROJECT_DIR$/debug/slicingTests/141/index.html" />
@@ -82,7 +84,6 @@
         <option value="$PROJECT_DIR$/evaluation/fullPages/30-launchlist/js/functions.js" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/30-launchlist/index.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/30-launchlist/index-sliced1.html" />
-        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
         <option value="$PROJECT_DIR$/evaluation/fullPages/30-launchlist/index-sliced2.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/evaluation/reuse/01-01_02/resultAgain.html" />
@@ -95,6 +96,16 @@
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js" />
         <option value="$PROJECT_DIR$/evaluation/reuse/02-01_04/resultAgain.html" />
+        <option value="$PROJECT_DIR$/evaluation/reuse/03_01_06/resultAgain.html" />
+        <option value="$PROJECT_DIR$/evaluation/reuse/04_03_02/resultAgain.html" />
+        <option value="$PROJECT_DIR$/evaluation/reuse/05_03_04/resultAgain.html" />
+        <option value="$PROJECT_DIR$/evaluation/reuse/06_03_06/resultAgain.html" />
+        <option value="$PROJECT_DIR$/evaluation/reuse/07_05_02/resultAgain.html" />
+        <option value="$PROJECT_DIR$/evaluation/reuse/08_05_04/resultAgain.html" />
+        <option value="$PROJECT_DIR$/debug/debugTestPages.html" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js" />
+        <option value="$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/index-sliced.html" />
       </list>
     </option>
   </component>
@@ -130,6 +141,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -198,7 +210,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="03_01_06" />
+              <option name="myItemId" value="07_05_02" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -212,31 +224,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Firecrow" />
+              <option name="myItemId" value="evaluation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="chrome" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="content" />
+              <option name="myItemId" value="fullPages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -255,11 +252,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\31-simpleMooToolsTabs" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\10-kennymeyers" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\09-nitrografix" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\08-makalu" />
       <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\07-hipstamatic" />
-      <recent name="C:\GitWebStorm\Firecrow\evaluation\fullPages\06-virtue" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitWebStorm\Firecrow\playground" />
@@ -452,18 +449,20 @@
       <created>1396963502653</created>
       <updated>1396963502653</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Minor bug-fix when generating code from phantomjs">
+      <created>1396968664253</created>
+      <updated>1396968664253</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3203125" sideWeight="0.4996986" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24954791" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2212176" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -474,6 +473,8 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3203125" sideWeight="0.4996986" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955357" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -514,7 +515,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Minor changes to plugin code and css" />
     <MESSAGE value="Working on enabling phantomJs calling" />
     <MESSAGE value="PhantomJs now working" />
     <MESSAGE value="Plugin - Fixed a problem with recordings staying the same when navigating from the page" />
@@ -539,7 +539,8 @@
     <MESSAGE value="Minor fixes for Firefox 28 regarding AutomaticScenarioGeneration" />
     <MESSAGE value="Minor fixes for Firefox 28 regarding AutomaticScenarioGeneration, still not done" />
     <MESSAGE value="Minor improvement when including esprima parser&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor improvement when including esprima parser&#10;" />
+    <MESSAGE value="Minor bug-fix when generating code from phantomjs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor bug-fix when generating code from phantomjs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -547,101 +548,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/47/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/46/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/45/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="578" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/44/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="17.23077" vertical-offset="448" max-vertical-offset="1292" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/37/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/40/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/usageScenarioGenerator/36/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="8" selection-start="546" selection-end="546" vertical-scroll-proportion="-8.269231" vertical-offset="176" max-vertical-offset="1020" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/24-rentingAgency/index.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="857" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/24-rentingAgency/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5763" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4641" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/helpers/FileHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="4" selection-start="2040" selection-end="2040" vertical-scroll-proportion="0.3325554" vertical-offset="922" max-vertical-offset="11441" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="61744" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="61387" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="60469" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index-slicedFF.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2236" column="7" selection-start="86646" selection-end="86646" vertical-scroll-proportion="0.96139705" vertical-offset="37489" max-vertical-offset="38114" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/02-salleedesign/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5202" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-slicedFF1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="545" column="27" selection-start="19627" selection-end="19627" vertical-scroll-proportion="0.36397058" vertical-offset="9067" max-vertical-offset="69904" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/01-ds22/index-sliced4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="81" selection-start="3334" selection-end="3334" vertical-scroll-proportion="0.68596494" vertical-offset="0" max-vertical-offset="59500" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/12-idt/index-sliced2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="752" column="7" selection-start="26318" selection-end="26325" vertical-scroll-proportion="0.31826088" vertical-offset="12601" max-vertical-offset="14960" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/12-idt/index-slicedFF.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1326" column="0" selection-start="43529" selection-end="43529" vertical-scroll-proportion="-0.11652174" vertical-offset="22609" max-vertical-offset="24769" />
@@ -649,235 +555,268 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/30-launchlist/js/functions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="484" column="0" selection-start="18095" selection-end="18095" vertical-scroll-proportion="0.0" vertical-offset="2411" max-vertical-offset="13821">
-          <folding />
-        </state>
+        <state line="484" column="0" selection-start="18095" selection-end="18095" vertical-scroll-proportion="0.0" vertical-offset="2411" max-vertical-offset="13821" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/30-launchlist/index-sliced1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3004" column="24" selection-start="111017" selection-end="111017" vertical-scroll-proportion="0.0" vertical-offset="50700" max-vertical-offset="51561">
-          <folding>
-            <marker date="1396770698674" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1396770698674" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="103" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="3604">
-          <folding />
-        </state>
+        <state line="3004" column="24" selection-start="111017" selection-end="111017" vertical-scroll-proportion="0.0" vertical-offset="50700" max-vertical-offset="51561" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/30-launchlist/index-sliced2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/fullPages/30-launchlist/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="29" selection-start="9582" selection-end="9582" vertical-scroll-proportion="0.6474128" vertical-offset="3287" max-vertical-offset="5967">
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#4;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#span#0;n#div#4;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#2;n#div#4;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
+        <state line="225" column="29" selection-start="9582" selection-end="9582" vertical-scroll-proportion="0.6474128" vertical-offset="3287" max-vertical-offset="5967" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="38" selection-start="2057" selection-end="2057" vertical-scroll-proportion="0.41656944" vertical-offset="459" max-vertical-offset="25432">
-          <folding />
-        </state>
+        <state line="48" column="38" selection-start="2057" selection-end="2057" vertical-scroll-proportion="0.41656944" vertical-offset="459" max-vertical-offset="25432" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="149" selection-start="6715" selection-end="6720" vertical-scroll-proportion="0.43173862" vertical-offset="1670" max-vertical-offset="16541">
-          <folding />
-        </state>
+        <state line="120" column="149" selection-start="6715" selection-end="6720" vertical-scroll-proportion="0.43173862" vertical-offset="1670" max-vertical-offset="16541" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/scenarioGenerator/09-ajaxPool/createDbTables.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/evaluation/reuse/01-01_02/pageA.html-codeModel.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="857" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/01-01_02/resultNew.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="6300" max-vertical-offset="7157" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/01-01_02/resultAgain.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="420" column="7" selection-start="16144" selection-end="16144" vertical-scroll-proportion="0.87725633" vertical-offset="6411" max-vertical-offset="7242" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/01-01_02/pageB.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="36" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.93793106" vertical-offset="0" max-vertical-offset="2261" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageB.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12716" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageA.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2193" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageBScripts/jquery.cycle.all.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="16" selection-start="4378" selection-end="4382" vertical-scroll-proportion="4.8846154" vertical-offset="2184" max-vertical-offset="28084" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/reuseValidator/ReuseValidator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="132" column="78" selection-start="8763" selection-end="8783" vertical-scroll-proportion="0.0" vertical-offset="1924" max-vertical-offset="3757" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="132" column="22" selection-start="5428" selection-end="5457" vertical-scroll-proportion="0.0" vertical-offset="1941" max-vertical-offset="11798" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="196" column="4" selection-start="6215" selection-end="6215" vertical-scroll-proportion="0.0" vertical-offset="3042" max-vertical-offset="9809" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/codeTextDialog.xul">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="13" selection-start="3342" selection-end="3342" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1819" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/slicer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="93" selection-start="5565" selection-end="5565" vertical-scroll-proportion="-14.653846" vertical-offset="1438" max-vertical-offset="2771" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/resultNew.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9596" column="7" selection-start="419464" selection-end="419464" vertical-scroll-proportion="0.0" vertical-offset="162596" max-vertical-offset="163234" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageBScripts/jQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="57" selection-start="4681" selection-end="4681" vertical-scroll-proportion="-11.538462" vertical-offset="1893" max-vertical-offset="161364" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingTests/143/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="7" selection-start="174" selection-end="174" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="357" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1476" column="68" selection-start="1788687" selection-end="1788687" vertical-scroll-proportion="0.0" vertical-offset="24675" max-vertical-offset="25313" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="146" column="28" selection-start="8607" selection-end="8607" vertical-scroll-proportion="-9.153846" vertical-offset="2244" max-vertical-offset="4556" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirefoxHelper.jsm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="4" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0" vertical-offset="248" max-vertical-offset="1326" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="12" selection-start="2954" selection-end="2954" vertical-scroll-proportion="0.0" vertical-offset="983" max-vertical-offset="5491" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1214" column="22" selection-start="46865" selection-end="46865" vertical-scroll-proportion="0.9298246" vertical-offset="20108" max-vertical-offset="23715" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/nodeJs/reuser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="95" selection-start="693" selection-end="693" vertical-scroll-proportion="0.5964912" vertical-offset="0" max-vertical-offset="6681" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/resultAgain.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9550" column="73" selection-start="428319" selection-end="428319" vertical-scroll-proportion="0.3140351" vertical-offset="162171" max-vertical-offset="162741" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/03_01_06/resultAgain.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5228" column="7" selection-start="146531" selection-end="146531" vertical-scroll-proportion="0.0" vertical-offset="88353" max-vertical-offset="88978" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/04_03_02/resultAgain.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1648" column="7" selection-start="52246" selection-end="52246" vertical-scroll-proportion="-20.115385" vertical-offset="27493" max-vertical-offset="28118" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/04_03_02/pageA.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="17051" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/03_01_06/pageB.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4675" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/03_01_06/pageA.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2193" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/06_03_06/resultAgain.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6497" column="7" selection-start="174794" selection-end="174794" vertical-scroll-proportion="0.96139705" vertical-offset="109926" max-vertical-offset="110551" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/05_03_04/resultAgain.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11875" column="7" selection-start="363909" selection-end="363909" vertical-scroll-proportion="0.9631579" vertical-offset="201326" max-vertical-offset="201977" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/07_05_02/resultNew.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-34.401756" vertical-offset="19609" max-vertical-offset="20179" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/07_05_02/pageB.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="13" selection-start="966" selection-end="966" vertical-scroll-proportion="-0.3207547" vertical-offset="612" max-vertical-offset="2261" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/07_05_02/resultAgain.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="172" column="18" selection-start="7560" selection-end="7560" vertical-scroll-proportion="1.5" vertical-offset="2108" max-vertical-offset="3315" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/05_03_04/resultNew.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="38" selection-start="3038" selection-end="3038" vertical-scroll-proportion="0.47719297" vertical-offset="0" max-vertical-offset="201892" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/27-tabs/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="857">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/01-01_02/resultNew.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/07_05_02/pageA.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="6300" max-vertical-offset="7157">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/01-01_02/resultAgain.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/08_05_04/pageA.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="420" column="7" selection-start="16144" selection-end="16144" vertical-scroll-proportion="0.87725633" vertical-offset="6411" max-vertical-offset="7242">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/01-01_02/pageB.html">
+    <entry file="file://$PROJECT_DIR$/evaluation/reuse/08_05_04/resultAgain.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="36" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.93793106" vertical-offset="0" max-vertical-offset="2261">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="583">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageB.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/model/globalObject/GlobalObjectExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12716">
+        <state line="87" column="11" selection-start="4891" selection-end="4891" vertical-scroll-proportion="0.0" vertical-offset="1098" max-vertical-offset="2091">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageA.html">
+    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/InternalExecutor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2193">
+        <state line="416" column="0" selection-start="25154" selection-end="25154" vertical-scroll-proportion="0.0" vertical-offset="6770" max-vertical-offset="7905">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageBScripts/jquery.cycle.all.js">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/index-sliced.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="16" selection-start="4378" selection-end="4382" vertical-scroll-proportion="4.8846154" vertical-offset="2184" max-vertical-offset="28084">
+        <state line="999" column="55" selection-start="26171" selection-end="26171" vertical-scroll-proportion="0.46329722" vertical-offset="16598" max-vertical-offset="17510">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/reuseValidator/ReuseValidator.js">
+    <entry file="file://$PROJECT_DIR$/debug/debugTestPages.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
+        <state line="10" column="73" selection-start="323" selection-end="323" vertical-scroll-proportion="0.2045728" vertical-offset="0" max-vertical-offset="3604">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/tool.xul">
+    <entry file="file://$PROJECT_DIR$/evaluation/fullPages/31-simpleMooToolsTabs/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="78" selection-start="8763" selection-end="8783" vertical-scroll-proportion="0.0" vertical-offset="1924" max-vertical-offset="3757">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/SlicerPanelController.jsm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="22" selection-start="5428" selection-end="5457" vertical-scroll-proportion="0.0" vertical-offset="1941" max-vertical-offset="11798">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FireDataAccess.jsm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="196" column="4" selection-start="6215" selection-end="6215" vertical-scroll-proportion="0.0" vertical-offset="3042" max-vertical-offset="9809">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/codeTextDialog.xul">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="13" selection-start="3342" selection-end="3342" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1819">
-          <folding>
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{&quot;readOnly&quot;: true...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1396438286955" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/slicer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="93" selection-start="5565" selection-end="5565" vertical-scroll-proportion="-14.653846" vertical-offset="1438" max-vertical-offset="2771">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/resultNew.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9596" column="7" selection-start="419464" selection-end="419464" vertical-scroll-proportion="0.0" vertical-offset="162596" max-vertical-offset="163234">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/pageBScripts/jQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="57" selection-start="4681" selection-end="4681" vertical-scroll-proportion="-11.538462" vertical-offset="1893" max-vertical-offset="161364">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingTests/143/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="7" selection-start="174" selection-end="174" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="357">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/slicingModelMapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1476" column="68" selection-start="1788687" selection-end="1788687" vertical-scroll-proportion="0.0" vertical-offset="24675" max-vertical-offset="25313">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/debug/debugSlicing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="28" selection-start="8607" selection-end="8607" vertical-scroll-proportion="-9.153846" vertical-offset="2244" max-vertical-offset="4556">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/FirefoxHelper.jsm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="4" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0" vertical-offset="248" max-vertical-offset="1326">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/frontend/ReuserPanelController.jsm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="12" selection-start="2954" selection-end="2954" vertical-scroll-proportion="0.0" vertical-offset="983" max-vertical-offset="5491">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/codeMarkupGenerator/codeTextGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1214" column="22" selection-start="46865" selection-end="46865" vertical-scroll-proportion="0.9298246" vertical-offset="20108" max-vertical-offset="23715">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/nodeJs/reuser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="95" selection-start="693" selection-end="693" vertical-scroll-proportion="0.5964912" vertical-offset="0" max-vertical-offset="6681">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluation/reuse/02-01_04/resultAgain.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9550" column="73" selection-start="428319" selection-end="428319" vertical-scroll-proportion="0.3140351" vertical-offset="162171" max-vertical-offset="162741">
+        <state line="19" column="20" selection-start="884" selection-end="884" vertical-scroll-proportion="0.38868833" vertical-offset="0" max-vertical-offset="2227">
           <folding />
         </state>
       </provider>

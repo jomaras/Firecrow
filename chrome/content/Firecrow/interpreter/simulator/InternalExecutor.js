@@ -413,8 +413,8 @@ fcSimulator.InternalExecutor.prototype =
         else if (fcModel.StringExecutor.isInternalStringFunctionMethod(functionObject.jsValue))  { return this._executeInternalStringFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.ObjectExecutor.isInternalObjectMethod(functionObject.jsValue)) { return this._executeInternalObjectFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.MathExecutor.isInternalMathMethod(functionObject.jsValue)) { return this._executeInternalMathMethod(thisObject, functionObject, args, callExpression, callCommand); }
-        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else if (functionObject.jsValue.name == "bind") { return this._executeBindFunction(thisObject, functionObject, args, callExpression); }
+        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else
         {
             debugger;

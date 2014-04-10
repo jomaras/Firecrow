@@ -102,8 +102,16 @@ fcModel.GlobalObjectExecutor =
 
     executesFunction: function(globalObject, functionName)
     {
-        return (globalObject.origWindow[functionName] != null || eval(functionName))
-             && ValueTypeHelper.isFunction(globalObject.origWindow[functionName] || eval(functionName));
+        try
+        {
+            return (globalObject.origWindow[functionName] != null || eval(functionName))
+                 && ValueTypeHelper.isFunction(globalObject.origWindow[functionName] || eval(functionName));
+        }
+        catch(e)
+        {
+            debugger;
+            return false;
+        }
     }
 };
 /*************************************************************************************/

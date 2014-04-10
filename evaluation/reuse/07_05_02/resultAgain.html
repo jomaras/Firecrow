@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+        <title>Custom designed fancy check boxes and radio buttons with CSS and JavaScript</title>
+        <meta content="Custom designed HTML checkboxes and radio controls with CSS 3.0 and JavaScript." name="Description"/>
+        <style>
+    *:not([o=r]){  margin: 0px; padding: 0px; }
+    html{  font: 14px/18px 'HelveticaNeue-Light','Helvetica Neue',Arial,Helvetica,sans-serif; color: rgb(255, 255, 255); background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/noise.png") repeat scroll 0% 0% transparent; }
+    a:not([o=r]):hover, a:not([o=r]):active{  outline: medium none; }
+    #sizer{  width: 340px; margin: 0px auto; padding: 144px 200px 240px; background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/highlight.png") no-repeat scroll 50% 0px transparent; }
+    form:not([o=r]){  width: 300px; padding: 18px 20px 0px; margin-bottom: 18px; background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/box-grad.png") repeat-x scroll 0px 0px rgb(79, 132, 184); border-radius: 10px; box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.4); }
+    fieldset:not([o=r]){  border: 0px none; padding-bottom: 9px; }
+    label:not([o=r]){  display: block; cursor: pointer; line-height: 20px; padding-bottom: 9px; text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2); }
+    .radios{  padding-top: 18px; background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/divider.png") repeat-x scroll 0px 0px transparent; }
+    .label_check input, .label_radio input{  margin-right: 5px; }
+    #footer{  width: 100%; text-align: center; font-size: 12px; }
+    #footer a{  padding: 2px 10px; margin: 0px 2px; color: rgb(153, 153, 153); background: none repeat scroll 0% 0% rgb(221, 221, 221); text-decoration: none; border-radius: 10px; }
+    #footer a:hover, #footer a:focus{  color: rgb(255, 255, 255); background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.3); }
+    .label_check, .label_radio{  padding-left: 34px; }
+    .label_radio{  background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/radio-off.png") no-repeat scroll 0% 0% transparent; }
+    .label_check{  background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/check-off.png") no-repeat scroll 0% 0% transparent; }
+    label.c_on:not([o=r]){  background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/check-on.png") no-repeat scroll 0% 0% transparent; }
+    label.r_on:not([o=r]){  background: url("file:///C:/GitWebStorm/Firecrow/evaluation/reuse/07_05_02/pageBImages/radio-on.png") no-repeat scroll 0% 0% transparent; }
+    .label_check input, .label_radio input{  position: absolute; left: -9999px; }
+</style>
+    
+        
+        
+        
+        
+        
+        <style type="text/css" o="r">
+    ul.tabs[o=r]{  margin: 0px; padding: 0px 0px 2px; }
+    li.tab[o=r]{  display: inline; padding: 4px 0.4em 2px; list-style: none outside none; background-color: rgb(34, 34, 34); border: 1px solid rgb(51, 51, 51); border-radius: 4px 4px 0px 0px; cursor: pointer; }
+    li.tab .remove[o=r]{  color: rgb(153, 0, 0); }
+    p.content[o=r]{  margin: 0px 0px 1em; padding: 0.4em; border: 1px solid rgb(51, 51, 51); }
+</style>
+    </head><body>
+        <div id="sizer">
+            <form accept-charset="utf-8" method="get" action="#">
+                <fieldset class="checkboxes">
+                    <label for="checkbox-01" class="label_check">
+                        <input type="checkbox" checked="" value="1" id="checkbox-01" name="sample-checkbox-01"/>I agree to the terms & conditions.</label>
+                    <label for="checkbox-02" class="label_check">
+                        <input type="checkbox" value="1" id="checkbox-02" name="sample-checkbox-02"/>Please send me regular updates.</label>
+                </fieldset>
+                <fieldset class="radios">
+                    <label for="radio-01" class="label_radio">
+                        <input type="radio" checked="" value="1" id="radio-01" name="sample-radio"/>This is option A...</label>
+                    <label for="radio-02" class="label_radio">
+                        <input type="radio" value="1" id="radio-02" name="sample-radio"/>and this is option B...</label>
+                    <label for="radio-03" class="label_radio">
+                        <input type="radio" value="1" id="radio-03" name="sample-radio"/>or simply choose option C</label>
+                </fieldset>
+            </form>
+            <div id="footer"> <a href="http://www.maratz.com/blog/archives/2006/06/11/fancy-checkboxes-and-radio-buttons/">← Full how-to article</a>
+ <a href="jquery.html">jQuery version →</a>
+
+            </div>
+        </div>
+        <script>
+  var d = document;
+  var safari = navigator.userAgent.toLowerCase().indexOf('safari') != -1 ? true : false;
+  var gebtn = function(parEl, child)
+  {
+    return parEl.getElementsByTagName(child);
+  };
+  window.onload = function()
+  {
+    var body = gebtn(d, 'body')[0];
+    body.className = body.className && body.className != '' ? body.className + ' has-js' : 'has-js';
+    if(!(d.getElementById) || !(d.createTextNode))
+    return ;
+
+    var ls = gebtn(d, 'label');
+    for(var i = 0;i < ls.length;i++)
+    {
+      var l = ls[i];
+      if(l.className.indexOf('label_') == -1)
+      continue;
+
+      var inp = gebtn(l, 'input')[0];
+      if(l.className == 'label_check')
+      {
+        l.className = (safari && inp.checked == true) || inp.checked ? 'label_check c_on' : 'label_check c_off';
+        l.onclick = check_it;
+      }
+
+      ;
+      if(l.className == 'label_radio')
+      {
+        l.className = (safari && inp.checked == true) || inp.checked ? 'label_radio r_on' : 'label_radio r_off';
+        l.onclick = turn_radio;
+      }
+
+      ;
+    }
+
+    ;
+  };
+  var check_it = function(e)
+  {
+    var inp = gebtn(this, 'input')[0];
+    if(this.className == 'label_check c_off' || (!safari && inp.checked))
+    {
+      this.className = 'label_check c_on';
+      if(safari)
+      inp.click();
+    }
+    else 
+    {
+      this.className = 'label_check c_off';
+      if(safari)
+      inp.click();
+    }
+
+    ;
+  };
+  var turn_radio = function()
+  {
+    var inp = gebtn(this, 'input')[0];
+    if(this.className == 'label_radio r_off' || inp.checked)
+    {
+      var ls = gebtn(this.parentNode, 'label');
+      for(var i = 0;i < ls.length;i++)
+      {
+        var l = ls[i];
+        if(l.className.indexOf('label_radio') == -1)
+        continue;
+
+        l.className = 'label_radio r_off';
+      }
+
+      ;
+      this.className = 'label_radio r_on';
+      if(safari)
+      inp.click();
+    }
+    else 
+    {
+      this.className = 'label_radio r_off';
+      if(safari)
+      inp.click();
+    }
+
+    ;
+  };
+</script>
+    
+
+
+        
+
+
+
+
+        
+        
+        
+        
+        <div id="demo" style=" font-family: sans-serif; color: rgb(204, 204, 204); background-color: rgb(17, 17, 17); " o="r">
+            <ul class="tabs" o="r">
+                <li class="tab" o="r">Simple <span class="remove" o="r">×</span>
+                </li>
+                <li class="tab" o="r">Tab <span class="remove" o="r">×</span>
+                </li>
+                <li class="tab" o="r">Pane <span class="remove" o="r">×</span>
+                </li>
+                <li class="tab" o="r">Extra <span class="remove" o="r">×</span>
+                </li>
+            </ul>
+            <p class="content" o="r">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit ligula, consectetur sed sodales quis, fringilla ut ipsum. Nunc sodales, massa id lobortis posuere, dolor libero rutrum quam, sed luctus ipsum dolor vitae sem. Praesent ornare metus sed
+                nunc auctor tristique. Pellentesque felis arcu, eleifend at commodo luctus, luctus at tortor. Suspendisse potenti. Nunc tempor elit est. Sed molestie suscipit iaculis. Ut porttitor, arcu sit amet aliquet congue, nibh orci pharetra dui, in porta sapien
+                dui in est. Vestibulum nisi sapien, posuere consequat ornare a, cursus vel felis. Fusce molestie, mauris a fringilla lacinia, mauris nibh accumsan leo, sit amet porta purus augue eget est.</p>
+            <p class="content" o="r">Sed cursus tristique bibendum. Quisque et diam mattis erat accumsan tincidunt id eu libero. Ut commodo ante ut tortor iaculis eget cursus magna pretium. Sed non enim arcu. Aenean mattis auctor lacinia. Nunc vel diam quis purus hendrerit viverra. Quisque
+                porttitor magna a sem suscipit dapibus. Vivamus et lectus turpis, at ornare dolor. Aliquam enim metus, porta eget dapibus nec, mollis a lacus. Aliquam id tortor in justo tristique sodales quis nec orci. Cras placerat, orci at egestas dictum, augue purus
+                varius quam, nec blandit nulla odio nec tellus. Nulla egestas congue blandit. Duis ultricies, quam in pretium semper, metus justo congue justo, a pretium diam velit ut urna. Vestibulum fermentum bibendum nunc, ac volutpat ligula pellentesque in. Praesent
+                blandit libero a nunc vulputate fermentum ac nec est. Donec est arcu, aliquam in vulputate a, consectetur in dolor. Pellentesque pulvinar auctor dapibus. Proin elit libero, facilisis vel ultricies vel, bibendum in sem.</p>
+            <p class="content" o="r">Donec feugiat tellus nec tortor ultrices mollis. Sed ut nunc ac dui fermentum rutrum. Duis interdum gravida gravida. Duis non ligula sit amet lacus iaculis ornare. Morbi quis purus elementum ante luctus iaculis vel vitae justo. Nullam quis neque sed
+                lorem hendrerit hendrerit. Etiam sagittis, quam et sagittis lacinia, turpis tellus scelerisque lacus, venenatis pulvinar lectus lectus vitae ligula. Quisque vel nibh nunc, non mattis lectus. Praesent et purus urna, a porttitor lorem. Sed lorem nibh, consectetur
+                vel imperdiet in, tempor et sapien. Aliquam erat volutpat.</p>
+            <p class="content" o="r">Sed elit ligula, consectetur sed sodales quis, fringilla</p>
+            <p class="content" o="r">Ut commodo ante ut tortor iaculis eget cursus magna pretium. Sed non enim arcu</p>
+        </div>
+        
+    
+
+</body>
+</html>
