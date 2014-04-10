@@ -1040,9 +1040,9 @@ fcModel.GlobalObject.prototype._createInternalVariables = function()
     this.addProperty("innerHeight", this.internalExecutor.createInternalPrimitiveObject(null, window.innerHeight));
 
     var eventHandlerNames = ("onafterprint, onbeforeprint, onbeforeunload, onhashchange, onmessage, onoffline, ononline, onpopstate"
-    +"onpagehide, onpageshow, onresize, onunload, ondevicemotion, ondeviceorientation, ondeviceproximity"
-    +"onuserproximity, ondevicelight, onabort, onblur, oncanplay, oncanplaythrough, onchange, onclick"
-    +"oncontextmenu, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart"
+    + "onpagehide, onpageshow, onresize, onunload, ondevicemotion, ondeviceorientation, ondeviceproximity"
+    + "onuserproximity, ondevicelight, onabort, onblur, oncanplay, oncanplaythrough, onchange, onclick"
+    + "oncontextmenu, ondblclick, ondrag, ondragend, ondragenter, ondragleave, ondragover, ondragstart"
     + "ondrop, ondurationchange, onemptied, onended, onerror, onfocus, oninput, oninvalid, onkeydown, onkeypress"
     + "onkeyup, onload, onloadeddata, onloadedmetadata, onloadstart, onmousedown, onmousemove, onmouseout, onmouseover"
     + "onmouseup, onmozfullscreenchange, onmozfullscreenerror, onmozpointerlockchange, onmozpointerlockerror, onpause"

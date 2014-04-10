@@ -380,6 +380,7 @@ function createModelMapping(pageModel)
 function spawnPhantomJsProcess(pathToFile, args, onDataFunction, onCloseFunction)
 {
     var prc = spawn(phantomJsPath, [pathToFile].concat(args));
+    console.log("Spawning phantomJs: " + [pathToFile].concat(args).join(" "));
 
     prc.stdout.setEncoding('utf8');
 

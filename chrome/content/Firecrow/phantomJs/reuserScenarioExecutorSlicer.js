@@ -16,6 +16,9 @@ var featureCodeFile = fs.absolute("featureCode.txt");
 
 fs.write(scenarioExecutorDataFile, "");
 
+page.onConsoleMessage = function(msg) { system.stderr.writeLine('console: ' + msg); };
+page.onAlert = function(msg) { console.log('ALERT: ' + msg); };
+
 page.open(encodeURI(scenarioExecutorUrl), function(status)
 {
     if(status != "success") { fs.write(scenarioExecutorDataFile, "ERROR - Can not load scenario for: " + page.url ); phantom.exit();}

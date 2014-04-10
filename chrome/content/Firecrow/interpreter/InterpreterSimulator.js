@@ -408,7 +408,13 @@ FBL.ns(function() { with (FBL) {
           || (ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) && exceptionGeneratingArgument.isEvalThrowExpressionCommand())))
             {
                 debugger;
-                fcSimulator.notifyError("Exception generating error at:" + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + FBL.Firecrow.CodeTextGenerator.generateJsCode(this.commands[this.currentCommandIndex].codeConstruct));
+                fcSimulator.notifyError
+                (
+                    "Exception generating error at:" + " - "
+                   + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": "
+                   + FBL.Firecrow.CodeTextGenerator.generateJsCode(this.commands[this.currentCommandIndex].codeConstruct)
+                   + "Call Stack: " + this.executionContextStack.getStackLines()
+                );
             }
 
             if(this.tryStack.length == 0)

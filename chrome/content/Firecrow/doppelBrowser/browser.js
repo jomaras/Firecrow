@@ -803,6 +803,7 @@ FBL.ns(function() { with (FBL) {
                     this.globalObject.currentEventTime = eventTrace.currentTime;
 
                     if(eventTrace.args.type == "focus") continue;
+                    if(eventTrace.args.type == "unload" && i == 0) continue;
 
                     if(this._isBrowserGeneratedEvent(eventTrace))
                     {

@@ -19363,8 +19363,17 @@ fcModel.GlobalObjectExecutor =
 
     executesFunction: function(globalObject, functionName)
     {
-        return (globalObject.origWindow[functionName] != null || eval(functionName))
-             && ValueTypeHelper.isFunction(globalObject.origWindow[functionName] || eval(functionName));
+        try
+        {
+            return (globalObject.origWindow[functionName] != null || eval(functionName))
+                && ValueTypeHelper.isFunction(globalObject.origWindow[functionName] || eval(functionName));
+        }
+        catch(e)
+        {
+            debugger;
+            fcModel.GlobalObject.notifyError("Error when checking does global object executes function!");
+            return false;
+        }
     }
 };
 /*************************************************************************************/
@@ -25162,8 +25171,8 @@ fcSimulator.InternalExecutor.prototype =
         else if (fcModel.StringExecutor.isInternalStringFunctionMethod(functionObject.jsValue))  { return this._executeInternalStringFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.ObjectExecutor.isInternalObjectMethod(functionObject.jsValue)) { return this._executeInternalObjectFunctionMethod(thisObject, functionObject, args, callExpression, callCommand); }
         else if (fcModel.MathExecutor.isInternalMathMethod(functionObject.jsValue)) { return this._executeInternalMathMethod(thisObject, functionObject, args, callExpression, callCommand); }
-        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else if (functionObject.jsValue.name == "bind") { return this._executeBindFunction(thisObject, functionObject, args, callExpression); }
+        else if (fcModel.GlobalObjectExecutor.executesFunction(this.globalObject, functionObject.jsValue.name)) { return fcModel.GlobalObjectExecutor.executeInternalFunction(functionObject, args, callExpression, this.globalObject); }
         else
         {
             debugger;
@@ -28437,7 +28446,13 @@ fcSimulator.Evaluator.prototype =
           || (ValueTypeHelper.isOfType(exceptionGeneratingArgument, Firecrow.Interpreter.Commands.Command) && exceptionGeneratingArgument.isEvalThrowExpressionCommand())))
             {
                 debugger;
-                fcSimulator.notifyError("Exception generating error at:" + " - " + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": " + FBL.Firecrow.CodeTextGenerator.generateJsCode(this.commands[this.currentCommandIndex].codeConstruct));
+                fcSimulator.notifyError
+                (
+                    "Exception generating error at:" + " - "
+                   + this.commands[this.currentCommandIndex].codeConstruct.loc.start.line + ": "
+                   + FBL.Firecrow.CodeTextGenerator.generateJsCode(this.commands[this.currentCommandIndex].codeConstruct)
+                   + "Call Stack: " + this.executionContextStack.getStackLines()
+                );
             }
 
             if(this.tryStack.length == 0)
@@ -29481,6 +29496,7 @@ fcSimulator.Evaluator.prototype =
                     this.globalObject.currentEventTime = eventTrace.currentTime;
 
                     if(eventTrace.args.type == "focus") continue;
+                    if(eventTrace.args.type == "unload" && i == 0) continue;
 
                     if(this._isBrowserGeneratedEvent(eventTrace))
                     {
