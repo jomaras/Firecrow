@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>IDE demo</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css"/>
+    <link rel="stylesheet" href="styles/foundation.min.css">
+
+    <link rel=stylesheet href="codemirror-4.1/lib/codemirror.css">
+    <link rel=stylesheet href="codemirror-4.1/doc/docs.css">
+    <link rel=stylesheet href="codemirror-4.1/addon/hint/show-hint.css">
+
+    <script src="codemirror-4.1/lib/codemirror.js"></script>
+    <script src="codemirror-4.1/mode/xml/xml.js"></script>
+    <script src="codemirror-4.1/mode/javascript/javascript.js"></script>
+    <script src="codemirror-4.1/mode/css/css.js"></script>
+    <script src="codemirror-4.1/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="codemirror-4.1/addon/edit/matchbrackets.js"></script>
+    <script src="codemirror-4.1/addon/hint/show-hint.js"></script>
+    <script src="codemirror-4.1/addon/hint/javascript-hint.js"></script>
+    <script src="codemirror-4.1/mode/javascript/javascript.js"></script>
+    <script src="scripts/htmlParser.js"></script>
+
+    <style>
+        .CodeMirror { height: 600px; border: 1px solid #ddd; }
+        .CodeMirror-scroll { max-height: 800px; }
+        .CodeMirror pre { padding-left: 7px; line-height: 1.25; }
+    </style>
+    <style>
+        textarea {
+            white-space: pre;
+            overflow: scroll;
+            font-size: 10pt;
+            font-family: 'Droid Sans Mono', Menlo, Consolas, 'Courier New', Courier, monospace, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navigation bar -->
+<div class="row">
+    <div class="twelve columns">
+        <nav class="top-bar">
+            <ul>
+                <li class="name">
+                    <h1><a href="index.html">Simple IDE example</a></h1>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- INPUT CONTAINERS -->
+<div class="row">
+    <div class="six columns">
+        <label>Source code:</label>
+        <textarea id="editor"></textarea>
+        <button id="buttonRun">Run</button>
+    </div>
+    <div class="six columns">
+        <label>Rendering:</label>
+        <iframe id="firecrowFrame" height="300" width="300"></iframe>
+        <textarea id="modelTextarea">
+
+        </textarea>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="row copyright">
+    <div class="twelve columns">
+        <ul class="link-list right">
+            <li><a href="https://github.com/jomaras/Firecrow/">GitHub</a></li>
+        </ul>
+    </div>
+</div>
+
+<script src="scripts/esprima.js" type="application/javascript"></script>
+<script>JSCLASS_PATH = 'scripts/JSClassMin/'</script>
+<script src="scripts/JSClassMin/loader-browser.js"></script>
+<script src="scripts/main.js"></script>
+</body>
+</html>

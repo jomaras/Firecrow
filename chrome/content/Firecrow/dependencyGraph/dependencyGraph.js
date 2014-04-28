@@ -347,7 +347,7 @@ FBL.ns(function() { with (FBL) {
         _markParentCssDependencies: function(htmlDomNode)
         {
             if(htmlDomNode == null || htmlDomNode.parentNode == null
-                || htmlDomNode.parentNode.modelElement == null || htmlDomNode.parentNode.modelElement.graphNode == null) { return; }
+            || htmlDomNode.parentNode.modelElement == null || htmlDomNode.parentNode.modelElement.graphNode == null) { return; }
 
             var parentModelElement = htmlDomNode.parentNode.modelElement;
             var dependencies = parentModelElement.graphNode.dataDependencies;

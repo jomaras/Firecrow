@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="mainContainer"></div>
+    <script>
+        function fun(array)
+        {
+            var resultArray = [];
+
+            for(var i = 0; i < array.length; i++)
+            {
+                if(array[i]%2 == 0)
+                {
+                    resultArray = [];
+                    resultArray.push(array[i]);
+                }
+                else
+                {
+                    resultArray.push(array[i]);
+                }
+            }
+
+            return resultArray;
+        }
+
+        var b1 = fun([1,2,3]);
+        var a1 = b1[0];
+        var mainContainer = document.getElementById("mainContainer");
+        mainContainer.textContent = a1;
+    </script>
+</body>
+</html>
