@@ -431,7 +431,7 @@ fcModel.HtmlElement.prototype._isMethod = function(propertyName)
 
 fcModel.HtmlElement.prototype._createDependencies = function(propertyName, codeConstruct)
 {
-    this.globalObject.dependencyCreator.createDataDependency(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+    this.globalObject.dependencyCreator.createValueDataDependency(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
     fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
 
     if(propertyName == "className" || propertyName == "id")

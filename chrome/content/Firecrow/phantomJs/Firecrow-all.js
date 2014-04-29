@@ -23047,7 +23047,7 @@ fcModel.HtmlElement.prototype._isMethod = function(propertyName)
 
 fcModel.HtmlElement.prototype._createDependencies = function(propertyName, codeConstruct)
 {
-    this.globalObject.dependencyCreator.createDataDependency(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
+    this.globalObject.dependencyCreator.createValueDataDependency(this.htmlElement.modelElement, codeConstruct, this.globalObject.getPreciseEvaluationPositionId());
     fcModel.HtmlElementExecutor.addDependencyIfImportantElement(this.htmlElement, this.globalObject, codeConstruct);
 
     if(propertyName == "className" || propertyName == "id")
@@ -23348,7 +23348,7 @@ fcModel.HtmlElementExecutor =
 
             if(element.modelElement != null)
             {
-                globalObject.dependencyCreator.createDataDependency(codeConstruct, element.modelElement, evaluationPositionId);
+                globalObject.dependencyCreator.createValueDataDependency(codeConstruct, element.modelElement, evaluationPositionId);
             }
 
             if (element.creationPoint != null)
@@ -26244,6 +26244,21 @@ fcSimulator.DependencyCreator.prototype =
             toConstruct,
             evaluationPosition || this.globalObject.getPreciseEvaluationPositionId(),
             toEvaluationPosition
+        );
+    },
+
+    createValueDataDependency: function(fromConstruct, toConstruct, evaluationPosition, toEvaluationPosition)
+    {
+        if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createSimpleDependency(fromConstruct, toConstruct); }
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            fromConstruct,
+            toConstruct,
+            evaluationPosition || this.globalObject.getPreciseEvaluationPositionId(),
+            toEvaluationPosition,
+            null, true
         );
     },
 
@@ -29404,7 +29419,7 @@ fcSimulator.Evaluator.prototype =
 
                 if(this.matchesSelector(htmlModelNode.domElement, cssRule.selector))
                 {
-                    this.callDataDependencyEstablishedCallbacks(htmlModelNode, cssRule, this.globalObject.getPreciseEvaluationPositionId());
+                    this.callDataDependencyEstablishedCallbacks(htmlModelNode, cssRule, this.globalObject.getPreciseEvaluationPositionId(), null, null, true);
                 }
             }
         },

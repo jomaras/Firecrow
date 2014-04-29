@@ -203,7 +203,7 @@ fcModel.HtmlElementExecutor =
 
             if(element.modelElement != null)
             {
-                globalObject.dependencyCreator.createDataDependency(codeConstruct, element.modelElement, evaluationPositionId);
+                globalObject.dependencyCreator.createValueDataDependency(codeConstruct, element.modelElement, evaluationPositionId);
             }
 
             if (element.creationPoint != null)

@@ -711,7 +711,7 @@ FBL.ns(function() { with (FBL) {
 
                 if(this.matchesSelector(htmlModelNode.domElement, cssRule.selector))
                 {
-                    this.callDataDependencyEstablishedCallbacks(htmlModelNode, cssRule, this.globalObject.getPreciseEvaluationPositionId());
+                    this.callDataDependencyEstablishedCallbacks(htmlModelNode, cssRule, this.globalObject.getPreciseEvaluationPositionId(), null, null, true);
                 }
             }
         },

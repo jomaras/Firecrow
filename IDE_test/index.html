@@ -22,13 +22,20 @@
     <script src="codemirror-4.1/addon/hint/javascript-hint.js"></script>
     <script src="codemirror-4.1/mode/javascript/javascript.js"></script>
     <script src="scripts/htmlParser.js"></script>
+    <script src="scripts/cssParser.js"></script>
+    <script src="scripts/esprima.js" type="application/javascript"></script>
+    <script>JSCLASS_PATH = 'scripts/JSClassMin/'</script>
+    <script src="scripts/JSClassMin/loader-browser.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="../chrome/content/Firecrow/phantomJs/Firecrow-all.js"></script>
 
     <style>
-        .CodeMirror { height: 600px; border: 1px solid #ddd; }
-        .CodeMirror-scroll { max-height: 800px; }
+        .CodeMirror { height: 400px; border: 1px solid #ddd; }
+        .CodeMirror-scroll { max-height: 400px; }
         .CodeMirror pre { padding-left: 7px; line-height: 1.25; }
-    </style>
-    <style>
+        .influencingLine { background-color: lightgreen !important; }
+        .currentlySelectedLine { background-color: lightyellow !important; }
+
         textarea {
             white-space: pre;
             overflow: scroll;
@@ -55,17 +62,30 @@
 
 <!-- INPUT CONTAINERS -->
 <div class="row">
-    <div class="six columns">
+    <div class="twelve columns">
         <label>Source code:</label>
-        <textarea id="editor"></textarea>
-        <button id="buttonRun">Run</button>
+        <textarea id="editor">
+<html>
+    <head>
+        <style>
+            #mainContainer{ color: red; }
+        </style>
+    </head>
+    <body>
+        <div id="mainContainer">Hello World</div>
+        <script>
+            var mainContainer = document.getElementById("mainContainer");
+            mainContainer.textContent += "Greetings from JS; ";
+        </script>
+    </body>
+</html></textarea>
     </div>
-    <div class="six columns">
-        <label>Rendering:</label>
-        <iframe id="firecrowFrame" height="300" width="300"></iframe>
-        <textarea id="modelTextarea">
+</div>
 
-        </textarea>
+<div class="row">
+    <div class="twelve columns">
+        <label>Rendering:</label>
+        <iframe id="firecrowFrame" height="300" width="600"></iframe>
     </div>
 </div>
 
@@ -77,10 +97,5 @@
         </ul>
     </div>
 </div>
-
-<script src="scripts/esprima.js" type="application/javascript"></script>
-<script>JSCLASS_PATH = 'scripts/JSClassMin/'</script>
-<script src="scripts/JSClassMin/loader-browser.js"></script>
-<script src="scripts/main.js"></script>
 </body>
 </html>

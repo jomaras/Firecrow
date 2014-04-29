@@ -55,9 +55,9 @@ var Mode = {
 
 function Parser (builder, options) {
     this._options = options ? options : { };
-    // if (this._options.includeLocation === undefined) {
-    //     this._options.includeLocation = false; //Include position of element (row, col) on nodes
-    // }
+    if (this._options.includeLocation === undefined) {
+         this._options.includeLocation = true; //Include position of element (row, col) on nodes
+    }
     this._validateBuilder(builder);
     var self = this;
     this._builder = builder;
@@ -508,7 +508,7 @@ function HtmlBuilder (callback, options) {
         this._options.ignoreWhitespace = false; //Keep whitespace-only text nodes
     }
     if (this._options.includeLocation === undefined) {
-        this._options.includeLocation = false; //Include position of element (row, col) on nodes
+        this._options.includeLocation = true; //Include position of element (row, col) on nodes
     }
     if (this._options.verbose === undefined) {
         this._options.verbose = true; //Keep data property for tags and raw property for all

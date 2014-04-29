@@ -95,6 +95,21 @@ fcSimulator.DependencyCreator.prototype =
         );
     },
 
+    createValueDataDependency: function(fromConstruct, toConstruct, evaluationPosition, toEvaluationPosition)
+    {
+        if(fcSimulator.DependencyCreator.shouldCreateSimpleDependencies) { this._createSimpleDependency(fromConstruct, toConstruct); }
+        if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
+
+        this.globalObject.browser.callDataDependencyEstablishedCallbacks
+        (
+            fromConstruct,
+            toConstruct,
+            evaluationPosition || this.globalObject.getPreciseEvaluationPositionId(),
+            toEvaluationPosition,
+            null, true
+        );
+    },
+
     markEnterFunctionPoints: function(enterFunctionCommand)
     {
         if(!fcSimulator.DependencyCreator.shouldCreateDependencies) { return; }
