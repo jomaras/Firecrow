@@ -12,9 +12,11 @@ window.onload = function()
     {
         var keyCode = e.keyCode;
 
-        if(keyCode == 73 && e.ctrlKey) { e.preventDefault(); markFirstDependencies(); }
+        if(keyCode == 73 && e.ctrlKey) { e.preventDefault(); markFirstDependencies(); } //Ctrl + i
         if(keyCode == 82 && e.ctrlKey) { e.preventDefault(); execute(); } //Ctrl + r
-        if(keyCode == 83 && e.ctrlKey) { e.preventDefault(); slice(); }
+        if(keyCode == 83 && e.ctrlKey) { e.preventDefault(); slice(); } //Ctrl + s
+        if(keyCode == 79 && e.ctrlKey) { e.preventDefault(); markInfluenced(); } //Ctrl + o
+
     }, false);
 
     var nodeId = 0;
@@ -89,12 +91,22 @@ window.onload = function()
 
         var selectedElements = getSelectedElements();
 
-        selectedElements.forEach(function(selectedElement)
-        {
-            //console.log("Selected element: " + Firecrow.CodeTextGenerator.generateCode(selectedElement));
-        });
-
         getValueInfluencingElements(selectedElements[0]).forEach(function(element)
+        {
+            markLine(elementLineMapping[element.nodeId]-1);
+        });
+    }
+
+
+    function markInfluenced()
+    {
+        slicingCriteria = [];
+
+        if(!isModelValid) { execute(); }
+
+        var selectedElements = getSelectedElements();
+
+        getDependentElements(selectedElements[0]).forEach(function(element)
         {
             markLine(elementLineMapping[element.nodeId]-1);
         });
@@ -102,6 +114,8 @@ window.onload = function()
 
     function markLine(line)
     {
+        if(Number.isNaN(line)) { return; }
+
         markedLinesNumbers[line] = true;
         editor.addLineClass(line, "text", "influencingLine");
     }
@@ -116,6 +130,19 @@ window.onload = function()
         }).map(function(valueDependency)
         {
             return valueDependency.destinationNode.model;
+        });
+    }
+
+    function getDependentElements(element)
+    {
+        if(element == null || element.graphNode == null || element.graphNode.reverseDependencies == null) { return [];}
+
+        return element.graphNode.reverseDependencies.filter(function(dataDependency)
+        {
+            return dataDependency.isValueDependency;
+        }).map(function(valueDependency)
+        {
+            return valueDependency.sourceNode.model;
         });
     }
 

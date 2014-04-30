@@ -1287,9 +1287,21 @@ if(usesModule)
 }
 
 FBL.ns(function () { with (FBL) {
-
+var DYNAMIC_CODE_ID = 0;
 Firecrow.ASTHelper = ASTHelper =
 {
+    setNodeIdsAndParentChildRelationshipForEvaldCode: function(evalConstruct, programAST)
+    {
+        this.traverseAst(programAST, function (element)
+        {
+            element.nodeId = "E" + DYNAMIC_CODE_ID++;
+            element.isEvalCreatedNode = true;
+            element.evalConstruct = evalConstruct;
+        });
+
+        this.setParentsChildRelationships(programAST);
+    },
+
     parseSourceCodeToAST: function(sourceCode, sourceCodePath, startLine)
     {
         try
@@ -2090,6 +2102,7 @@ Firecrow.ASTHelper = ASTHelper =
                 || propName == "globalObject"
                 || propName == "dependencies"
                 || propName == "reverseDependencies"
+                || propName == "evalConstruct"
                 || (ignoreProperties && ignoreProperties.indexOf(propName) != -1)) { continue; }
 
             var propertyValue = astElement[propName];
@@ -15670,6 +15683,11 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         catch(e) { this.notifyError("Error while generating commands: " + e);}
     },
 
+    generateFinishEvalCommand: function(callExpression)
+    {
+        return new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.FinishEval, null);
+    },
+
     generateDeclarationCommands: function(sourceElement, parentFunctionCommand)
     {
         var declarationCommands = [];
@@ -17014,6 +17032,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isExecuteCallbackCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ExecuteCallback; },
 
+    isFinishEvalCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.FinishEval; },
+
     isLabelCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.Label; },
 
     isConvertToPrimitiveCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive; },
@@ -17117,7 +17137,9 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     ConvertToPrimitive: "ConvertToPrimitive",
 
-    Label: "Label"
+    Label: "Label",
+
+    FinishEval: "FinishEval"
 };
 /*************************************************************************************/
 }});
@@ -19290,7 +19312,7 @@ fcModel.GlobalObjectExecutor =
     {
         try
         {
-                 if (fcFunction.jsValue.name == "eval") { return _handleEval(fcFunction, args, callExpression, globalObject); }
+                 if (fcFunction.jsValue.name == "eval") { return this._handleEval(fcFunction, args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "addEventListener") { return globalObject.addEventListener(args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "removeEventListener") { return globalObject.removeEventListener(args, callExpression, globalObject); }
             else if (fcFunction.jsValue.name == "setTimeout" || fcFunction.jsValue.name == "setInterval") { return this._setTimingEvents(fcFunction.jsValue.name, args[0], args[1] != null ? args[1].jsValue : 0, args.slice(2), globalObject, callExpression); }
@@ -19354,11 +19376,29 @@ fcModel.GlobalObjectExecutor =
         return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined);
     },
 
-    _handleEval: function(fcFunction, arguments, callExpression, globalObject)
+    _handleEval: function(fcFunction, args, callExpression, globalObject)
     {
-        fcModel.GlobalObject.notifyError("Not handling eval function!");
+        var firstArgument = args[0];
 
-        return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, null);
+        if(firstArgument == null) { return globalObject.internalExecutor.createInternalPrimitiveObject(callExpression, undefined); }
+
+        var code = firstArgument.jsValue
+
+        if(!ValueTypeHelper.isString(code)) { return firstArgument; }
+
+        try
+        {
+            var programAST = esprima.parse(code);
+
+            ASTHelper.setNodeIdsAndParentChildRelationshipForEvaldCode(callExpression, programAST);
+            ASTHelper.setParentsChildRelationships(programAST);
+
+            globalObject.browser.generateEvalCommands(callExpression, programAST);
+        }
+        catch(e)
+        {
+            fcModel.GlobalObject.notifyError("Error when evaluating eval code: " + e);
+        }
     },
 
     executesFunction: function(globalObject, functionName)
@@ -27196,6 +27236,7 @@ fcSimulator.Evaluator.prototype =
             else if (command.isEvalCallbackFunctionCommand()) { this._evalCallbackFunctionCommand(command); }
             else if (command.isEvalSequenceExpressionCommand()) { this._evalSequence(command); }
             else if (command.isEvalThrowExpressionCommand()) { this._evalThrowExpressionCommand(command); }
+            else if (command.isFinishEvalCommand()) { this._evalFinishEvalCommand(command); }
             else
             {
                 this.notifyError(command, "Evaluator: Still not handling command of type: " +  command.type); return;
@@ -27632,6 +27673,15 @@ fcSimulator.Evaluator.prototype =
             throwCommand.codeConstruct.argument,
             this.globalObject.getPreciseEvaluationPositionId()
         )
+    },
+
+    _evalFinishEvalCommand: function(finishEvalCommand)
+    {
+        this.executionContextStack.setExpressionValue
+        (
+            finishEvalCommand.codeConstruct,
+            this.executionContextStack.getExpressionValue(finishEvalCommand.lastEvaluatedConstruct)
+        );
     },
 
     _evalStartCatchStatementCommand: function(startCatchCommand)
@@ -28122,6 +28172,14 @@ fcSimulator.Evaluator.prototype =
 
     fcSimulator.prototype = dummy =
     {
+        generateEvalCommands: function(callExpression, programAST)
+        {
+            var evalCommands = CommandGenerator.generateCommands(programAST);
+            evalCommands.push(CommandGenerator.generateFinishEvalCommand(callExpression));
+
+            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, evalCommands, this.currentCommandIndex + 1);
+        },
+
         runSync: function()
         {
             try
@@ -29086,6 +29144,20 @@ fcSimulator.Evaluator.prototype =
             }
 
             return false;
+        },
+
+        generateEvalCommands: function(callExpression, codeModel)
+        {
+            if(!this.interpreter) { return; }
+
+            var that = this;
+            ASTHelper.traverseAst(codeModel, function(currentNode, nodeName, parentNode)
+            {
+                that.callNodeCreatedCallbacks(currentNode, "js", false);
+                that._callNodeInsertedCallbacks(currentNode, ASTHelper.isProgram(parentNode) ? callExpression : parentNode);
+            });
+
+            this.interpreter.generateEvalCommands(callExpression, codeModel);
         },
 
         _interpretJsCode: function(codeModel, handlerInfo)
