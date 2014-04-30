@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44d4204f-2d27-49b8-baa8-e9232bac656a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IDE_test/scripts/main.js" afterPath="$PROJECT_DIR$/IDE_test/scripts/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -30,7 +28,7 @@
       <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IDE_test/scripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="137" column="79" selection-start="3873" selection-end="3873" vertical-scroll-proportion="0.64334863" vertical-offset="1768" max-vertical-offset="6035">
+            <state line="118" column="8" selection-start="3196" selection-end="3196" vertical-scroll-proportion="0.2735632" vertical-offset="1768" max-vertical-offset="6035">
               <folding />
             </state>
           </provider>
@@ -532,13 +530,18 @@
       <created>1398783557206</created>
       <updated>1398783557206</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Working on a small IDE demo example&#10;">
+      <created>1398841347321</created>
+      <updated>1398841347321</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -553,7 +556,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955357" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -573,7 +575,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="ScenarioGeneratorPanel now has a selectable markup panel that can be used to  define feature selectors by right-click on the node; a button can also be pressed and the feature selectors can be entered through a prompt dialog &#10;" />
     <MESSAGE value="Removed MarkupViewer and settled for Firecrow generated markup" />
     <MESSAGE value="PhantomJs scenario generation first integration results&#10;" />
     <MESSAGE value="Showing phantomJs scenario generation results&#10;" />
@@ -598,7 +599,8 @@
     <MESSAGE value="Minor bugfix with the unload event in MooTools" />
     <MESSAGE value="Playing with IDE demo extensions" />
     <MESSAGE value="Working on a small IDE demo example" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on a small IDE demo example" />
+    <MESSAGE value="Working on a small IDE demo example&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on a small IDE demo example&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -890,7 +892,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/IDE_test/scripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="137" column="79" selection-start="3873" selection-end="3873" vertical-scroll-proportion="0.64334863" vertical-offset="1768" max-vertical-offset="6035">
+        <state line="118" column="8" selection-start="3196" selection-end="3196" vertical-scroll-proportion="0.2735632" vertical-offset="1768" max-vertical-offset="6035">
           <folding />
         </state>
       </provider>
