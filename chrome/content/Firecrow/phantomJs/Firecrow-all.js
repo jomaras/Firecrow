@@ -15250,6 +15250,7 @@ Firecrow.CodeTextGenerator.prototype =
 
         if(leftPart === "" && forInBody === "") { return ""; }
 
+        forInStatement.left.shouldBeIncluded = true;
         if(leftPart === "") { leftPart = Firecrow.CodeTextGenerator.generateJsCode(forInStatement.left); }
 
         forInBody = forInBody.length != 0 ? forInBody : this._SEMI_COLON;
