@@ -48,7 +48,7 @@
 
     var Firecrow = FBL.Firecrow;
 
-    pageModel.trackedElementsSelectors = ["*"];
+    pageModel.trackedElementsSelectors = ["body"];
 
     var slicingCriteria = pageModel.trackedElementsSelectors.map(function(selector)
     {
@@ -56,7 +56,7 @@
     });
 
     var startTime = dateNow();
-    var result = Firecrow.Slicer.slice(pageModel, slicingCriteria);
+    var result = Firecrow.Slicer.profile(pageModel, slicingCriteria);
     var browser = result.browser;
     var executionInfo = browser.getExecutionInfo();
 

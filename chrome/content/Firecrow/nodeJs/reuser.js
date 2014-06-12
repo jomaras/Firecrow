@@ -80,13 +80,25 @@ spawnPhantomJsProcess
 function performReuse(pageAExecutionSummary, pageBExecutionSummary)
 {
     console.log("Performing reuse");
+    try {
+        var mergedModel = Reuser.getMergedModel(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
+        var result = CodeTextGenerator.generateCode(mergedModel);
 
-    var mergedModel = Reuser.getMergedModel(pageAModel, pageBModel, pageAExecutionSummary, pageBExecutionSummary);
-    var result = CodeTextGenerator.generateCode(mergedModel);
+        console.log("Result written to:", resultPath);
+        console.log("Changes:", JSON.stringify(mergedModel.changes));
+        fs.writeFileSync(resultPath, result.replace(//g, "\\f002").replace(//g, "\\f07a").replace(//g, "\\f054").replace(//g, "\\f053")
+            .replace(//g, "\\f007").replace(//g, "\\f07c").replace(//g, "\\f0e6").replace(//g, "\\f040")
+            .replace(//g, "\\f10a").replace(//g, "\\f0ad").replace(//g, "\\f062"));
+    }
+    catch(e)
+    {
+        console.log("Error " + e);
+    }
 
-    console.log("Result written to:", resultPath);
-    console.log("Changes:", JSON.stringify(mergedModel.changes));
-    fs.writeFileSync(resultPath, result);
+    setTimeout(function()
+    {
+        console.log("Finished!");
+    }, 10000);
 }
 
 function updatePageModel(executionSummary, pageModelMapping, pageModel)

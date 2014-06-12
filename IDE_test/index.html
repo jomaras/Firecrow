@@ -48,7 +48,7 @@
 <body>
 
 <!-- Navigation bar -->
-<div class="row">
+<div class="row" id="navigationBar">
     <div class="twelve columns">
         <nav class="top-bar">
             <ul>
@@ -64,38 +64,45 @@
 <div class="row">
     <div class="twelve columns">
         <label>Source code:</label>
-        <textarea id="editor">
-<html>
-    <head>
-        <style>
-            #mainContainer{ color: red; }
-        </style>
-    </head>
-    <body>
-        <div id="mainContainer">Hello World</div>
-        <script>
-            var mainContainer = document.getElementById("mainContainer");
-            mainContainer.textContent += "Greetings from JS; ";
-        </script>
-    </body>
-</html></textarea>
+        <textarea id="editor"></textarea>
     </div>
 </div>
 
 <div class="row">
     <div class="twelve columns">
         <label>Rendering:</label>
-        <iframe id="firecrowFrame" height="300" width="600"></iframe>
+        <iframe id="firecrowFrame" height="195" width="750"></iframe>
     </div>
 </div>
 
 <!-- Footer -->
-<div class="row copyright">
+<div class="row copyright" id="footerBar">
     <div class="twelve columns">
         <ul class="link-list right">
             <li><a href="https://github.com/jomaras/Firecrow/">GitHub</a></li>
         </ul>
     </div>
 </div>
+<script>
+    function isInIframe ()
+    {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    if(isInIframe())
+    {
+        var navigationBar = document.getElementById("navigationBar");
+        navigationBar.parentElement.removeChild(navigationBar);
+        delete navigationBar;
+
+        var footerBar = document.getElementById("footerBar");
+        footerBar.parentElement.removeChild(footerBar);
+        delete footerBar;
+    }
+</script>
 </body>
 </html>

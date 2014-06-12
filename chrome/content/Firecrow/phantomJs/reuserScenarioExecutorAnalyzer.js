@@ -13,6 +13,9 @@ fs.changeWorkingDirectory(currentDirectoryPath);
 var scenarioExecutorUrl = fs.absolute("reuserScenarioExecutorAnalyzer.html");
 var scenarioExecutorDataFile = fs.absolute("scenarioExecutorAnalyzer.txt");
 
+page.onConsoleMessage = function(msg) { system.stderr.writeLine('analyzer console: ' + msg); };
+page.onAlert = function(msg) { console.log('analyzer ALERT: ' + msg); };
+
 fs.write(scenarioExecutorDataFile, "");
 
 page.open(encodeURI(scenarioExecutorUrl), function(status)

@@ -30,7 +30,7 @@
         var sourceCodeContainer = document.getElementById("sourceCodeContainer");
         var editor = null;
         var defaultText = "---- PERFORMING SLICING - WAITING FOR RESULT ---- Firefox might become unresponsive!";
-        var generatedSource = null;
+        var generatedSource = null, resourcePaths = [];
 
 
         window.onload = function()
@@ -59,6 +59,7 @@
                 if(pickedFile)
                 {
                     FileHelper.writeToFile(pickedFile, generatedSource);
+
                     logMessage("Sliced code written to: " + pickedFile);
                 }
             };
@@ -72,7 +73,7 @@
             informationContainer.scrollTop = informationContainer.scrollHeight;
         }
 
-        function setSourceCode(sourceCode)
+        function setSourceCode(sourceCode, model)
         {
             if(editor == null) { logMessage("Error, editor is not ready"); return; }
 
@@ -87,6 +88,18 @@
                 logMessage("Error while trying to display source code: " + e);
                 defaultText = sourceCode;
             }
+
+            getResourcesFromModel(model);
+        }
+
+        function setResourcePaths(resources)
+        {
+            resourcePaths = resources;
+        }
+
+        function getResourcesFromModel(model)
+        {
+            debugger;
         }
 
         function getCurrentTime()

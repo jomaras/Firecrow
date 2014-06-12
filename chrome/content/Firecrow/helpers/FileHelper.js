@@ -277,7 +277,7 @@ Firecrow.FileHelper = FileHelper =
     {
         var fileContent = this.readFromFile(FileUtils.getFile("ProfD", nodeJsModelFolder.concat(["achievedCoverage.txt"])).path);
 
-        return (parseFloat(fileContent) * 100) + "%";
+        return ((parseFloat(fileContent) * 100 + "").substring(0, 5) + "%");
     },
 
     getGeneratedScenarios: function()
@@ -485,6 +485,9 @@ Firecrow.FileHelper = FileHelper =
         try
         {
             charSet = charSet || "UTF-8";
+            content = (content || "").replace(//g, "\\f002").replace(//g, "\\f07a").replace(//g, "\\f054").replace(//g,"\\f053")
+                                     .replace(//g, "\\f007").replace(//g, "\\f07c").replace(//g, "\\f0e6").replace(//g, "\\f040")
+                                     .replace(//g, "\\f10a").replace(//g, "\\f0ad").replace(//g, "\\f062");
             
             absoluteFilePath = absoluteFilePath.replace(new RegExp("/", "g"), "\\");
 

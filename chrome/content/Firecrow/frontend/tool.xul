@@ -63,6 +63,7 @@
                                 </toolbarbutton>
                                 <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model" disabled="false" id="saveModelButton"/>
                                 <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Save model, selected trace and selectors" disabled="false" id="saveModelAndTraceButton"/>
+                                <toolbarbutton class="devtools-toolbarbutton" tooltiptext="Code Editor" disabled="false" id="codeEditorButton"/>
                                 <checkbox label="Use Esprima" checked="false" id="esprimaCheckbox"/>
                             </hbox>
                         </toolbar>

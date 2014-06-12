@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/common.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/devtools/splitview.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/splitview.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/content/profiler.css" type="text/css"?>
+<?xml-stylesheet href="chrome://Firecrow/skin/Firecrow.css" type="text/css"?>
+
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="Code Editor" width="800px" height="700px">
+    <iframe src="file:///C:/GitWebStorm/Firecrow/IDE_test/index.html" height="650px"></iframe>
+</window>

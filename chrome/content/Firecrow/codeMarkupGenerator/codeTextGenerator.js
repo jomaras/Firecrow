@@ -990,6 +990,7 @@ Firecrow.CodeTextGenerator.prototype =
 
         if(leftPart === "" && forInBody === "") { return ""; }
 
+        forInStatement.left.shouldBeIncluded = true;
         if(leftPart === "") { leftPart = Firecrow.CodeTextGenerator.generateJsCode(forInStatement.left); }
 
         forInBody = forInBody.length != 0 ? forInBody : this._SEMI_COLON;
@@ -1061,7 +1062,7 @@ Firecrow.CodeTextGenerator.prototype =
     {
         var code = "";
         var caseTest = this.generateExpression(switchCase.test);
-        if(switchCase.test === null || caseTest == "")
+        if(switchCase.test === null || caseTest === "")
         {
             code += this.whitespace + this._DEFAULT_KEYWORD + this._COLON + this.newLine;
         }

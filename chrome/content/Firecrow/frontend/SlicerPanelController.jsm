@@ -8,6 +8,7 @@ Cu.import("chrome://Firecrow/content/frontend/FireDataAccess.jsm");
 Cu.import("chrome://Firecrow/content/frontend/JsRecorder.jsm");
 Cu.import("chrome://Firecrow/content/frontend/FirefoxHelper.jsm");
 Cu.import("chrome://Firecrow/content/helpers/FileHelper.js");
+Cu.import("chrome://Firecrow/content/helpers/UriHelper.js");
 
 const require = Cu.import("resource://gre/modules/devtools/Loader.jsm", {}).devtools.require;
 const promise = require("sdk/core/promise");
@@ -56,6 +57,9 @@ var SlicerPanelController = function(extensionWindow, extensionDocument, getCurr
     this._saveModelAndTraceButton.onclick = function(e) { this._onSaveModelAndTraceClick(e);}.bind(this);
 
     this._esprimaCheckbox = extensionDocument.getElementById("esprimaCheckbox");
+
+    this._codeEditorButton = extensionDocument.getElementById("codeEditorButton");
+    this._codeEditorButton.onclick = function(e) { this._onCodeEditorClick(e); }.bind(this);
 
     FireDataAccess._window = this._extensionWindow;
     FireDataAccess.setBrowser(extensionDocument.getElementById("invisibleBrowser"));
@@ -215,7 +219,22 @@ SlicerPanelController.prototype =
         this._extensionWindow.setTimeout(function()
         {
             dialog.setSourceMarkup(this._slicingFrame.contentWindow.getSlicedCodeMarkup(model));
+
+            dialog.setResourcePaths(this._getResourcePaths());
+
         }.bind(this), 1000);
+    },
+
+    _getResourcePaths: function()
+    {
+        var currentPageUrl = this._getCurrentPageDocument().baseURI;
+        var resourcePaths = UriHelper || UriHelper.cache || [];
+
+        var adjustedPaths = [];
+
+
+
+        return adjustedPaths;
     },
 
     _performSlicingInFirefox: function(model, dialog)
@@ -226,7 +245,7 @@ SlicerPanelController.prototype =
 
         this._extensionWindow.setTimeout(function()
         {
-            dialog.setSourceCode(this._slicingFrame.contentWindow.performSlicing(model));
+            dialog.setSourceCode(this._slicingFrame.contentWindow.performSlicing(model), model);
         }.bind(this), 1000);
     },
 
@@ -267,6 +286,11 @@ SlicerPanelController.prototype =
         if(selectedFolder == "" || selectedFolder == null) { return; }
 
         FireDataAccess.saveModelAndTrace(selectedFolder, this._getCurrentPageDocument().baseURI, this._getSelectedEventTraces(), this._selectors, this._hiddenIFrame, this._esprimaCheckbox.checked);
+    },
+
+    _onCodeEditorClick: function()
+    {
+        var dialog = this._extensionWindow.openDialog('chrome://Firecrow/content/frontend/codeEditorDialog.xul', '', 'chrome,dialog,centerscreen');
     },
 
     _onRecordClick: function(e)

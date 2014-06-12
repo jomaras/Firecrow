@@ -10,6 +10,7 @@ FBL.ns(function () { with (FBL) {
 Firecrow.UriHelper = UriHelper =
 {
     URI: null,
+    cache: [],
 
     appendQuery: function(url, key, value)
     {
@@ -71,22 +72,33 @@ Firecrow.UriHelper = UriHelper =
         if(url == null) { return null; }
 
         var uri = new this.URI(url);
+        var returnValue = "";
 
-        if(uri.is("absolute")) { return uri.build()._string; }
-
-        var anchorUri = new this.URI(anchor);
-
-        if(anchorUri.is("absolute"))
+        if(uri.is("absolute"))
         {
-            var absoluteUri = uri.absoluteTo(anchorUri);
+            returnValue = uri.build()._string;
+            return returnValue;
+        }
+        else
+        {
+            var anchorUri = new this.URI(anchor);
 
-            if(absoluteUri != null)
+            if(anchorUri.is("absolute"))
             {
-                return absoluteUri._string;
+                var absoluteUri = uri.absoluteTo(anchorUri);
+
+                if(absoluteUri != null)
+                {
+                    returnValue = absoluteUri._string;
+                }
             }
         }
 
-        return url;
+        if(returnValue == "") { returnValue = url; }
+
+        this.cache[url] = returnValue;
+
+        return returnValue;
     },
 
     areOnSameDomain: function(url1, url2)

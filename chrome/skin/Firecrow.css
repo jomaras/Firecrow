@@ -80,6 +80,13 @@
     height: 20px;
 }
 
+#codeEditorButton
+{
+    list-style-image: url("images/pen.png");
+    width: 20px;
+    height: 20px;
+}
+
 #recordButton
 {
     font-weight: normal;

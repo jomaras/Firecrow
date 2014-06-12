@@ -342,7 +342,7 @@ window.onload = function()
         for(var i = 0; i < cssRule.declarations.length; i++)
         {
             var declaration = cssRule.declarations[i];
-            properties += "\t" + declaration.property + ":" + declaration.value + "\n";
+            properties += "\t" + declaration.property + ":" + declaration.value + ";\n";
         }
 
         return cssRule.selectors.join(",") + "{" + "\n" + properties  + "}";
