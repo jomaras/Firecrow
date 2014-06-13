@@ -116,8 +116,9 @@ var ResourceConflictFixer =
 
     _getRelativePath: function(path, basePath)
     {
-        return basePath ? UriHelper.getRelativeFrom(UriHelper.getAbsoluteUrl(path, basePath), basePath)
-                        : path;
+        return path;
+        /*return basePath ? UriHelper.getRelativeFrom(UriHelper.getAbsoluteUrl(path, basePath), basePath)
+                        : path;*/
     },
 
     _getPathFromCssUrl: function(cssUrl)

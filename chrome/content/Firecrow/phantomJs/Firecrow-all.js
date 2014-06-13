@@ -29094,7 +29094,9 @@ fcSimulator.Evaluator.prototype =
 
                 if(attribute.name == "src" && htmlModelElement.type == "img")
                 {
-                    htmlDomElement.setAttribute(attribute.name, Firecrow.UriHelper.getAbsoluteUrl(attribute.value, this.url));
+                    var absoluteUrl = Firecrow.UriHelper.getAbsoluteUrl(attribute.value, this.url);
+                    htmlDomElement.setAttribute(attribute.name, absoluteUrl);
+                    attribute.value = absoluteUrl;
                 }
             }
         },
