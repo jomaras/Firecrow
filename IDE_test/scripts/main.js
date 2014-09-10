@@ -8,6 +8,8 @@ window.onload = function()
         extraKeys: {"Ctrl-Space": "autocomplete"}
     });
 
+    var exampleString = "<html>\n  <head>\n    <style>\n      .label { font-weight: 800; }\n      #sumContainer { color: red; }\n      #productContainer { color: blue; }\n    </style>\n  </head>\n  <body>\n    Sum: <span class=\"label\" id=\"sumContainer\"></span>\n    <br/>\n    Product: <span class=\"label\" id=\"productContainer\"></span>\n    <script>\n      var sum = 0; \n      var product = 1;\n      for(var i = 1; i < 4; i++)\n      {\n        sum += i;\n        product *= i;\n      }\n      document.getElementById(\"sumContainer\").textContent = sum;\n      document.getElementById(\"productContainer\").textContent = product;\n    </script>\n  </body>\n</html>";
+
     document.addEventListener("keydown", function(e)
     {
         var keyCode = e.keyCode;
@@ -18,6 +20,12 @@ window.onload = function()
         if(keyCode == 79 && e.ctrlKey) { e.preventDefault(); markInfluenced(); } //Ctrl + o
 
     }, false);
+
+    document.getElementById("demoExampleLink").onclick = function()
+    {
+        editor.setValue(exampleString);
+        return false;
+    };
 
     var nodeId = 0;
     var lineAstMapping, elementLineMapping, markedLinesNumbers = {};

@@ -11921,6 +11921,11 @@ Firecrow.DependencyGraph.Edge.notifyError = function(message) { alert("Edge - " 
                 this._includedMemberCallExpressionMap[codeConstruct.nodeId] = codeConstruct;
             }
 
+            if(codeConstruct.isEvalCreatedNode)
+            {
+                Firecrow.includeNode(codeConstruct.evalConstruct, false, maxDependencyIndex, dependencyConstraint);
+            }
+
             var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
 
             for(var i = potentialDependencyEdges.length - 1; i >= 0; i--)
@@ -29173,6 +29178,10 @@ fcSimulator.Evaluator.prototype =
             });
 
             this.interpreter.generateEvalCommands(callExpression, codeModel);
+            if(callExpression.arguments != null && callExpression.arguments[0] != null)
+            {
+                this.globalObject.dependencyCreator.createDataDependency(callExpression.arguments[0], callExpression, this.globalObject.getPreciseEvaluationPositionId());
+            }
         },
 
         _interpretJsCode: function(codeModel, handlerInfo)

@@ -64,6 +64,7 @@
 <div class="row">
     <div class="twelve columns">
         <label>Source code:</label>
+        <a id="demoExampleLink" href="">Demo Example 1</a>
         <textarea id="editor"></textarea>
     </div>
 </div>
@@ -102,6 +103,28 @@
         var footerBar = document.getElementById("footerBar");
         footerBar.parentElement.removeChild(footerBar);
         delete footerBar;
+    }
+
+    document.addEventListener("DOMContentLoaded", function()
+    {
+        resizeFirecrowFrame();
+    });
+
+    window.addEventListener('resize', function()
+    {
+        resizeFirecrowFrame();
+    }, true);
+
+    function resizeFirecrowFrame()
+    {
+        try
+        {
+            document.querySelector("#firecrowFrame").width = (parseInt(window.getComputedStyle(document.querySelector("#firecrowFrame").parentNode).width) - 27) + "px";
+        }
+        catch(e)
+        {
+
+        }
     }
 </script>
 </body>

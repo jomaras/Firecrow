@@ -495,6 +495,11 @@ FBL.ns(function() { with (FBL) {
         {
             Firecrow.includeNode(codeConstruct, false, maxDependencyIndex, dependencyConstraint);
 
+            if(codeConstruct.isEvalCreatedNode)
+            {
+                Firecrow.includeNode(codeConstruct.evalConstruct, false, maxDependencyIndex, dependencyConstraint);
+            }
+
             if((ASTHelper.isMemberExpression(codeConstruct) || ASTHelper.isMemberExpression(codeConstruct.parent)
              || ASTHelper.isCallExpression(codeConstruct) || ASTHelper.isCallExpressionCallee(codeConstruct)))
             {

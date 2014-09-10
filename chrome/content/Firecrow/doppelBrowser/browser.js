@@ -380,6 +380,10 @@ FBL.ns(function() { with (FBL) {
             });
 
             this.interpreter.generateEvalCommands(callExpression, codeModel);
+            if(callExpression.arguments != null && callExpression.arguments[0] != null)
+            {
+                this.globalObject.dependencyCreator.createDataDependency(callExpression.arguments[0], callExpression, this.globalObject.getPreciseEvaluationPositionId());
+            }
         },
 
         _interpretJsCode: function(codeModel, handlerInfo)
