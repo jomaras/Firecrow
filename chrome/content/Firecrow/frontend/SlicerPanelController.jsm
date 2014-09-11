@@ -232,8 +232,6 @@ SlicerPanelController.prototype =
 
         var adjustedPaths = [];
 
-
-
         return adjustedPaths;
     },
 

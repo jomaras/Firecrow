@@ -244,6 +244,7 @@ FBL.ns(function() { with (FBL) {
             if(this.globalObject.satisfiesDomSlicingCriteria(htmlDomElement))
             {
                 Firecrow.includeNode(htmlModelElement);
+                htmlModelElement.isUiControlElement = true;
             }
 
             if(this._isScriptNode(htmlModelElement) || this._isCssInclusionNode(htmlModelElement))

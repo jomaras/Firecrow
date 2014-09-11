@@ -279,6 +279,24 @@ Firecrow.CodeTextGenerator.prototype =
         }
     },
 
+    _containsUiControlElementOrScript: function(htmlElement)
+    {
+        if(htmlElement != null) { return false; }
+        if(htmlElement.isUiControlElement || htmlElement.type == "script") { return true; }
+
+        var children = htmlElement.childNodes;
+
+        if(children != null)
+        {
+            for(var i = 0, length = children.length; i < length; i++)
+            {
+                if(this._containsUiControlElementOrScript(children[i])) { return true; }
+            }
+        }
+
+        return false;
+    },
+
     generateCodeFromScriptElement: function(scriptElement)
     {
         try

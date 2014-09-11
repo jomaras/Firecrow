@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="css/960_12_col.css" />
     <link rel="stylesheet" href="css/page.css"/>
     <script type="text/javascript" src="js/jQuery.js" ></script>
-    <script type="text/javascript" src="js/jquery.validate.min.js" ></script>
 </head>
 <body>
 <div id="awwwards"><a href="http://www.awwwards.com/best-websites/ds22" target="_blank">css gallery</a></div>
@@ -69,11 +68,6 @@
                     <option value="/blog" >Blog</option>
                     <option value="/contact" >Contact</option>
                 </select>
-                <script>
-                    $('#mobile_nav').change(function() {
-                        window.location = $(this).val();
-                    });
-                </script>
                 <div class="menu_slider">
                     <div id="nav_slider" class="slider"></div>
                 </div>
@@ -100,7 +94,7 @@
             <script>
                 $(document).ready(function()
                 {
-                    $(".roundabout").roundabout({minScale:.9})
+                    $(".roundabout").roundabout({minScale:0.9})
                 })
              </script>
             <div class="grid_12">
