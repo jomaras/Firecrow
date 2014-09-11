@@ -1,0 +1,84 @@
+html {
+    height: 100%
+}
+
+#glisse-overlay,#glisse-close,#glisse-controls,#glisse-spinner {
+    opacity: 0
+}
+
+#glisse-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,.75)
+}
+
+#glisse-overlay.loading #glisse-spinner {
+    opacity: 1
+}
+
+#glisse-overlay-content {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    bottom: 10%;
+    left: 10%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    opacity: 0;
+    background-size: contain;
+    backface-visibility: hidden
+}
+
+#glisse-overlay-content img {
+    display: none
+}
+
+#glisse-overlay-content.shake {
+    animation: shake 600ms 1
+}
+
+#glisse-close {
+    cursor: pointer
+}
+
+#glisse-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -40px 0 0 -40px;
+    height: 80px;
+    width: 80px;
+    background: rgba(0,0,0,.6) url('../images/loader.gif') center center no-repeat;
+    border-radius: 6px
+}
+
+#glisse-controls {
+}
+
+.glisse-next a,.glisse-prev a {
+    transition: all 100ms ease;
+    user-select: none
+}
+
+#glisse-controls .ended a {
+    opacity: .3;
+    cursor: default
+}
+
+
+@keyframes shake {
+    0%,100% {
+        transform: translateX(0);
+    }
+
+    10%,30%,50%,70%,90% {
+        transform: translateX(-10px);
+    }
+
+    20%,40%,60%,80% {
+        transform: translateX(10px);
+    }
+}

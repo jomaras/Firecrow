@@ -1,0 +1,56 @@
+body, div, ul, li, img {
+    margin: 0; padding: 0; border: 0;
+}
+
+body {
+    background: #0d0c09 url(images/carbon.png);
+}
+
+#slideshow {
+    width: 918px; height: 546px;
+    overflow-x: scroll; overflow-y: hidden;
+    margin: 100px auto 50px auto;
+    box-shadow: 0px 0px 80px #000;
+    -moz-box-shadow: 0px 0px 80px #000;
+    -webkit-box-shadow: 0px 0px 80px #000;
+}
+
+#slideshow ul {
+    width: 4590px; list-style: none;
+
+}
+#slideshow ul li {
+    float: left;
+}
+
+
+#slideshow-nav {
+    width: 250px; margin: 0 auto 200px auto; visibility: hidden;
+}
+#slideshow-nav ul {
+    list-style: none;
+}
+#slideshow-nav ul li {
+    float: left;
+}
+#slideshow-nav ul li a {
+    display: block; width: 30px; height: 30px;
+    float: left; margin: 0 10px;
+    background-color: #fff; text-indent: -9999px;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    box-shadow: 0px 0px 30px #000;
+    -moz-box-shadow: 0px 0px 30px #000;
+    -webkit-box-shadow: 0px 0px 30px #000;
+}
+#slideshow-nav ul li a:hover, #slideshow-nav ul li a.active {
+    background-color: #a89d8a;
+}
+
+a {
+    outline: none;
+}
+a:focus {
+    background-color: #a89d8a;
+}

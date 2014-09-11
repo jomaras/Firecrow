@@ -1,0 +1,129 @@
+.classPromotion {
+	width:220px;
+	height:110px;
+	margin-bottom:3px;
+	overflow:hidden;
+	position:relative;
+}
+
+#divPromotion {
+	width:220px;
+	height:470px;
+	overflow:hidden;
+	margin-top:15px;
+	position:relative;
+}
+
+#divPromotion img{
+	border:none;
+}
+
+.classImgBanner{
+	 width:220px;
+	 height:110px;
+	 position:absolute;
+	 top:0px;
+} 
+
+.classBanner{
+	position:absolute;	
+	left:550px;
+	top:0px;
+	clear:both;
+}
+
+.classBigPromotion{
+	position:absolute;
+	clear:both;	
+	height:452px;
+	overflow:hidden; 	
+}
+
+.classBigPromotion img{
+	border:none;
+}
+
+.classContentBanner {
+	position:relative;
+	width:220px;
+	height:110px;
+	top:120px;
+	background-image:url('../images/background_trans1.png');
+	font-size:12px;
+	padding-right:2px;
+	padding-left:4px;	
+	z-index:2;
+	cursor:hand;
+	text-decoration:none !important;
+}
+
+.classContentBanner p{
+	font-size:12px !important;
+	color:#FFFFFF !important;
+}
+
+.classContentBanner a{
+	color:#FFFFFF !important;
+	text-decoration:none !important;
+}
+
+.classContentBanner a:hover{
+	text-decoration:none !important;
+	color:#FF7E00 !important;
+}
+
+.pBigImg{
+	position:absolute;
+	top:452px;
+	background-image:url('../images/background_trans1.png');
+	width:100%;
+	height:110px;
+	font-size:small;	
+	color:#333333;
+}
+
+.pBigImg b{
+	color:#003399;
+}
+
+.divBigBullet{
+	text-align:center;
+	position:relative;
+	top:425px;
+}
+
+#divBullet{
+	text-align:center;
+	position:relative;
+	top:455px;
+	cursor:hand;
+	cursor:pointer;	
+}
+
+
+.classBullet{
+	clear:both;
+	top:434px !important;
+	position:relative;
+}
+div.fadenav {
+	margin: 0 auto;
+	position: relative;
+	top: 450px;
+	left: 66px;
+}
+div.fadenav a {
+	display: block;
+	width: 22px;
+	height: 22px;
+	background: url(../images/bullets.png) no-repeat;
+	float: left;
+	overflow: hidden;
+	text-decoration: none;
+}
+div.fadenav a:hover {
+	text-decoration: none;
+}
+div.fadenav a.current {
+	background-position: 0 -22px;
+}

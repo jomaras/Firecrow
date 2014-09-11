@@ -1,0 +1,491 @@
+  #nav {
+    margin: 0;
+    /*background: #fff;*/
+    background: url(../images/top_main_menu_bg.png) 0 -39px;
+	background-repeat: repeat-x;
+    width: 1000px; /* width: 950px; */
+  }
+
+  .nav_border_bottom {
+  	border-bottom: 3px solid #999;
+  	height: 30px;
+  }
+
+  .hlist {
+    /* (en) containing floats in IE */
+    /* (de) Einfassen der Floats im IE */
+    width: 1000px; /*width: 949px;*/
+    /* (en) containing floats in all other browsers */
+    /* (de) Einfassen der Floats in allen anderen Browsern */
+    float: left;
+    /* (en|de) Bugfix: IE - collapsing horizontal margins */
+    display: inline;
+    position:relative;
+    /*background: #fff;*/
+    line-height: 0;
+    margin: 0;
+    border-top: 1px solid #ccc;
+    /*border-right: 1px solid #ccc;*/
+    border-bottom: 1px solid #999;
+    z-index: 100;
+  }
+
+  .hlist ul {
+    /* (en|de) Bugfix: IE - Doubled Float Margin Bug */
+    display: inline;
+    float: left; /* LTR */
+    margin: 0; /* LTR */
+    padding: 0;
+    width: 1000px; /*width: 950px;*/
+    overflow: hidden;
+  }
+
+  .hlist ul li {
+    /* (en|de) Bugfix: IE - Doubled Float Margin Bug */
+    display: inline;
+    float: left; /* LTR */
+    font-size: 1.2em;
+    line-height: 1.6em;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    /*border-left: 1px solid #ccc;*/
+  }
+
+  .hlist ul li a {
+    background: transparent;
+    color: #555;
+    display: block;
+    font-size: 0.7em;
+    font-weight:normal;
+    margin: 0;    
+    padding: 6px 5px 0 8px;
+    height: 26px;
+    line-height: 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  /* thai font*/
+ .hlist ul#fthai li a {
+    background: transparent;
+    color: #555;
+    display: block;
+    font-size: .8em;
+    font-weight:normal;
+    margin: 0;
+    padding: 2px 5px 2px 10px;
+    height: 26px;
+    line-height: 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+ }
+
+  .hlist ul#fthai li a:focus,
+  .hlist ul#fthai li a:hover,
+  .hlist ul#fthai li a:active,
+  .hlist ul li a:focus,
+  .hlist ul li a:hover,
+  .hlist ul li a:active {
+    background: #9c0;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .hlist ul#fthai li.active strong,
+  .hlist ul#fthai li.active a,
+  .hlist ul#fthai li.active a:focus,
+  .hlist ul#fthai li.active a:hover,
+  .hlist ul#fthai li.active a:active,
+  .hlist ul li.active strong,
+  .hlist ul li.active a,
+  .hlist ul li.active a:focus,
+  .hlist ul li.active a:hover,
+  .hlist ul li.active a:active { background: #9c0; color: #fff; text-decoration: none; }
+
+ /**
+  * Feste Breiten fuer Hauptnavigations-Punkte
+  * Ausklapp-Navi
+  */
+  
+  .main_nav_5.button_default {
+  	width: auto;
+    padding-right: 20px;
+    font-size: 20px;
+  }
+
+  .main_nav_5.button_1 {
+    width: 185px;
+  }
+
+  .main_nav_5.button_2 {
+    width: 191px;
+  }
+
+  .main_nav_5.button_3 {
+    width: 191px;
+  }
+
+  .main_nav_5.button_4 {
+    width: 191px;
+  }
+
+  .main_nav_5.button_5 {
+    width: 186px;
+  }
+
+  .subnav_5.button_default {
+  	width: auto;
+    padding-right: 20px;
+  }
+  
+  .subnav_5.button_1 {
+    width: 185px;
+  }
+
+  .subnav_5.button_2 {
+    width: 191px;
+  }
+
+  .subnav_5.button_3 {
+    width: 191px;
+  }
+
+  .subnav_5.button_4 {
+    width: 191px;
+  }
+
+  .subnav_5.button_5 {
+    width: 186px;
+  }
+  
+  .suck_nav_5.button_default, .main_nav_5.button_default ul {
+  	width: 200px;
+  }
+
+  .suck_nav_5.button_1, .main_nav_5.button_1 ul {
+    width: 185px;
+  }
+
+  .suck_nav_5.button_2, .main_nav_5.button_2 ul {
+    width: 191px;
+  }
+
+  .suck_nav_5.button_3, .main_nav_5.button_3 ul {
+    width: 191px;
+  }
+
+  .suck_nav_5.button_4, .main_nav_5.button_4 ul {
+    width: 191px;
+  }
+
+  .suck_nav_5.button_5, .main_nav_5.button_5 ul {
+    width: 186px;
+  }
+
+  #subnav {
+    width: 949px;
+    overflow: hidden;
+    font-size: 85%;
+    border-right: 1px solid #ddd;
+    border-bottom: 5px solid #999;
+    margin: 0 0 0 5px;
+  }
+
+  .subnav_4, .subnav_5, .subnav_6, .subnav_7  {
+    border-left: 1px solid #ddd;
+  }
+
+  .subnav_4, .subnav_5, .subnav_6, .subnav_7  {
+    float: left;
+  }
+
+  .subnav_4 {
+    width: 237px;
+  }
+
+  .subnav_5 {
+    width: 190px;
+  }
+
+  .subnav_6 {
+    width: 158px;
+  }
+
+  .subnav_7 {
+    width: 138px;
+  }
+
+  .subnav_4 ul, .subnav_5 ul, .subnav_6 ul, .subnav_7 ul {
+    margin: 0;
+    list-style: none;
+  }
+
+  .subnav_4 ul li, .subnav_5 ul li, .subnav_6 ul li, .subnav_7 ul li {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  #subnav a {
+    height: 16px;
+    line-height: 1.5em;
+    color: #666;
+    text-decoration: none;
+    display: block;
+    padding: 3px 5px 3px 10px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  #subnav a:focus,
+  #subnav a:hover,
+  #subnav a:active,
+  #subnav li.active a {
+    background: #eee;
+    color: #666;
+    background: #9c0;
+    color: #fff;
+    text-decoration: none;
+  }
+
+ #open_close_nav_left {
+   position: absolute;
+   left: -11px;
+   z-index: 100;
+   margin: 0;
+   cursor: pointer;
+   width: 14px;
+   height: 30px;
+   border: 1px solid #ccc;
+   padding: 0 0 0 1px;
+   border-bottom: 5px solid #999;
+  }
+
+  #open_close_nav_right {
+    position: absolute;
+    right: -11px;
+    z-index: 100;
+    margin: 0;
+    cursor: pointer;
+    width: 14px;
+    height: 30px;
+    border: 1px solid #ccc;
+    padding: 0 0 0 1px;
+    border-bottom: 5px solid #999;
+   }
+
+  .without_identity {
+  top: 84px;
+  }
+
+  .with_identity {
+  top: 113px;
+  }
+
+  .open_nav_button {
+    display: block;
+    text-align: left;
+    background-color: #fff;
+    padding: 13px 1px 1px 2px;
+  }
+
+  .close_nav_button {
+    display: block;
+    text-align: left;
+    background-color: #fff;
+    padding: 13px 1px 1px 2px;
+  }
+
+  .open_nav_button:hover, .close_nav_button:hover {
+    cursor: pointer;
+  }
+
+  .open_close_nav_button img {
+    vertical-align: baseline;
+    margin: 2px 1px 2px 0;
+  }
+
+  /* Suckerfish-Navigation */
+
+  .hlist ul li ul {
+    position: absolute;
+    top: -999em;
+    /*background: #fff;*/
+    border-top: 1px solid #ccc;
+    border-bottom: 3px solid #999;
+    border-right: 1px solid #ccc;
+    }
+
+  .hlist ul li.main_nav_5.suck_it:hover ul,
+  .hlist ul.sf-js-enabled li.main_nav_5.suck_it ul {
+    top: 30px;
+    left: auto;
+  }
+
+  .hlist ul li ul li a,
+  .hlist ul li.active ul li a {
+    height: 18px;
+    font-size: 14px;
+    line-height: 1.5em;
+    font-weight: normal;
+    text-decoration: none;
+    text-transform: none;
+    font-family: "Arial", sans-serif;
+    color: #666;
+    display: block;
+    padding: 3px 5px 3px 10px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    margin: 0;
+  }
+/* thai font*/
+  .hlist ul#fthai li ul li a,
+  .hlist ul#fthai li.active ul li a {
+    height: 18px;
+    font-size: 14px;
+    line-height: 1.5em;
+    font-weight: normal;
+    text-decoration: none;
+    text-transform: none;
+     font-family: Tahoma;
+    color: #666;
+    display: block;
+    padding: 3px 5px 3px 10px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    margin: 0;
+  }
+ 
+  .hlist ul li ul li a:focus,
+  .hlist ul li ul li a:hover,
+  .hlist ul li ul li a:active,
+  .hlist ul li.active ul li a:hover,
+  .hlist ul li.active ul li a:focus,
+  .hlist ul li.active ul li a:active,
+  .hlist ul li ul li.active a {
+    background: #f1f1f1;
+    color: #333;
+    background: #9c0;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* Flexible Hauptnavigation */
+
+  #nav {
+    margin: 0;
+    height: 30px;
+    /*background: #fff;*/
+    background: url(../images/top_main_menu_bg.png) 0 -39px;
+	background-repeat: repeat-x;
+  }
+
+  .hlist_flex {
+    /* (en) containing floats in IE */
+    /* (de) Einfassen der Floats im IE */
+    width: 1000px; /*width: 950px;*/
+    height: 30px;
+    overflow: hidden;
+    /* (en) containing floats in all other browsers */
+    /* (de) Einfassen der Floats in allen anderen Browsern */
+    float: left;
+    /* (en|de) Bugfix: IE - collapsing horizontal margins */
+    display: inline;
+    position: relative;
+    background: #c5d2e3;
+    line-height: 0;
+    margin: 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .hlist_flex ul {
+    /* (en|de) Bugfix: IE - Doubled Float Margin Bug */
+    display: inline;
+    float: left; /* LTR */
+    margin: 0; /* LTR */
+    margin-left: -5px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .hlist_flex ul li {
+    /* (en|de) Bugfix: IE - Doubled Float Margin Bug */
+    display: inline;
+    float: left; /* LTR */
+    font-size: 1.2em;
+    line-height: 1.6em;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hlist_flex ul li a,
+  .hlist_flex ul li strong {
+    background: transparent;
+    color: #333;
+    display: block;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.2em 20px 0.2em 15px;
+    border-right: 1px solid #c5d2e3;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, sans-serif;
+  }
+
+  .hlist_flex ul li.button_1 a,
+  .hlist_flex ul li.button_1 strong {
+    padding-left: 15px;
+  }
+
+  .hlist_flex ul li a:focus,
+  .hlist_flex ul li a:hover,
+  .hlist_flex ul li a:active  {
+    background: #999;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .hlist_flex ul li.active a,
+  .hlist_flex ul li a.active {
+    background: #999;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .hlist_flex ul li.active strong,
+  .hlist_flex ul li.active a:link,
+  .hlist_flex ul li.active a:focus,
+  .hlist_flex ul li.active a:hover,
+  .hlist_flex ul li.active a:active {
+    background: #999;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* Meta-Navigation im Header */
+
+  #topnav li {
+    display: inline;
+  }
+
+  #topnav a {
+     color: #333;
+   }
+
+   /* Meta-Navigation im Footer */
+
+   #bottomnav li {
+     display: inline;
+   }
+
+   #bottomnav a {
+      color: #999;
+    }
+

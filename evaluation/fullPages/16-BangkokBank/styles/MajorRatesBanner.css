@@ -1,0 +1,64 @@
+﻿#tableheaderdep{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#tableheaderdep td{padding-top:1px;padding-bottom:1px}
+#tableheaderdep .headerfx1{FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:left;vertical-align:top}
+#tableheaderdep .headerfx2{FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:right;vertical-align:top;width:30%}
+#tableheaderdep .headertypecus{border-bottom:#999 1px solid;width:50%}
+#WSOutput{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#WSOutput td{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;padding-top:3px;padding-bottom:3px}
+#WSOutput .tabletype{text-align:left;border-top:#E2E0E0 1px solid;width:40%}
+#WSOutput .tabletype0{text-align:left;width:40%}
+#WSOutput .tableinterest{text-align:right;border-top:#E2E0E0 1px solid;width:30%}
+#WSOutput .tableinterest0{text-align:right;width:30%}
+#tabledate table,.footerfx{BORDER-BOTTOM:#999 2px solid;width:100%;margin:0px;border-collapse:collapse}
+#tabledate td,.footerdate{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;padding-top:3px;padding-bottom:3px}
+#tabledate a{COLOR:#333;text-decoration:underline;}
+#tabledate a:hover{COLOR:#FF7E00;text-decoration:underline;}
+#EffectiveDate{float:left}
+#tableheaderloan table,.tableloan{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#tableheaderloan .headerloan1{FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:left;vertical-align:top;padding-top:3px;padding-bottom:3px}
+#tableheaderloan .headerloan2{FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:right;vertical-align:top;padding-top:3px;padding-bottom:3px}
+#tableheaderloan .headerloan{width:60%}
+#WSOutputLoan{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#WSOutputLoan td,.tablecopy{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:center;padding-top:3px;padding-bottom:3px}
+#WSOutputLoan .tabletype{text-align:left;border-top:#E2E0E0 1px solid;width:60%}
+#WSOutputLoan .tabletype0{text-align:left;width:40%}
+#WSOutputLoan .tableinterest{text-align:right;border-top:#E2E0E0 1px solid;width:40%}
+#WSOutputLoan .tableinterest0{text-align:right;width:40%}
+#tabledateLoan table,.footerloan{BORDER-BOTTOM:#999 2px solid;width:100%;margin:0px;border-collapse:collapse}
+#tabledateLoan td,.footerdate{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;padding-top:3px;padding-bottom:3px}
+#tabledateLoan a{COLOR:#333;text-decoration:underline;}
+#tabledateLoan a:hover{COLOR:#FF7E00;text-decoration:underline;}
+#tabledateLoan .widthimage{width:18px}
+#tableDep table,.tableloan{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#tableDep .headerdep1{FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:left;vertical-align:top;padding-top:3px;padding-bottom:3px}
+#tableDep .headerdep2{FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:right;vertical-align:top;padding-top:3px;padding-bottom:3px}
+#tableDep .headerloan{width:60%}
+#WSOutputDep table,.tablecopy{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#WSOutputDep td,.tablecopy{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:center;padding-top:3px;padding-bottom:3px}
+#WSOutputDep .tabletype{padding-left:0px;text-align:left;border-top:#E2E0E0 1px solid;width:60%}
+#WSOutputDep .tabletype0{padding-left:0px;text-align:left;width:40%}
+#WSOutputDep .tableinterest{text-align:right;border-top:#E2E0E0 1px solid;width:40%;padding-right:0px}
+#WSOutputDep .tableinterest0{text-align:right;width:40%;padding-right:0px}
+#tabledateDep table,.footerdate{width:100%;margin:0px;BORDER-BOTTOM:#999 2px solid;border-collapse:collapse}
+#tabledateDep td,.footerdate{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;padding-top:3px;padding-bottom:3px}
+#tabledateDep a{COLOR:#333;text-decoration:underline;}
+#tabledateDep a:hover{COLOR:#FF7E00;text-decoration:underline;}
+#tabledateDep .widthimage{width:18px}
+#DisclaimerDeposit{FONT-SIZE:9px;COLOR:#666;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;text-align:left;padding-left:5px;float:left}
+#DisclaimerLoan{FONT-SIZE:9px;COLOR:#666;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;text-align:left;padding-left:5px;float:left}
+#Disclaimermfund{FONT-SIZE:9px;COLOR:#666;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;text-align:left;padding-left:5px;float:left}
+#tableheadermfund{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#tableheadermfund .headermfund{width:75%;FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;vertical-align:top;padding-top:3px;padding-bottom:3px;text-align:left}
+#tableheadermfund .headernav{width:25%;FONT-SIZE:10px;font-weight:bold;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;vertical-align:top;padding-top:3px;padding-bottom:3px;text-align:right}
+#WSOutputmfund table,.tablemfund{BORDER-BOTTOM:#999 1px solid;width:100%;margin:0px;border-collapse:collapse}
+#WSOutputmfund td,.tablemfund{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;text-align:center;padding-top:3px;padding-bottom:3px}
+#WSOutputmfund .tabletype{text-align:left;border-top:#E2E0E0 1px solid;width:75%}
+#WSOutputmfund .tabletype0{text-align:left;width:25%}
+#WSOutputmfund .tableinterest{text-align:right;border-top:#E2E0E0 1px solid;width:25%}
+#WSOutputmfund .tableinterest0{text-align:right;width:25%}
+#tabledatemfund table,.footermfund{BORDER-BOTTOM:#999 2px solid;width:100%;margin:0px;border-collapse:collapse}
+#tabledatemfund td,.footermfund{FONT-SIZE:10px;font-weight:normal;FONT-FAMILY:Verdana,Arial,Helvetica,sans-serif;COLOR:#333;padding-top:3px;padding-bottom:3px}
+#tabledatemfund .widthimage{width:18px}
+#tabledatemfund a{COLOR:#333;text-decoration:underline;}
+#tabledatemfund a:hover{COLOR:#FF7E00;text-decoration:underline;}
+#iconrss{border:0px;}

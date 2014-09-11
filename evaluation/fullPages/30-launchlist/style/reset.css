@@ -1,0 +1,86 @@
+/*
+©2010 Jay Hollywood
+www.jayhollywood.com.au
+
+Description : Reset Stylesheet
+
+*/
+
+/*---------------------------------------------- GLOBAL SETTINGS */
+
+html, body {
+	border:0;
+	margin:0;
+	padding:0;
+}
+/*---------------------------------------------------- HEADINGS */
+h1, h2, h3, h4, h5, h6 {
+	margin:0;
+	padding:0;
+	font-weight:normal;
+}
+
+/*-------------------------------------------- COMMON FORMATING */
+
+p, ul, ol {
+	margin:0;
+	padding:0 0 1.25em 0;
+}
+
+ul, ol {
+	padding:0 0 1.25em 2.5em;
+}
+blockquote {
+	margin:1.25em;
+	padding:1.25em 1.25em 0 1.25em;
+}
+
+img {
+	border:0;
+}
+sup {
+	position:relative;
+	bottom:0.3em;
+	vertical-align:baseline;
+}
+sub {
+	position:relative;
+	bottom:-0.2em;
+	vertical-align:baseline;
+}
+acronym, abbr {
+	cursor:help;
+	letter-spacing:1px;
+	border-bottom:1px dashed;
+}
+/*-------------------------------------------------------- LINK */
+
+a, a:link, a:visited, a:hover, a:active {
+	outline: none;
+}
+/*------------------------------------------------------- FORMS */
+
+form {
+	margin:0;
+	padding:0;
+	display:inline;
+}
+
+label {
+	cursor:pointer;
+}
+
+button {
+	cursor: pointer;
+	border: 0;
+}
+
+/*------------------------------------------------------ TABLES */
+
+table {
+	margin:0 0 1.25em 0;
+	padding:0;
+}
+table tr td {
+	padding:2px;
+}

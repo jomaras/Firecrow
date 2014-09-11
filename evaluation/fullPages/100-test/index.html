@@ -1,0 +1,26 @@
+<html>
+	<head>
+	</head>
+	
+	<body>
+	
+		<input id="inputBox"/>
+		<div id="mainContainer"/>
+		<script>
+		var inputBox = document.getElementById("inputBox");
+		var mainContainer = document.getElementById("mainContainer");
+		
+		inputBox.onkeyup = function ()
+		{				
+			if(inputBox.value.length < 4)
+			{
+				mainContainer.textContent = inputBox.value;
+			}
+			else
+			{
+				mainContainer.textContent = inputBox.value;
+			}
+		};
+		</script>
+	</body>
+</html>

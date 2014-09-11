@@ -1,0 +1,94 @@
+﻿x.vtabs {
+	/* a border is required for IE otherwise the tab panels will not be aligned correctly. */
+	position: relative;  border: 1px solid #ffffff;
+}
+.vtabs .vtabs-tab-column {
+	position: relative; margin: 0; width: 160px; min-width: 160px;
+	float:left;
+}
+.vtabs .vtabs-tab-column ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+/* css for tab that is open */
+.vtabs .vtabs-tab-column ul li.open, .vtabs .vtabs-tab-column ul li.closed {
+	margin: 0px;
+	padding: 0px 0px 3px 5px;
+	margin-bottom: 3px;
+	/* round corners do not work in IE */
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomrightt: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+
+	border-top: 1px solid #FF7E00;
+	border-bottom: 1px solid #FF7E00;
+	border-left: 1px solid #FF7E00;
+	border-right: 1px solid #FF7E00;
+	z-index: 1;
+}
+/* css for tab that is closed */
+.vtabs .vtabs-tab-column ul li.closed {
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	border-left: 1px solid #DDD;
+	border-right: 1px solid #DDD;
+	/* round corners do not work in IE */
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomrightt: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+}
+/* css for tab hover */	
+.vtabs .vtabs-tab-column ul li:hover {
+			
+}
+/* css for link on tab that's open */
+.vtabs .vtabs-tab-column ul li a.open, .vtabs .vtabs-tab-column ul li a.closed {
+	/*font: 11px Helvetica, Arial, sans-serif;*/
+	font-size:14px;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	color: #FF7E00;
+}
+/* css for link on tab that's closed */
+.vtabs .vtabs-tab-column ul li a.closed {
+	color: #829DD4;
+}	
+.vtabs .vtabs-content-column {
+	padding: 0px;
+	margin: 0px;
+}
+/* css for the content panels */
+.vtabs .vtabs-content-column .vtabs-content-panel {
+	width:750px;
+	padding:5px 10px 0 10px;
+	margin: 0px;
+	/*
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;	
+	-webkit-border-bottom-left-radius: 3px;
+	border-top: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+	border-right: 1px solid #999999;
+	border-left: 1px solid #999999;
+	*/
+}
+#News-Vertical-Tabs{
+	margin-top:20px;
+	margin-left:30px;
+}

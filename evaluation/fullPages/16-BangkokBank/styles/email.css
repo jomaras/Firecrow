@@ -1,0 +1,263 @@
+﻿#BorderEmail
+{
+	/*Fix Bug  IE*/
+	position:relative;
+	display:block;
+	width:200px;
+	height:auto;
+	margin-left:0px;
+
+
+}
+
+
+#BorderEmail .Body
+{
+	display:block;
+	width:200px;
+	height:auto;
+	FONT-SIZE: 10px;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    COLOR: #333333;
+    font-weight:normal;
+    margin:0px 0px 0px 0px;
+    line-height:14px;
+    
+
+}
+
+#BorderEmail   .RowsLevel
+{
+   margin-bottom:5px;
+}
+
+#BorderEmail   .RowsLevelBottom
+{
+   margin-bottom:15px;
+}
+#BorderEmail .CalLabel{
+	 
+	margin-bottom:0px;
+}
+#BorderEmail .CalLabelHeaderEmail{
+	 
+	margin-bottom:0px;
+	font-weight:bold;
+}
+
+#BorderEmail .CalLabelsub{
+	 
+	padding-left:15px;
+}
+
+
+#spacecontent
+{
+	padding-top:3px;
+}
+
+
+#BorderEmail .Button
+{
+	color: #808080;
+	font-family: Verdana;
+	font-size: 10px;
+	width: auto;
+}
+
+#resultEmail
+{
+	padding-top:5px;
+	float:left;
+	color:#333333;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	margin-bottom:10px;	
+	font-size: 11px ;
+	width:200px;	
+
+}
+
+#BorderEmail a:link 
+{
+	FONT-SIZE: 10px;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+
+}
+
+#BorderEmail a:visited 
+{
+	FONT-SIZE: 10px;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+
+}
+
+#floatleft
+{
+	float:left;
+}
+
+#floatright
+{
+	float:right;
+	position:absolute;
+	top:18px;
+	left:160px;
+	padding-right:5px;
+}
+
+#iconsubmit
+{
+	border:0px;
+	cursor:pointer;
+}
+
+#BorderEmail .watermark { color: #999999; font-style: italic; font-family:Tahoma,Arial, Helvetica, sans-serif;FONT-SIZE: 11px;}
+#BorderEmail .grayText { color: #999999; font-style: italic; font-weight: bold;font-family:Verdana; }
+	
+.focus {
+    /*
+    border: 2px solid #AA88FF;
+	background-color: #FFEEAA;
+	border-color:#AA88FF;
+	border:2px;
+    */   
+    border:solid 1px red; 
+}
+
+
+#tab-frameEmail  
+{
+	position:relative;
+	background: -webkit-gradient(linear, 0 0, 0 80%, from(#f2f2f2), to(#ffffff));
+	background: -moz-linear-gradient(#f2f2f2, #ffffff 80%);
+	background: linear-gradient(#f2f2f2, #ffffff 80%);
+	-pie-background: linear-gradient(#f2f2f2, #ffffff 80%);
+
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+	
+
+}
+
+#tablemainemail{
+	border-collapse: collapse;
+	width: 750px;
+}
+
+#tablemainemail td{
+	FONT-SIZE: 11px;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    COLOR: #333333;
+	padding:0px;
+
+    
+}
+
+#tablemainemail .spacebottom
+{
+	padding-top:20px;
+}
+
+#tablemainemail .spacebutton
+{
+	padding-left:200px;
+}
+
+#tablemainemail .btnSubmit
+{
+	color: #808080;
+	font-family: Verdana;
+	font-size: 10px;
+	width: auto;
+}
+
+#tablemember{
+	border-collapse: collapse;
+	width: 90%;
+	margin-left:16px;
+}
+
+#tablemember td{
+	line-height: 25px;
+	padding:0px;
+
+
+}
+
+#tablemember input
+{ 
+	color: #808080;
+	font-family: Verdana;
+	font-size: 11px;
+	width:150px;
+	
+}
+
+#tablemember  select
+{
+	color:#808080;
+	font-family: Verdana;
+	font-size: 11px;
+	width:156px;
+	
+}
+
+#tablenews{
+	border-collapse: collapse;
+	width: 90%;
+	margin-left:12px;
+}
+
+#tablenews td{
+	line-height: 25px;
+	padding:0px;
+
+
+}
+
+#tableformat{
+	border-collapse: collapse;
+	width: 90%;
+	margin-left:16px;
+
+}
+
+#tableformat td{
+	line-height: 25px;
+	padding:0px;
+
+
+}
+
+#tablesurvey{
+	border-collapse: collapse;
+	width: 90%;
+	margin-left:16px;
+
+}
+
+#tablesurvey td
+{
+	line-height: 25px;
+	padding:0px;
+}
+
+#tablesurvey .padding12px
+{
+	padding-left:12px;
+}
+
+#tablesurvey1{
+	border-collapse: collapse;
+	width: 90%;
+	margin-left:12px;
+
+}
+
+#tablesurvey1 td
+{
+	line-height: 25px;
+	padding:0px;
+}
+

@@ -1,0 +1,94 @@
+  .vlist {
+    overflow: hidden;
+    margin: 0 5px 30px;
+    list-style-type: none;
+    border-top: 1px #ddd solid;
+  }
+
+  .vlist ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .vlist li {
+    float: left; /* LTR */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .vlist a,
+  .vlist strong,
+  .vlist span {
+    display: block;
+    padding: 3px 0 3px 10px;
+    text-decoration: none;
+    border-bottom: 1px #ddd solid;
+    color: #333;
+  }
+
+  /* for Firefox. fixes missing border-bottom */
+  .vlist a:active,
+  .vlist a:focus {
+    border-bottom: 1px #ddd solid;
+  }
+
+  .vlist a:link,
+  .vlist a:visited {
+    color: #333;
+  }
+
+  .vlist li span {
+    display: block;
+    border-bottom: 1px #ddd solid;
+  }
+
+  /* active list element */
+  .vlist li.active {
+    color: #333;
+    background-color: #eee;
+  }
+
+  /* Level 1 */
+  .vlist li a,
+  .vlist li strong,
+  .vlist li span { padding-left: 10px; } /* LTR */
+
+  .vlist li a:focus,
+  .vlist li a:hover,
+  .vlist li a:active { background-color: #eee; color:#333; outline: 0 none; text-decoration: none;}
+
+  /* Level 2 */
+  .vlist li ul li a,
+  .vlist li ul li strong,
+  .vlist li ul li span { padding-left: 20px; padding-top: 0.3em; padding-bottom: 0.3em; line-height: 1.4em; font-size: 85%; } /* LTR */
+
+  .vlist li ul li a,
+  .vlist li ul li a:visited { background-color: #fff; color: #333; }
+  .vlist li ul li a:focus,
+  .vlist li ul li a:hover,
+  .vlist li ul li a:active { background-color: #eee; color: #333; }
+
+  /* Level 3 */
+  .vlist li ul li ul li a,
+  .vlist li ul li ul li strong,
+  .vlist li ul li ul li span { padding-left: 30px; } /* LTR */
+
+  .vlist li ul li ul li a,
+  .vlist li ul li ul li a:visited{ background-color: #fff; color: #333; }
+  .vlist li ul li ul li a:focus,
+  .vlist li ul li ul li a:hover,
+  .vlist li ul li ul li a:active { background-color: #eee; color: #333; }
+
+  /* Level 4 */
+  .vlist li ul li ul li ul li a,
+  .vlist li ul li ul li ul li strong,
+  .vlist li ul li ul li ul li span { padding-left: 40px; } /* LTR */
+
+  .vlist li ul li ul li ul li a,
+  .vlist li ul li ul li ul li a:visited { background-color: #fff; color: #333; }
+  .vlist li ul li ul li ul li a:focus,
+  .vlist li ul li ul li ul li a:hover,
+  .vlist li ul li ul li ul li a:active { background-color: #eee; color: #333; }
+

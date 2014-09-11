@@ -1,0 +1,140 @@
+/******* GENERAL RESET *******/
+/*html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em,
+font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody,
+ tfoot, thead, tr, th, td*/ 
+ ul{
+border:0pt none;
+font-family:inherit;
+font-size: 100%;
+font-style:inherit;
+font-weight:inherit;
+margin:0pt;
+padding:0pt;
+vertical-align:baseline;
+}
+/*body{
+	background: #fff;
+	line-height:14px;
+	font-size: 12px;
+	font-family: Arial,  Verdana, Helvetica, sans-serif;
+	margin:0pt;
+	cursor:default;
+	overflow: hidden;
+}
+html,body{
+	height:100%;*/
+	/*text-align: center;
+}*/
+.clear{
+	clear: both;
+	height: 0;
+	visibility: hidden;
+	display: block;
+}
+a{
+	text-decoration: none;
+}
+/******* GENERAL RESET *******/
+/******* LOGO *******/
+/*#logo{
+	margin-top: 1em;
+	display: block;
+}*/
+/******* /LOGO  *******/
+/******* MENU *******/
+#container1{
+	margin-left:0px;
+	margin-top:-10px;
+	width: 719px;
+}
+#container1 ul{
+	list-style: none;
+	list-style-position: outside;
+}
+#container1 ul.menu li{
+	float: left;
+	margin-right: 5px;
+	margin-bottom: -1px;
+	
+}
+#container1 ul.menu li{
+	font-weight: normal;
+	display: block;
+	padding: 5px 10px 5px 10px;
+	background: #efefef;
+	margin-bottom: -1px;
+	border: 1px solid #d0ccc9;
+	border-width: 1px 1px 1px 1px;
+	position: relative;
+	color: #000000;
+	cursor: pointer;
+}
+#container1 ul.menu li.active{
+	background: #016224;
+	top: 1px;
+	border-bottom: 0;
+	color: #CCCCCC; /*#5f95ef*/;
+}
+
+/******* /MENU *******/
+/******* content1 *******/
+.content1{
+	/*margin: 0pt auto;*/
+	margin-left:0px;
+	background: #efefef;
+	background: #FFFFFF;
+	border: 1px solid #d0ccc9;
+	text-align: left;
+	padding: 9px;
+	padding-bottom: 20px;
+	font-size: 11px;
+	width: 700px;
+	height:240px;
+}
+.content1 h1{
+	line-height: 1em;
+	vertical-align: middle;
+	height: 48px;
+	padding: 10px 10px 10px 52px;
+	font-size: 32px;
+}
+/******* /content1 *******/
+/******* NEWS *******/
+.content1.news h1{
+	background: transparent url(../images/news.jpg) no-repeat scroll left top;
+}
+.content1.news{
+	display: block;
+}
+/******* /NEWS *******/
+/******* TUTORIALS *******/
+.content1.tutorials h1{
+	background: transparent url(../images/tuts.jpg) no-repeat scroll left top;
+}
+.content1.tutorials{
+	display: block;
+}
+
+
+.content1.links1 h1{
+	background: transparent url(../images/links.jpg) no-repeat scroll left top;
+}
+.content1.links1{
+	display: block;
+}
+
+
+/******* /TUTORIALS *******/
+/******* LINKS *******/
+.content1.links h1{
+	background: transparent url(../images/links.jpg) no-repeat scroll left top;
+}
+.content1.links{
+	display: block;
+}
+/*.content1.links a{
+	color: #5f95ef;
+}*/
+/******* /LINKS *******/
+
+

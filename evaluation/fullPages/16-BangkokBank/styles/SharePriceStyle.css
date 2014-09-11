@@ -1,0 +1,111 @@
+﻿/*
+	 Organic Tabs
+	 by Chris Coyier
+	 http://css-tricks.com
+*/
+
+* { margin: 0; padding: 0; }
+
+html { overflow-y: scroll; }
+p { font-size: 15px; font-style:normal; margin: 0 0 20px 0; }
+#page-wrapsp { width: 180px; margin:0px; }
+#tab-framesp 
+{
+	width: 100%;
+}
+
+h1 { font: bold 40px Sans-Serif; margin: 0 0 20px 0; }
+
+
+/*********************************************  BEGIN TAB CSS *****************************************************/
+#tab-framesp a:focus { outline:none;}
+/* Generic Utility */
+#tab-framesp .hide { position: absolute; top: -9999px; left: -9999px; }
+
+/* Specific to example two */
+
+#tab-framesp .main-tab { z-index:1; }
+#tab-framesp .list-wrap {  
+	position:relative;  z-index:0;  margin: 0 0 0px 0;  z-index:0;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:3px;
+	-webkit-border-radius: 0px 0px 0px 0px;
+	-moz-border-radius: 0px 0px 0px 0px;
+}
+
+#tab-framesp .tab-contentsp {
+	padding: 8px;
+	background-color: white;
+	position: relative;
+	z-index: 0;
+	border: 1px solid #DDD;
+	height:auto; 
+	margin-bottom: 5px;
+	-moz-box-shadow: 1px 1px 3px #E7E7E7;
+	-webkit-box-shadow: 1px 1px 3px #E7E7E7;
+	box-shadow: 1px 1px 3px #E7E7E7;
+	
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+}
+
+
+#tab-framesp .tabimage {
+	position: relative;
+	top: -7px;
+}
+
+
+#tab-framesp .nav { overflow: hidden; z-index:1;}
+
+#tab-framesp .nav li {
+	position: relative;
+	z-index: 1;
+	min-width: 0px;
+	float: left;
+	margin: 0px 4px 0 0;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+}
+
+#tab-framesp .nav li a {
+	font-family: Verdana;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	position: relative;
+	z-index: 1;
+	padding: 2px 4px 2px 4px;
+	display: block;
+	color: #999;
+	border: 0;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+}
+
+
+
+
+#tab-framesp ul { list-style: none;  z-index:1; margin-left:12px;position:relative; top:4px;}
+
+#tab-framesp ul li a:hover {  
+	position:relative;  z-index:1;color: #999;
+/*    Round Corner */
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+}
+
+#tab-framesp li a.current {  
+	position:relative;  z-index:1;background-color: #ffffff; color: #333; border: 1px solid #ddd; border-bottom:0px solid #ffffff;
+/*    Round Corner */
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+}
+#tab-framesp li a.current:hover { 
+	position:relative;  z-index:1;background-color: #ffffff; color: black;
+/*    Round Corner */
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+}

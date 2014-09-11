@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    
+    <style rel="stylesheet" href="style.css">
+    body, div, ul, li, img { margin: 0px; padding: 0px; border: 0px none; }
+    body { background: url("http://localhost/Firecrow/evaluation/fullPages/29-line25JquerySlideshow/images/carbon.png") repeat scroll 0% 0% rgb(13, 12, 9); }
+    #slideshow { width: 918px; height: 546px; overflow-x: scroll; overflow-y: hidden; margin: 100px auto 50px; box-shadow: 0px 0px 80px rgb(0, 0, 0); }
+    #slideshow ul { width: 4590px; list-style: none outside none; }
+    #slideshow ul li { float: left; }
+    #slideshow-nav { width: 250px; margin: 0px auto 200px; visibility: hidden; }
+    #slideshow-nav ul { list-style: none outside none; }
+    #slideshow-nav ul li { float: left; }
+    #slideshow-nav ul li a { display: block; width: 30px; height: 30px; float: left; margin: 0px 10px; background-color: rgb(255, 255, 255); text-indent: -9999px; border-radius: 30px; box-shadow: 0px 0px 30px rgb(0, 0, 0); }
+    #slideshow-nav ul li a:hover, #slideshow-nav ul li a.active { background-color: rgb(168, 157, 138); }
+    a { outline: medium none; }
+</style>
+    <script>
+  (function(window, undefined)
+  {
+    var document = window.document;
+    var jQuery = (function()
+    {
+      var jQuery = function(selector, context)
+      {
+        return new jQuery.fn.init(selector, context, rootjQuery);
+      }, rootjQuery, quickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/, rdashAlpha = /-([a-z]|[0-9])/gi, rmsPrefix = /^-ms-/, fcamelCase = function(all, letter){}, readyList, DOMContentLoaded, toString = Object.prototype.toString, hasOwn = Object.prototype.hasOwnProperty, push = Array.prototype.push, trim = String.prototype.trim, class2type = {};
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery, 
+        init: function(selector, context, rootjQuery)
+        {
+          var match, elem;
+          if(!selector)
+          {
+            return this;
+          }
+
+          if(selector.nodeType)
+          {
+            this[0] = selector;
+            this.length = 1;
+            return this;
+          }
+
+          if(typeof selector === 'string')
+          {
+            if(selector.charAt(0) === '<');
+            else 
+            {
+              match = quickExpr.exec(selector);
+            }
+
+            if(match && (match[1] || !context))
+            {
+              if(match[1]);
+              else 
+              {
+                elem = document.getElementById(match[2]);
+                if(elem && elem.parentNode)
+                {
+                  this.length = 1;
+                  this[0] = elem;
+                }
+
+                return this;
+              }
+            }
+            else if(!context)
+            {
+              return (context || rootjQuery).find(selector);
+            }
+          }
+          else if(jQuery.isFunction(selector))
+          {
+            return rootjQuery.ready(selector);
+          }
+        }, 
+        jquery: '1.7.2', 
+        length: 0, 
+        pushStack: function(elems, name, selector)
+        {
+          var ret = this.constructor();
+          if(jQuery.isArray(elems))
+          {
+            push.apply(ret, elems);
+          }
+          else 
+          {
+            jQuery.merge(ret, elems);
+          }
+
+          ret.prevObject = this;
+          return ret;
+        }, 
+        each: function(callback, args)
+        {
+          return jQuery.each(this, callback, args);
+        }, 
+        ready: function(fn)
+        {
+          jQuery.bindReady();
+          readyList.add(fn);
+          return this;
+        }, 
+        end: function()
+        {
+          return this.prevObject;
+        }, 
+        push: push
+      };
+      jQuery.fn.init.prototype = jQuery.fn;
+      jQuery.extend = jQuery.fn.extend = function()
+      {
+        var options, name, src, copy, copyIsArray, clone, target = arguments[0], i = 1, length = arguments.length, deep = false;
+        if(typeof target === 'boolean')
+        {
+          deep = target;
+          target = arguments[1];
+          i = 2;
+        }
+
+        if(length === i)
+        {
+          target = this;
+          --i;
+        }
+
+        for(;i < length;i++)
+        {
+          if((options = arguments[i]) != null)
+          {
+            for(name in options)
+            {
+              src = target[name];
+              copy = options[name];
+              if(deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))
+              {
+                if(copyIsArray);
+                else 
+                {
+                  clone = src && jQuery.isPlainObject(src) ? src : 0;
+                }
+
+                jQuery.extend(deep, clone, copy);
+              }
+              else if(copy !== undefined)
+              {
+                target[name] = copy;
+              }
+            }
+          }
+        }
+
+        return target;
+      };
+      jQuery.extend({
+        noConflict: function(deep){}, 
+        isReady: false, 
+        readyWait: 1, 
+        holdReady: function(hold){}, 
+        ready: function(wait)
+        {
+          if(wait === true || (wait !== true && !(jQuery.isReady)))
+          {
+            readyList.fireWith(document, [jQuery]);
+            if(jQuery.fn.trigger)
+            {
+              jQuery(document);
+            }
+          }
+        }, 
+        bindReady: function()
+        {
+          if(readyList)
+          {
+            return ;
+          }
+
+          readyList = jQuery.Callbacks('once memory');
+          if(document.addEventListener)
+          {
+            document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+          }
+        }, 
+        isFunction: function(obj)
+        {
+          return jQuery.type(obj) === 'function';
+        }, 
+        isArray: Array.isArray || function(obj)
+        {
+          return jQuery.type(obj) === 'array';
+        }, 
+        isWindow: function(obj)
+        {
+          return obj != null && obj == obj.window;
+        }, 
+        isNumeric: function(obj){}, 
+        type: function(obj)
+        {
+          return obj == null ? 0 : class2type[toString.call(obj)] || 'object';
+        }, 
+        isPlainObject: function(obj)
+        {
+          if(!obj || jQuery.type(obj) !== 'object' || obj.nodeType || jQuery.isWindow(obj))
+          {
+            return false;
+          }
+
+          var key;
+          for(key in obj)
+;
+          return key === undefined || hasOwn.call(obj, key);
+        }, 
+        isEmptyObject: function(obj){}, 
+        error: function(msg){}, 
+        parseJSON: function(data){}, 
+        parseXML: function(data){}, 
+        noop: function(){}, 
+        globalEval: function(data){}, 
+        camelCase: function(string)
+        {
+          return string.replace(rmsPrefix, 'ms-').replace(rdashAlpha, fcamelCase);
+        }, 
+        nodeName: function(elem, name){}, 
+        each: function(object, callback, args)
+        {
+          var i = 0, length = object.length, isObj = length === undefined || jQuery.isFunction(object);
+          if(args);
+          else 
+          {
+            if(isObj);
+            else 
+            {
+              for(;i < length;)
+              {
+                if(callback.call(object[i], i, object[i++]) === false);
+              }
+            }
+          }
+
+          return object;
+        }, 
+        trim: trim ? function(text)
+        {
+          return text == null ? 0 : trim.call(text);
+        } : 0, 
+        makeArray: function(array, results){}, 
+        inArray: function(elem, array, i){}, 
+        merge: function(first, second)
+        {
+          var i = first.length;
+          first.length = i;
+          return first;
+        }, 
+        grep: function(elems, callback, inv)
+        {
+          var ret = [];
+          return ret;
+        }, 
+        map: function(elems, callback, arg){}, 
+        guid: 1, 
+        proxy: function(fn, context){}, 
+        access: function(elems, fn, key, value, chainable, emptyGet, pass)
+        {
+          var exec, i = 0, length = elems.length;
+          if(key && typeof key === 'object');
+          else if(value !== undefined)
+          {
+            exec = pass === undefined && jQuery.isFunction(value);
+            if(fn)
+            {
+              for(;i < length;i++)
+              {
+                fn(elems[i], key, exec ? 0 : value, pass);
+              }
+            }
+
+            chainable = 1;
+          }
+
+
+          return chainable ? elems : 0;
+        }, 
+        now: function(){}, 
+        uaMatch: function(ua){}, 
+        sub: function(){}, 
+        browser: {}
+      });
+      jQuery.each(('Boolean Number String Function Array Date RegExp Object').split(' '), function(i, name)
+      {
+        class2type[('[object ' + name) + ']'] = name.toLowerCase();
+      });
+      rootjQuery = jQuery(document);
+      if(document.addEventListener)
+      {
+        DOMContentLoaded = function()
+        {
+          jQuery.ready();
+        };
+      }
+
+      return jQuery;
+    })();
+    var flagsCache = {};
+    function createFlags(flags)
+    {
+      var object = flagsCache[flags] = {}, i, length;
+      flags = flags.split(/\s+/);
+      for(i = 0, length = flags.length;i < length;i++)
+      {
+        object[flags[i]] = true;
+      }
+
+      return object;
+    }
+    jQuery.Callbacks = function(flags)
+    {
+      flags = flags ? flagsCache[flags] || createFlags(flags) : 0;
+      var list = [], stack = [], memory, firing, firingStart, firingLength, firingIndex, add = function(args)
+      {
+        var i, length, elem, type;
+        for(i = 0, length = args.length;i < length;i++)
+        {
+          elem = args[i];
+          type = jQuery.type(elem);
+          if(type === 'array');
+          else if(type === 'function')
+          {
+            if(!(flags.unique))
+            {
+              list.push(elem);
+            }
+          }
+        }
+      }, fire = function(context, args)
+      {
+        args = args;
+        firingIndex = firingStart || 0;
+        firingLength = list.length;
+        for(;list && firingIndex < firingLength;firingIndex++)
+        {
+          if(list[firingIndex].apply(context, args) === false);
+        }
+      }, self = {
+        add: function()
+        {
+          if(list)
+          {
+            add(arguments);
+          }
+
+          return this;
+        }, 
+        fireWith: function(context, args)
+        {
+          if(stack)
+          {
+            if(firing);
+            else if(!(flags.once && memory))
+            {
+              fire(context, args);
+            }
+          }
+
+          return this;
+        }
+      };
+      return self;
+    };
+    jQuery.extend({
+      Deferred: function(func){}, 
+      when: function(firstParam){}
+    });
+    jQuery.support = (function()
+    {
+      var support, tds, div;
+      support = {};
+      jQuery(function()
+      {
+        var container, outer, inner, td, offsetSupport, marginDiv, conMarginTop, style, html, positionTopLeftWidthHeight, paddingMarginBorderVisibility, paddingMarginBorder, body = document.getElementsByTagName('body')[0];
+        conMarginTop = 1;
+        paddingMarginBorder = 'padding:0;margin:0;border:';
+        positionTopLeftWidthHeight = 'position:absolute;top:0;left:0;width:1px;height:1px;';
+        paddingMarginBorderVisibility = paddingMarginBorder + '0;visibility:hidden;';
+        style = (('style=\'' + positionTopLeftWidthHeight) + paddingMarginBorder) + '5px solid #000;';
+        html = ((((((('<div ' + style) + 'display:block;\'><div style=\'') + paddingMarginBorder) + '0;display:block;overflow:hidden;\'></div></div>') + '<table ') + style) + '\' cellpadding=\'0\' cellspacing=\'0\'>') + '<tr><td></td></tr></table>';
+        container = document.createElement('div');
+        container.style.cssText = ((paddingMarginBorderVisibility + 'width:0;height:0;position:static;top:0;margin-top:') + conMarginTop) + 'px';
+        body.insertBefore(container, body.firstChild);
+        div = document.createElement('div');
+        container.appendChild(div);
+        div.innerHTML = ('<table><tr><td style=\'' + paddingMarginBorder) + '0;display:none\'></td><td>t</td></tr></table>';
+        tds = div.getElementsByTagName('td');
+        tds[0].style.display = '';
+        tds[1].style.display = 'none';
+        if(window.getComputedStyle)
+        {
+          div.innerHTML = '';
+          marginDiv = document.createElement('div');
+          marginDiv.style.width = '0';
+          marginDiv.style.marginRight = '0';
+          div.style.width = '2px';
+          div.appendChild(marginDiv);
+        }
+
+        if(typeof (div.style.zoom) !== 'undefined')
+        {
+          div.innerHTML = '';
+          div.style.width = div.style.padding = '1px';
+          div.style.border = 0;
+          div.style.overflow = 'hidden';
+          div.style.display = 'inline';
+          div.style.zoom = 1;
+          div.style.display = 'block';
+          div.style.overflow = 'visible';
+          div.innerHTML = '<div style=\'width:5px;\'></div>';
+        }
+
+        div.style.cssText = positionTopLeftWidthHeight + paddingMarginBorderVisibility;
+        div.innerHTML = html;
+        outer = div.firstChild;
+        inner = outer.firstChild;
+        td = outer.nextSibling.firstChild.firstChild;
+        offsetSupport = {
+          doesNotAddBorder: inner.offsetTop !== 5, 
+          doesAddBorderForTableAndCells: td.offsetTop === 5
+        };
+        inner.style.position = 'fixed';
+        inner.style.top = '20px';
+        offsetSupport.fixedPosition = inner.offsetTop === 20;
+        inner.style.position = inner.style.top = '';
+        outer.style.overflow = 'hidden';
+        outer.style.position = 'relative';
+        offsetSupport.subtractsBorderForOverflowNotVisible = inner.offsetTop === -5;
+        offsetSupport.doesNotIncludeMarginInBodyOffset = body.offsetTop !== conMarginTop;
+        if(window.getComputedStyle)
+        {
+          div.style.marginTop = '1%';
+        }
+
+        if(typeof (container.style.zoom) !== 'undefined')
+        {
+          container.style.zoom = 1;
+        }
+
+        body.removeChild(container);
+        jQuery.extend(support, offsetSupport);
+      });
+      return support;
+    })();
+    jQuery.extend({
+      cache: {}, 
+      uuid: 0, 
+      expando: 'jQuery' + (jQuery.fn.jquery + Math.random()).replace(/\D/g, ''), 
+      noData: {}, 
+      hasData: function(elem){}, 
+      data: function(elem, name, data, pvt)
+      {
+        var thisCache, ret, internalKey = jQuery.expando, getByName = typeof name === 'string', isNode = elem.nodeType, cache = isNode ? jQuery.cache : 0, id = isNode ? elem[internalKey] : 0;
+        if(!id)
+        {
+          if(isNode)
+          {
+            elem[internalKey] = id = ++jQuery.uuid;
+          }
+        }
+
+        if(!(cache[id]))
+        {
+          cache[id] = {};
+        }
+
+        thisCache = cache[id];
+        if(getByName)
+        {
+          ret = thisCache[name];
+        }
+        else 
+        {
+          ret = thisCache;
+        }
+
+        return ret;
+      }, 
+      removeData: function(elem, name, pvt){}, 
+      _data: function(elem, name, data)
+      {
+        return jQuery.data(elem, name, data, true);
+      }, 
+      acceptData: function(elem){}
+    });
+    jQuery.fn.extend({
+      data: function(key, value){}, 
+      removeData: function(key){}
+    });
+    jQuery.extend({
+      _mark: function(elem, type){}, 
+      _unmark: function(force, elem, type){}, 
+      queue: function(elem, type, data){}, 
+      dequeue: function(elem, type){}
+    });
+    jQuery.fn.extend({
+      queue: function(type, data){}, 
+      dequeue: function(type){}, 
+      delay: function(time, type){}, 
+      clearQueue: function(type){}, 
+      promise: function(type, object){}
+    });
+    var rclass = /[\n\t\r]/g, rspace = /\s+/, rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i, nodeHook;
+    jQuery.fn.extend({
+      attr: function(name, value){}, 
+      removeAttr: function(name){}, 
+      prop: function(name, value){}, 
+      removeProp: function(name){}, 
+      addClass: function(value)
+      {
+        var classNames, i, l, elem;
+        if(value && typeof value === 'string')
+        {
+          classNames = value.split(rspace);
+          for(i = 0, l = this.length;i < l;i++)
+          {
+            elem = this[i];
+            if(elem.nodeType === 1)
+            {
+              if(!(elem.className) && classNames.length === 1)
+              {
+                elem.className = value;
+              }
+            }
+          }
+        }
+
+        return this;
+      }, 
+      removeClass: function(value)
+      {
+        var classNames, i, l, elem, className, c, cl;
+        if((value && typeof value === 'string'))
+        {
+          classNames = (value).split(rspace);
+          for(i = 0, l = this.length;i < l;i++)
+          {
+            elem = this[i];
+            if(elem.nodeType === 1 && elem.className)
+            {
+              if(value)
+              {
+                className = ((' ' + elem.className) + ' ').replace(rclass, ' ');
+                for(c = 0, cl = classNames.length;c < cl;c++)
+                {
+                  className = className.replace((' ' + classNames[c]) + ' ', ' ');
+                }
+
+                elem.className = jQuery.trim(className);
+              }
+            }
+          }
+        }
+
+        return this;
+      }, 
+      toggleClass: function(value, stateVal){}, 
+      hasClass: function(selector){}, 
+      val: function(value){}
+    });
+    jQuery.extend({
+      valHooks: {}, 
+      attrFn: {}, 
+      attr: function(elem, name, value, pass)
+      {
+        var ret, hooks, notxml, nType = elem.nodeType;
+        notxml = nType !== 1 || !(jQuery.isXMLDoc(elem));
+        if(notxml)
+        {
+          name = name.toLowerCase();
+          hooks = jQuery.attrHooks[name] || (rboolean.test(name) ? 0 : nodeHook);
+        }
+
+        if(value !== undefined);
+        else if(hooks);
+        else 
+        {
+          ret = elem.getAttribute(name);
+          return ret === null ? 0 : ret;
+        }
+      }, 
+      removeAttr: function(elem, value){}, 
+      attrHooks: {}, 
+      propFix: {}, 
+      prop: function(elem, name, value){}, 
+      propHooks: {}
+    });
+    var rtypenamespace = /^([^\.]*)?(?:\.(.+))?$/, rhoverHack = /(?:^|\s)hover(\.\S+)?\b/, rmouseEvent = /^(?:mouse|contextmenu)|click/, hoverHack = function(events)
+    {
+      return jQuery.event.special.hover ? 0 : events.replace(rhoverHack, 'mouseenter$1 mouseleave$1');
+    };
+    jQuery.event = {
+      add: function(elem, types, handler, data, selector)
+      {
+        var elemData, eventHandle, events, t, tns, type, handleObj, handleObjIn, handlers, special;
+        if(elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data(elem)));
+
+        events = elemData.events;
+        if(!events)
+        {
+          elemData.events = events = {};
+        }
+
+        eventHandle = elemData.handle;
+        if(!eventHandle)
+        {
+          eventHandle = function(e)
+          {
+            return typeof jQuery !== 'undefined' && (!e || jQuery.event.triggered !== e.type) ? jQuery.event.dispatch.apply(eventHandle.elem, arguments) : 0;
+          };
+          eventHandle.elem = elem;
+        }
+
+        types = jQuery.trim(hoverHack(types)).split(' ');
+        for(t = 0;t < types.length;t++)
+        {
+          tns = rtypenamespace.exec(types[t]);
+          type = tns[1];
+          special = jQuery.event.special[type] || {};
+          type = (selector ? 0 : special.bindType) || type;
+          special = jQuery.event.special[type] || {};
+          handleObj = jQuery.extend({
+            origType: tns[1], 
+            handler: handler
+          }, handleObjIn);
+          handlers = events[type];
+          if(!handlers)
+          {
+            handlers = events[type] = [];
+            handlers.delegateCount = 0;
+            if(!(special.setup))
+            {
+              if(elem.addEventListener)
+              {
+                elem.addEventListener(type, eventHandle, false);
+              }
+            }
+          }
+
+          if(selector);
+          else 
+          {
+            handlers.push(handleObj);
+          }
+        }
+      }, 
+      dispatch: function(event)
+      {
+        event = jQuery.event.fix(event);
+        var handlers = (jQuery._data(this, 'events'))[event.type], delegateCount = handlers.delegateCount, args = ([]).slice.call(arguments, 0), run_all = !(event.exclusive) && !(event.namespace), handlerQueue = [], i, j, matched, handleObj;
+        args[0] = event;
+        if(handlers.length > delegateCount)
+        {
+          handlerQueue.push({
+            elem: this, 
+            matches: handlers.slice(delegateCount)
+          });
+        }
+
+        for(i = 0;i < handlerQueue.length && !(event.isPropagationStopped());i++)
+        {
+          matched = handlerQueue[i];
+          for(j = 0;j < matched.matches.length && !(event.isImmediatePropagationStopped());j++)
+          {
+            handleObj = matched.matches[j];
+            if(run_all)
+            {
+              ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
+            }
+          }
+        }
+
+        return event.result;
+      }, 
+      fixHooks: {}, 
+      mouseHooks: {
+        filter: function(event, original)
+        {
+          return event;
+        }
+      }, 
+      fix: function(event)
+      {
+        var originalEvent = event, fixHook = jQuery.event.fixHooks[event.type];
+        event = jQuery.Event(originalEvent);
+        return fixHook.filter ? fixHook.filter(event, originalEvent) : 0;
+      }, 
+      special: {}
+    };
+    jQuery.Event = function(src, props)
+    {
+      if(!(this instanceof jQuery.Event))
+      {
+        return new jQuery.Event(src, props);
+      }
+
+      if(src && src.type)
+      {
+        this.type = src.type;
+      }
+    };
+    function returnFalse()
+    {
+      return false;
+    }
+    jQuery.Event.prototype = {
+      isPropagationStopped: returnFalse, 
+      isImmediatePropagationStopped: returnFalse
+    };
+    jQuery.fn.extend({
+      on: function(types, selector, data, fn, one)
+      {
+        return this.each(function()
+        {
+          jQuery.event.add(this, types, fn, data, selector);
+        });
+      }, 
+      one: function(types, selector, data, fn){}, 
+      off: function(types, selector, fn){}, 
+      bind: function(types, data, fn)
+      {
+        return this.on(types, null, data, fn);
+      }, 
+      unbind: function(types, fn){}, 
+      live: function(types, data, fn){}, 
+      die: function(types, fn){}, 
+      delegate: function(selector, types, data, fn){}, 
+      undelegate: function(selector, types, fn){}, 
+      trigger: function(type, data){}, 
+      triggerHandler: function(type, data){}, 
+      toggle: function(fn){}, 
+      hover: function(fnOver, fnOut){}
+    });
+    jQuery.each((('blur focus focusin focusout load resize scroll unload click dblclick ' + 'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave ') + 'change select submit keydown keypress keyup error contextmenu').split(' '), function(i, name)
+    {
+      jQuery.fn[name] = function(data, fn)
+      {
+        if(fn == null)
+        {
+          fn = data;
+          data = null;
+        }
+
+        return arguments.length > 0 ? this.on(name, null, data, fn) : 0;
+      };
+      if(rmouseEvent.test(name))
+      {
+        jQuery.event.fixHooks[name] = jQuery.event.mouseHooks;
+      }
+    });
+    (function()
+    {
+      var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g, toString = Object.prototype.toString, rBackslash = /\\/g;
+      var Sizzle = function(selector, context, results, seed)
+      {
+        results = results;
+        context = context;
+        var m, set, checkSet, ret, prune, contextXML = Sizzle.isXML(context), parts = [], soFar = selector;
+        do
+        {
+          chunker.exec('');
+          m = chunker.exec(soFar);
+          if(m)
+          {
+            soFar = m[3];
+            parts.push(m[1]);
+          }
+        }
+        while(m)
+        if(parts.length > 1 && origPOS.exec(selector));
+        else 
+        {
+          if(!seed && parts.length > 1 && context.nodeType === 9 && !contextXML && Expr.match.ID.test(parts[0]) && !(Expr.match.ID.test(parts[parts.length - 1])))
+          {
+            ret = Sizzle.find(parts.shift(), context, contextXML);
+            context = ret.expr ? 0 : ret.set[0];
+          }
+
+          if(context)
+          {
+            ret = seed ? 0 : Sizzle.find(parts.pop(), parts.length === 1 ? 0 : context, contextXML);
+            set = ret.expr ? Sizzle.filter(ret.expr, ret.set) : 0;
+            if(parts.length > 0);
+            else 
+            {
+              prune = false;
+            }
+          }
+        }
+
+        if(!checkSet)
+        {
+          checkSet = set;
+        }
+
+        if(toString.call(checkSet) === '[object Array]')
+        {
+          if(!prune)
+          {
+            results.push.apply(results, checkSet);
+          }
+        }
+
+        return results;
+      };
+      Sizzle.uniqueSort = function(results){};
+      Sizzle.find = function(expr, context, isXML)
+      {
+        var set, i, len, match, type, left;
+        for(i = 0, len = Expr.order.length;i < len;i++)
+        {
+          type = Expr.order[i];
+          if(match = Expr.leftMatch[type].exec(expr))
+          {
+            left = match[1];
+            match.splice(1, 1);
+            if(left.substr(left.length - 1) !== '\\')
+            {
+              match[1] = (match[1]).replace(rBackslash, '');
+              set = Expr.find[type](match, context, isXML);
+              if(set != null)
+              {
+                expr = expr.replace(Expr.match[type], '');
+                break;
+              }
+            }
+          }
+        }
+
+        return {
+          set: set, 
+          expr: expr
+        };
+      };
+      Sizzle.filter = function(expr, set, inplace, not)
+      {
+        var match, type, found, item, filter, i, pass, result = [], curLoop = set, isXMLFilter = set && set[0] && Sizzle.isXML(set[0]);
+        while(expr && set.length)
+        {
+          for(type in Expr.filter)
+          {
+            if((match = Expr.leftMatch[type].exec(expr)) != null && match[2])
+            {
+              filter = Expr.filter[type];
+              match.splice(1, 1);
+              if(Expr.preFilter[type])
+              {
+                match = Expr.preFilter[type](match, curLoop, inplace, result, not, isXMLFilter);
+              }
+
+              if(match)
+              {
+                for(i = 0;(item = curLoop[i]) != null;i++)
+                {
+                  if(item)
+                  {
+                    found = filter(item, match, i, curLoop);
+                    pass = not ^ found;
+                    if(inplace);
+                    else if(pass)
+                    {
+                      result.push(item);
+                    }
+                  }
+                }
+              }
+
+              if(found !== undefined)
+              {
+                if(!inplace)
+                {
+                  curLoop = result;
+                }
+
+                expr = expr.replace(Expr.match[type], '');
+                break;
+              }
+            }
+          }
+        }
+
+        return curLoop;
+      };
+      var Expr = Sizzle.selectors = {
+        order: ['ID', 'NAME', 'TAG'], 
+        match: {ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/, NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/, ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/, TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/, CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/, POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/, PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/}, 
+        leftMatch: {}, 
+        find: {
+          ID: function(match, context, isXML)
+          {
+            if(typeof (context.getElementById) !== 'undefined' && !isXML)
+            {
+              var m = context.getElementById(match[1]);
+              return m && m.parentNode ? [m] : 0;
+            }
+          }, 
+          TAG: function(match, context)
+          {
+            if(typeof (context.getElementsByTagName) !== 'undefined')
+            {
+              return context.getElementsByTagName(match[1]);
+            }
+          }
+        }, 
+        preFilter: {
+          ATTR: function(match, curLoop, inplace, result, not, isXML)
+          {
+            var name = match[1] = match[1].replace(rBackslash, '');
+            match[4] = (match[4] || match[5]).replace(rBackslash, '');
+            return match;
+          }
+        }, 
+        filter: {
+          PSEUDO: function(elem, match, i, array){}, 
+          CHILD: function(elem, match){}, 
+          ID: function(elem, match){}, 
+          TAG: function(elem, match){}, 
+          CLASS: function(elem, match){}, 
+          ATTR: function(elem, match)
+          {
+            var name = match[1], result = Sizzle.attr ? Sizzle.attr(elem, name) : 0, value = result + '', type = match[2], check = match[4];
+            return result == null ? 0 : !type ? 0 : type === '=' ? value === check : 0;
+          }
+        }
+      };
+      var origPOS = Expr.match.POS, fescape = function(all, num)
+      {
+        return '\\' + ((num - 0) + 1);
+      };
+      for(var type in Expr.match)
+      {
+        Expr.match[type] = new RegExp(Expr.match[type].source + (/(?![^\[]*\])(?![^\(]*\))/).source);
+        Expr.leftMatch[type] = new RegExp((/(^(?:.|\r|\n)*?)/).source + Expr.match[type].source.replace(/\\(\d+)/g, fescape));
+      }
+
+      var makeArray = function(array, results)
+      {
+        array = Array.prototype.slice.call(array, 0);
+        if(results)
+        {
+          results.push.apply(results, array);
+          return results;
+        }
+      };
+      try
+      {
+        (document.documentElement.childNodes, null).nodeType;
+      }
+      catch(e){}
+      (function()
+      {
+        var form = document.createElement('div'), id = 'script' + (new Date()).getTime(), root = document.documentElement;
+        form.innerHTML = ('<a name=\'' + id) + '\'/>';
+        root.insertBefore(form, root.firstChild);
+        root.removeChild(form);
+      })();
+      if(document.querySelectorAll)
+      {
+        (function()
+        {
+          var oldSizzle = Sizzle;
+          Sizzle = function(query, context, extra, seed)
+          {
+            context = context;
+            if(!seed && !(Sizzle.isXML(context)))
+            {
+              if(context.nodeType === 9)
+              {
+                try
+                {
+                  return makeArray(context.querySelectorAll(query), extra);
+                }
+                catch(qsaError){}
+              }
+              else if(context.nodeType === 1 && context.nodeName.toLowerCase() !== 'object')
+              {
+                var old = context.getAttribute('id'), nid = old, relativeHierarchySelector = (/^\s*[+~]/).test(query);
+                if(!old);
+                else 
+                {
+                  nid = nid.replace(/'/g, '\\$&');
+                }
+
+                try
+                {
+                  if(!relativeHierarchySelector)
+                  {
+                    return makeArray(context.querySelectorAll((('[id=\'' + nid) + '\'] ') + query), extra);
+                  }
+                }
+                catch(pseudoError){}
+              }
+            }
+
+            return oldSizzle(query, context, extra, seed);
+          };
+          for(var prop in oldSizzle)
+          {
+            Sizzle[prop] = oldSizzle[prop];
+          }
+        })();
+      }
+
+      (function()
+      {
+        Expr.order.splice(1, 0, 'CLASS');
+      })();
+      Sizzle.isXML = function(elem)
+      {
+        var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+        return documentElement ? documentElement.nodeName !== 'HTML' : 0;
+      };
+      Sizzle.attr = jQuery.attr;
+      jQuery.find = Sizzle;
+      jQuery.isXMLDoc = Sizzle.isXML;
+    })();
+    jQuery.fn.extend({
+      find: function(selector)
+      {
+        var i, l;
+        var ret = this.pushStack('', 'find', selector);
+        for(i = 0, l = this.length;i < l;i++)
+        {
+          jQuery.find(selector, this[i], ret);
+        }
+
+        return ret;
+      }, 
+      has: function(target){}, 
+      not: function(selector){}, 
+      filter: function(selector)
+      {
+        return this.pushStack(winnow(this, selector, true), 'filter', selector);
+      }, 
+      is: function(selector){}, 
+      closest: function(selectors, context){}, 
+      index: function(elem){}, 
+      add: function(selector, context){}, 
+      andSelf: function(){}
+    });
+    jQuery.extend({
+      filter: function(expr, elems, not){}, 
+      dir: function(elem, dir, until){}, 
+      nth: function(cur, result, dir, elem){}, 
+      sibling: function(n, elem){}
+    });
+    function winnow(elements, qualifier, keep)
+    {
+      qualifier = qualifier;
+      if(jQuery.isFunction(qualifier))
+      {
+        return jQuery.grep(elements, function(elem, i){});
+      }
+    }
+    jQuery.fn.extend({
+      text: function(value){}, 
+      wrapAll: function(html){}, 
+      wrapInner: function(html){}, 
+      wrap: function(html){}, 
+      unwrap: function(){}, 
+      append: function(){}, 
+      prepend: function(){}, 
+      before: function(){}, 
+      after: function(){}, 
+      remove: function(selector, keepData){}, 
+      empty: function(){}, 
+      clone: function(dataAndEvents, deepDataAndEvents){}, 
+      html: function(value){}, 
+      replaceWith: function(value){}, 
+      detach: function(selector){}, 
+      domManip: function(args, table, callback){}
+    });
+    jQuery.extend({
+      clone: function(elem, dataAndEvents, deepDataAndEvents){}, 
+      clean: function(elems, context, fragment, scripts){}, 
+      cleanData: function(elems){}
+    });
+    jQuery.fn.css = function(name, value)
+    {
+      return jQuery.access(this, function(elem, name, value)
+      {
+        return value !== undefined ? jQuery.style(elem, name, value) : 0;
+      }, name, value, arguments.length > 1);
+    };
+    jQuery.extend({
+      cssHooks: {}, 
+      cssNumber: {}, 
+      cssProps: {}, 
+      style: function(elem, name, value, extra)
+      {
+        var origName = jQuery.camelCase(name), style = elem.style, hooks = jQuery.cssHooks[origName];
+        name = jQuery.cssProps[origName] || origName;
+        if(value !== undefined)
+        {
+          if(!hooks)
+          {
+            try
+            {
+              style[name] = value;
+            }
+            catch(e){}
+          }
+        }
+      }, 
+      css: function(elem, name, extra){}, 
+      swap: function(elem, options, callback){}
+    });
+    jQuery(function(){});
+    var prefilters = {}, transports = {}, allTypes = ['*/'] + ['*'];
+    function addToPrefiltersOrTransports(structure)
+    {
+      return function(dataTypeExpression, func){};
+    }
+    function ajaxExtend(target, src)
+    {
+      var key, deep, flatOptions = jQuery.ajaxSettings.flatOptions;
+      for(key in src)
+      {
+        if(src[key] !== undefined)
+        {
+          (flatOptions[key] ? 0 : deep || (deep = {}))[key] = src[key];
+        }
+      }
+
+      if(deep)
+      {
+        jQuery.extend(true, target, deep);
+      }
+    }
+    jQuery.fn.extend({
+      load: function(url, params, callback){}, 
+      serialize: function(){}, 
+      serializeArray: function(){}
+    });
+    jQuery.extend({
+      getScript: function(url, callback){}, 
+      getJSON: function(url, data, callback){}, 
+      ajaxSetup: function(target, settings)
+      {
+        if(settings);
+        else 
+        {
+          settings = target;
+          target = jQuery.ajaxSettings;
+        }
+
+        ajaxExtend(target, settings);
+        return target;
+      }, 
+      ajaxSettings: {
+        accepts: {
+          xml: 'application/xml, text/xml', 
+          '*': allTypes
+        }, 
+        contents: {xml: /xml/, json: /json/}, 
+        converters: {
+          '* text': window.String, 
+          'text xml': jQuery.parseXML
+        }, 
+        flatOptions: {}
+      }, 
+      ajaxPrefilter: addToPrefiltersOrTransports(prefilters), 
+      ajaxTransport: addToPrefiltersOrTransports(transports), 
+      ajax: function(url, options){}, 
+      param: function(a, traditional){}
+    });
+    jQuery.extend({
+      active: 0, 
+      lastModified: {}, 
+      etag: {}
+    });
+    jQuery.ajaxSetup({
+      jsonp: 'callback', 
+      jsonpCallback: function(){}
+    });
+    jQuery.ajaxSetup({
+      accepts: {script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'}, 
+      contents: {script: /javascript|ecmascript/}, 
+      converters: {
+        'text script': function(text){}
+      }
+    });
+    function createStandardXHR()
+    {
+      try
+      {
+        return new window.XMLHttpRequest();
+      }
+      catch(e){}
+    }
+    jQuery.ajaxSettings.xhr = window.ActiveXObject ? 0 : createStandardXHR;
+    (function(xhr)
+    {
+      jQuery.extend(jQuery.support, {
+        ajax: !(!xhr), 
+        cors: !(!xhr) && 'withCredentials' in xhr
+      });
+    })(jQuery.ajaxSettings.xhr());
+    jQuery.fn.extend({
+      show: function(speed, easing, callback){}, 
+      hide: function(speed, easing, callback){}, 
+      _toggle: jQuery.fn.toggle, 
+      toggle: function(fn, fn2, callback){}, 
+      fadeTo: function(speed, to, easing, callback){}, 
+      animate: function(prop, speed, easing, callback){}, 
+      stop: function(type, clearQueue, gotoEnd){}
+    });
+    jQuery.extend({
+      speed: function(speed, easing, fn){}, 
+      easing: {}, 
+      timers: [], 
+      fx: function(elem, options, prop){}
+    });
+    jQuery.extend(jQuery.fx, {
+      tick: function(){}, 
+      interval: 13, 
+      stop: function(){}, 
+      speeds: {}, 
+      step: {}
+    });
+    jQuery.fn.extend({
+      position: function(){}, 
+      offsetParent: function(){}
+    });
+    window.jQuery = window.$ = jQuery;
+  })(window);
+</script>
+    
+    <script>
+  (function($)
+  {
+    var $localScroll = $.localScroll = function(settings){};
+    $localScroll.defaults = {
+      duration: 1000, 
+      axis: 'y', 
+      event: 'click', 
+      stop: true, 
+      target: window, 
+      reset: true
+    };
+    $.fn.localScroll = function(settings)
+    {
+      settings = $.extend({}, $localScroll.defaults, settings);
+      return settings.lazy ? 0 : this.find('a,area').filter(filter).bind(settings.event, function(e){}).end().end();
+      function filter(){}    };
+  })(jQuery);
+</script>
+    <script>
+  $(document).ready(function()
+  {
+    $('#slideshow').css('overflow', 'hidden');
+    $('#slideshow-nav').css('visibility', 'visible');
+    $('#slideshow-nav a[href=#lambo1]').addClass('active');
+    $('#slideshow-nav').localScroll({target: '#slideshow', axis: 'x'});
+    $('#slideshow-nav a').click(function()
+    {
+      $('#slideshow-nav a').removeClass('active');
+      $(this).addClass('active');
+    });
+  });
+</script>
+</head>
+
+<body>
+<div id="slideshow">
+    <ul>
+        <li id="lambo1"><a href="http://www.flickr.com/photos/vodcars/4207529693/lightbox/"><img alt="Green Lamborghini" src="http://localhost/Firecrow/evaluation/fullPages/29-line25JquerySlideshow/images/lambo1.jpg"/></a></li>
+        <li id="lambo2"><a href="http://www.flickr.com/photos/inno68/5076809499/lightbox/"><img alt="White Lamborghini" src="http://localhost/Firecrow/evaluation/fullPages/29-line25JquerySlideshow/images/lambo2.jpg"/></a></li>
+        <li id="lambo3"><a href="http://www.flickr.com/photos/chriswevers/5121055362/lightbox/"><img alt="Grey Lamborghini" src="http://localhost/Firecrow/evaluation/fullPages/29-line25JquerySlideshow/images/lambo3.jpg"/></a></li>
+        <li id="lambo4"><a href="http://www.flickr.com/photos/damianmorysfotos/4388501292/lightbox/"><img alt="Green Lamborghini" src="http://localhost/Firecrow/evaluation/fullPages/29-line25JquerySlideshow/images/lambo4.jpg"/></a></li>
+        <li id="lambo5"><a href="http://www.flickr.com/photos/exoticcarlife/5299365670/lightbox/"><img alt="Yellow Lamborghini" src="http://localhost/Firecrow/evaluation/fullPages/29-line25JquerySlideshow/images/lambo5.jpg"/></a></li>
+    </ul>
+</div>
+<div id="slideshow-nav">
+    <ul>
+        <li><a href="#lambo1">See the green Lamborghini</a></li>
+        <li><a href="#lambo2">See the white Lamborghini</a></li>
+        <li><a href="#lambo3">See the grey Lamborghini</a></li>
+        <li><a href="#lambo4">See the green Lamborghini</a></li>
+        <li><a href="#lambo5">See the yellow Lamborghini</a></li>
+    </ul>
+</div>
+
+</body>
+</html>

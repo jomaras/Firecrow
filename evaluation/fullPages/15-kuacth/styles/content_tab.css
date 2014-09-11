@@ -1,0 +1,90 @@
+
+.content_tab .datas {}
+.content_tab .datas .indata{padding-top:0px;margin:auto;position:relative;} /*width:984px;height:620px;*/
+.content_tab .datas .indata .data_group1{width:729px;padding-right:15px;}/*width:686px;*/
+.content_tab .datas .indata .data_group1 .gitem{}
+.content_tab .datas .indata .data_group1 .gitem.kuspotlight{height:165px}
+.content_tab .datas .indata .data_group1 .gitem.kuspotlight .title{border-bottom:6px solid #0da401;color:#273f04;font-size:18px;padding:5px}
+.content_tab .datas .indata .data_group1 .gitem.kuspotlight .body{padding:14px 1px 5px 179px;position:relative;}
+.content_tab .datas .indata .data_group1 .gitem.kuspotlight .body .text{line-height:25px;padding:5px 0 0 3px}
+.content_tab .datas .indata .data_group1 .gitem.kuspotlight .body .img{position:absolute;width:170px;height:115px;background:red;left:2px}
+/*
+.content_tab .datas .indata .data_group1 .gitem.kuevent{height:135px;margin:5px 0 10px 0}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .title{border-bottom:6px solid #b63030;color:#273f04;font-size:18px;padding:5px}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .body{}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days{padding:13px 0 10px 0}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem{float:left;width:180px;height:92px;position:relative;padding-left:155px;border-right:1px solid #e2e2e2}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem.right{margin-left:26px;border-right:none;width: 165px;}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem .img{position:absolute;left:0;background:red;width:134px;height:91px}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem .date{position:relative;width: 111px;padding:4px 0 3px 45px;border-bottom:1px solid #e2e2e2}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem .date .month{color:#b63030;font-size:15px;position:absolute;left:3px;top:12px}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem .date .day{font-size:24px}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem .date .time{position:absolute;right:12px;color:#b63030;font-size:12px;top:15px}
+.content_tab .datas .indata .data_group1 .gitem.kuevent .days .ditem  .text{clear:both;font-size:13px;line-height: 20px;padding-top:3px;padding-left: 8px;}
+*/
+
+.content_tab .datas .indata .data_group1 .gitem.kutabdata{height:280px;} /*height:294px;padding-top:10px;margin:20px 0 0px 0;*/
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body{height:250px;}
+
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea{position:relative;height:30px;border-bottom: 1px solid #bbbbbb;} /*height:30px;*/
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea div{position:absolute1;height:30px} /*height:30px;*/
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab1,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab2,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab3,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab4,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab5,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab6{float:left;text-align:center;padding-top:6px;padding-left:10px;padding-right:10px;height:24px;color:#fff;font-size:12px;cursor:pointer}/*height:29px;*/
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab1{background:#B63030;border-left:1px solid #B63030;border-top:1px solid #B63030;border-right:1px solid #B63030}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab2{background:#259d1c;border-left:1px solid #259d1c;border-top:1px solid #259d1c;border-right:1px solid #259d1c}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab3{background:#3871ac;border-left:1px solid #3871ac;border-top:1px solid #3871ac;border-right:1px solid #3871ac}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab4{background:#f29026;border-left:1px solid #f29026;border-top:1px solid #f29026;border-right:1px solid #f29026}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab5{background:#6c2fb8;border-left:1px solid #6c2fb8;border-top:1px solid #6c2fb8;border-right:1px solid #6c2fb8}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab6{background:#e351ae;border-left:1px solid #e351ae;border-top:1px solid #e351ae;border-right:1px solid #e351ae}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab1.sel,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab2.sel,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab3.sel,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab4.sel,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab5.sel,
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .tab6.sel{background:#fff;border-left:1px solid #bbbbbb;border-top:1px solid #bbbbbb;border-right:1px solid #bbbbbb;color:#000}
+
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .blank{float:left;width:5px;border-bottom:1px solid #bbbbbb;}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .tabarea .blank.right{border-bottom:1px solid #bbbbbb;width:100px;}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea{height:231px;border-left:1px solid #bbbbbb;border-right:1px solid #bbbbbb;border-bottom:1px solid #bbbbbb;padding:9px 10px 9px 30px;position:relative;} /*height:231px;padding:9px 10px 9px 37px;*/
+
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .tabsframe{position:relative;height:231px;overflow:hidden;width:668px;} /*width:622px*/
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .tabsframe .tabsview{position:absolute;top:0px}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .arrow{width:15px;height:22px;position:absolute;top:108px;cursor:pointer}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .arrow.left{background:url(../images/tab_arr_left.jpg) no-repeat;left:8px}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .arrow.right{background:url(../images/tab_arr_right.jpg) no-repeat;right:9px}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup{width:730px;overflow:hidden;position:relative;height:238px} /*height:238px*/
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .datainframe{width:5000px;position:absolute;}
+/*.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .dataitem{background:#ffffff;border:1px solid #999;padding:7px;float:left;width:150px;height:222px;margin:0 2px;background:url(../images/tab_bg2.jpg) no-repeat;padding-right:4px} */
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .dataitem{padding:8px;float:left;width:155px;height:222px;background:url(../images/tab_bg2.jpg) no-repeat;padding-right:4px} /*width:195px; background:url(../images/tab_bg.jpg) no-repeat;*/
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .dataitem .img{}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .dataitem .img img{width:146px;height:110px;}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .dataitem .text{padding:3px;}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .dataitem .text .title{font-size:14px;padding-top: 5px;}
+.content_tab .datas .indata .data_group1 .gitem.kutabdata .body .dataarea .datagroup .dataitem .text .comment{font-size:12px;font-family:Tahoma;color:#6d6767;line-height: 20px;padding-top:4px;}
+/*
+.content_tab .datas .indata .data_group2{position:absolute;right:0px;top:0px;width:266px}
+.content_tab .datas .indata .data_group2 .gitem{}
+.content_tab .datas .indata .data_group2 .gitem.kucampus{}
+
+.content_tab .datas .indata .data_group2 .gitem.kucampus .title{border-bottom:6px solid #539adc;color:#273f04;font-size:18px;padding:5px}
+.content_tab .datas .indata .data_group2 .gitem.kucampus .body{ padding-top:10px}
+.content_tab .datas .indata .data_group2 .gitem.kucampus .body .item{padding:5px 0 2px 18px;background: url("../images/tickimg.jpg") no-repeat scroll 0 14px transparent;}
+.content_tab .datas .indata .data_group2 .gitem.kuquicklink{margin-top:8px;height:180px;overflow:hidden;width:268px}
+.content_tab .datas .indata .data_group2 .gitem.kuquicklink .title{border-bottom:6px solid #3871ac;color:#273f04;font-size:18px;padding:5px}
+.content_tab .datas .indata .data_group2 .gitem.kuquicklink .body{ padding-top:10px;width:276px;}
+.content_tab .datas .indata .data_group2 .gitem.kuquicklink .body .item{width:85px;height:51px;float:left;padding:0 2px 5px 2px}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner{padding-top:8px}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline{border:1px solid #c1c1c1;width:265px} 
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .title{color:#fff;font-size:15px;padding:10px 10px 10px 17px;height:23px;background:#3871ac;font-family:Tahoma}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .body{}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .body .quickbanner_normal{width:265px;height:235px;overflow:hidden}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .body .quickbanner_moreitem{display:none}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .body .item{background:url(../images/qban_bg.jpg) ;width:265px ;height:47px}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .body .item .text{padding:13px}
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .body .itemmore{text-align:center;cursor:pointer};
+.content_tab .datas .indata .data_group2 .gitem.kuquickbanner .groupline .body .itemmore img{border:0};
+*/

@@ -1,0 +1,239 @@
+﻿/*
+	 Organic Tabs
+	 by Chris Coyier
+	 http://css-tricks.com
+*/
+
+* { margin: 0; padding: 0; }
+
+#page-wrap  
+{
+	width: 180px; 
+	margin:0px; 
+}
+#tab-frame 
+{
+	width: 100%; 
+	
+}
+
+
+
+
+/*********************************************  BEGIN TAB CSS *****************************************************/
+#tab-frame a:focus { outline:none;}
+/* Generic Utility */
+#tab-frame .hide { position: absolute; top: -9999px; left: -9999px; }
+
+/* Specific to example two */
+
+#tab-frame .main-tab { z-index:1; }
+#tab-frame .list-wrap {  
+	position:relative;  z-index:0;  margin: 0 0 0px 0;  z-index:0;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:3px;
+/*
+    BACKGROUND-IMAGE: url(/_layouts/nr/MajorRates/style//images/BgRateTable_04.png);
+    BACKGROUND-REPEAT: repeat-x;
+    
+
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#ffffff));
+	background: -moz-linear-gradient(#f2f2f2, #ffffff 100%);
+	background: linear-gradient(#f2f2f2, #ffffff 100%);
+	-pie-background: linear-gradient(#f2f2f2, #ffffff 100%);
+*/
+	-webkit-border-radius: 0px 0px 0px 0px;
+	-moz-border-radius: 0px 0px 0px 0px;
+	border-radius: 0px 0px 0px 0px;
+	
+}
+#tab-frame .tab-content {
+	padding: 8px;
+	background-color: white;
+	position: relative;
+	z-index: 0;
+	border: 1px solid #DDD;
+	height: 5px;
+	margin-bottom: 5px;
+	-moz-box-shadow: 1px 1px 1px #888;
+	-webkit-box-shadow: 1px 1px 1px #888;
+	box-shadow: 1px 1px 1px #888;
+	
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+
+}
+
+#tab-frame .tab-contentfx {
+	padding: 8px;
+	background-color: white;
+	position: relative;
+	z-index: 0;
+	border: 1px solid #DDD;
+	height:auto;
+	margin-bottom: 5px;
+	-moz-box-shadow: 1px 1px 3px #E7E7E7;
+	-webkit-box-shadow: 1px 1px 3px #E7E7E7;
+	box-shadow: 1px 1px 3px #E7E7E7;
+	
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+
+}
+
+#tab-frame .tab-contentsp {
+	padding: 8px;
+	background-color: white;
+	position: relative;
+	z-index: 0;
+	border: 1px solid #DDD;
+	height:auto;
+	margin-bottom: 5px;
+	-moz-box-shadow: 1px 1px 3px #E7E7E7;
+	-webkit-box-shadow: 1px 1px 3px #E7E7E7;
+	box-shadow: 1px 1px 3px #E7E7E7;
+	
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+
+}
+
+#tab-frame .tab-contentdep {
+	padding: 8px;
+	background-color: white;
+	position: relative;
+	z-index: 0;
+	border: 1px solid #DDD;
+	height:auto;
+	margin-bottom: 5px;
+	-moz-box-shadow: 1px 1px 1px #888;
+	-webkit-box-shadow: 1px 1px 1px #888;
+	box-shadow: 1px 1px 1px #888;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#tab-frame .tab-contentloan {
+	padding: 8px;
+	background-color: white;
+	position: relative;
+	z-index: 0;
+	border: 1px solid #DDD;
+	height:auto;	
+	margin-bottom: 5px;
+	-moz-box-shadow: 1px 1px 1px #888;
+	-webkit-box-shadow: 1px 1px 1px #888;
+	box-shadow: 1px 1px 1px #888;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+
+}
+
+#tab-frame .tab-contentnav {
+	padding: 8px;
+	background-color: white;
+	position: relative;
+	z-index: 0;
+	border: 1px solid #DDD;
+	height:auto;
+	margin-bottom: 5px;
+	-moz-box-shadow: 1px 1px 1px #888;
+	-webkit-box-shadow: 1px 1px 1px #888;
+	box-shadow: 1px 1px 1px #888;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+
+}
+
+#tab-frame .tabimage {
+	position: relative;
+	top: -7px;
+}
+
+
+#tab-frame .nav  
+{
+	overflow: hidden; 
+	z-index:1;
+}
+
+#tab-frame .nav li {
+	position: relative;
+	z-index: 1;
+	min-width: 0px;
+	float: left;
+	margin: 0px 4px 0 0;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	
+	border-radius: 5px 5px 0px 0px;
+
+}
+
+#tab-frame .nav li a {
+	font-family: Verdana;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	position: relative;
+	z-index: 1;
+	padding: 2px 4px 2px 4px;
+	display: block;
+	color: #999;
+	border: 0;
+	float:left;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+
+}
+
+
+
+
+#tab-frame ul  
+{
+	list-style: none;  
+	z-index:1; 
+	margin-left:12px;
+	position:relative; 
+	top:4px;
+
+}
+
+#tab-frame ul li a:hover {  
+	position:relative;  z-index:1;color: #999;
+/*    Round Corner */
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+
+
+}
+
+#tab-frame li a.current {  
+	position:relative;  z-index:1;background-color: #ffffff; color: #333; border: 1px solid #ddd; border-bottom:0px solid #ffffff;
+/*    Round Corner */
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+
+
+}
+#tab-frame li a.current:hover { 
+	position:relative;  z-index:1;background-color: #ffffff; color: black;
+/*    Round Corner */
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+
+
+}
