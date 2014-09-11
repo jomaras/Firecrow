@@ -37,10 +37,7 @@ FBL.ns(function() { with (FBL) {
     {
         generateEvalCommands: function(callExpression, programAST)
         {
-            var evalCommands = CommandGenerator.generateCommands(programAST);
-            evalCommands.push(CommandGenerator.generateFinishEvalCommand(callExpression));
-
-            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, evalCommands, this.currentCommandIndex + 1);
+            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, CommandGenerator.generateEvalCommands(callExpression, programAST), this.currentCommandIndex + 1);
         },
 
         runSync: function()

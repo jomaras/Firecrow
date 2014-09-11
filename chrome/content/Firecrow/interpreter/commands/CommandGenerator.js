@@ -46,9 +46,18 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         catch(e) { this.notifyError("Error while generating commands: " + e);}
     },
 
-    generateFinishEvalCommand: function(callExpression)
+    generateEvalCommands: function(callExpression, programAST)
     {
-        return new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.FinishEval, null);
+        var startEvalCommand = new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.StartEval, null);
+        var evalCommands = [startEvalCommand];
+
+        ValueTypeHelper.pushAll(evalCommands, this.generateCommands(programAST));
+        var finishEvalCommand = new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.FinishEval, null);
+        evalCommands.push(finishEvalCommand);
+
+        finishEvalCommand.startCommand = startEvalCommand;
+
+        return evalCommands;
     },
 
     generateDeclarationCommands: function(sourceElement, parentFunctionCommand)

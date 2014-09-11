@@ -228,6 +228,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.addCallbackDependencies(command.codeConstruct, command.callCallbackCommand.codeConstruct); }
                 else if (command.isLabelCommand()) { this._logLabelCommand(command) ;}
                 else if (command.isConvertToPrimitiveCommand()) {}
+                else if (command.isStartEvalCommand()) { this._addToBlockCommandStack(command); }
                 else
                 {
                     if (command.isEndEvalConditionalExpressionCommand()) { this._tryPopCommand(command); }
@@ -244,6 +245,10 @@ FBL.ns(function() { with (FBL) {
                         {
                             this._addToFunctionContextBlockCommands(command);
                         }
+                    }
+                    else if(command.isFinishEvalCommand())
+                    {
+                        this._tryPopCommand(command);
                     }
 
                     this.evaluator.evaluateCommand(command);
@@ -561,6 +566,10 @@ FBL.ns(function() { with (FBL) {
                 {
                     return topCommand.blockStackConstructs = [topCommand.codeConstruct.param];
                 }
+            }
+            else if (topCommand.isStartEvalCommand())
+            {
+                return topCommand.blockStackConstructs = [topCommand.codeConstruct];
             }
 
             this.notifyError("Should not be here when getting top block command @ " + topCommand.codeConstruct.loc.source);
