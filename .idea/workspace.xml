@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44d4204f-2d27-49b8-baa8-e9232bac656a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/debug/slicingTests/144/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/ExecutionContextStack.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/InterpreterSimulator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/debugSlicing.html" afterPath="$PROJECT_DIR$/debug/debugSlicing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/slicingModelMapping.js" afterPath="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js" afterPath="$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Firecrow.iws" />
@@ -39,8 +32,8 @@
       <file leaf-file-name="Firecrow-all.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="202657" max-vertical-offset="530298">
-              <caret line="11921" column="13" selection-start-line="11921" selection-start-column="13" selection-end-line="11921" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.19863014" vertical-offset="439106" max-vertical-offset="530519">
+              <caret line="25840" column="31" selection-start-line="25840" selection-start-column="31" selection-end-line="25840" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -102,7 +95,6 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/Evaluator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/doppelBrowser/browser.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/simulator/DependencyCreator.js" />
-        <option value="$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/Command.js" />
         <option value="$PROJECT_DIR$/debug/slicingTests/144/index.html" />
         <option value="$PROJECT_DIR$/debug/debugSlicing.html" />
@@ -111,6 +103,7 @@
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/interpreter/commands/CommandGenerator.js" />
         <option value="$PROJECT_DIR$/chrome/content/Firecrow/dependencyGraph/dependencyGraph.js" />
         <option value="$PROJECT_DIR$/debug/slicingModelMapping.js" />
+        <option value="$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js" />
       </list>
     </option>
   </component>
@@ -526,19 +519,24 @@
       <created>1410356447931</created>
       <updated>1410356447931</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Minor eval dependencies fixes">
+      <created>1410420608757</created>
+      <updated>1410420608757</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46455833" sideWeight="0.4996986" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24849217" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15833333" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15833333" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3158482" sideWeight="0.50030136" order="2" side_tool="true" content_ui="tabs" />
@@ -547,7 +545,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955357" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -570,7 +567,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added support in plugin for ignoring script paths" />
     <MESSAGE value="In plugin - the main html page source file can not be deselected" />
     <MESSAGE value="In plugin - enabled targeting scenario generation for particular features&#10;" />
     <MESSAGE value="Reuser plugin working, more tests needed" />
@@ -595,7 +591,8 @@
     <MESSAGE value="Minor bug fixes" />
     <MESSAGE value="Implementing test262 testing framework" />
     <MESSAGE value="Working on eval" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on eval" />
+    <MESSAGE value="Minor eval dependencies fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor eval dependencies fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -902,7 +899,7 @@
         <state vertical-scroll-proportion="-13.730769" vertical-offset="51" max-vertical-offset="4556">
           <caret line="24" column="101" selection-start-line="24" selection-start-column="101" selection-end-line="24" selection-end-column="101" />
           <folding>
-            <element signature="n#style#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -973,8 +970,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chrome/content/Firecrow/phantomJs/Firecrow-all.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="202353" max-vertical-offset="530298">
-          <caret line="11921" column="13" selection-start-line="11921" selection-start-column="13" selection-end-line="11921" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.19863014" vertical-offset="439106" max-vertical-offset="530519">
+          <caret line="25840" column="31" selection-start-line="25840" selection-start-column="31" selection-end-line="25840" selection-end-column="31" />
           <folding />
         </state>
       </provider>

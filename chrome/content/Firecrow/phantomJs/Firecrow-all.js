@@ -11921,11 +11921,6 @@ Firecrow.DependencyGraph.Edge.notifyError = function(message) { alert("Edge - " 
                 this._includedMemberCallExpressionMap[codeConstruct.nodeId] = codeConstruct;
             }
 
-            if(codeConstruct.isEvalCreatedNode)
-            {
-                Firecrow.includeNode(codeConstruct.evalConstruct, false, maxDependencyIndex, dependencyConstraint);
-            }
-
             var potentialDependencyEdges = codeConstruct.graphNode.getDependencies(maxDependencyIndex, dependencyConstraint);
 
             for(var i = potentialDependencyEdges.length - 1; i >= 0; i--)
@@ -15701,9 +15696,18 @@ Firecrow.Interpreter.Commands.CommandGenerator =
         catch(e) { this.notifyError("Error while generating commands: " + e);}
     },
 
-    generateFinishEvalCommand: function(callExpression)
+    generateEvalCommands: function(callExpression, programAST)
     {
-        return new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.FinishEval, null);
+        var startEvalCommand = new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.StartEval, null);
+        var evalCommands = [startEvalCommand];
+
+        ValueTypeHelper.pushAll(evalCommands, this.generateCommands(programAST));
+        var finishEvalCommand = new fcCommands.Command(callExpression, fcCommands.Command.COMMAND_TYPE.FinishEval, null);
+        evalCommands.push(finishEvalCommand);
+
+        finishEvalCommand.startCommand = startEvalCommand;
+
+        return evalCommands;
     },
 
     generateDeclarationCommands: function(sourceElement, parentFunctionCommand)
@@ -17056,6 +17060,8 @@ Firecrow.Interpreter.Commands.Command.prototype =
 
     isConvertToPrimitiveCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.ConvertToPrimitive; },
 
+    isStartEvalCommand: function() { return this.type == fcCommands.Command.COMMAND_TYPE.StartEval; },
+
     setCallbackFunction: function(callbackFunction)
     {
         this.callbackFunction = callbackFunction;
@@ -17157,7 +17163,8 @@ Firecrow.Interpreter.Commands.Command.COMMAND_TYPE =
 
     Label: "Label",
 
-    FinishEval: "FinishEval"
+    FinishEval: "FinishEval",
+    StartEval: "StartEval"
 };
 /*************************************************************************************/
 }});
@@ -25503,6 +25510,7 @@ FBL.ns(function() { with (FBL) {
                 else if (command.isExecuteCallbackCommand()) { this.dependencyCreator.addCallbackDependencies(command.codeConstruct, command.callCallbackCommand.codeConstruct); }
                 else if (command.isLabelCommand()) { this._logLabelCommand(command) ;}
                 else if (command.isConvertToPrimitiveCommand()) {}
+                else if (command.isStartEvalCommand()) { this._addToBlockCommandStack(command); }
                 else
                 {
                     if (command.isEndEvalConditionalExpressionCommand()) { this._tryPopCommand(command); }
@@ -25519,6 +25527,10 @@ FBL.ns(function() { with (FBL) {
                         {
                             this._addToFunctionContextBlockCommands(command);
                         }
+                    }
+                    else if(command.isFinishEvalCommand())
+                    {
+                        this._tryPopCommand(command);
                     }
 
                     this.evaluator.evaluateCommand(command);
@@ -25836,6 +25848,10 @@ FBL.ns(function() { with (FBL) {
                 {
                     return topCommand.blockStackConstructs = [topCommand.codeConstruct.param];
                 }
+            }
+            else if (topCommand.isStartEvalCommand())
+            {
+                return topCommand.blockStackConstructs = [topCommand.codeConstruct];
             }
 
             this.notifyError("Should not be here when getting top block command @ " + topCommand.codeConstruct.loc.source);
@@ -28192,10 +28208,7 @@ fcSimulator.Evaluator.prototype =
     {
         generateEvalCommands: function(callExpression, programAST)
         {
-            var evalCommands = CommandGenerator.generateCommands(programAST);
-            evalCommands.push(CommandGenerator.generateFinishEvalCommand(callExpression));
-
-            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, evalCommands, this.currentCommandIndex + 1);
+            ValueTypeHelper.insertElementsIntoArrayAtIndex(this.commands, CommandGenerator.generateEvalCommands(callExpression, programAST), this.currentCommandIndex + 1);
         },
 
         runSync: function()
