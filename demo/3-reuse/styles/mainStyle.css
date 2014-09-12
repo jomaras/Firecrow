@@ -1,7 +1,6 @@
 body
 {
 	background-color: #D7D7D7;
-	background-image: url('../images/body_gradient.png');
 	background-repeat: repeat-x;
 	color: #5d5b5b;
 	font-family: Tahoma;
@@ -957,7 +956,7 @@ h4
       width: 140px;
     }
 
-    input {
+    .myInput {
       background: url('../images/input210.png');
       background-repeat:repeat-x;
       color:#aaa;
@@ -975,7 +974,7 @@ h4
       margin-top:10px;
     }
 
-    .button {
+    .myButton {
       background: url('../images/buttonbg.png');
       display:inline-block;
       width:72px;
@@ -997,7 +996,7 @@ h4
       cursor:pointer;
     }
 
-    .button:hover {
+    .myButton:hover {
       background: url('../images/buttonbg2.png');
       color:rgb(249,165,17);
         -moz-transition-property: color;
