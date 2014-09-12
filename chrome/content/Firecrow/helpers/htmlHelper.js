@@ -81,6 +81,10 @@ Firecrow.htmlHelper = HtmlHelper =
         || rootElement.tagName == "SCRIPT")
         {
             elem.textContent = rootElement.textContent;
+            if(rootElement.textContent == String.fromCharCode(160))
+            {
+                elem.textContent = "&nbsp;";
+            }
         }
 
         if(rootElement.tagName == "SCRIPT")
