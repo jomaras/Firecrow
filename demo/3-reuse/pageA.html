@@ -1,0 +1,268 @@
+<html>
+<head>
+    <title>ProgressIDE</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="Component, Component based development, CBD, CBSE, tool, IDE, integrated development environment"/>
+    <script src="scripts/jQuery.js" type="text/javascript"></script>
+    <script src="scripts/page.js" type="text/javascript"></script>
+    <link rel="Stylesheet" type="text/css" href="styles/mainStyle.css"/>
+</head>
+
+<body>
+    <div id="mail_dropdown">
+        <div class="container_12">
+            <div id="mail_cup">
+                <div>
+                    <div class="grid_6" id="mail_blurb">
+                        <h2>Subscribe to mailing list?</h2>
+                        <p>Keep in touch with the latest development of PrIDE</p>
+                    </div>
+                    <div class="grid_2">&nbsp;</div>
+                    <form class="grid_4" id="mail_form" method="post" action="">
+                        <input type="hidden" name="data[Contact][message]" value="" />
+                        <span><input id="mail_name" type="text" name="data[Contact][name]" placeholder="Your name" /></span><br/>
+                        <span><input id="mail_email" type="text" name="data[Contact][email]" placeholder="Your e-mail address" /></span><br/>
+                        <input id="freemail-submit" type="submit" class="button push" value="Send"/><input id="closePulldown" type="button" class="button push" value="Close"/>
+                    </form>
+                </div>
+            </div>
+            <div class="grid_12" id="mail_pulldown">
+                <div id = "subscribeButton" style="width: 119px; height: 31px;">
+                    <div class="label">Subscribe</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pageContainer">
+        <div id="header">
+            <table style="width:100%; height: 100%" cellpadding="0px" cellspacing="0px">
+                <tr>
+                    <td>
+                        <div id="logoContainer">
+	                    	<a href="http://www.mrtc.mdh.se/progress/">
+	                    		<img id="mdhLogo" src="images/Progress - title.png" alt="mdhlogo" />
+	                    	</a>
+                		</div>
+                        <div id="socialContainer">
+		                    <ul>
+		                        <li><a href="http://feeds.feedburner.com/PrideRssFeed"><img src="images/rss_icon.png" width="32px" alt="rss" /></a></li>
+		                    </ul>
+		                </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom">
+                        <div id="menuContainer">
+                            	<ul id="menu">
+					        		<li class="home_active"> <a href="?id=home">&nbsp;</a></li>
+							        <li class="features">
+							            <a href="?id=features">&nbsp;</a>
+							        </li>
+					        		<li class="download">
+					            		<a href="?id=download">&nbsp;</a>
+					        		</li>
+					        		<li class="documentation">
+					            		<a href="?id=documentation">&nbsp;</a>
+					        		</li>
+					        		<li class="roadmap">
+					            		<a href="?id=roadmap">&nbsp;</a>
+					        		</li>
+					        		<li class="team">
+					            		<a href="?id=team">nbsp;</a>
+					        		</li>
+				        		</ul>
+                         </div>
+                         <div id="breadCrumbContainer"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="mainContent">
+            <table>
+                <tr>
+					<td><div class="sideContainer">
+	<div class="sideContainerTop">
+	<img src="images/Download.png" alt="title" class="title" /></div>
+<div class="sideContainerMiddle">
+<ul>
+	<li style="border-bottom-style: none; border-bottom-width: 0pt;">
+		<div class="sideItem">
+		<table>
+			<tr>
+				<td style="padding-top: 5px; width:45px;" align="left"><a href="?id=download"><img
+					src="images/Download-icon.png" alt="image" /></a></td>
+				<td class="descriptionContainer"><a class="sideDescription" href="?id=download">Download P<span style='font-size:13'>RIDE</span><br />
+				<span class="description">public release</span></a></td>
+			</tr>
+		</table>
+		</div>
+	</li>
+</ul>
+</div>
+<div class="sideContainerBottom"></div>
+</div></td>
+                    <td style="width: 733px;">	<div id="slider">
+		<table>
+			<tr>
+				<td colspan="2" id="featureContainer">
+					<img src="images/features/PrIDE.png" alt="picture" /></td>
+			</tr>
+			<tr>
+				<td align="left">
+					<span class="featureTitle" style="padding-top:-5px;">P<span style="font-size: 14">RIDE</span></span>
+					<div class="featureDescription" style="margin-top: -3px;"><div style="padding-top:5px;">An environment dedicated to the development of distributed embedded systems</div></div>
+				</td>
+				<td align="right" id="featureSelectorContainer" valign="bottom">
+				<table>
+					<tr>
+						<td><a href="#" rel="0" class="active"></a></td>
+						<td><a href="#" rel="1"></a></td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+		<div id="itemListContainer" style="margin: 10px; padding-right: 5px;">
+			<ul>
+				<li style="">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td valign="top" width="80px" style="width: 80px">
+							<img src="images/news.png" alt="newsIcon" style=""/>
+						</td>
+						<td>
+							<h4>P<span style='font-size:13'>RIDE</span> 0.5.0 ready for download</h4>
+							<div class="newsItemDate">16 June 2011</div>
+							<div class="newsContent">P<span style='font-size:13'>RIDE</span> 0.5.0 is now available for Windows</div>
+						</td>
+					</tr>
+				</table>
+				</li>
+				<li style="">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td valign="top" width="80px" style="width: 80px">
+							<img src="images/video.png" alt="newsIcon" style=""/>
+						</td>
+						<td>
+							<h4>P<span style='font-size:13'>RIDE</span> WICSA video</h4>
+							<div class="newsItemDate">22 February 2011</div>
+							<div class="newsContent">P<span style='font-size:13'>RIDE</span> video that will be submitted to <a href='http://www.wicsa.net/'>WICSA 2011</a> is now available. <a class='videoItemLink' href='http://www.youtube.com/watch?v=Y1dkUCuqzrA'>View</a></div>
+						</td>
+					</tr>
+				</table>
+				</li>
+
+
+
+				<li style="">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td valign="top" width="80px" style="width: 80px">
+							<img src="images/news.png" alt="newsIcon" style=""/>
+						</td>
+						<td>
+							<h4>P<span style='font-size:13'>RIDE</span> 0.4.1 ready for download</h4>
+							<div class="newsItemDate">02 February 2011</div>
+							<div class="newsContent">P<span style='font-size:13'>RIDE</span> 0.4.1 is now available</div>
+						</td>
+					</tr>
+				</table>
+				</li>
+			</ul>
+		</div>
+	    <script type="text/javascript">;
+
+    </script>
+
+    <div class="modalContent">
+		<div class='video'>
+			<object width='800' height='460'>
+				<param name='movie' value='http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&amp;hl=hr_HR&amp;hd=1'></param>
+				<param name='allowFullScreen' value='true'></param>
+				<param name='allowscriptaccess' value='always'></param>
+				<embed src='http://www.youtube.com/v/Y1dkUCuqzrA?fs=1&amp;hl=en_US;hd=1' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='800' height='460'></embed>
+			</object>
+	 	</div>
+	</div>
+	</td>
+					<td><div class="sideContainer">
+	<div class="sideContainerTop">
+	<img src="images/contact.png" alt="title" class="title" /></div>
+<div class="sideContainerMiddle">
+<ul>
+	<li style="">
+		<div class="sideItem">
+		<table>
+			<tr>
+				<td style="padding-top: 5px; width:45px;" align="left"><a href="mailto:pg-ide@mdh.se?subject=[PRIDE]"><img
+					src="images/mail.png" alt="image" /></a></td>
+				<td class="descriptionContainer"><a class="sideDescription" href="mailto:pg-ide@mdh.se?subject=[PRIDE]">&nbsp;Message<br />
+				<span class="description">&nbsp;&nbsp;Send us a message</span></a></td>
+			</tr>
+		</table>
+		</div>
+	</li>
+
+	<li style="border-bottom-style: none; border-bottom-width: 0pt;">
+		<div class="sideItem">
+		<table>
+			<tr>
+				<td style="padding-top: 5px; width:45px;" align="left"><a href="http://bugzilla.mdh.se/bugzilla/"><img
+					src="images/mail-bug.png" alt="image" /></a></td>
+				<td class="descriptionContainer"><a class="sideDescription" href="http://bugzilla.mdh.se/bugzilla/">&nbsp;Bugs<br />
+				<span class="description">&nbsp;&nbsp;Report a bug</span></a></td>
+			</tr>
+		</table>
+		</div>
+	</li>
+</ul>
+</div>
+<div class="sideContainerBottom"></div>
+</div><div class="sideContainer">
+	<div class="sideContainerTop">
+	<img src="images/links.png" alt="title" class="title" /></div>
+<div class="sideContainerMiddle">
+<ul>
+	<li style="">
+		<div class="sideItem">
+		<table>
+			<tr>
+				<td style="padding-top: 5px; width:45px;" align="left"><a href="http://www.mdh.se"><img
+					src="images/mdh.png" alt="image" /></a></td>
+				<td class="descriptionContainer"><a class="sideDescription" href="http://www.mdh.se">MDH<br />
+				<span class="description">Mälardalen University, SWE</span></a></td>
+			</tr>
+		</table>
+		</div>
+	</li>
+	<li style="">
+		<div class="sideItem">
+		<table>
+			<tr>
+				<td style="padding-top: 5px; width:45px;" align="left"><a href="http://www.mrtc.mdh.se/progress/"><img
+					src="images/Progress.png" alt="image" /></a></td>
+				<td class="descriptionContainer"><a class="sideDescription" href="http://www.mrtc.mdh.se/progress/">Progress<br />
+				<span class="description">Research center</span></a></td>
+			</tr>
+		</table>
+		</div>
+	</li>
+
+</ul>
+</div>
+<div class="sideContainerBottom"></div>
+</div></td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+        	<div>Malardalen University, School of Innovation, Design and Engineering | Box 883 | 721 23 Västerås/Eskilstuna</div>
+        </div>
+        <div id="testDiv"></div>
+    </div>
+</body>
+</html>
