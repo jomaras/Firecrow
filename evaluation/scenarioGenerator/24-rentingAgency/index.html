@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real Estate</title>
+    <meta charset="utf-8">
+    <style>
+        body { margin: 0px; font-family: 'Myriad Pro', Arial, sans-serif;}
+        #header
+        {
+            background: #00B200 url(images/bg-top-bot.png) repeat-x 0 -130px;
+            height: 80px;
+            width: 100%;
+            padding-top: 10px;
+            border-bottom: 14px solid #cbc9c4;
+        }
+
+        #centralContainer { width: 1040px; height: 400px; margin-left: auto; margin-right: auto;}
+
+        #leftContainer { float: left; width: 250px; height: 200px; margin-right: 10px; }
+        #centerContainer { float: left; }
+        #rightContainer { float: right; width: 250px; height: 200px; margin-right: 10px; }
+
+        .mapContainer
+        {
+            border-radius: 5px; padding: 5px; box-shadow: 0px 0px 6px 3px gray;
+            color: #00507C;
+            width: 470px; height: 270px; margin: 10px;
+            background-image: url(images/Si_Map_Part.png);
+        }
+
+        .markingWithLabel
+        {
+            cursor: pointer;
+            width: 70px;
+        }
+
+        .marking
+        {
+            width: 20px; height: 20px;
+            border-radius: 10px;
+            float:left; margin-left: -7px;
+        }
+
+        .apartmentMarking
+        {
+            background-color: blue;
+        }
+
+        .hotelMarking
+        {
+            background-color: red;
+        }
+
+        .museumMarking
+        {
+            background-color: #ffff00;
+        }
+
+        .label { float:left; background-color: #fffacd; padding-left: 5px; padding-right: 10px; box-shadow: -1px 0px 1px 2px #fffacd; }
+
+        .clearer
+        {
+            clear: both;
+        }
+
+        .styledSelectContainer select {
+            background: transparent;
+            width: 268px;
+            padding: 5px;
+            font-size: 16px;
+            line-height: 1;
+            border: 0;
+            border-radius: 0;
+            height: 34px;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .styledSelectContainer {
+            width: 200px;
+            height: 34px;
+            overflow: hidden;
+            background: url(images/down_arrow_select.jpg) no-repeat right #ddd;
+            border: 1px solid #ccc;
+            margin: 9px;
+            cursor: pointer;
+            margin-bottom:15px;
+        }
+
+        .imagesContainer
+        {
+            border-style: solid;
+            border-radius: 5px;
+            box-shadow: 0px 0px 4px 2px gray;
+            border-color: #d3d3d3;
+            margin-top: 15px;
+        }
+
+        #imageSelectorContainer a
+        {
+            background-image: url('images/billboard-pager.png');
+            width: 20px;
+            height: 20px;
+            display: block;
+            outline: none;
+            text-decoration: none;
+            background-repeat: no-repeat;
+        }
+
+        #imageSelectorContainer a:hover:not(.active) {
+            background-position: 0px -20px;
+        }
+
+        #imageSelectorContainer .active {
+            background-position: 0px -41px;
+        }
+
+        .selectedMarking .label
+        {
+            text-decoration: underline;
+            background-color: #FFFF66;
+        }
+
+        .eventDate
+        {
+            font-size: smaller;
+        }
+
+        .eventLocation
+        {
+            font-weight: bolder;
+            margin-bottom: 5px;
+        }
+
+        .linkContainer
+        {
+            background: url("images/root-background_left.gif") no-repeat scroll 0 0 transparent;
+            margin-top: 10px;
+            padding: 5px;
+        }
+
+        .linkContainer .linkContainerTitle
+        {
+            margin: 5px;
+            color: gray;
+        }
+
+        .menuItem
+        {
+            background-color: #008E00;
+            color: white;
+            border-style: solid;
+            border-radius: 5px;
+            box-shadow: 0px 0px 4px 2px gray;
+            padding: 5px;
+            min-width: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #menuContainer
+        {
+            margin-left: 25px;
+            margin-top: 37px;
+            float:left;
+        }
+
+        #socialContainer
+        {
+            float: right;
+            margin-top: 37px;
+            margin-right: 25px;
+        }
+
+        .socialImage
+        {
+            width: 35px;
+        }
+
+        #bannerContainer
+        {
+            float: left;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <script src="script.js"></script>
+    <div id="header">
+        <div id="bannerContainer">
+            <img src="images/CroatiaTravel.png"/>
+        </div>
+        <div id="menuContainer">
+            <table>
+                <tr>
+                    <td><div class="menuItem">Tourism</div></td>
+                    <td><div class="menuItem">Press</div></td>
+                    <td><div class="menuItem">Business</div></td>
+                </tr>
+            </table>
+        </div>
+        <div id="socialContainer">
+            <a href="http://www.facebook.com"><img src="images/facebook.png" class="socialImage"/></a>
+            <a href="http://www.twitter.com"><img src="images/twitter.png" class="socialImage"/></a>
+            <a href="http://www.youtube.com"><img src="images/youtube.png" class="socialImage"/></a>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    <div id="centralContainer">
+        <div id="leftContainer">
+            <div class="imagesContainer" style="cursor: pointer; margin-top: 11px;">
+               <span style="margin: 5px; font-weight: bolder; ">Turist office</span>
+               <div style="margin: 5px;">
+                   <div style="margin:2px;">Fra Nikole Ružića bb, Šibenik</div>
+                   <div style="margin:2px;"><b>Tel</b>: +385 22 219 072</div>
+                   <div style="margin:2px;"><b>Mail</b>: info@Šibenikregion.com</div>
+               </div>
+            </div>
+
+            <div class="imagesContainer">
+                <table>
+                    <tr>
+                        <td><img src="" class="eventImage"/></td>
+                        <td>
+                            <div class="eventLocation"></div>
+                            <div class="eventDate"></div>
+                            <div class="eventTitle"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="linkContainer">
+                <div class="linkContainerTitle">LINKS</div>
+                <div style="margin-left: 5px;"><a href="">Bus station</a></div>
+                <div style="margin-left: 5px;"><a href="">Train station</a></div>
+                <div style="margin-left: 5px;"><a href="">Sailing club</a></div>
+            </div>
+
+            <div class="linkContainer" style="margin-top: 10px;">
+                <div class="linkContainerTitle">HERITAGE</div>
+                <div style="margin-left: 5px;"><a href="">County</a></div>
+                <div style="margin-left: 5px;"><a href="">Dalmatia</a></div>
+                <div style="margin-left: 5px;"><a href="">Croatia</a></div>
+            </div>
+        </div>
+
+        <div id="centerContainer">
+            <div class="styledSelectContainer">
+                <select id="typeSelector">
+                    <option value="All">All</option>
+                    <option value="Apartments">Apartments (A)</option>
+                    <option value="Hotels">Hotels (H)</option>
+                    <option value="Museums">Museums (M)</option>
+                </select>
+            </div>
+            <div class="mapContainer">
+                <div class="markingWithLabel apartment selectedMarking" style="position: relative; top: 40px; left: 70px;">
+                    <div class="label">A1</div>
+                    <div class="marking apartmentMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+
+                <div class="markingWithLabel apartment" style="position: relative; top: 70px; left: 140px;">
+                    <div class="label">A2</div>
+                    <div class="marking apartmentMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+
+                <div class="markingWithLabel hotel" style="position: relative; top: 80px; left: 160px;">
+                    <div class="label">H1</div>
+                    <div class="marking hotelMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+
+                <div class="markingWithLabel hotel" style="position: relative; top: 80px; left: 240px;">
+                    <div class="label">H2</div>
+                    <div class="marking hotelMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+
+                <div class="markingWithLabel apartment" style="position: relative; top: 30px; left: 210px;">
+                    <div class="label">A3</div>
+                    <div class="marking apartmentMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+
+                <div class="markingWithLabel museum" style="position: relative; top: 10px; left: 270px;">
+                    <div class="label">M1</div>
+                    <div class="marking museumMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+
+                <div class="markingWithLabel hotel" style="position: relative; top: 90px; left: 260px;">
+                    <div class="label">H3</div>
+                    <div class="marking hotelMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+
+                <div class="markingWithLabel apartment" style="position: relative; top: 90px; left: 340px;">
+                    <div class="label">A4</div>
+                    <div class="marking apartmentMarking"></div>
+                    <div class="clearer"></div>
+                </div>
+            </div>
+            <p style="width: 470px; text-align: justify; margin-left: 10px;">
+                Set amid the wild beauty of white karstic rock and the azure sea, the Šibenik aquatorium is a yachting paradise, boasting as many as 240 isles and reefs, each of which holds an interesting feature or two. If you want to meet the best known coral hunters in the Adriatic, set sail for Zlarin. If you wish to see the centre of sea sponge harvesting, then Krapanj is your destination. On the other hand, if you seek an experience like no other, then venture into the open sea and discover the Kornati Archipelago.
+            </p>
+        </div>
+        <div id="rightContainer">
+            <br/>
+            <label>Location:</label> <span id="locationName">A1</span><br/>
+            <label>Address:</label> <span id="locationAddress">Prilaz tvornici 10</span>
+            <div class="imagesContainer" id="locationPictureContainer">
+                <img src="images/A1/1.jpg" width="240px" id="image"/>
+                <div id="imageSelectorContainer">
+                    <table>
+                        <tr>
+                            <td><a href="#" rel="0" class="active"></a></td>
+                            <td><a href="#" rel="1"></a></td>
+                            <td><a href="#" rel="2"></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <br/>
+            <div class="imagesContainer" style="cursor: pointer">
+                <img src="images/CountyMap.png" id="mapImage" width="240px"/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
