@@ -259,7 +259,7 @@ html {
 }
 
 .row {
-    max-width: 990px;
+    max-width: 950px;
     margin: 0 auto
 }
 
@@ -426,7 +426,8 @@ header a.synthetic:hover {
 
 header .syn {
     float: right;
-    position: relative
+    position: relative;
+    margin-right: 130px;
 }
 
 header .c-dd {

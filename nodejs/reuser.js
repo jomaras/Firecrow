@@ -10,7 +10,7 @@ var startTime = new Date();
 //var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/pageB.html-codeModel.txt");
 //var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../../CodeModels/evaluation/reuseTests/24/expectedResult.html");
 
-var reuseFolder = "01-01_02";
+var reuseFolder = "11";
 var pageAModelPath = process.argv[2] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageA.html-codeModel.txt");
 var pageBModelPath = process.argv[3] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/pageB.html-codeModel.txt");
 var expectedResultPath = process.argv[4] || path.resolve(__dirname, "../evaluation/reuse/" + reuseFolder + "/expectedResult.html");

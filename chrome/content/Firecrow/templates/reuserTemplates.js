@@ -7,6 +7,7 @@ if(usesModule)
 
 FBL.ns(function() { with (FBL) {
 // ************************************************************************************************
+if(Firecrow.Reuser == null) { Firecrow.Reuser = {}; }
 Firecrow.Reuser.Templates = ReuserTemplates =
 {
     _HANDLER_MAPPER_SCRIPT_CREATION_TEMPLATE:

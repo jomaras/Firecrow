@@ -28318,12 +28318,38 @@ fcSimulator.Evaluator.prototype =
                 this._processThrowCommand(command);
                 this._removeCommandsAfterException(command);
             }
+            if(command.isFinishEvalCommand(command))
+            {
+                command.lastEvaluatedConstruct = this._getLastEvaluatedConstruct();
+            }
 
             this.executionContextStack.executeCommand(command);
             command.hasBeenExecuted = true;
 
             if (command.removesCommands) { this._processRemovingCommandsCommand(command); }
             if (command.generatesNewCommands) { this._processGeneratingNewCommandsCommand(command); }
+        },
+
+        _getLastEvaluatedConstruct: function()
+        {
+            for(var i = this.currentCommandIndex - 1; i > 0 ; i--)
+            {
+                var currentCommand = this.commands[i];
+
+                if(currentCommand.isExitFunctionContextCommand())
+                {
+                    return currentCommand.callExpressionCommand.codeConstruct;
+                }
+
+                if(!ASTHelper.isLoopStatement(currentCommand.codeConstruct)
+                && !ASTHelper.isIfStatement(currentCommand.codeConstruct)
+                && !ASTHelper.isSwitchCase(currentCommand.codeConstruct))
+                {
+                    return currentCommand.codeConstruct;
+                }
+            }
+
+            return null;
         },
 
         _processThrowCommand: function(throwCommand)
